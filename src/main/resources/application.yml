@@ -1,0 +1,19 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ubi_kvms3
+    username: postgres
+    password: 12345
+    driver-class-name= org:
+                          postgresql: Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  application:
+    name: MASTER-SERVICE
+
+  config:
+    import: optional:configserver:http://localhost:8888
