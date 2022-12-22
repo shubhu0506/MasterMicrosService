@@ -6,14 +6,18 @@ spring:
     url: jdbc:postgresql://localhost:5432/ubi_kvms3
     username: postgres
     password: 12345
-    driver-class-name= org:
-                          postgresql: Driver
+    driver-class-name:
+      org:
+        postgresql: Driver
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
   application:
     name: MASTER-SERVICE
+  jackson:
+    serialization:
+       fail-on-empty-beans: false
 
   config:
     import: optional:configserver:http://localhost:8888

@@ -11,7 +11,6 @@ import com.ubi.MasterService.entity.EducationalInstitution;
 @Repository
 public interface EducationalInstitutionRepository extends JpaRepository<EducationalInstitution, Integer> {
 
-	@Query
 	Optional<EducationalInstitution> findByeducationalInstitutionName(String educationalInstitutionName);
 
 	EducationalInstitution getEducationalInstitutionByeducationalInstitutionName(String educationalInstitutionName);
