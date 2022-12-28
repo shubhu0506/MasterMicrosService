@@ -99,6 +99,12 @@ public enum HttpStatusCode {
 	OPERATION_NOT_ALLOWED(405, "Operation is Not Allowed"),
 
 	UNAUTHORIZED_EXCEPTION(401, "Unauthorized To Perform Request"),
+	TOKEN_EXPIRED(401, "Token Is Expired"),
+	TOKEN_FORMAT_INVALID(401, "Token Format Is Invalid"),
+	INVALID_TOKEN(401, "Token Is Invalid"),
+	TOKEN_NOT_FOUND(401, "Token Not Found"),
+
+	PERMISSION_DENIED(401, "User Dont Have Permission To Perform This Reqeust"),
 
 	FORBIDDEN_EXCEPTION(403, "Forbidden access attempted"),
 

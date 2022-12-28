@@ -39,7 +39,7 @@ public class EducationalInstitutionController {
 
 	Logger logger = LoggerFactory.getLogger(EducationalInstitutionController.class);
 
-	//@Operation(summary = "Create New Educational Institution", security = @SecurityRequirement(name = "bearerAuth"))
+	@Operation(summary = "Create New Educational Institution", security = @SecurityRequirement(name = "bearerAuth"))
 	@PostMapping
 	public ResponseEntity<Response<EducationalInstitutionDto>> insertEducationalInstitution(
 			@RequestBody EducationalInstitutionDto educationalInstitutionDto) { // NOSONAR
@@ -77,7 +77,7 @@ public class EducationalInstitutionController {
 
 	}
 
-	//@Operation(summary = "Get All Educational Institution", security = @SecurityRequirement(name = "bearerAuth"))
+	@Operation(summary = "Get All Educational Institution", security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping()
 	public ResponseEntity<Response<List<EducationalInstitutionDto>>> getEducationalInstitutions(
 			@RequestParam(value = "PageNumber", defaultValue = "0", required = false) Integer pageNumber,

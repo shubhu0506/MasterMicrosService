@@ -35,7 +35,7 @@ public class RegionController {
 	@Autowired
 	private RegionService regionService;
 
-	//@Operation(summary = "Create New Region", security = @SecurityRequirement(name = "bearerAuth"))
+	@Operation(summary = "Create New Region", security = @SecurityRequirement(name = "bearerAuth"))
 	@PostMapping
 	public ResponseEntity<Response<RegionDto>> insertRegion(@RequestBody RegionDto regionDto) {
 
@@ -45,7 +45,7 @@ public class RegionController {
 
 	}
 
-	//@Operation(summary = "Get Region By Id", security = @SecurityRequirement(name = "bearerAuth"))
+	@Operation(summary = "Get Region By Id", security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping("/{id}")
 	public ResponseEntity<Response<RegionDto>> getSingleRegion(@PathVariable int id) {
 		Response<RegionDto> response = regionService.getRegionById(id);
@@ -56,9 +56,9 @@ public class RegionController {
 		}
 	}
 
-	//@Operation(summary = "Get All Region", security = @SecurityRequirement(name = "bearerAuth"))
-	@GetMapping()
-	public ResponseEntity<Response<List<RegionDto>>> getPayments(
+	@Operation(summary = "Get All Region", security = @SecurityRequirement(name = "bearerAuth"))
+	@GetMapping
+	public ResponseEntity<Response<List<RegionDto>>> getAllRegions(
 			@RequestParam(value = "PageNumber", defaultValue = "0", required = false) Integer pageNumber,
 			@RequestParam(value = "PageSize", defaultValue = "5", required = false) Integer pageSize) {
 		Response<List<RegionDto>> response = regionService.getRegionDetails(pageNumber, pageSize);
@@ -70,7 +70,7 @@ public class RegionController {
 
 	}
 
-	//@Operation(summary = "Delete Region By Id", security = @SecurityRequirement(name = "bearerAuth"))
+	@Operation(summary = "Delete Region By Id", security = @SecurityRequirement(name = "bearerAuth"))
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Response<RegionDto>> deletePaymentById(@PathVariable("id") int id) {
 
@@ -80,7 +80,7 @@ public class RegionController {
 
 	}
 
-	//@Operation(summary = "Update Region with Id", security = @SecurityRequirement(name = "bearerAuth"))
+	@Operation(summary = "Update Region with Id", security = @SecurityRequirement(name = "bearerAuth"))
 	@PutMapping
 	public ResponseEntity<Response<RegionDto>> updatePayment(@RequestBody RegionDto region) { // NOSONAR
 

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import com.ubi.MasterService.util.PermissionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,9 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 
 	@Autowired
 	private RegionRepository regionRepository;
+
+	@Autowired
+	PermissionUtil permissionUtil;
 
 	Logger logger = LoggerFactory.getLogger(EducationalInstitutionServiceImpl.class);
 

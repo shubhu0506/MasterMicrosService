@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import com.ubi.MasterService.util.PermissionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -44,6 +45,9 @@ public class RegionServiceImpl implements RegionService {
 	
 	@Autowired
 	private SchoolRepository schoolRepository;
+
+	@Autowired
+	PermissionUtil permissionUtil;
 	
 	@Autowired
 	private EducationalInstitutionRepository educationalInstitutionRepository;
@@ -80,6 +84,7 @@ public class RegionServiceImpl implements RegionService {
 
 	@Override
 	public Response<List<RegionDto>> getRegionDetails(Integer PageNumber, Integer PageSize) {
+
 		Result<List<RegionDto>> allRegion = new Result<>();
 		Pageable paging = PageRequest.of(PageNumber, PageSize);
 		Response<List<RegionDto>> getListofRegion = new Response<List<RegionDto>>();
