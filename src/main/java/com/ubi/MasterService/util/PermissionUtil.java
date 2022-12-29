@@ -1,5 +1,6 @@
 package com.ubi.MasterService.util;
 
+import com.ubi.MasterService.dto.user.UserPermissionsDto;
 import com.ubi.MasterService.error.CustomException;
 import com.ubi.MasterService.error.HttpStatusCode;
 import com.ubi.MasterService.model.Authority;
@@ -27,6 +28,12 @@ public class PermissionUtil {
                 HttpStatusCode.PERMISSION_DENIED,
                 HttpStatusCode.PERMISSION_DENIED.getMessage(),
                 null);
+    }
+
+    public String getCurrentUsersToken(){
+        UserPermissionsDto userPermissionsDto = (UserPermissionsDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(userPermissionsDto != null) return userPermissionsDto.getJwtToken();
+        return null;
     }
 
     public Collection<? extends GrantedAuthority> getAuthorities(ArrayList<String> permissions) {
