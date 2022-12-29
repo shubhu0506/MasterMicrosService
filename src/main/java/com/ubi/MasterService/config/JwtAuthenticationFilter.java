@@ -23,10 +23,18 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
+    private static final String[] PUBLIC_URLS = {"/swagger-ui/index.html",
+            "/v3/api-docs/swagger-config",
+            "/swagger-ui/favicon-32x32.png",
+            "/v3/api-docs"};
 
     @Autowired
     UserFeignService userFeignService;
@@ -34,38 +42,50 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     PermissionUtil permissionUtil;
 
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         final String requestTokenHeader = request.getHeader("Authorization");
         String username = null;
         String jwtToken = null;
+        String currentUri = request.getRequestURI();
 
-        if (requestTokenHeader != null && !requestTokenHeader.startsWith("Bearer ")){
-            throw new CustomException(
-                    HttpStatusCode.TOKEN_FORMAT_INVALID.getCode(),
-                    HttpStatusCode.TOKEN_FORMAT_INVALID,
-                    HttpStatusCode.TOKEN_FORMAT_INVALID.getMessage(),
-                    new Result<>());
+        boolean isSwaggerUrl = false;
+        for(String publicUri:PUBLIC_URLS){
+            if(Pattern.matches(publicUri, currentUri)) {
+                isSwaggerUrl = true;
+                break;
+            }
         }
 
-        ValidateJwt validateJwt = new ValidateJwt(requestTokenHeader);
-        ResponseEntity<Response<UserPermissionsDto>> responseFromUserService = userFeignService.validateTokenAndGetUser(validateJwt);
+        if(!isSwaggerUrl){
+            if (requestTokenHeader != null && !requestTokenHeader.startsWith("Bearer ")){
+                throw new CustomException(
+                        HttpStatusCode.TOKEN_FORMAT_INVALID.getCode(),
+                        HttpStatusCode.TOKEN_FORMAT_INVALID,
+                        HttpStatusCode.TOKEN_FORMAT_INVALID.getMessage(),
+                        new Result<>());
+            }
 
-        Response<UserPermissionsDto> responseEntity = responseFromUserService.getBody();
-        if (responseFromUserService.getStatusCode().is2xxSuccessful()) {
-            UserPermissionsDto userPermissionsDto = responseEntity.getResult().getData();
-            Collection<? extends GrantedAuthority> permissions = permissionUtil.getAuthorities(userPermissionsDto.getPermissions());
+            ValidateJwt validateJwt = new ValidateJwt(requestTokenHeader);
+            ResponseEntity<Response<UserPermissionsDto>> responseFromUserService = userFeignService.validateTokenAndGetUser(validateJwt);
 
-            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userPermissionsDto, null, permissions);
-            usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-        }
-        else{
-            throw new CustomException(
-                    responseEntity.getStatusCode(),
-                    HttpStatusCode.UNAUTHORIZED_EXCEPTION,
-                    responseEntity.getMessage(),
-                    new Result<>());
+            Response<UserPermissionsDto> responseEntity = responseFromUserService.getBody();
+            if (responseFromUserService.getStatusCode().is2xxSuccessful()) {
+                UserPermissionsDto userPermissionsDto = responseEntity.getResult().getData();
+                Collection<? extends GrantedAuthority> permissions = permissionUtil.getAuthorities(userPermissionsDto.getPermissions());
+
+                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userPermissionsDto, null, permissions);
+                usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+            }
+            else{
+                throw new CustomException(
+                        responseEntity.getStatusCode(),
+                        HttpStatusCode.UNAUTHORIZED_EXCEPTION,
+                        responseEntity.getMessage(),
+                        new Result<>());
+            }
         }
 
         filterChain.doFilter(request, response);

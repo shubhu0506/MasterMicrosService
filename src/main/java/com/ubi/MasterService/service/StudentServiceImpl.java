@@ -4,6 +4,7 @@ import java.util.List;
 
 import java.util.Optional;
 
+import com.ubi.MasterService.util.PermissionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,6 +36,9 @@ public class StudentServiceImpl implements StudentService {
 
 	@Autowired
 	private StudentRepository repository;
+
+	@Autowired
+	PermissionUtil permissionUtil;
 
 	public Response<StudentDto> saveStudent(StudentDto studentDto) {
 

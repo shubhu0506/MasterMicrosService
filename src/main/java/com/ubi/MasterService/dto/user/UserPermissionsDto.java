@@ -13,5 +13,6 @@ public class UserPermissionsDto {
     String username;
     Boolean isEnable;
     String role;
+    String jwtToken;
     ArrayList<String> permissions;
 }
