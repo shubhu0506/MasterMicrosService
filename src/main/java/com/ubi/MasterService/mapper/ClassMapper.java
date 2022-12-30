@@ -80,6 +80,7 @@ public class ClassMapper {
 		schoolDto.setVvnAccount(school.getVvnAccount());
 		schoolDto.setVvnFund(school.getVvnFund());
 		schoolDto.setRegionId(school.getRegion().getId());
+		schoolDto.setEducationalInstitutionId(school.getEducationalInstitution().getId());
 		Set<StudentDto> studentDtoSet=new HashSet<>();
 		if(classDetail.getStudents()!=null)
 		{
