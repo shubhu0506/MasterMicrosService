@@ -7,9 +7,11 @@ import org.springframework.stereotype.Repository;
 
 import com.ubi.MasterService.entity.Student;
 
-@Repository
-public interface StudentRepository extends JpaRepository<Student, Long> {
 
-	List<Student> findByGenderAndCategoryAndMinority(String gender, String category, String minority);
+
+@Repository
+public interface StudentRepository extends JpaRepository<Student,Long> {
+
+	List<Student> findByGenderAndCategoryAndMinority(String gender,String category, String minority);
 
 }

@@ -1,32 +1,30 @@
 package com.ubi.MasterService.service;
 
-import java.text.ParseException;
+import java.io.ByteArrayInputStream;
 import java.util.List;
 
-import com.ubi.MasterService.dto.classDto.SchholClassMappingDto;
-import com.ubi.MasterService.dto.classDto.SchoolClassDto;
 import com.ubi.MasterService.dto.response.Response;
 import com.ubi.MasterService.dto.schoolDto.SchoolDto;
+import com.ubi.MasterService.dto.schoolDto.SchoolRegionDto;
 
 public interface SchoolService {
 	
-	Response<SchoolDto> addSchool(SchoolDto schoolDto);
+	Response<SchoolRegionDto> addSchool(SchoolDto schoolDto);
 
-	Response<List<SchoolDto>> getAllSchools(Integer PageNumber, Integer PageSize);
+	Response<List<SchoolRegionDto>> getAllSchools(Integer PageNumber, Integer PageSize);
 
-	Response<SchoolDto> getSchoolById(int schoolId);
+	Response<SchoolRegionDto> getSchoolById(int schoolId);
 	
-	Response<SchoolDto> getSchoolByName(String name);
+	Response<SchoolRegionDto> getSchoolByName(String name);
 
 	public Response<SchoolDto> deleteSchoolById(int schoolId);
 
-	Response<SchoolDto> updateSchool(SchoolDto schoolDto) throws ParseException;
-	
-	Response<SchoolClassDto> addClass(SchholClassMappingDto schoolClassMappingDto);
-
-	Response<SchoolClassDto> getSchoolwithClass(int id);
+    Response<SchoolRegionDto> updateSchool(SchoolDto schoolDto);
 
 	Response<List<SchoolDto>> getSchoolwithSort(String field);
+
+//	ByteArrayInputStream loadSchoolAndClass();
+	
 	
 	
 }

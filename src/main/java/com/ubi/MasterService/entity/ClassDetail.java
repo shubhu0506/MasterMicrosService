@@ -1,8 +1,9 @@
 package com.ubi.MasterService.entity;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +15,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,7 +32,7 @@ public class ClassDetail
 {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "ClassId")
 	private Long classId;
 
@@ -46,8 +46,8 @@ public class ClassDetail
 	@JoinColumn(name = "schoolId" )
 	private School school;
 	
-	@OneToMany(mappedBy = "classDetail")	
-	List<Student> students = new ArrayList<>();
+	@OneToMany(mappedBy = "classDetail",cascade = CascadeType.ALL)	
+	Set<Student> students = new HashSet<>();
 }
 
 

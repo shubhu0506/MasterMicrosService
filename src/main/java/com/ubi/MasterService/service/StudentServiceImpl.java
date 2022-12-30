@@ -1,10 +1,8 @@
 package com.ubi.MasterService.service;
 
 import java.util.List;
-
 import java.util.Optional;
 
-import com.ubi.MasterService.util.PermissionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,9 +24,6 @@ import com.ubi.MasterService.repository.StudentRepository;
 public class StudentServiceImpl implements StudentService {
 
 	@Autowired
-	Result res;
-
-	@Autowired
 	private StudentMapper studentMapper;
 
 	@Autowired
@@ -37,12 +32,11 @@ public class StudentServiceImpl implements StudentService {
 	@Autowired
 	private StudentRepository repository;
 
-	@Autowired
-	PermissionUtil permissionUtil;
+	  
 
+	
 	public Response<StudentDto> saveStudent(StudentDto studentDto) {
-
-		res.setData(null);
+		Result<StudentDto> res = new Result<>();
 		Response<StudentDto> response = new Response<>();
 
 
@@ -50,13 +44,13 @@ public class StudentServiceImpl implements StudentService {
 			throw new CustomException(HttpStatusCode.NO_STUDENT_NAME_FOUND.getCode(),
 					HttpStatusCode.NO_STUDENT_NAME_FOUND, HttpStatusCode.NO_STUDENT_NAME_FOUND.getMessage(), res);
 		}
-	
-		
+			
 		 if (studentDto.getClassId()==null ) {
 			throw new CustomException(HttpStatusCode.NO_CLASSID_FOUND.getCode(),
 					HttpStatusCode.NO_CLASSID_FOUND, HttpStatusCode.NO_CLASSID_FOUND.getMessage(), res);
 		}
 			ClassDetail classDetail = classRepository.getReferenceById(studentDto.getClassId());
+			
 		Student student = studentMapper.dtoToEntity(studentDto);
 		student.setClassDetail(classDetail);
 
@@ -68,7 +62,7 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	public Response<List<StudentDto>> getStudents(Integer PageNumber, Integer PageSize) {
-		res.setData(null);
+		Result<List<StudentDto>> res = new Result<>();
 		Pageable paging = PageRequest.of(PageNumber, PageSize);
 		Response<List<StudentDto>> getListofStudent = new Response<>();
 		Page<Student> list = this.repository.findAll(paging);
@@ -86,7 +80,7 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	public Response<StudentDto> getStudentById(Long id) {
-		res.setData(null);
+		Result<StudentDto> res = new Result<>();
 		Response<StudentDto> getStudent = new Response<StudentDto>();
 		Optional<Student> std = this.repository.findById(id);
 		Result<StudentDto> studentResult = new Result<>();
@@ -103,7 +97,7 @@ public class StudentServiceImpl implements StudentService {
 
 	@Override
 	public Response<StudentDto> deleteById(Long id) {
-		res.setData(null);
+		Result<StudentDto> res = new Result<>();
 		Optional<Student> student = repository.findById(id);
 
 		if (!student.isPresent()) {
@@ -126,7 +120,7 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	public Response<StudentDto> updateStudent(StudentDto studentDto) {
-		res.setData(null);
+		Result<StudentDto> res = new Result<>();
 		Optional<Student> existingStudentContainer = repository.findById(studentDto.getStudentId());
 		if (!existingStudentContainer.isPresent()) {
 			throw new CustomException(HttpStatusCode.NO_STUDENT_FOUND.getCode(), HttpStatusCode.NO_STUDENT_FOUND,
@@ -163,7 +157,7 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	public Response<StudentDto> changeActiveStatusToTrue(Long id) {
 
-		res.setData(null);
+		Result<StudentDto> res = new Result<>();
 		Response<StudentDto> response = new Response<>();
 
 		if (this.getStudentById(id).getResult().getData() == null) {
@@ -183,7 +177,7 @@ public class StudentServiceImpl implements StudentService {
 
 	@Override
 	public Response<StudentDto> changeActiveStatusToFalse(Long id) {
-		res.setData(null);
+		Result<StudentDto> res = new Result<>();
 		Response<StudentDto> response = new Response<>();
 
 		if (this.getStudentById(id).getResult().getData() == null) {
@@ -204,7 +198,7 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	public Response<StudentDto> changeCurrentStatusToPromoted(Long id) {
 
-		res.setData(null);
+		Result<StudentDto> res = new Result<>();
 		Response<StudentDto> response = new Response<>();
 
 		if (this.getStudentById(id).getResult().getData() == null) {
@@ -212,7 +206,7 @@ public class StudentServiceImpl implements StudentService {
 					HttpStatusCode.RESOURCE_NOT_FOUND.getMessage(), res);
 		}
 
-		Student student = repository.getById(id);
+		Student student = repository.getReferenceById(id);
 		student.setCurrentStatus("Promoted");
 		Student updateStudent = repository.save(student);
 		response.setStatusCode(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getCode());
@@ -224,7 +218,7 @@ public class StudentServiceImpl implements StudentService {
 
 	@Override
 	public Response<StudentDto> changeCurrentStatusToDemoted(Long id) {
-		res.setData(null);
+		Result<StudentDto> res = new Result<>();
 		Response<StudentDto> response = new Response<>();
 
 		if (this.getStudentById(id).getResult().getData() == null) {
@@ -245,7 +239,7 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	public Response<List<StudentDto>> findByGenderAndCategoryAndMinority(String gender, String category,
 			String minority) {
-		res.setData(null);
+		Result<StudentDto> res = new Result<>();
 		List<Student> student = repository.findByGenderAndCategoryAndMinority(gender, category, minority);
 		if (student.size() == 0) {
 			throw new CustomException(HttpStatusCode.NO_ENTRY_FOUND.getCode(), HttpStatusCode.NO_ENTRY_FOUND,

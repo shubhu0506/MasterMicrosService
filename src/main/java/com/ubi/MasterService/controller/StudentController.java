@@ -29,7 +29,7 @@ public class StudentController {
 
 	@Autowired
 	private StudentServiceImpl service;
-
+	
 	@PostMapping
 	@Operation(summary = "Create New Student", security = @SecurityRequirement(name = "bearerAuth"))
 	public ResponseEntity<Response<StudentDto>> addStudent(@RequestBody StudentDto studentId) {
@@ -57,8 +57,8 @@ public class StudentController {
 
 	@GetMapping("{id}")
 	@Operation(summary = "Get Student By Id", security = @SecurityRequirement(name = "bearerAuth"))
-	public ResponseEntity<Response> getStudentById(@PathVariable("id") Long id) {
-		Response response = service.getStudentById(id);
+	public ResponseEntity<Response<StudentDto>> getStudentById(@PathVariable("id") Long id) {
+		Response<StudentDto> response = service.getStudentById(id);
 		if (response.getStatusCode() == 200) {
 			return ResponseEntity.status(HttpStatus.OK).body(response);
 		} else {
@@ -66,50 +66,56 @@ public class StudentController {
 		}
 	}
 
-
+//
 	@PutMapping
-	//@Operation(summary = "Update Student", security = @SecurityRequirement(name = "bearerAuth"))
-	public ResponseEntity<Response> updateStudent(@RequestBody StudentDto student) {
+	@Operation(summary = "Update Student", security = @SecurityRequirement(name = "bearerAuth"))
+	public ResponseEntity<Response<StudentDto>> updateStudent(@RequestBody StudentDto student) {
 		Response<StudentDto> response = service.updateStudent(student);
 		return ResponseEntity.ok().body(response);
 	}
 
-	//@Operation(summary = "Change Active Status To True Of Student By Id", security = @SecurityRequirement(name = "bearerAuth"))
+	
+	@Operation(summary = "Change deactivate Status To Activate", security = @SecurityRequirement(name = "bearerAuth"))
 	@PatchMapping("/activate/{id}")
 	public ResponseEntity<Response<StudentDto>> activateStudentById(@PathVariable Long id) {
 		Response<StudentDto> response = service.changeActiveStatusToTrue(id);
 		return ResponseEntity.ok().body(response);
 	}
 
-	//@Operation(summary = "Change Active Status To True Of Student By Id", security = @SecurityRequirement(name = "bearerAuth"))
+	@Operation(summary = "Change Active Status To deactivate", security = @SecurityRequirement(name = "bearerAuth"))
 	@PatchMapping("/deactivate/{id}")
 	public ResponseEntity<Response<StudentDto>> deactivateStudentById(@PathVariable Long id) {
 		Response<StudentDto> response = service.changeActiveStatusToFalse(id);
 		return ResponseEntity.ok().body(response);
 	}
 
-	//@Operation(summary = "Change Current Status To Promoted Of Student By Id", security = @SecurityRequirement(name = "bearerAuth"))
+	
+	@Operation(summary = "Change Current Status To Promoted Of Student By Id", security = @SecurityRequirement(name = "bearerAuth"))
 	@PatchMapping("/promoted/{id}")
 	public ResponseEntity<Response<StudentDto>> changeCurrentStatusToPromoted(@PathVariable Long id) {
-		Response<StudentDto> response = service.changeCurrentStatusToPromoted(id);
+		Response<StudentDto> response = service.changeCurrentStatusToPromoted( id);
 		return ResponseEntity.ok().body(response);
 	}
 
-	//@Operation(summary = "Change Current Status To Domoted Of Student By Id", security = @SecurityRequirement(name = "bearerAuth"))
+	@Operation(summary = "Change Current Status To Demoted Of Student By Id", security = @SecurityRequirement(name = "bearerAuth"))
 	@PatchMapping("/demoted/{id}")
 	public ResponseEntity<Response<StudentDto>> changeCurrentStatusToDomoted(@PathVariable Long id) {
 		Response<StudentDto> response = service.changeCurrentStatusToDemoted(id);
 		return ResponseEntity.ok().body(response);
 	}
-
-	//@Operation(summary = "Get By field", security = @SecurityRequirement(name = "bearerAuth"))
+	
+	
+	@Operation(summary = "Get By field", security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping("/field")
-	public ResponseEntity<Response<List<StudentDto>>> searchRecordsViaQueryField(
-			@RequestParam(defaultValue = "*") String gender, @RequestParam(defaultValue = "*") String category,
-			@RequestParam(defaultValue = "*") String minority) {
+	public ResponseEntity<Response<List<StudentDto>>> searchRecordsViaQueryField(@RequestParam  (defaultValue = "*")String gender,
+			@RequestParam (defaultValue = "*")String category, @RequestParam(defaultValue = "*") String minority) {
 
 		Response<List<StudentDto>> students = service.findByGenderAndCategoryAndMinority(gender, category, minority);
 		return ResponseEntity.ok().body(students);
 	}
-
+	
+	
+	
+	
+	
 }

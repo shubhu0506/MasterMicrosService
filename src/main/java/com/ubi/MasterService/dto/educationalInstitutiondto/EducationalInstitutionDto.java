@@ -1,5 +1,7 @@
 package com.ubi.MasterService.dto.educationalInstitutiondto;
 
+import java.util.Set;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,5 +28,8 @@ public class EducationalInstitutionDto {
 	private String exemptionFlag;
 
 	private Long vvnAccount;
+
+	private Set<Integer> regionId;
+	
 
 }

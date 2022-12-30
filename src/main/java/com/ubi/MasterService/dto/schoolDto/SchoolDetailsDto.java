@@ -1,6 +1,9 @@
 package com.ubi.MasterService.dto.schoolDto;
 
+import java.util.HashSet;
 import java.util.Set;
+
+import com.ubi.MasterService.dto.classDto.ClassDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,8 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SchoolDto {
-
+public class SchoolDetailsDto {
 	private int schoolId;
 
 	private int code;
@@ -37,8 +39,9 @@ public class SchoolDto {
 	
 	private int regionId;
 	
-	private Set<Long> classId;
-
-	private int educationalInstitutionId;
-	
+   Set<ClassDto> classDto=new HashSet<>();
+   
+   private int educationalInstitutionId;
+   
+   
 }
