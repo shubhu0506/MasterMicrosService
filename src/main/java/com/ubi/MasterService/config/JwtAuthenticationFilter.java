@@ -31,10 +31,8 @@ import java.util.stream.Collectors;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private static final String[] PUBLIC_URLS = {"/swagger-ui/index.html",
-            "/v3/api-docs/swagger-config",
-            "/swagger-ui/favicon-32x32.png",
-            "/v3/api-docs"};
+    private static final String[] PUBLIC_URLS = {
+            "/v3{1}.*","/swagger-ui{1}.*","/favicon{1}.*"};
 
     @Autowired
     UserFeignService userFeignService;
@@ -46,8 +44,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         final String requestTokenHeader = request.getHeader("Authorization");
-        String username = null;
-        String jwtToken = null;
         String currentUri = request.getRequestURI();
 
         boolean isSwaggerUrl = false;
@@ -70,8 +66,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             ValidateJwt validateJwt = new ValidateJwt(requestTokenHeader);
             ResponseEntity<Response<UserPermissionsDto>> responseFromUserService = userFeignService.validateTokenAndGetUser(validateJwt);
 
-            Response<UserPermissionsDto> responseEntity = responseFromUserService.getBody();
+            Response<UserPermissionsDto> responseEntity = new Response<>();
             if (responseFromUserService.getStatusCode().is2xxSuccessful()) {
+                responseEntity = responseFromUserService.getBody();
                 UserPermissionsDto userPermissionsDto = responseEntity.getResult().getData();
                 Collection<? extends GrantedAuthority> permissions = permissionUtil.getAuthorities(userPermissionsDto.getPermissions());
 
@@ -91,6 +88,3 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 }
-
-
-
