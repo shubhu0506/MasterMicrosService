@@ -9,17 +9,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegionDto {
-
-	private int id;
-	
+public class RegionCreationDto {
 	private String code;
-	
 	private String name;
-	
 	private Set<Integer> eduInstId;
-	
 	private Set<Integer> schoollId;
-	
-	
 }

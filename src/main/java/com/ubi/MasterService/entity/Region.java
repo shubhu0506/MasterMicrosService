@@ -34,17 +34,19 @@ public class Region {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
+//	@Column(name="regionCode")
 	private String code;
 	
+//	@Column(name="regionName")
 	private String name;
 	
+	@JsonIgnore
 	@ManyToMany(mappedBy="region",cascade = CascadeType.MERGE)
 	private Set<EducationalInstitution> educationalInstitiute;
 
 	
 	
 	@OneToMany(mappedBy="region" , cascade=CascadeType.ALL)
-	
 	private Set<School> school;
 	
 }

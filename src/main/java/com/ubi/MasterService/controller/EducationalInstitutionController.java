@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ubi.MasterService.dto.educationalInstitutiondto.EducationRegionGetDto;
 import com.ubi.MasterService.dto.educationalInstitutiondto.EducationalInstitutionDto;
-import com.ubi.MasterService.dto.regionDto.EIRegionMappingDto;
-import com.ubi.MasterService.dto.regionDto.EducationalRegionDto;
+import com.ubi.MasterService.dto.educationalInstitutiondto.EducationalRegionDto;
 import com.ubi.MasterService.dto.response.Response;
 import com.ubi.MasterService.service.EducationalInstitutionService;
 
@@ -41,33 +41,21 @@ public class EducationalInstitutionController {
 
 	@Operation(summary = "Create New Educational Institution", security = @SecurityRequirement(name = "bearerAuth"))
 	@PostMapping
-	public ResponseEntity<Response<EducationalInstitutionDto>> insertEducationalInstitution(
+	public ResponseEntity<Response<EducationalRegionDto>> insertEducationalInstitution(
 			@RequestBody EducationalInstitutionDto educationalInstitutionDto) { // NOSONAR
 
-		Response<EducationalInstitutionDto> response = this.educationalInstitutionService
+		Response<EducationalRegionDto> response = this.educationalInstitutionService
 				.addEducationalInstitution(educationalInstitutionDto);
 
 		return ResponseEntity.ok().body(response);
 
 	}
 
-	//@Operation(summary = "Get Educational Institution By Id", security = @SecurityRequirement(name = "bearerAuth"))
-	@GetMapping("/{id}")
-	public ResponseEntity<Response<EducationalInstitutionDto>> getSingleEducationalInstitution(@PathVariable int id) {
-		Response<EducationalInstitutionDto> response = educationalInstitutionService
-				.getSingleEducationalInstitution(id);
-		if (response.getStatusCode() == 200) {
-			return ResponseEntity.status(HttpStatus.OK).body(response);
-		} else {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-		}
-	}
-
-	//@Operation(summary = "Get Educational Institution By Name", security = @SecurityRequirement(name = "bearerAuth"))
+	@Operation(summary = "Get Educational Institution By Name", security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping("name/{educationalInstitutionName}")
-	public ResponseEntity<Response<EducationalInstitutionDto>> getEducationalInstByName(
+	public ResponseEntity<Response<EducationRegionGetDto>> getEducationalInstByName(
 			@PathVariable String educationalInstitutionName) {
-		Response<EducationalInstitutionDto> response = educationalInstitutionService
+		Response<EducationRegionGetDto> response = educationalInstitutionService
 				.getEducationalInstituteByName(educationalInstitutionName);
 		if (response.getStatusCode() == 200) {
 			return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -79,10 +67,10 @@ public class EducationalInstitutionController {
 
 	@Operation(summary = "Get All Educational Institution", security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping()
-	public ResponseEntity<Response<List<EducationalInstitutionDto>>> getEducationalInstitutions(
+	public ResponseEntity<Response<List<EducationRegionGetDto>>> getEducationalInstitutions(
 			@RequestParam(value = "PageNumber", defaultValue = "0", required = false) Integer pageNumber,
 			@RequestParam(value = "PageSize", defaultValue = "5", required = false) Integer pageSize) {
-		Response<List<EducationalInstitutionDto>> response = educationalInstitutionService
+		Response<List<EducationRegionGetDto>> response = educationalInstitutionService
 				.getAllEducationalInstitutions(pageNumber, pageSize);
 		if (response.getStatusCode() == 200) {
 			return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -92,7 +80,7 @@ public class EducationalInstitutionController {
 
 	}
 
-	//@Operation(summary = "Delete Educational Institution By Id", security = @SecurityRequirement(name = "bearerAuth"))
+	@Operation(summary = "Delete Educational Institution By Id", security = @SecurityRequirement(name = "bearerAuth"))
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Response<EducationalInstitutionDto>> deleteEducationalInstById(@PathVariable("id") int id) {
 
@@ -103,37 +91,33 @@ public class EducationalInstitutionController {
 
 	}
 
-	//@Operation(summary = "Update Educational Institution with Id", security = @SecurityRequirement(name = "bearerAuth"))
+	@Operation(summary = "Update Educational Institution with Id", security = @SecurityRequirement(name = "bearerAuth"))
 	@PutMapping
-	public ResponseEntity<Response<EducationalInstitutionDto>> updateEducationalInstutions(
+	public ResponseEntity<Response<EducationalRegionDto>> updateEducationalInstutions(
 			@RequestBody EducationalInstitutionDto educationalInstitutionDto) { // NOSONAR
 
-		Response<EducationalInstitutionDto> updateEducationalInst = this.educationalInstitutionService
+		Response<EducationalRegionDto> updateEducationalInst = this.educationalInstitutionService
 				.updateEducationalInstitution(educationalInstitutionDto);
 
 		return ResponseEntity.ok().body(updateEducationalInst);
 
 	}
-
-	//@Operation(summary = "Map EducationalInstitute and  Region", security = @SecurityRequirement(name = "bearerAuth"))
-	@PostMapping("/addRegion")
-	public ResponseEntity<Response<EducationalRegionDto>> addRegion(@RequestBody EIRegionMappingDto eduRegionDto) {
-		Response<EducationalRegionDto> response = educationalInstitutionService.addRegion(eduRegionDto);
-		return ResponseEntity.ok().body(response);
-	}
-
-	//@Operation(summary = "Get Region In EducationalInstitute", security = @SecurityRequirement(name = "bearerAuth"))
+	
+	@Operation(summary = "Get Region In EducationalInstitute", security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping("/getEduInst/{id}")
-	public ResponseEntity<Response<EducationalRegionDto>> getRegionInEduIst(@PathVariable int id) {
-		Response<EducationalRegionDto> response = educationalInstitutionService.getEduInstwithRegion(id);
+	public ResponseEntity<Response<EducationRegionGetDto>> getRegionInEduIst(@PathVariable int id) {
+		Response<EducationRegionGetDto> response = educationalInstitutionService.getEduInstwithRegion(id);
 		return ResponseEntity.ok().body(response);
 	}
 
-	//@Operation(summary = "Get EducationalInstitution in Sorting", security = @SecurityRequirement(name = "bearerAuth"))
+	// -----Sorting
+
+	@Operation(summary = "Get EducationalInstitution in Sorting", security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping("/sort/{field}")
 	public ResponseEntity<Response<List<EducationalInstitutionDto>>> getEduIstBySorting(@PathVariable String field) {
 		Response<List<EducationalInstitutionDto>> response = educationalInstitutionService.getEduInstwithSort(field);
 		return ResponseEntity.ok().body(response);
 	}
+
 
 }

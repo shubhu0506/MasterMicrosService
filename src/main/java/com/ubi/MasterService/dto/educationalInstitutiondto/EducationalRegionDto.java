@@ -1,8 +1,8 @@
-package com.ubi.MasterService.dto.regionDto;
+package com.ubi.MasterService.dto.educationalInstitutiondto;
 
 import java.util.Set;
 
-import com.ubi.MasterService.dto.educationalInstitutiondto.EducationalInstitutionDto;
+import com.ubi.MasterService.dto.regionDto.RegionDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

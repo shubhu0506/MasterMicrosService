@@ -14,7 +14,13 @@ public enum HttpStatusCode {
 	
 	NO_REGION_FOUND(108,"No Region Found"),
 	
+	NO_REGION_ADDED(108,"Add a region in Ei"),
+	
+	NO_REGION_ID_FOUND(206,"please enter Region Id"),
+	
 	USER_RETRIVED_SUCCESSFULLY(200,"User Retrived"),
+	
+	CLASS_RETRIVED_SUCCESSFULLY(200,"class Retrived"),
 	
 	NO_USER_MATCH_WITH_ID(109,"No User found with given Id "),
 	
@@ -28,7 +34,9 @@ public enum HttpStatusCode {
 	
 	PAYMENT_RETRIVED_SUCCESSFULLY(200,"Payment Retrived"),
 	
-	CONTACTINFO_RETRIEVED_SUCCESSFULLY(200,"Contact Info retrived successfully"),
+	STUDENT_RETRIVED_SUCCESSFULLY(200,"Student retrived"),
+	
+	CONTACTINFO_RETRIVED_SUCCESSFULLY(200,"Contact Info retrived successfully"),
 
     NO_CLASSCODE_FOUND(202,"No class code found"),
     
@@ -103,7 +111,7 @@ public enum HttpStatusCode {
 	TOKEN_FORMAT_INVALID(401, "Token Format Is Invalid"),
 	INVALID_TOKEN(401, "Token Is Invalid"),
 	TOKEN_NOT_FOUND(401, "Token Not Found"),
-
+	USER_DEACTIVATED(401, "User is deactivated"),
 	PERMISSION_DENIED(401, "User Dont Have Permission To Perform This Reqeust"),
 
 	FORBIDDEN_EXCEPTION(403, "Forbidden access attempted"),
@@ -143,7 +151,7 @@ public enum HttpStatusCode {
 	SCHOOL_DELETED(200,"School Deleted Successfully"),
 	SCHOOL_UPDATED(200,"School Updated Successfully"),
 	
-	
+	NO_CLASS_ADDED(200, "No Class Added"),
 
 
 	RESOURCE_CREATED_SUCCESSFULLY(201, "Resource Created Successfully"),

@@ -2,8 +2,8 @@ package com.ubi.MasterService.entity;
 
 import java.time.LocalDate;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -14,8 +14,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Data
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -47,7 +49,7 @@ public class Student {
 	private Boolean isActivate;
 	private String currentStatus;
 	
-	@ManyToOne(cascade = CascadeType.ALL )
+	@ManyToOne(fetch = FetchType.LAZY )
 	private ClassDetail classDetail;
 
 }

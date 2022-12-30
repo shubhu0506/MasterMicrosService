@@ -3,27 +3,29 @@ package com.ubi.MasterService.service;
 import java.util.List;
 
 import com.ubi.MasterService.dto.classDto.ClassDto;
+import com.ubi.MasterService.dto.classDto.ClassStudentDto;
 import com.ubi.MasterService.dto.response.Response;
-import com.ubi.MasterService.dto.studentDto.StudentDto;
-
 
 
 
 public interface ClassService {
 
-	Response<ClassDto> addClassDetails(ClassDto classDto);
+	Response<ClassStudentDto> addClassDetails(ClassDto classDto);
 	
-	Response<List<ClassDto>> getClassDetails(Integer PageNumber, Integer PageSize);
+	Response<List<ClassStudentDto>> getClassDetails(Integer PageNumber, Integer PageSize);
 
-	public Response<ClassDto> getClassById(Long classidL);
+	public Response<ClassStudentDto> getClassById(Long classid);
 	
-	public Response<ClassDto> deleteClassById(Long classidL);
+	public Response<ClassDto> deleteClassById(Long classid);
 
-	Response<ClassDto> updateClassDetails(ClassDto classDto);
+	Response<ClassStudentDto> updateClassDetails(ClassDto classDto);
 	
-	Response<ClassDto> getClassByName(String className);
+	Response<ClassStudentDto> getClassByName(String className);
+
 	
-	Response<List<StudentDto>> getClasswithStudent(Long id);
+	Response<List<ClassDto>> getClasswithSort(String field);
+	
+//	ByteArrayInputStream load();
 	
 }
 
