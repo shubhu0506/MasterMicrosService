@@ -1,4 +1,4 @@
-package com.ubi.MasterService.config;
+package com.ubi.reportservice.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

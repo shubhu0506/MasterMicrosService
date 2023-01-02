@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ubi</groupId>
-	<artifactId>Master-Service</artifactId>
+	<artifactId>Report-Service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Master-Service</name>
+	<name>Report-Service</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>1.8</java.version>

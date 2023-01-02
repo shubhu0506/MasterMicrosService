@@ -1,17 +1,14 @@
-package com.ubi.MasterService.util;
+package com.ubi.reportservice.util;
 
-import com.ubi.MasterService.dto.user.UserPermissionsDto;
-import com.ubi.MasterService.error.CustomException;
-import com.ubi.MasterService.error.HttpStatusCode;
-import com.ubi.MasterService.model.Authority;
+import com.ubi.reportservice.dto.user.UserPermissionsDto;
+import com.ubi.reportservice.error.CustomException;
+import com.ubi.reportservice.error.HttpStatusCode;
+import com.ubi.reportservice.model.Authority;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class PermissionUtil {
@@ -19,7 +16,6 @@ public class PermissionUtil {
     public boolean hasPermission(String permissionName){
         for(GrantedAuthority authority : SecurityContextHolder.getContext().getAuthentication().getAuthorities()){
             if(authority.getAuthority().equals(permissionName)) {
-                System.out.println(authority.getAuthority());
                 return true;
             }
         }
@@ -36,7 +32,7 @@ public class PermissionUtil {
         return null;
     }
 
-    public Collection<? extends GrantedAuthority> getAuthorities(ArrayList<String> permissions) {
+    public Collection<Authority> getAuthorities(List<String> permissions) {
         Set<Authority> roles = new HashSet<>();
         for(String permission:permissions){
             roles.add(new Authority(permission));

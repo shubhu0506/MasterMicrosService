@@ -1,4 +1,4 @@
-package com.ubi.MasterService.config;
+package com.ubi.reportservice.config;
 
 
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 
 @Configuration
-@OpenAPIDefinition(info = @Info(title = "My API", version = "v1"))
+@OpenAPIDefinition(info = @Info(title = "Report Service", version = "v1"))
 @SecurityScheme(
         name = "bearerAuth",
         type = SecuritySchemeType.HTTP,

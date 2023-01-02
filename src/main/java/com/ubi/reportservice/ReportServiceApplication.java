@@ -10,10 +10,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 )
 @EnableEurekaClient
 @EnableFeignClients
-public class MasterServiceApplication {
+public class ReportServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MasterServiceApplication.class, args);
+		SpringApplication.run(ReportServiceApplication.class, args);
 	}
 
 }

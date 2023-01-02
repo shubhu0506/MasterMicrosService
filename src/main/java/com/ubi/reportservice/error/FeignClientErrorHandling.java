@@ -1,7 +1,7 @@
-package com.ubi.MasterService.error;
+package com.ubi.reportservice.error;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.ubi.MasterService.dto.response.BaseResponse;
+import com.ubi.reportservice.dto.response.BaseResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

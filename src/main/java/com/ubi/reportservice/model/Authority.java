@@ -1,4 +1,4 @@
-package com.ubi.MasterService.model;
+package com.ubi.reportservice.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;

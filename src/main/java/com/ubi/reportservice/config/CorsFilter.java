@@ -1,4 +1,4 @@
-package com.ubi.MasterService.config;
+package com.ubi.reportservice.config;
 
 import java.io.IOException;
 
@@ -37,7 +37,6 @@ public class CorsFilter extends OncePerRequestFilter{
         response.setHeader("Access-Control-Allow-Headers","*");
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             response.setStatus(HttpStatus.OK.value());
-            return;
         } else {
             chain.doFilter(request, response);
         }

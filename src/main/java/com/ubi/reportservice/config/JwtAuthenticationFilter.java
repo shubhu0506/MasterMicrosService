@@ -1,14 +1,14 @@
-package com.ubi.MasterService.config;
+package com.ubi.reportservice.config;
 
 
-import com.ubi.MasterService.dto.jwt.ValidateJwt;
-import com.ubi.MasterService.dto.response.Response;
-import com.ubi.MasterService.dto.user.UserPermissionsDto;
-import com.ubi.MasterService.error.CustomException;
-import com.ubi.MasterService.error.HttpStatusCode;
-import com.ubi.MasterService.error.Result;
-import com.ubi.MasterService.externalServices.UserFeignService;
-import com.ubi.MasterService.util.PermissionUtil;
+import com.ubi.reportservice.dto.jwt.ValidateJwt;
+import com.ubi.reportservice.dto.response.Response;
+import com.ubi.reportservice.dto.user.UserPermissionsDto;
+import com.ubi.reportservice.error.CustomException;
+import com.ubi.reportservice.error.HttpStatusCode;
+import com.ubi.reportservice.error.Result;
+import com.ubi.reportservice.externalservices.UserFeignService;
+import com.ubi.reportservice.util.PermissionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -64,8 +64,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             ValidateJwt validateJwt = new ValidateJwt(requestTokenHeader);
             ResponseEntity<Response<UserPermissionsDto>> responseFromUserService = userFeignService.validateTokenAndGetUser(validateJwt);
 
-            Response<UserPermissionsDto> responseEntity = responseFromUserService.getBody();
-            if (responseFromUserService.getStatusCode().is2xxSuccessful()) {
+            if (responseFromUserService != null && responseFromUserService.hasBody() && responseFromUserService.getStatusCode().is2xxSuccessful()) {
+                Response<UserPermissionsDto> responseEntity = responseFromUserService.getBody();
                 UserPermissionsDto userPermissionsDto = responseEntity.getResult().getData();
                 Collection<? extends GrantedAuthority> permissions = permissionUtil.getAuthorities(userPermissionsDto.getPermissions());
 
@@ -73,11 +73,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             }
+            else if(responseFromUserService != null && responseFromUserService.hasBody() ){
+                throw new CustomException(
+                        responseFromUserService.getBody().getStatusCode(),
+                        HttpStatusCode.UNAUTHORIZED_EXCEPTION,
+                        responseFromUserService.getBody().getMessage(),
+                        new Result<>());
+            }
             else{
                 throw new CustomException(
-                        responseEntity.getStatusCode(),
-                        HttpStatusCode.UNAUTHORIZED_EXCEPTION,
-                        responseEntity.getMessage(),
+                        HttpStatusCode.INTERNAL_SERVER_ERROR.getCode(),
+                        HttpStatusCode.INTERNAL_SERVER_ERROR,
+                        HttpStatusCode.INTERNAL_SERVER_ERROR.getMessage(),
                         new Result<>());
             }
         }

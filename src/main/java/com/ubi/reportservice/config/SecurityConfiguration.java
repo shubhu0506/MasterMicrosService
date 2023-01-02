@@ -1,11 +1,9 @@
-package com.ubi.MasterService.config;
+package com.ubi.reportservice.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -29,14 +27,18 @@ public class SecurityConfiguration {
             "/swagger-ui/**",
             "/webjars/**"};
 
-    @Autowired
     private JwtAuthenticationEntryPoint unauthorizedHandler;
 
-    @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    @Autowired
     private FilterChainExceptionHandler filterChainExceptionHandler;
+
+    @Autowired
+    public SecurityConfiguration(JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint, JwtAuthenticationFilter jwtAuthenticationFilter,FilterChainExceptionHandler filterChainExceptionHandler) {
+        this.unauthorizedHandler = jwtAuthenticationEntryPoint;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.filterChainExceptionHandler = filterChainExceptionHandler;
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {

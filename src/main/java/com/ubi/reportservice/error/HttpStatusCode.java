@@ -1,4 +1,4 @@
-package com.ubi.MasterService.error;
+package com.ubi.reportservice.error;
 
 public enum HttpStatusCode {
 	

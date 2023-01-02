@@ -1,6 +1,5 @@
-package com.ubi.MasterService.error;
+package com.ubi.reportservice.error;
 
-import com.ubi.MasterService.dto.response.Response;
 import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,9 +17,10 @@ public class RestControllerAdvice {
 	
 	@ExceptionHandler({CustomException.class})
 	public ResponseEntity<Object> handleGenericException(CustomException exception) {
+		String customErroMsg = "Custom exception occured - ";
+		String erorr = customErroMsg.concat( exception.getExceptionMessage());
+		log.info(erorr);
 
-		log.info("Custom exception Occured" + exception.getExceptionMessage());
-		
 		return new ResponseEntity<>(
 				new RestApiErrorHandling(
 						exception.getExceptionCode(), 

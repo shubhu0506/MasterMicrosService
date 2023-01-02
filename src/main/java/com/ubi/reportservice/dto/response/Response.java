@@ -1,9 +1,9 @@
-package com.ubi.MasterService.dto.response;
+package com.ubi.reportservice.dto.response;
 
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.ubi.MasterService.error.Result;
+import com.ubi.reportservice.error.Result;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
