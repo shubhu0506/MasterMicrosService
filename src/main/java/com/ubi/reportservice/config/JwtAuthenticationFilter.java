@@ -23,18 +23,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private static final String[] PUBLIC_URLS = {"/swagger-ui/index.html",
-            "/v3/api-docs/swagger-config",
-            "/swagger-ui/favicon-32x32.png",
-            "/v3/api-docs"};
+    private static final String[] PUBLIC_URLS = {
+            "/v3{1}.*","/swagger-ui{1}.*","/favicon{1}.*"};
 
     @Autowired
     UserFeignService userFeignService;
@@ -46,8 +42,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         final String requestTokenHeader = request.getHeader("Authorization");
-        String username = null;
-        String jwtToken = null;
         String currentUri = request.getRequestURI();
 
         boolean isSwaggerUrl = false;
