@@ -1,7 +1,6 @@
-package com.ubi.MasterService.service;
+package com.ubi.masterservice.service;
 
 import java.io.ByteArrayInputStream;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -9,6 +8,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,20 +18,20 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.ubi.MasterService.dto.educationalInstitutiondto.EducationRegionGetDto;
-import com.ubi.MasterService.dto.educationalInstitutiondto.EducationalInstitutionDto;
-import com.ubi.MasterService.dto.educationalInstitutiondto.EducationalRegionDto;
-import com.ubi.MasterService.dto.regionDto.RegionGet;
-import com.ubi.MasterService.dto.response.Response;
-import com.ubi.MasterService.entity.EducationalInstitution;
-import com.ubi.MasterService.entity.Region;
-import com.ubi.MasterService.error.CustomException;
-import com.ubi.MasterService.error.HttpStatusCode;
-import com.ubi.MasterService.error.Result;
-import com.ubi.MasterService.mapper.EducationalInstitutionMapper;
-import com.ubi.MasterService.mapper.RegionMapper;
-import com.ubi.MasterService.repository.EducationalInstitutionRepository;
-import com.ubi.MasterService.repository.RegionRepository;
+import com.ubi.masterservice.dto.educationalInstitutiondto.EducationRegionGetDto;
+import com.ubi.masterservice.dto.educationalInstitutiondto.EducationalInstitutionDto;
+import com.ubi.masterservice.dto.educationalInstitutiondto.EducationalRegionDto;
+import com.ubi.masterservice.dto.regionDto.RegionGet;
+import com.ubi.masterservice.dto.response.Response;
+import com.ubi.masterservice.entity.EducationalInstitution;
+import com.ubi.masterservice.entity.Region;
+import com.ubi.masterservice.error.CustomException;
+import com.ubi.masterservice.error.HttpStatusCode;
+import com.ubi.masterservice.error.Result;
+import com.ubi.masterservice.mapper.EducationalInstitutionMapper;
+import com.ubi.masterservice.mapper.RegionMapper;
+import com.ubi.masterservice.repository.EducationalInstitutionRepository;
+import com.ubi.masterservice.repository.RegionRepository;
 
 @Service
 public class EducationalInstitutionServiceImpl implements EducationalInstitutionService {
@@ -155,20 +155,24 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 	}
 
 	@Override
-	public Response<List<EducationRegionGetDto>> getAllEducationalInstitutions(Integer pageNumber, Integer pageSize) {
+	public Response<PaginationResponse<List<EducationRegionGetDto>>> getAllEducationalInstitutions(Integer pageNumber,Integer pageSize) {
 
-		Result<List<EducationRegionGetDto>> allEducationalResult = new Result<>();
+		Result<PaginationResponse<List<EducationRegionGetDto>>> allEducationalResult = new Result<>();
+
+
+
 		Pageable paging = PageRequest.of(pageNumber, pageSize);
-		Response<List<EducationRegionGetDto>> getListofEducationalInstitution = new Response<>();
 
-		// Integer count = educationalInstitutionRepository.findAll().size();
+		Response<PaginationResponse<List<EducationRegionGetDto>>> getListofEducationalInstitution = new Response<>();
+
+
 
 		Page<EducationalInstitution> list = this.educationalInstitutionRepository.findAll(paging);
 
 		List<EducationRegionGetDto> EducationalRegionDtoList = new ArrayList<>();
 		for (EducationalInstitution eduInsti : list) {
 			EducationRegionGetDto educationalRegionDto = new EducationRegionGetDto();
-			// educationalRegionDto.setTotalEducationInstituteCount(count);
+
 			educationalRegionDto.setEducationalInstituteDto(educationalInstitutionMapper.entityToDtos(eduInsti));
 			Set<RegionGet> regionDtos = eduInsti.getRegion().stream().map(region -> regionMapper.toDtos(region))
 					.collect(Collectors.toSet());
@@ -182,7 +186,10 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 					HttpStatusCode.NO_EDUCATIONAL_INSTITUTION_FOUND,
 					HttpStatusCode.NO_EDUCATIONAL_INSTITUTION_FOUND.getMessage(), allEducationalResult);
 		}
-		allEducationalResult.setData(EducationalRegionDtoList);
+
+		PaginationResponse paginationResponse=new PaginationResponse<List<EducationRegionGetDto>>(EducationalRegionDtoList,list.getTotalPages(),list.getTotalElements());
+
+		allEducationalResult.setData(paginationResponse);
 		getListofEducationalInstitution
 				.setStatusCode(HttpStatusCode.EDUCATIONAL_INSTITUTION_RETRIVED_SUCCESSFULLY.getCode());
 		getListofEducationalInstitution
@@ -252,7 +259,7 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 			System.out.println("region --- " + region.toString());
 			if(region != null) existingEducationalInstitution.getRegionId().add(regionId);
 		}
-				
+
 		if (educationalInstitutionDto.getRegionId().isEmpty()) {
 			throw new CustomException(HttpStatusCode.NO_REGION_ADDED.getCode(), HttpStatusCode.NO_REGION_ADDED,
 					HttpStatusCode.NO_REGION_ADDED.getMessage(), res);
@@ -295,6 +302,13 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 		return response;
 
 	}
+
+//	@Override
+//	public ByteArrayInputStream load() {
+//		List<EducationalInstitution> eduInst = educationalInstitutionRepository.findAll();
+//		ByteArrayInputStream out = EducationalInstitutionCsvHelper.educationCSV(eduInst);
+//		return out;
+//	}
 
 	@Override
 	public Response<List<EducationalInstitutionDto>> getEduInstwithSort(String field) {

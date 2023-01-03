@@ -1,4 +1,4 @@
-package com.ubi.MasterService.config;
+package com.ubi.masterservice.config;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

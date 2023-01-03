@@ -1,4 +1,4 @@
-package com.ubi.MasterService.entity;
+package com.ubi.masterservice.entity;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,7 +25,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "class_data ")
 public class ClassDetail
@@ -38,15 +37,15 @@ public class ClassDetail
 
 	@Column(name = "ClassCode")
 	private String classCode;
- 
+
 	@Column(name = "ClassName")
 	private String className;
 
 	@ManyToOne
 	@JoinColumn(name = "schoolId" )
 	private School school;
-	
-	@OneToMany(mappedBy = "classDetail",cascade = CascadeType.ALL)	
+
+	@OneToMany(mappedBy = "classDetail",cascade = CascadeType.ALL)
 	Set<Student> students = new HashSet<>();
 }
 

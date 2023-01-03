@@ -1,4 +1,4 @@
-package com.ubi.MasterService;
+package com.ubi.masterservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

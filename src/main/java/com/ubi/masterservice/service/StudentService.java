@@ -1,33 +1,40 @@
-package com.ubi.MasterService.service;
+package com.ubi.masterservice.service;
 
 import java.util.List;
 
-import com.ubi.MasterService.dto.response.Response;
-import com.ubi.MasterService.dto.studentDto.StudentDto;
+import com.ubi.masterservice.dto.pagination.PaginationResponse;
+import com.ubi.masterservice.dto.response.Response;
+import com.ubi.masterservice.dto.studentDto.StudentDto;
+import com.ubi.masterservice.dto.studentDto.StudentPromoteDemoteDto;
+import com.ubi.masterservice.dto.studentDto.StudentVerifyDto;
 
 
 public interface StudentService {
 	Response<StudentDto> saveStudent(StudentDto studentDto);
 
-	Response<List<StudentDto>> getStudents(Integer PageNumber, Integer PageSize);
+	Response<PaginationResponse<List<StudentDto>>> getStudents(Integer PageNumber, Integer PageSize);
 
 	Response<StudentDto> getStudentById(Long id);
 
 	public Response<StudentDto> deleteById(Long id);
 
 	Response<StudentDto> updateStudent(StudentDto studentDto);
-	
+
 	Response<StudentDto> changeActiveStatusToTrue(Long id);
 
-    Response<StudentDto> changeActiveStatusToFalse(Long id);
-    
+	Response<StudentDto> changeActiveStatusToFalse(Long id);
+
 	Response<StudentDto> changeCurrentStatusToPromoted(Long id);
 
 	Response<StudentDto> changeCurrentStatusToDemoted(Long id);
-	
+
 	Response<List<StudentDto>> findByGenderAndCategoryAndMinority(String gender,String category, String minority);
-	
-	
-	
-	
+
+	Response<List<StudentVerifyDto>> verifiedByTeacher(String userId,StudentVerifyDto studentVerifyDto);
+
+	Response<List<StudentVerifyDto>> verifiedByPrincipal(String userId, StudentVerifyDto studentVerifyDto);
+
+	Response<StudentPromoteDemoteDto> studentPromoted(String userId, StudentPromoteDemoteDto studentPromoteDemoteCreationDto);
+
+	Response<StudentPromoteDemoteDto> studentDemoted(String userId,StudentPromoteDemoteDto studentPromoteDemoteCreationDto);
 }

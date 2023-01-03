@@ -1,9 +1,9 @@
-package com.ubi.MasterService.util;
+package com.ubi.masterservice.util;
 
-import com.ubi.MasterService.dto.user.UserPermissionsDto;
-import com.ubi.MasterService.error.CustomException;
-import com.ubi.MasterService.error.HttpStatusCode;
-import com.ubi.MasterService.model.Authority;
+import com.ubi.masterservice.dto.user.UserPermissionsDto;
+import com.ubi.masterservice.error.CustomException;
+import com.ubi.masterservice.error.HttpStatusCode;
+import com.ubi.masterservice.model.Authority;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;

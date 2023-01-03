@@ -1,13 +1,13 @@
-package com.ubi.MasterService.service;
+package com.ubi.masterservice.service;
 
 import java.io.ByteArrayInputStream;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,23 +15,23 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.ubi.MasterService.dto.regionDto.RegionCreationDto;
-import com.ubi.MasterService.dto.regionDto.RegionDetailsDto;
-import com.ubi.MasterService.dto.regionDto.RegionDto;
-import com.ubi.MasterService.dto.regionDto.RegionSchoolDto;
-import com.ubi.MasterService.dto.regionDto.RegionSchoolMappingDto;
-import com.ubi.MasterService.dto.response.Response;
-import com.ubi.MasterService.entity.EducationalInstitution;
-import com.ubi.MasterService.entity.Region;
-import com.ubi.MasterService.entity.School;
-import com.ubi.MasterService.error.CustomException;
-import com.ubi.MasterService.error.HttpStatusCode;
-import com.ubi.MasterService.error.Result;
-import com.ubi.MasterService.mapper.RegionMapper;
-import com.ubi.MasterService.mapper.SchoolMapper;
-import com.ubi.MasterService.repository.EducationalInstitutionRepository;
-import com.ubi.MasterService.repository.RegionRepository;
-import com.ubi.MasterService.repository.SchoolRepository;
+import com.ubi.masterservice.dto.regionDto.RegionCreationDto;
+import com.ubi.masterservice.dto.regionDto.RegionDetailsDto;
+import com.ubi.masterservice.dto.regionDto.RegionDto;
+import com.ubi.masterservice.dto.regionDto.RegionSchoolDto;
+import com.ubi.masterservice.dto.regionDto.RegionSchoolMappingDto;
+import com.ubi.masterservice.dto.response.Response;
+import com.ubi.masterservice.entity.EducationalInstitution;
+import com.ubi.masterservice.entity.Region;
+import com.ubi.masterservice.entity.School;
+import com.ubi.masterservice.error.CustomException;
+import com.ubi.masterservice.error.HttpStatusCode;
+import com.ubi.masterservice.error.Result;
+import com.ubi.masterservice.mapper.RegionMapper;
+import com.ubi.masterservice.mapper.SchoolMapper;
+import com.ubi.masterservice.repository.EducationalInstitutionRepository;
+import com.ubi.masterservice.repository.RegionRepository;
+import com.ubi.masterservice.repository.SchoolRepository;
 
 
 @Service
@@ -56,34 +56,27 @@ public class RegionServiceImpl implements RegionService {
 	public Response<RegionDetailsDto> addRegion(RegionCreationDto regionCreationDto) {
 		Result<RegionDetailsDto> res = new Result<>();
 		Response<RegionDetailsDto> response = new Response<>();
-		
+
 		Region regionName = regionRepository.getRegionByName(regionCreationDto.getName());
 		Region regionCode = regionRepository.getRegionByCode(regionCreationDto.getCode());
-		
-		
+
+
 		if (regionName != null) {
-			throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_EXISTS.getCode(),
-					HttpStatusCode.RESOURCE_ALREADY_EXISTS, HttpStatusCode.RESOURCE_ALREADY_EXISTS.getMessage(), res);
+			throw new CustomException(HttpStatusCode.REGION_NAME_DUPLICATE.getCode(),
+					HttpStatusCode.REGION_NAME_DUPLICATE, HttpStatusCode.REGION_NAME_DUPLICATE.getMessage(), res);
 		}
 		if (regionCode != null) {
-			throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_EXISTS.getCode(),
-					HttpStatusCode.RESOURCE_ALREADY_EXISTS, HttpStatusCode.RESOURCE_ALREADY_EXISTS.getMessage(), res);
+			throw new CustomException(HttpStatusCode.REGION_CODE_DUPLICATE.getCode(),
+					HttpStatusCode.REGION_CODE_DUPLICATE, HttpStatusCode.REGION_CODE_DUPLICATE.getMessage(), res);
 		}
-		
+
 		Region savedRegion = new Region();
 		savedRegion.setCode(regionCreationDto.getCode());
 		savedRegion.setName(regionCreationDto.getName());
 		savedRegion.setEducationalInstitiute(new HashSet<>());
 		savedRegion.setSchool(new HashSet<>());
 		savedRegion = regionRepository.save(savedRegion);
-		
-		for(Integer schoolId : regionCreationDto.getSchoollId()) {
-			School school = schoolRepository.getReferenceById(schoolId);
-			school.setRegion(savedRegion);
-			schoolRepository.save(school);
-			savedRegion.getSchool().add(school);
-		}
-		
+
 		for(Integer eduInstiId : regionCreationDto.getEduInstId()) {
 			EducationalInstitution eduInsti = educationalInstitutionRepository.getReferenceById(eduInstiId);
 			eduInsti.getRegion().add(savedRegion);
@@ -91,7 +84,7 @@ public class RegionServiceImpl implements RegionService {
 			savedRegion.getEducationalInstitiute().add(eduInsti);
 		}
 		savedRegion = regionRepository.save(savedRegion);
-		
+
 //		Region saveRegion = regionRepository.save(regionMapper.dtoToEntity(regionDto));
 		response.setStatusCode(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getCode());
 		response.setMessage(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getMessage());
@@ -100,10 +93,10 @@ public class RegionServiceImpl implements RegionService {
 	}
 
 	@Override
-	public Response<List<RegionDetailsDto>> getRegionDetails(Integer PageNumber, Integer PageSize) {
-		Result<List<RegionDetailsDto>> allRegion = new Result<>();
+	public Response<PaginationResponse<List<RegionDetailsDto>>> getRegionDetails(Integer PageNumber, Integer PageSize) {
+		Result<PaginationResponse<List<RegionDetailsDto>>> allRegion = new Result<>();
 		Pageable paging = PageRequest.of(PageNumber, PageSize);
-		Response<List<RegionDetailsDto>> getListofRegion = new Response<List<RegionDetailsDto>>();
+		Response<PaginationResponse<List<RegionDetailsDto>>> getListofRegion = new Response<PaginationResponse<List<RegionDetailsDto>>>();
 
 		Page<Region> list = this.regionRepository.findAll(paging);
 		List<RegionDetailsDto> regionDtos = list.toList().stream().map(region -> regionMapper.toRegionDetails(region)).collect(Collectors.toList());
@@ -111,7 +104,10 @@ public class RegionServiceImpl implements RegionService {
 			throw new CustomException(HttpStatusCode.RESOURCE_NOT_FOUND.getCode(), HttpStatusCode.RESOURCE_NOT_FOUND,
 					HttpStatusCode.RESOURCE_NOT_FOUND.getMessage(), allRegion);
 		}
-		allRegion.setData(regionDtos);
+
+		PaginationResponse paginationResponse = new PaginationResponse<List<RegionDetailsDto>>(regionDtos,list.getTotalPages(),list.getTotalElements());
+
+		allRegion.setData(paginationResponse);
 		getListofRegion.setStatusCode(HttpStatusCode.REGION_RETREIVED_SUCCESSFULLY.getCode());
 		getListofRegion.setMessage(HttpStatusCode.REGION_RETREIVED_SUCCESSFULLY.getMessage());
 		getListofRegion.setResult(allRegion);
@@ -138,29 +134,38 @@ public class RegionServiceImpl implements RegionService {
 	public Response<RegionDto> deleteRegionById(int id) {
 		Result<RegionDto> res = new Result<>();
 		res.setData(null);
-		Optional<Region> region = regionRepository.findById(id);
-		if (!region.isPresent()) {
+		Optional<Region> regionTemp = regionRepository.findById(id);
+		if (!regionTemp.isPresent()) {
 			throw new CustomException(HttpStatusCode.RESOURCE_NOT_FOUND.getCode(), HttpStatusCode.RESOURCE_NOT_FOUND,
 					HttpStatusCode.RESOURCE_NOT_FOUND.getMessage(), res);
 		}
-
-		for (EducationalInstitution eduInsti : region.get().getEducationalInstitiute()) {
-			eduInsti.getRegion().remove(region.get());
+		Region region = regionTemp.get();
+		Set<EducationalInstitution> educationalInstitutionSet = region.getEducationalInstitiute();
+		for (EducationalInstitution eduInsti : educationalInstitutionSet) {
+			eduInsti.getRegion().remove(region);
 			educationalInstitutionRepository.save(eduInsti);
 		}
-		region.get().setEducationalInstitiute(new HashSet<>());
-		regionRepository.save(region.get());
+
+		Set<School> schoolSet = region.getSchool();
+		for(School school:schoolSet){
+			region.getSchool().remove(school);
+			school.setRegion(null);
+			schoolRepository.save(school);
+		}
+
+		region.setEducationalInstitiute(new HashSet<>());
+		regionRepository.save(region);
 		regionRepository.deleteById(id);
 		Response<RegionDto> response = new Response<>();
 		response.setMessage(HttpStatusCode.REGION_DELETED_SUCCESSFULLY.getMessage());
 		response.setStatusCode(HttpStatusCode.REGION_DELETED_SUCCESSFULLY.getCode());
-		response.setResult(new Result<RegionDto>(regionMapper.entityToDto(region.get())));
+		response.setResult(new Result<RegionDto>(regionMapper.entityToDto(region)));
 		return response;
 	}
 
 	@Override
-	public Response<RegionDto> updateRegionDetails(RegionDto regionDto) {
-		Result<RegionDto> res = new Result<>();
+	public Response<RegionDetailsDto> updateRegionDetails(RegionDto regionDto) {
+		Result<RegionDetailsDto> res = new Result<>();
 
 		res.setData(null);
 		Optional<Region> existingRegionContainer = regionRepository.findById(regionDto.getId());
@@ -168,15 +173,47 @@ public class RegionServiceImpl implements RegionService {
 			throw new CustomException(HttpStatusCode.REGION_NOT_FOUND.getCode(), HttpStatusCode.REGION_NOT_FOUND,
 					HttpStatusCode.REGION_NOT_FOUND.getMessage(), res);
 		}
-		RegionDto existingRegion = regionMapper.entityToDto(existingRegionContainer.get());
-		existingRegion.setCode(regionDto.getCode());
-		existingRegion.setName(regionDto.getName());
+		Region region = existingRegionContainer.get();
 
-		Region updateRegion = regionRepository.save(regionMapper.dtoToEntity(existingRegion));
-		Response<RegionDto> response = new Response<>();
+		if(!region.getCode().equals(regionDto.getCode())){
+			System.out.println(region.getCode() + " --- " + regionDto.getCode());
+			Region regionWithSameCode = regionRepository.getRegionByCode(regionDto.getCode());
+			if(regionWithSameCode != null) {
+				throw new CustomException(HttpStatusCode.REGION_CODE_DUPLICATE.getCode(), HttpStatusCode.REGION_CODE_DUPLICATE,
+						HttpStatusCode.REGION_CODE_DUPLICATE.getMessage(), res);
+			}
+		}
+
+		if(!region.getName().equals(regionDto.getName())){
+			Region regionWithSameName = regionRepository.getRegionByName(regionDto.getName());
+			if(regionWithSameName != null) {
+				throw new CustomException(HttpStatusCode.REGION_NAME_DUPLICATE.getCode(), HttpStatusCode.REGION_NAME_DUPLICATE,
+						HttpStatusCode.REGION_NAME_DUPLICATE.getMessage(), res);
+			}
+		}
+
+		region.setCode(regionDto.getCode());
+		region.setName(regionDto.getName());
+		Set<EducationalInstitution> educationalInstitutionSet = region.getEducationalInstitiute();
+		for(EducationalInstitution educationalInstitution:educationalInstitutionSet){
+			educationalInstitution.getRegion().remove(region);
+			region.getEducationalInstitiute().remove(educationalInstitution);
+			educationalInstitutionRepository.save(educationalInstitution);
+		}
+		Region updateRegion = regionRepository.save(region);
+
+		for(Integer educationId:regionDto.getEduInstId()){
+			EducationalInstitution educationalInstitution = educationalInstitutionRepository.getReferenceById(educationId);
+			educationalInstitution.getRegion().add(region);
+			educationalInstitutionRepository.save(educationalInstitution);
+			region.getEducationalInstitiute().add(educationalInstitution);
+		}
+
+		updateRegion = regionRepository.save(region);
+		Response<RegionDetailsDto> response = new Response<>();
 		response.setMessage(HttpStatusCode.REGION_UPDATED.getMessage());
 		response.setStatusCode(HttpStatusCode.REGION_UPDATED.getCode());
-		response.setResult(new Result<>(regionMapper.entityToDto(updateRegion)));
+		response.setResult(new Result<>(regionMapper.toRegionDetails(updateRegion)));
 		return response;
 	}
 
@@ -186,7 +223,7 @@ public class RegionServiceImpl implements RegionService {
 //		ByteArrayInputStream out = RegionEducationalCsvHelper.regionCSV(region);
 //		return out;
 //	}
-//
+
 //	@Override
 //	public ByteArrayInputStream Regionload() {
 //		List<Region> region = regionRepository.findAll();
@@ -211,7 +248,7 @@ public class RegionServiceImpl implements RegionService {
 		return getRegion;
 	}
 
-// Mapping
+	// Mapping
 	@Override
 	public Response<RegionSchoolDto> addSchool(RegionSchoolMappingDto regionSchoolMappingDto) {
 		int regionId = regionSchoolMappingDto.getRegionId();

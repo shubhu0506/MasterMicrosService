@@ -1,12 +1,13 @@
-package com.ubi.MasterService.service;
+package com.ubi.masterservice.service;
 
 import java.io.ByteArrayInputStream;
 import java.util.List;
 
-import com.ubi.MasterService.dto.educationalInstitutiondto.EducationRegionGetDto;
-import com.ubi.MasterService.dto.educationalInstitutiondto.EducationalInstitutionDto;
-import com.ubi.MasterService.dto.educationalInstitutiondto.EducationalRegionDto;
-import com.ubi.MasterService.dto.response.Response;
+import com.ubi.masterservice.dto.educationalInstitutiondto.EducationRegionGetDto;
+import com.ubi.masterservice.dto.educationalInstitutiondto.EducationalInstitutionDto;
+import com.ubi.masterservice.dto.educationalInstitutiondto.EducationalRegionDto;
+import com.ubi.masterservice.dto.pagination.PaginationResponse;
+import com.ubi.masterservice.dto.response.Response;
 
 public interface EducationalInstitutionService {
 
@@ -14,7 +15,7 @@ public interface EducationalInstitutionService {
 
 	Response<EducationRegionGetDto> getEducationalInstituteByName(String educationalInstitutionName);
 
-	Response<List<EducationRegionGetDto>> getAllEducationalInstitutions(Integer pageNumber, Integer pageSize);
+	Response<PaginationResponse<List<EducationRegionGetDto>>> getAllEducationalInstitutions(Integer pageNumber, Integer pageSize);
 
 	Response<EducationalInstitutionDto> deleteEducationalInstitution(int id);
 
@@ -24,6 +25,6 @@ public interface EducationalInstitutionService {
 
 	Response<List<EducationalInstitutionDto>> getEduInstwithSort(String field);
 
-
+//	ByteArrayInputStream load();
 
 }

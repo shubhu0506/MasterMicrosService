@@ -1,7 +1,8 @@
-package com.ubi.MasterService.controller;
+package com.ubi.masterservice.controller;
 
 import java.util.List;
 
+import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +22,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ubi.MasterService.dto.regionDto.RegionCreationDto;
-import com.ubi.MasterService.dto.regionDto.RegionDetailsDto;
-import com.ubi.MasterService.dto.regionDto.RegionDto;
-import com.ubi.MasterService.dto.regionDto.RegionSchoolDto;
-import com.ubi.MasterService.dto.regionDto.RegionSchoolMappingDto;
-import com.ubi.MasterService.dto.response.Response;
-import com.ubi.MasterService.service.RegionService;
+import com.ubi.masterservice.dto.regionDto.RegionCreationDto;
+import com.ubi.masterservice.dto.regionDto.RegionDetailsDto;
+import com.ubi.masterservice.dto.regionDto.RegionDto;
+import com.ubi.masterservice.dto.regionDto.RegionSchoolDto;
+import com.ubi.masterservice.dto.regionDto.RegionSchoolMappingDto;
+import com.ubi.masterservice.dto.response.Response;
+import com.ubi.masterservice.service.RegionService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -64,10 +65,10 @@ public class RegionController {
 
 	@Operation(summary = "Get All Region", security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping()
-	public ResponseEntity<Response<List<RegionDetailsDto>>> getAllRegions(
+	public ResponseEntity<Response<PaginationResponse<List<RegionDetailsDto>>>> getAllRegions(
 			@RequestParam(value = "PageNumber", defaultValue = "0", required = false) Integer pageNumber,
 			@RequestParam(value = "PageSize", defaultValue = "5", required = false) Integer pageSize) {
-		Response<List<RegionDetailsDto>> response = regionService.getRegionDetails(pageNumber, pageSize);
+		Response<PaginationResponse<List<RegionDetailsDto>>> response = regionService.getRegionDetails(pageNumber, pageSize);
 		return ResponseEntity.ok().body(response);
 
 	}
@@ -84,14 +85,33 @@ public class RegionController {
 
 	@Operation(summary = "Update Region with Id", security = @SecurityRequirement(name = "bearerAuth"))
 	@PutMapping
-	public ResponseEntity<Response<RegionDto>> updateRegion(@RequestBody RegionDto region) { // NOSONAR
+	public ResponseEntity<Response<RegionDetailsDto>> updateRegion(@RequestBody RegionDto region) { // NOSONAR
 
-		Response<RegionDto> response = this.regionService.updateRegionDetails(region);
+		Response<RegionDetailsDto> response = this.regionService.updateRegionDetails(region);
 
 		return ResponseEntity.ok().body(response);
 
 	}
 
+//	@Operation(summary = "Download Region and Education Detail file ", security = @SecurityRequirement(name = "bearerAuth"))
+//	@GetMapping("/download")
+//	public ResponseEntity<Resource> getCSVFileData() {
+//		String filename = "region.csv";
+//		InputStreamResource file = new InputStreamResource(regionService.load());
+//
+//		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+//				.contentType(MediaType.parseMediaType("application/csv")).body(file);
+//	}
+
+//	@Operation(summary = "Download file ", security = @SecurityRequirement(name = "bearerAuth"))
+//	@GetMapping("/getcsvdata")
+//	public ResponseEntity<Resource> getRegionCsvFileData() {
+//		String filename = "regionschool.csv";
+//		InputStreamResource file = new InputStreamResource(regionService.Regionload());
+//
+//		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+//				.contentType(MediaType.parseMediaType("application/csv")).body(file);
+//	}
 
 	@Operation(summary = "Get Region By Region Name", security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping("/region/{name}")

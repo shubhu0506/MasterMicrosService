@@ -1,4 +1,4 @@
-package com.ubi.MasterService.dto.regionDto;
+package com.ubi.masterservice.dto.regionDto;
 
 import java.util.Set;
 
@@ -13,5 +13,4 @@ public class RegionCreationDto {
 	private String code;
 	private String name;
 	private Set<Integer> eduInstId;
-	private Set<Integer> schoollId;
 }

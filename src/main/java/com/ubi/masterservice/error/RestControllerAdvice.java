@@ -1,6 +1,5 @@
-package com.ubi.MasterService.error;
+package com.ubi.masterservice.error;
 
-import com.ubi.MasterService.dto.response.Response;
 import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,6 +1,4 @@
-package com.ubi.MasterService.error;
-
-import java.io.Serializable;
+package com.ubi.masterservice.error;
 
 import org.springframework.stereotype.Component;
 

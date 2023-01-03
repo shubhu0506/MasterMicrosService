@@ -1,4 +1,4 @@
-package com.ubi.MasterService.mapper;
+package com.ubi.masterservice.mapper;
 
 import java.util.HashSet;
 import java.util.List;
@@ -9,13 +9,13 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-import com.ubi.MasterService.dto.classDto.ClassDto;
-import com.ubi.MasterService.dto.classDto.ClassStudentDto;
-import com.ubi.MasterService.dto.schoolDto.SchoolDto;
-import com.ubi.MasterService.dto.studentDto.StudentDto;
-import com.ubi.MasterService.entity.ClassDetail;
-import com.ubi.MasterService.entity.School;
-import com.ubi.MasterService.entity.Student;
+import com.ubi.masterservice.dto.classDto.ClassDto;
+import com.ubi.masterservice.dto.classDto.ClassStudentDto;
+import com.ubi.masterservice.dto.schoolDto.SchoolDto;
+import com.ubi.masterservice.dto.studentDto.StudentDto;
+import com.ubi.masterservice.entity.ClassDetail;
+import com.ubi.masterservice.entity.School;
+import com.ubi.masterservice.entity.Student;
 
 @Component
 public class ClassMapper {
@@ -23,12 +23,14 @@ public class ClassMapper {
 
 	// entity to DTO Mapping
 	public ClassDto entityToDto(ClassDetail classDetail) {
-		ClassDto classDto = new ClassDto();
-		classDto.setClassId(classDetail.getClassId());
-		classDto.setClassName(classDetail.getClassName());
-		classDto.setClassCode(classDetail.getClassCode());
-		classDto.setSchoolId(classDetail.getSchool().getSchoolId());
-		classDto.setStudentId(classDetail.getStudents().stream().map(student -> student.getStudentId()).collect(Collectors.toSet()));
+		ClassDto classDto = null;
+		if(classDetail != null){
+			classDto = new ClassDto();
+			classDto.setClassId(classDetail.getClassId());
+			classDto.setClassName(classDetail.getClassName());
+			classDto.setClassCode(classDetail.getClassCode());
+			classDto.setSchoolId(classDetail.getSchool().getSchoolId());
+		}
 		return classDto;
 	}
 
@@ -48,17 +50,16 @@ public class ClassMapper {
 	public List<ClassDetail> dtosToEntities(List<ClassDto> classDtos) {
 		return classDtos.stream().filter(Objects::nonNull).map(this::dtoToEntity).collect(Collectors.toList());
 	}
-	
+
 	public ClassDto entityToDtos(ClassDetail classDetail)
 	{
 		ClassDto classDto=modelMapper.map(classDetail, ClassDto.class);
 		classDto.setSchoolId(classDetail.getSchool().getSchoolId());
-		Set<Long> studentId=classDetail.getStudents().stream().map(classDetails -> classDetails.getStudentId()).collect(Collectors.toSet());
-		classDto.setStudentId(studentId);
+		Set<Long> studentId=classDetail.getStudents().stream().filter(Objects::nonNull).map(classDetails -> classDetails.getStudentId()).collect(Collectors.toSet());
 		return classDto;
 	}
-	
-	
+
+
 	public ClassStudentDto toStudentDto(ClassDetail classDetail)
 	{
 		ClassDto classDto=this.entityToDto(classDetail);
@@ -80,7 +81,9 @@ public class ClassMapper {
 		schoolDto.setVvnAccount(school.getVvnAccount());
 		schoolDto.setVvnFund(school.getVvnFund());
 		schoolDto.setRegionId(school.getRegion().getId());
-		schoolDto.setEducationalInstitutionId(school.getEducationalInstitution().getId());
+		if(school.getEducationalInstitution() != null){
+			schoolDto.setEducationalInstitutionId(school.getEducationalInstitution().getId());
+		}
 		Set<StudentDto> studentDtoSet=new HashSet<>();
 		if(classDetail.getStudents()!=null)
 		{
@@ -103,13 +106,13 @@ public class ClassMapper {
 				studentDto.setStatus(student.getStatus());
 				studentDto.setStudentStatus(student.isStudentStatus());
 				studentDto.setVerifiedByPrincipal(student.getVerifiedByPrincipal());
-				studentDto.setVerifiedByRegion(student.getVerifiedByRegion());
+
 				studentDto.setVerifiedByTeacher(student.getVerifiedByTeacher());
 				studentDtoSet.add(studentDto);
 			}
 		}
 		return new ClassStudentDto(classDto,schoolDto, studentDtoSet );
 	}
-	
+
 
 }

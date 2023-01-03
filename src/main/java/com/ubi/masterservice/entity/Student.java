@@ -1,4 +1,4 @@
-package com.ubi.MasterService.entity;
+package com.ubi.masterservice.entity;
 
 import java.time.LocalDate;
 
@@ -43,12 +43,13 @@ public class Student {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate joiningDate;
 	private String status;
-	private String verifiedByTeacher;
-	private String verifiedByPrincipal;
-	private String verifiedByRegion;
+
+	private Boolean verifiedByTeacher;
+	private Boolean verifiedByPrincipal;
+
 	private Boolean isActivate;
 	private String currentStatus;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY )
 	private ClassDetail classDetail;
 

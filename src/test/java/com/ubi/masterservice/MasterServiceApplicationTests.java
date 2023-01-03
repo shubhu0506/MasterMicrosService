@@ -1,4 +1,4 @@
-package com.ubi.MasterService;
+package com.ubi.masterservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

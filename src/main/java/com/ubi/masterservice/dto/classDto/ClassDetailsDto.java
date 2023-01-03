@@ -1,9 +1,9 @@
-package com.ubi.MasterService.dto.classDto;
+package com.ubi.masterservice.dto.classDto;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import com.ubi.MasterService.entity.Student;
+import com.ubi.masterservice.entity.Student;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

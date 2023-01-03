@@ -1,9 +1,9 @@
-package com.ubi.MasterService.dto.schoolDto;
+package com.ubi.masterservice.dto.schoolDto;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import com.ubi.MasterService.dto.classDto.ClassDto;
+import com.ubi.masterservice.dto.classDto.ClassDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,12 +36,10 @@ public class SchoolDetailsDto {
 	private int vvnAccount;
 
 	private int vvnFund;
-	
+
 	private int regionId;
-	
-   Set<ClassDto> classDto=new HashSet<>();
-   
-   private int educationalInstitutionId;
-   
-   
+
+	Set<ClassDto> classDto=new HashSet<>();
+
+	private int educationalInstitutionId;
 }

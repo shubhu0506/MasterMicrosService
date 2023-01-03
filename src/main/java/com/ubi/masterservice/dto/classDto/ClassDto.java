@@ -1,4 +1,4 @@
-package com.ubi.MasterService.dto.classDto;
+package com.ubi.masterservice.dto.classDto;
 
 import java.util.Set;
 
@@ -14,5 +14,4 @@ public class ClassDto {
 	private String classCode;
 	private String className;
 	private int schoolId;
-	private Set<Long> studentId;
 }

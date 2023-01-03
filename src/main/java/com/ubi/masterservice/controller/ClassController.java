@@ -1,7 +1,8 @@
-package com.ubi.MasterService.controller;
+package com.ubi.masterservice.controller;
 
 import java.util.List;
 
+import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ubi.MasterService.dto.classDto.ClassDto;
-import com.ubi.MasterService.dto.classDto.ClassStudentDto;
-import com.ubi.MasterService.dto.response.Response;
-import com.ubi.MasterService.service.ClassServiceImpl;
+import com.ubi.masterservice.dto.classDto.ClassDto;
+import com.ubi.masterservice.dto.classDto.ClassStudentDto;
+import com.ubi.masterservice.dto.response.Response;
+import com.ubi.masterservice.service.ClassServiceImpl;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -43,10 +44,10 @@ public class ClassController {
 
 	@Operation(summary = "Get All Class details", security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping
-	public ResponseEntity<Response<List<ClassStudentDto>>> getClassDetails(
+	public ResponseEntity<Response<PaginationResponse<List<ClassStudentDto>>>> getClassDetails(
 			@RequestParam(value = "PageNumber", defaultValue = "0", required = false) Integer pageNumber,
 			@RequestParam(value = "PageSize", defaultValue = "5", required = false) Integer pageSize) {
-		Response<List<ClassStudentDto>> response = classServiceImpl.getClassDetails(pageNumber, pageSize);
+		Response<PaginationResponse<List<ClassStudentDto>>> response = classServiceImpl.getClassDetails(pageNumber, pageSize);
 		return ResponseEntity.ok().body(response);
 
 	}
@@ -95,5 +96,14 @@ public class ClassController {
 		return ResponseEntity.ok().body(response);
 	}
 
+//	@Operation(summary = "Download file ", security = @SecurityRequirement(name = "bearerAuth"))
+//	@GetMapping("/download")
+//	public ResponseEntity<Resource> getCSVFileData() {
+//		String filename = "class.csv";
+//		InputStreamResource file = new InputStreamResource(classServiceImpl.load());
+//
+//		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+//				.contentType(MediaType.parseMediaType("application/csv")).body(file);
+//	}
 
 }

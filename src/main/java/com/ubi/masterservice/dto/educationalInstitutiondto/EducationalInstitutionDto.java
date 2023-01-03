@@ -1,4 +1,4 @@
-package com.ubi.MasterService.dto.educationalInstitutiondto;
+package com.ubi.masterservice.dto.educationalInstitutiondto;
 
 import java.util.Set;
 
@@ -30,6 +30,6 @@ public class EducationalInstitutionDto {
 	private Long vvnAccount;
 
 	private Set<Integer> regionId;
-	
+
 
 }

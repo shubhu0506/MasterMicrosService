@@ -1,4 +1,4 @@
-package com.ubi.MasterService.dto.schoolDto;
+package com.ubi.masterservice.dto.schoolDto;
 
 import java.util.Set;
 
@@ -32,13 +32,11 @@ public class SchoolCreationDto {
 	private int vvnAccount;
 
 	private int vvnFund;
-	
+
 	private int regionId;
-	
+
 	private Set<Long> classId;
-	
+
 	private int educationalInstitutionId;
-	
-	
-	
+
 }

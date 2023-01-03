@@ -1,4 +1,4 @@
-package com.ubi.MasterService.dto.regionDto;
+package com.ubi.masterservice.dto.regionDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegionSchoolMappingDto {
-
 	int regionId;
 	int schoolId;
 }
