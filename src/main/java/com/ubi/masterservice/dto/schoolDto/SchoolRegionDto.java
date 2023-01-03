@@ -1,10 +1,10 @@
-package com.ubi.MasterService.dto.schoolDto;
+package com.ubi.masterservice.dto.schoolDto;
 
 import java.util.Set;
 
-import com.ubi.MasterService.dto.classDto.ClassDto;
-import com.ubi.MasterService.dto.educationalInstitutiondto.EducationalInstitutionDto;
-import com.ubi.MasterService.dto.regionDto.RegionDto;
+import com.ubi.masterservice.dto.classDto.ClassDto;
+import com.ubi.masterservice.dto.educationalInstitutiondto.EducationalInstitutionDto;
+import com.ubi.masterservice.dto.regionDto.RegionDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,6 +18,6 @@ public class SchoolRegionDto {
 	private  RegionDto regionDto;
 	private Set<ClassDto> classDto;
 	private EducationalInstitutionDto educationalInstitutionDto;
-	
+
 }
 

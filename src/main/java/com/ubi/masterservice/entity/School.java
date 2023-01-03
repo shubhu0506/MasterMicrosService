@@ -1,4 +1,4 @@
-package com.ubi.MasterService.entity;
+package com.ubi.masterservice.entity;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -35,40 +35,39 @@ public class School {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-    private int schoolId;
-	
+	private int schoolId;
+
 	@Column(name = "schoolCode")
 	private int code;
-	
+
 	@Column(name = "schoolName")
 	private String name;
-	
+
 	@Column(name = "schoolEmail")
 	private String email;
-	
+
 	@Column(name ="schoolContact")
 	private long contact;
-	
+
 	@Column(name ="schoolAddress")
 	private String address;
-	
+
 	@Column(name ="schoolType")
 	private String type;
-	
+
 	private int strength;
-	
+
 	@Column(name ="schoolShift")
 	private String shift;
-	
+
 	@Column(name = "exemptionFlag")
 	private boolean exemptionFlag;
 
 	@Column(name = "vvnAccount")
 	private int vvnAccount;
-	
+
 	@Column(name = "vvnFund")
 	private int vvnFund;
-	
 
 	@ManyToOne
 	@JoinColumn(name="region_id",referencedColumnName="id" )
@@ -78,10 +77,7 @@ public class School {
 	private Set<ClassDetail> classDetail;
 
 	@ManyToOne
-	@JoinColumn(name = "educationalInstitute_id", referencedColumnName = "id")
+	@JoinColumn(name = "educationalInstitute_id", referencedColumnName = "id",nullable = true)
 	private EducationalInstitution educationalInstitution;
-	
-	
-	
-	
+
 }

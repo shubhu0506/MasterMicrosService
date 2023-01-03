@@ -1,9 +1,16 @@
-package com.ubi.MasterService.controller;
+package com.ubi.masterservice.controller;
 
 import java.util.List;
 
+import com.ubi.masterservice.dto.pagination.PaginationResponse;
+import com.ubi.masterservice.dto.studentDto.StudentPromoteDemoteDto;
+import com.ubi.masterservice.dto.studentDto.StudentVerifyDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +23,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ubi.MasterService.dto.response.Response;
-import com.ubi.MasterService.dto.studentDto.StudentDto;
-import com.ubi.MasterService.service.StudentServiceImpl;
+import com.ubi.masterservice.dto.response.Response;
+import com.ubi.masterservice.dto.studentDto.StudentDto;
+import com.ubi.masterservice.service.StudentServiceImpl;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -29,7 +36,7 @@ public class StudentController {
 
 	@Autowired
 	private StudentServiceImpl service;
-	
+
 	@PostMapping
 	@Operation(summary = "Create New Student", security = @SecurityRequirement(name = "bearerAuth"))
 	public ResponseEntity<Response<StudentDto>> addStudent(@RequestBody StudentDto studentId) {
@@ -39,10 +46,10 @@ public class StudentController {
 
 	@Operation(summary = "Get All Student", security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping
-	public ResponseEntity<Response<List<StudentDto>>> getStudents(
+	public ResponseEntity<Response<PaginationResponse<List<StudentDto>>>> getStudents(
 			@RequestParam(value = "PageNumber", defaultValue = "0", required = false) Integer pageNumber,
 			@RequestParam(value = "PageSize", defaultValue = "5", required = false) Integer pageSize) {
-		Response<List<StudentDto>> response = service.getStudents(pageNumber, pageSize);
+		Response<PaginationResponse<List<StudentDto>>> response = service.getStudents(pageNumber, pageSize);
 		return ResponseEntity.ok().body(response);
 
 	}
@@ -66,7 +73,7 @@ public class StudentController {
 		}
 	}
 
-//
+	//
 	@PutMapping
 	@Operation(summary = "Update Student", security = @SecurityRequirement(name = "bearerAuth"))
 	public ResponseEntity<Response<StudentDto>> updateStudent(@RequestBody StudentDto student) {
@@ -74,7 +81,7 @@ public class StudentController {
 		return ResponseEntity.ok().body(response);
 	}
 
-	
+
 	@Operation(summary = "Change deactivate Status To Activate", security = @SecurityRequirement(name = "bearerAuth"))
 	@PatchMapping("/activate/{id}")
 	public ResponseEntity<Response<StudentDto>> activateStudentById(@PathVariable Long id) {
@@ -89,33 +96,59 @@ public class StudentController {
 		return ResponseEntity.ok().body(response);
 	}
 
-	
-	@Operation(summary = "Change Current Status To Promoted Of Student By Id", security = @SecurityRequirement(name = "bearerAuth"))
-	@PatchMapping("/promoted/{id}")
-	public ResponseEntity<Response<StudentDto>> changeCurrentStatusToPromoted(@PathVariable Long id) {
-		Response<StudentDto> response = service.changeCurrentStatusToPromoted( id);
-		return ResponseEntity.ok().body(response);
-	}
 
-	@Operation(summary = "Change Current Status To Demoted Of Student By Id", security = @SecurityRequirement(name = "bearerAuth"))
-	@PatchMapping("/demoted/{id}")
-	public ResponseEntity<Response<StudentDto>> changeCurrentStatusToDomoted(@PathVariable Long id) {
-		Response<StudentDto> response = service.changeCurrentStatusToDemoted(id);
-		return ResponseEntity.ok().body(response);
-	}
-	
-	
+//	@Operation(summary = "Download Csv", security = @SecurityRequirement(name = "bearerAuth"))
+//	@GetMapping("/download")
+//	public ResponseEntity<Resource> getFile() {
+//		String filename = "Student.csv";
+//		InputStreamResource file = new InputStreamResource(service.load());
+//
+//		return ResponseEntity.ok()
+//				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+//				.contentType(MediaType.parseMediaType("application/csv"))
+//				.body(file);
+//	}
+
+
 	@Operation(summary = "Get By field", security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping("/field")
 	public ResponseEntity<Response<List<StudentDto>>> searchRecordsViaQueryField(@RequestParam  (defaultValue = "*")String gender,
-			@RequestParam (defaultValue = "*")String category, @RequestParam(defaultValue = "*") String minority) {
+																				 @RequestParam (defaultValue = "*")String category, @RequestParam(defaultValue = "*") String minority) {
 
 		Response<List<StudentDto>> students = service.findByGenderAndCategoryAndMinority(gender, category, minority);
 		return ResponseEntity.ok().body(students);
 	}
-	
-	
-	
-	
-	
+
+	@Operation(summary = "Verified by Teacher", security = @SecurityRequirement(name = "bearerAuth"))
+	@PatchMapping("/verifiedByTeacher/{userId}")
+	public ResponseEntity<Response<List<StudentVerifyDto>>> verifyStudentById(@PathVariable String userId, @RequestBody StudentVerifyDto id) {
+		Response<List<StudentVerifyDto>> response = service.verifiedByTeacher(userId,id);
+		return ResponseEntity.ok().body(response);
+	}
+
+	@Operation(summary = "Verified by Principal", security = @SecurityRequirement(name = "bearerAuth"))
+	@PatchMapping("/verifiedByPrincipal/{userId}")
+	public ResponseEntity<Response<List<StudentVerifyDto>>> principalverifyStudentById(@PathVariable String userId,@RequestBody StudentVerifyDto id) {
+		Response<List<StudentVerifyDto>> response = service.verifiedByPrincipal(userId,id);
+		return ResponseEntity.ok().body(response);
+	}
+
+	@Operation(summary = "Student Promoted User By Id", security = @SecurityRequirement(name = "bearerAuth"))
+	@PatchMapping ("/promote/{userId}")
+	public ResponseEntity<Response<StudentPromoteDemoteDto>>promoteStudent(@PathVariable String userId, @RequestBody StudentPromoteDemoteDto studentPromoteDemoteCreationDto) {
+		Response<StudentPromoteDemoteDto> response = service.studentPromoted(userId, studentPromoteDemoteCreationDto);
+		return ResponseEntity.ok().body(response);
+	}
+
+
+
+
+	@Operation(summary = "Student Demoted User By Id", security = @SecurityRequirement(name = "bearerAuth"))
+	@PatchMapping ("/demote/{userId}")
+	public ResponseEntity<Response<StudentPromoteDemoteDto>> demoteStudent(@PathVariable String userId, @RequestBody StudentPromoteDemoteDto studentPromoteDemoteCreationDto) {
+		Response<StudentPromoteDemoteDto> response = service.studentDemoted(userId, studentPromoteDemoteCreationDto);
+		return ResponseEntity.ok().body(response);
+	}
+
+
 }

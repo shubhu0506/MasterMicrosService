@@ -1,4 +1,4 @@
-package com.ubi.MasterService.dto.educationalInstitutiondto;
+package com.ubi.masterservice.dto.educationalInstitutiondto;
 
 import java.util.List;
 

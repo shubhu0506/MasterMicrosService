@@ -1,7 +1,8 @@
-package com.ubi.MasterService.controller;
+package com.ubi.masterservice.controller;
 
 import java.util.List;
 
+import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +22,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ubi.MasterService.dto.educationalInstitutiondto.EducationRegionGetDto;
-import com.ubi.MasterService.dto.educationalInstitutiondto.EducationalInstitutionDto;
-import com.ubi.MasterService.dto.educationalInstitutiondto.EducationalRegionDto;
-import com.ubi.MasterService.dto.response.Response;
-import com.ubi.MasterService.service.EducationalInstitutionService;
+import com.ubi.masterservice.dto.educationalInstitutiondto.EducationRegionGetDto;
+import com.ubi.masterservice.dto.educationalInstitutiondto.EducationalInstitutionDto;
+import com.ubi.masterservice.dto.educationalInstitutiondto.EducationalRegionDto;
+import com.ubi.masterservice.dto.response.Response;
+import com.ubi.masterservice.service.EducationalInstitutionService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -67,17 +68,18 @@ public class EducationalInstitutionController {
 
 	@Operation(summary = "Get All Educational Institution", security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping()
-	public ResponseEntity<Response<List<EducationRegionGetDto>>> getEducationalInstitutions(
+	public ResponseEntity<Response<PaginationResponse<List<EducationRegionGetDto>>>> getEducationalInstitutions(
 			@RequestParam(value = "PageNumber", defaultValue = "0", required = false) Integer pageNumber,
-			@RequestParam(value = "PageSize", defaultValue = "5", required = false) Integer pageSize) {
-		Response<List<EducationRegionGetDto>> response = educationalInstitutionService
+			@RequestParam(value = "PageSize", defaultValue = "5", required = false) Integer pageSize
+	)
+	{
+		Response<PaginationResponse<List<EducationRegionGetDto>>> response = educationalInstitutionService
 				.getAllEducationalInstitutions(pageNumber, pageSize);
 		if (response.getStatusCode() == 200) {
 			return ResponseEntity.status(HttpStatus.OK).body(response);
 		} else {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 		}
-
 	}
 
 	@Operation(summary = "Delete Educational Institution By Id", security = @SecurityRequirement(name = "bearerAuth"))
@@ -102,7 +104,7 @@ public class EducationalInstitutionController {
 		return ResponseEntity.ok().body(updateEducationalInst);
 
 	}
-	
+
 	@Operation(summary = "Get Region In EducationalInstitute", security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping("/getEduInst/{id}")
 	public ResponseEntity<Response<EducationRegionGetDto>> getRegionInEduIst(@PathVariable int id) {
@@ -119,5 +121,14 @@ public class EducationalInstitutionController {
 		return ResponseEntity.ok().body(response);
 	}
 
+//	@Operation(summary = "Download file ", security = @SecurityRequirement(name = "bearerAuth"))
+//	@GetMapping("/download")
+//	public ResponseEntity<Resource> getCSVFileData() {
+//		String filename = "education.csv";
+//		InputStreamResource file = new InputStreamResource(educationalInstitutionService.load());
+//
+//		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+//				.contentType(MediaType.parseMediaType("application/csv")).body(file);
+//	}
 
 }

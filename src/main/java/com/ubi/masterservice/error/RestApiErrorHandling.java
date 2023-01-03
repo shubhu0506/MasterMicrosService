@@ -1,9 +1,9 @@
-package com.ubi.MasterService.error;
+package com.ubi.masterservice.error;
 
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.ubi.MasterService.dto.response.BaseResponse;
+import com.ubi.masterservice.dto.response.BaseResponse;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

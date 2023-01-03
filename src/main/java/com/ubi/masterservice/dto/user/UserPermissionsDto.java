@@ -1,4 +1,4 @@
-package com.ubi.MasterService.dto.user;
+package com.ubi.masterservice.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

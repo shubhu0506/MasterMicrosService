@@ -1,7 +1,6 @@
-package com.ubi.MasterService.service;
+package com.ubi.masterservice.service;
 
 import java.io.ByteArrayInputStream;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -9,6 +8,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,25 +18,25 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.ubi.MasterService.dto.classDto.ClassDto;
-import com.ubi.MasterService.dto.response.Response;
-import com.ubi.MasterService.dto.schoolDto.SchoolDto;
-import com.ubi.MasterService.dto.schoolDto.SchoolRegionDto;
-import com.ubi.MasterService.entity.ClassDetail;
-import com.ubi.MasterService.entity.EducationalInstitution;
-import com.ubi.MasterService.entity.Region;
-import com.ubi.MasterService.entity.School;
-import com.ubi.MasterService.error.CustomException;
-import com.ubi.MasterService.error.HttpStatusCode;
-import com.ubi.MasterService.error.Result;
-import com.ubi.MasterService.mapper.ClassMapper;
-import com.ubi.MasterService.mapper.EducationalInstitutionMapper;
-import com.ubi.MasterService.mapper.RegionMapper;
-import com.ubi.MasterService.mapper.SchoolMapper;
-import com.ubi.MasterService.repository.ClassRepository;
-import com.ubi.MasterService.repository.EducationalInstitutionRepository;
-import com.ubi.MasterService.repository.RegionRepository;
-import com.ubi.MasterService.repository.SchoolRepository;
+import com.ubi.masterservice.dto.classDto.ClassDto;
+import com.ubi.masterservice.dto.response.Response;
+import com.ubi.masterservice.dto.schoolDto.SchoolDto;
+import com.ubi.masterservice.dto.schoolDto.SchoolRegionDto;
+import com.ubi.masterservice.entity.ClassDetail;
+import com.ubi.masterservice.entity.EducationalInstitution;
+import com.ubi.masterservice.entity.Region;
+import com.ubi.masterservice.entity.School;
+import com.ubi.masterservice.error.CustomException;
+import com.ubi.masterservice.error.HttpStatusCode;
+import com.ubi.masterservice.error.Result;
+import com.ubi.masterservice.mapper.ClassMapper;
+import com.ubi.masterservice.mapper.EducationalInstitutionMapper;
+import com.ubi.masterservice.mapper.RegionMapper;
+import com.ubi.masterservice.mapper.SchoolMapper;
+import com.ubi.masterservice.repository.ClassRepository;
+import com.ubi.masterservice.repository.EducationalInstitutionRepository;
+import com.ubi.masterservice.repository.RegionRepository;
+import com.ubi.masterservice.repository.SchoolRepository;
 
 @Service
 public class SchoolServiceImpl implements SchoolService {
@@ -54,10 +54,10 @@ public class SchoolServiceImpl implements SchoolService {
 
 	@Autowired
 	private EducationalInstitutionRepository educationalRepository;
-	
+
 	@Autowired
 	private EducationalInstitutionMapper educationalMapper;
-	
+
 	@Autowired
 	private ClassMapper classMapper;
 
@@ -72,16 +72,9 @@ public class SchoolServiceImpl implements SchoolService {
 		Result<SchoolRegionDto> res = new Result<>();
 
 		Response<SchoolRegionDto> response = new Response<>();
-		Optional<School> tempSchools = schoolRepository.findById(schoolDto.getSchoolId());
 
 		School schoolName = schoolRepository.getSchoolByName(schoolDto.getName());
-
 		School schoolCode = schoolRepository.getSchoolByCode(schoolDto.getCode());
-
-		if (tempSchools.isPresent()) {
-			throw new CustomException(HttpStatusCode.NO_SCHOOL_FOUND.getCode(), HttpStatusCode.NO_SCHOOL_FOUND,
-					HttpStatusCode.NO_SCHOOL_FOUND.getMessage(), res);
-		}
 
 		if (schoolName != null) {
 			throw new CustomException(HttpStatusCode.SCHOOL_NAME_ALREADY_EXISTS.getCode(),
@@ -114,16 +107,19 @@ public class SchoolServiceImpl implements SchoolService {
 		school.setClassDetail(new HashSet<>());
 
 		for (Long classId : schoolDto.getClassId()) {
-			System.out.println(classId);
+			//System.out.println(classId);
 			ClassDetail classDetail = classRepository.getReferenceById(classId);
 			if (classDetail != null) {
 				school.getClassDetail().add(classDetail);
 				classDetail.setSchool(school);
 			}
 		}
-		
-		school.setEducationalInstitution(educationalRepository.getReferenceById(schoolDto.getEducationalInstitutionId()));
-		
+		if(schoolDto.getEducationalInstitutionId() != 0){
+			EducationalInstitution educationalInstitution = educationalRepository.getReferenceById(schoolDto.getEducationalInstitutionId());
+			if(educationalInstitution != null){
+				school.setEducationalInstitution(educationalInstitution);
+			}
+		}
 
 		School savedSchool = schoolRepository.save(school);
 
@@ -135,11 +131,11 @@ public class SchoolServiceImpl implements SchoolService {
 	}
 
 	@Override
-	public Response<List<SchoolRegionDto>> getAllSchools(Integer PageNumber, Integer PageSize) {
+	public Response<PaginationResponse<List<SchoolRegionDto>>> getAllSchools(Integer PageNumber, Integer PageSize) {
 
-		Result<List<SchoolRegionDto>> allSchoolResult = new Result<>();
+		Result<PaginationResponse<List<SchoolRegionDto>>> allSchoolResult = new Result<>();
 		Pageable paging = PageRequest.of(PageNumber, PageSize);
-		Response<List<SchoolRegionDto>> getListofSchools = new Response<>();
+		Response<PaginationResponse<List<SchoolRegionDto>>> getListofSchools = new Response<>();
 
 		Page<School> list = this.schoolRepository.findAll(paging);
 		List<SchoolRegionDto> schoolDtos = new ArrayList<>();
@@ -148,22 +144,24 @@ public class SchoolServiceImpl implements SchoolService {
 			schoolRegionDto.setSchoolDto(schoolMapper.entityToDtos(school));
 
 			schoolRegionDto.setRegionDto(regionMapper.toDto(school.getRegion()));
-			
-
 			Set<ClassDto> classDto = school.getClassDetail().stream()
 					.map(classDetail -> classMapper.entityToDto(classDetail)).collect(Collectors.toSet());
 
 			schoolRegionDto.setClassDto(classDto);
 			schoolDtos.add(schoolRegionDto);
-			
-		schoolRegionDto.setEducationalInstitutionDto(educationalMapper.toDto(school.getEducationalInstitution()));
-					}
-				
+
+			schoolRegionDto.setEducationalInstitutionDto(educationalMapper.toDto(school.getEducationalInstitution()));
+		}
+
 		if (list.isEmpty()) {
 			throw new CustomException(HttpStatusCode.NO_SCHOOL_FOUND.getCode(), HttpStatusCode.NO_SCHOOL_FOUND,
 					HttpStatusCode.NO_SCHOOL_FOUND.getMessage(), allSchoolResult);
 		}
-		allSchoolResult.setData(schoolDtos);
+
+		PaginationResponse paginationResponse=new PaginationResponse<List<SchoolRegionDto>>(schoolDtos,list.getTotalPages(),list.getTotalElements());
+
+
+		allSchoolResult.setData(paginationResponse);
 		getListofSchools.setStatusCode(HttpStatusCode.SCHOOL_RETRIVED_SUCCESSFULLY.getCode());
 		getListofSchools.setMessage(HttpStatusCode.SCHOOL_RETRIVED_SUCCESSFULLY.getMessage());
 		getListofSchools.setResult(allSchoolResult);
@@ -233,13 +231,13 @@ public class SchoolServiceImpl implements SchoolService {
 		for (ClassDetail classDetail : school.get().getClassDetail()) {
 			classDetail.setSchool(null);
 			classRepository.save(classDetail);
-			
+
 			EducationalInstitution educationalInstitution = school.get().getEducationalInstitution();
 			educationalInstitution.getSchool().remove(school.get());
 			educationalRepository.save(educationalInstitution );
-			
+
 		}
-		
+
 		schoolRepository.deleteById(schoolId);
 		Response<SchoolDto> response = new Response<>();
 		response.setMessage(HttpStatusCode.SCHOOL_DELETED.getMessage());
@@ -260,7 +258,7 @@ public class SchoolServiceImpl implements SchoolService {
 					HttpStatusCode.NO_SCHOOL_FOUND.getMessage(), res);
 		}
 		School school = existingSchool.get();
-		
+
 		SchoolDto existingSchools = schoolMapper.entityToDto(existingSchool.get());
 		school.setCode(schoolDto.getCode());
 		school.setContact(schoolDto.getContact());
@@ -269,28 +267,36 @@ public class SchoolServiceImpl implements SchoolService {
 		school.setName(schoolDto.getName());
 		school.setStrength(schoolDto.getStrength());
 		school.setVvnAccount(schoolDto.getVvnAccount());
+		school.setVvnFund(schoolDto.getVvnFund());
 		school.setStrength(schoolDto.getStrength());
 		school.setShift(schoolDto.getShift());
 		school.setType(schoolDto.getType());
 		school.setEmail(schoolDto.getEmail());
 		school.setSchoolId(schoolDto.getSchoolId());
-		
-		  for (Long classId : schoolDto.getClassId()) {
-			  ClassDetail classDetail = classRepository.getReferenceById(classId);
-			  classDetail.setSchool(school);
-			  classRepository.save(classDetail);
-			  school.getClassDetail().add(classDetail);
-		  }
-		  
-		  EducationalInstitution educationalInstitution = educationalRepository.getReferenceById(schoolDto.getEducationalInstitutionId());
-		  educationalRepository.save(educationalInstitution);
-		  school.setEducationalInstitution(educationalInstitution);
-		  
-		  School updatedSchool = schoolRepository.save(school);
-		  
+
+		Region region = regionRepository.getReferenceById(schoolDto.getRegionId());
+		regionRepository.save(region);
+		school.setRegion(region);
+
+
+		for (Long classId : schoolDto.getClassId()) {
+			ClassDetail classDetail = classRepository.getReferenceById(classId);
+			classDetail.setSchool(school);
+			classRepository.save(classDetail);
+			school.getClassDetail().add(classDetail);
+		}
+
+		EducationalInstitution educationalInstitution = educationalRepository.getReferenceById(schoolDto.getEducationalInstitutionId());
+		educationalRepository.save(educationalInstitution);
+		school.setEducationalInstitution(educationalInstitution);
+
+
+
+		School updatedSchool = schoolRepository.save(school);
+
 		SchoolRegionDto schoolRegionDto = schoolMapper.toSchoolClassDto(updatedSchool);
-		
-		
+
+
 		Response<SchoolRegionDto> response = new Response<>();
 		response.setMessage(HttpStatusCode.SCHOOL_UPDATED.getMessage());
 		response.setStatusCode(HttpStatusCode.SCHOOL_UPDATED.getCode());
@@ -298,8 +304,8 @@ public class SchoolServiceImpl implements SchoolService {
 		return response;
 	}
 
-	
-	
+
+
 	@Override
 	public Response<List<SchoolDto>> getSchoolwithSort(String field) {
 
@@ -319,6 +325,7 @@ public class SchoolServiceImpl implements SchoolService {
 		getListofSchools.setResult(allSchoolResult);
 		return getListofSchools;
 	}
+
 
 //	@Override
 //	public ByteArrayInputStream loadSchoolAndClass() {

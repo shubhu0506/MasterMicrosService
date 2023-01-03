@@ -1,4 +1,4 @@
-package com.ubi.MasterService.dto.regionDto;
+package com.ubi.masterservice.dto.regionDto;
 
 import java.util.Set;
 
@@ -12,14 +12,10 @@ import lombok.NoArgsConstructor;
 public class RegionDto {
 
 	private int id;
-	
+
 	private String code;
-	
+
 	private String name;
-	
+
 	private Set<Integer> eduInstId;
-	
-	private Set<Integer> schoollId;
-	
-	
 }

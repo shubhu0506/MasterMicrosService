@@ -1,14 +1,11 @@
-package com.ubi.MasterService.externalServices;
+package com.ubi.masterservice.externalServices;
 
-import com.ubi.MasterService.dto.jwt.ValidateJwt;
-import com.ubi.MasterService.dto.response.Response;
-import com.ubi.MasterService.dto.user.UserPermissionsDto;
+import com.ubi.masterservice.dto.jwt.ValidateJwt;
+import com.ubi.masterservice.dto.response.Response;
+import com.ubi.masterservice.dto.user.UserPermissionsDto;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 

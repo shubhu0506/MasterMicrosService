@@ -1,4 +1,4 @@
-package com.ubi.MasterService.dto.response;
+package com.ubi.masterservice.dto.response;
 
 
 import lombok.AllArgsConstructor;

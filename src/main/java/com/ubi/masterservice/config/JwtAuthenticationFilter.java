@@ -1,14 +1,14 @@
-package com.ubi.MasterService.config;
+package com.ubi.masterservice.config;
 
 
-import com.ubi.MasterService.dto.jwt.ValidateJwt;
-import com.ubi.MasterService.dto.response.Response;
-import com.ubi.MasterService.dto.user.UserPermissionsDto;
-import com.ubi.MasterService.error.CustomException;
-import com.ubi.MasterService.error.HttpStatusCode;
-import com.ubi.MasterService.error.Result;
-import com.ubi.MasterService.externalServices.UserFeignService;
-import com.ubi.MasterService.util.PermissionUtil;
+import com.ubi.masterservice.dto.jwt.ValidateJwt;
+import com.ubi.masterservice.dto.response.Response;
+import com.ubi.masterservice.dto.user.UserPermissionsDto;
+import com.ubi.masterservice.error.CustomException;
+import com.ubi.masterservice.error.HttpStatusCode;
+import com.ubi.masterservice.error.Result;
+import com.ubi.masterservice.externalServices.UserFeignService;
+import com.ubi.masterservice.util.PermissionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,10 +23,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {

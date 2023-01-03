@@ -1,4 +1,4 @@
-package com.ubi.MasterService.dto.jwt;
+package com.ubi.masterservice.dto.jwt;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

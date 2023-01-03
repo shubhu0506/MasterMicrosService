@@ -1,4 +1,4 @@
-package com.ubi.MasterService.service;
+package com.ubi.masterservice.service;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,22 +17,22 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.ubi.MasterService.dto.classDto.ClassDto;
-import com.ubi.MasterService.dto.classDto.ClassStudentDto;
-import com.ubi.MasterService.dto.response.Response;
-import com.ubi.MasterService.dto.studentDto.StudentDto;
-import com.ubi.MasterService.entity.ClassDetail;
-import com.ubi.MasterService.entity.School;
-import com.ubi.MasterService.entity.Student;
-import com.ubi.MasterService.error.CustomException;
-import com.ubi.MasterService.error.HttpStatusCode;
-import com.ubi.MasterService.error.Result;
-import com.ubi.MasterService.mapper.ClassMapper;
-import com.ubi.MasterService.mapper.SchoolMapper;
-import com.ubi.MasterService.mapper.StudentMapper;
-import com.ubi.MasterService.repository.ClassRepository;
-import com.ubi.MasterService.repository.SchoolRepository;
-import com.ubi.MasterService.repository.StudentRepository;
+import com.ubi.masterservice.dto.classDto.ClassDto;
+import com.ubi.masterservice.dto.classDto.ClassStudentDto;
+import com.ubi.masterservice.dto.response.Response;
+import com.ubi.masterservice.dto.studentDto.StudentDto;
+import com.ubi.masterservice.entity.ClassDetail;
+import com.ubi.masterservice.entity.School;
+import com.ubi.masterservice.entity.Student;
+import com.ubi.masterservice.error.CustomException;
+import com.ubi.masterservice.error.HttpStatusCode;
+import com.ubi.masterservice.error.Result;
+import com.ubi.masterservice.mapper.ClassMapper;
+import com.ubi.masterservice.mapper.SchoolMapper;
+import com.ubi.masterservice.mapper.StudentMapper;
+import com.ubi.masterservice.repository.ClassRepository;
+import com.ubi.masterservice.repository.SchoolRepository;
+import com.ubi.masterservice.repository.StudentRepository;
 
 @Service
 public class ClassServiceImpl implements ClassService {
@@ -43,51 +44,46 @@ public class ClassServiceImpl implements ClassService {
 
 	@Autowired
 	private SchoolRepository schoolRepository;
-	
+
 	@Autowired
 	private StudentRepository studentRepository;
 
 	@Autowired
 	private ClassMapper classMapper;
-	
+
 	@Autowired
 	private SchoolMapper schoolMapper;
 
 	@Autowired
 	private StudentMapper studentMapper;
 
+
 	public Response<ClassStudentDto> addClassDetails(ClassDto classDto) {
 
 		Result<ClassStudentDto> res = new Result<>();
 		Response<ClassStudentDto> response = new Response<>();
-		
+
 		ClassDetail className = classRepository.getClassByclassName(classDto.getClassName());
 		ClassDetail classCode = classRepository.getClassByclassCode(classDto.getClassCode());
 
-		if (className != null) {
-			throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_EXISTS.getCode(),
-					HttpStatusCode.RESOURCE_ALREADY_EXISTS, HttpStatusCode.RESOURCE_ALREADY_EXISTS.getMessage(), res);
+		School school  = schoolRepository.getReferenceById(classDto.getSchoolId());
+
+		if(school != null && school.getClassDetail()!=null) {
+			for(ClassDetail classDetail:school.getClassDetail()) {
+				if(classDetail.getClassName().equals(classDto.getClassName())){
+					throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_EXISTS.getCode(),
+							HttpStatusCode.RESOURCE_ALREADY_EXISTS, HttpStatusCode.RESOURCE_ALREADY_EXISTS.getMessage(), res);
+				}
+			}
 		}
-		if (classCode != null) {
-			throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_EXISTS.getCode(),
-					HttpStatusCode.RESOURCE_ALREADY_EXISTS, HttpStatusCode.RESOURCE_ALREADY_EXISTS.getMessage(), res);
-		}
-		
+
 		ClassDetail classDetail=new ClassDetail();
 		classDetail.setClassId(classDto.getClassId());
 		classDetail.setClassName(classDto.getClassName());
 		classDetail.setClassCode(classDto.getClassCode());
-		classDetail.setSchool(schoolRepository.getReferenceById(classDto.getSchoolId()));
+		classDetail.setSchool(school);
 		classDetail.setStudents(new HashSet<>());
-		for(Long student: classDto.getStudentId())
-		{
-			Student student1=studentRepository.getReferenceById(student);
-			if(student1!=null)
-			{
-				classDetail.getStudents().add(student1);
-			}
-		}
-		
+
 		ClassDetail savedClass=classRepository.save(classDetail);
 		ClassStudentDto classStudentDto=classMapper.toStudentDto(savedClass);
 		response.setStatusCode(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getCode());
@@ -96,31 +92,36 @@ public class ClassServiceImpl implements ClassService {
 		return response;
 	}
 
-	public Response<List<ClassStudentDto>> getClassDetails(Integer PageNumber, Integer PageSize) {
+	public Response<PaginationResponse<List<ClassStudentDto>>> getClassDetails(Integer PageNumber, Integer PageSize) {
 
-		Result<List<ClassStudentDto>> allClasses = new Result<>();
+		Result<PaginationResponse<List<ClassStudentDto>>> allClasses = new Result<>();
 		Pageable pageing = PageRequest.of(PageNumber, PageSize);
-		Response<List<ClassStudentDto>> getListofClasses = new Response<List<ClassStudentDto>>();
+		Response<PaginationResponse<List<ClassStudentDto>>> getListofClasses = new Response<PaginationResponse<List<ClassStudentDto>>>();
 
 		Page<ClassDetail> classList = this.classRepository.findAll(pageing);
 		List<ClassStudentDto> classDto =new ArrayList();
-		
+
 		for(ClassDetail classDetail:classList)
 		{
 			ClassStudentDto classStudentDto=new ClassStudentDto();
 			classStudentDto.setClassDto(classMapper.entityToDto(classDetail));
 			classStudentDto.setSchoolDto(schoolMapper.entityToDto(classDetail.getSchool()));
-		    Set<StudentDto> studentDto=classDetail.getStudents().stream()
-		    		.map(students -> studentMapper.entityToDto(students)).collect(Collectors.toSet());
-		    classStudentDto.setStudentDto(studentDto);
-		    classDto.add(classStudentDto);
+
+			//Set<Student> s1=classDetail.getStudents();
+			Set<StudentDto> studentDto=classDetail.getStudents().stream()
+					.map(students -> studentMapper.entityToDto(students)).collect(Collectors.toSet());
+			classStudentDto.setStudentDto(studentDto);
+			classDto.add(classStudentDto);
 		}
 		if (classList.isEmpty()) {
-		throw new CustomException(HttpStatusCode.RESOURCE_NOT_FOUND.getCode(), HttpStatusCode.RESOURCE_NOT_FOUND,
-				HttpStatusCode.RESOURCE_NOT_FOUND.getMessage(), allClasses);
+			throw new CustomException(HttpStatusCode.RESOURCE_NOT_FOUND.getCode(), HttpStatusCode.RESOURCE_NOT_FOUND,
+					HttpStatusCode.RESOURCE_NOT_FOUND.getMessage(), allClasses);
 		}
-		
-		allClasses.setData(classDto);
+
+		PaginationResponse paginationResponse=new PaginationResponse<List<ClassStudentDto>>(classDto,classList.getTotalPages(),classList.getTotalElements());
+
+
+		allClasses.setData(paginationResponse);
 		getListofClasses.setStatusCode(HttpStatusCode.CLASS_RETREIVED_SUCCESSFULLY.getCode());
 		getListofClasses.setMessage(HttpStatusCode.CLASS_RETREIVED_SUCCESSFULLY.getMessage());
 		getListofClasses.setResult(allClasses);
@@ -137,14 +138,14 @@ public class ClassServiceImpl implements ClassService {
 					HttpStatusCode.NO_CLASS_MATCH_WITH_ID, HttpStatusCode.NO_CLASS_MATCH_WITH_ID.getMessage(),
 					classResult);
 		}
-		
+
 		ClassStudentDto classStudentDto=new ClassStudentDto();
 		classStudentDto.setClassDto(classMapper.entityToDto(classDetail.get()));
 		classStudentDto.setSchoolDto(schoolMapper.entityToDto(classDetail.get().getSchool()));
 		Set<StudentDto> studentDto=classDetail.get().getStudents().stream()
-	    		.map(students -> studentMapper.entityToDto(students)).collect(Collectors.toSet());
-	    classStudentDto.setStudentDto(studentDto);
-	    ;
+				.map(students -> studentMapper.entityToDto(students)).collect(Collectors.toSet());
+		classStudentDto.setStudentDto(studentDto);
+		;
 		classResult.setData(classStudentDto);
 		getClass.setStatusCode(HttpStatusCode.CLASS_RETREIVED_SUCCESSFULLY.getCode());
 		getClass.setMessage(HttpStatusCode.CLASS_RETREIVED_SUCCESSFULLY.getMessage());
@@ -160,17 +161,17 @@ public class ClassServiceImpl implements ClassService {
 			throw new CustomException(HttpStatusCode.RESOURCE_NOT_FOUND.getCode(), HttpStatusCode.RESOURCE_NOT_FOUND,
 					HttpStatusCode.RESOURCE_NOT_FOUND.getMessage(), res);
 		}
-		
+
 		School school=classes.get().getSchool();
 		school.getClassDetail().remove(classes.get());
 		schoolRepository.save(school);
-		
+
 		for(Student studentId: classes.get().getStudents())
 		{
 			studentId.setClassDetail(null);
 			studentRepository.save(studentId);
 		}
-		
+
 		classRepository.deleteById(id);
 		response.setMessage(HttpStatusCode.CLASS_DELETED_SUCCESSFULLY.getMessage());
 		response.setStatusCode(HttpStatusCode.CLASS_DELETED_SUCCESSFULLY.getCode());
@@ -191,14 +192,8 @@ public class ClassServiceImpl implements ClassService {
 		existingClassDetail.setClassName(classDetailDto.getClassName());
 		existingClassDetail.setClassCode(classDetailDto.getClassCode());
 		existingClassDetail.setSchoolId(classDetailDto.getSchoolId());
-		existingClassDetail.setStudentId(new HashSet<>());
-		for(Long classId: classDetailDto.getStudentId())
-		{
-			ClassDetail classDetail=classRepository.getReferenceById(classId);
-			if(classDetail!=null) existingClassDetail.getStudentId().add(classId);
-		}
-		
-		
+
+
 		ClassDetail classDetail1=classMapper.dtoToEntity(existingClassDetail);
 		ClassDetail updatedClassDetail=classRepository.save(classDetail1);
 		ClassStudentDto classStudentDto=classMapper.toStudentDto(updatedClassDetail);
@@ -223,9 +218,9 @@ public class ClassServiceImpl implements ClassService {
 		classStudentDto.setClassDto(classMapper.entityToDto(classDetail));
 		classStudentDto.setSchoolDto(schoolMapper.entityToDto(classDetail.getSchool()));
 		Set<StudentDto> studentDto=classDetail.getStudents().stream()
-	    		.map(students -> studentMapper.entityToDto(students)).collect(Collectors.toSet());
-	    classStudentDto.setStudentDto(studentDto);
-	    classResult.setData(classStudentDto);
+				.map(students -> studentMapper.entityToDto(students)).collect(Collectors.toSet());
+		classStudentDto.setStudentDto(studentDto);
+		classResult.setData(classStudentDto);
 		getClass.setStatusCode(HttpStatusCode.CLASS_RETREIVED_SUCCESSFULLY.getCode());
 		getClass.setMessage(HttpStatusCode.CLASS_RETREIVED_SUCCESSFULLY.getMessage());
 		getClass.setResult(classResult);

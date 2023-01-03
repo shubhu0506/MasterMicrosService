@@ -1,4 +1,4 @@
-package com.ubi.MasterService.entity;
+package com.ubi.masterservice.entity;
 
 import java.util.Set;
 
@@ -50,14 +50,11 @@ public class EducationalInstitution {
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "EI_REGION_TABLE", joinColumns = {
 			@JoinColumn(name = "educationalInstitution_id", referencedColumnName = "id") }, inverseJoinColumns = {
-					@JoinColumn(name = "region_id", referencedColumnName = "id") })
+			@JoinColumn(name = "region_id", referencedColumnName = "id") })
 
 	private Set<Region> region;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "educationalInstitution")
 	private Set<School> school;
 
-	
-	
-	
 }

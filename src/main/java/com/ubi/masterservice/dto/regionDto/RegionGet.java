@@ -1,4 +1,4 @@
-package com.ubi.MasterService.dto.regionDto;
+package com.ubi.masterservice.dto.regionDto;
 
 
 import lombok.AllArgsConstructor;
@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegionGet {
-	
-    private int id;
-	
+
+	private int id;
+
 	private String code;
-	
+
 	private String name;
 
 }

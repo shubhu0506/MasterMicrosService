@@ -1,4 +1,4 @@
-package com.ubi.MasterService.config;
+package com.ubi.masterservice.config;
 
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-package com.ubi.MasterService.mapper;
+package com.ubi.masterservice.mapper;
 
 import java.util.HashSet;
 import java.util.List;
@@ -10,15 +10,15 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.ubi.MasterService.dto.classDto.ClassDto;
-import com.ubi.MasterService.dto.educationalInstitutiondto.EducationalInstitutionDto;
-import com.ubi.MasterService.dto.regionDto.RegionDto;
-import com.ubi.MasterService.dto.schoolDto.SchoolDto;
-import com.ubi.MasterService.dto.schoolDto.SchoolRegionDto;
-import com.ubi.MasterService.entity.ClassDetail;
-import com.ubi.MasterService.entity.EducationalInstitution;
-import com.ubi.MasterService.entity.Region;
-import com.ubi.MasterService.entity.School;
+import com.ubi.masterservice.dto.classDto.ClassDto;
+import com.ubi.masterservice.dto.educationalInstitutiondto.EducationalInstitutionDto;
+import com.ubi.masterservice.dto.regionDto.RegionDto;
+import com.ubi.masterservice.dto.schoolDto.SchoolDto;
+import com.ubi.masterservice.dto.schoolDto.SchoolRegionDto;
+import com.ubi.masterservice.entity.ClassDetail;
+import com.ubi.masterservice.entity.EducationalInstitution;
+import com.ubi.masterservice.entity.Region;
+import com.ubi.masterservice.entity.School;
 
 @Component
 public class SchoolMapper {
@@ -30,7 +30,7 @@ public class SchoolMapper {
 
 	// entity to DTO Mapping
 	public SchoolDto entityToDto(School school) {
-		
+
 		SchoolDto schoolDto = new SchoolDto();
 		schoolDto.setSchoolId(school.getSchoolId());
 		schoolDto.setCode(school.getCode());
@@ -44,25 +44,28 @@ public class SchoolMapper {
 		schoolDto.setExemptionFlag(school.isExemptionFlag());
 		schoolDto.setVvnAccount(school.getVvnAccount());
 		schoolDto.setVvnFund(school.getVvnFund());
-		schoolDto.setRegionId(school.getRegion().getId());
-	
-		//schoolDto.setClassId(school.getClassDetail().stream().map(e->e.getClassId()).collect(Collectors.toSet()));
-		if(school.getClassDetail() != null) 
+
+		if(school.getRegion() != null)
 		{
-			for (ClassDetail cd : school.getClassDetail()) 
+			schoolDto.setRegionId(school.getRegion().getId());
+		}
+
+
+		if(school.getClassDetail() != null)
+		{
+			for (ClassDetail cd : school.getClassDetail())
 			{
 				schoolDto.setClassId(new HashSet<>());
 				if(cd != null) schoolDto.getClassId().add(cd.getClassId());
 			}
 		}
-		
-		//schoolDto.setEducationalInstitutionId(school.getEducationalInstitution().getId());
+
+
 		if(school.getEducationalInstitution() != null) {
 			schoolDto.setEducationalInstitutionId(school.getEducationalInstitution().getId());
 		}
-		
-			
-		return schoolDto;		
+
+		return schoolDto;
 	}
 
 	public Set<SchoolDto> entitiesToDtos(Set<School> school) {
@@ -85,11 +88,11 @@ public class SchoolMapper {
 		Set<Long> classId = school.getClassDetail().stream().map(classD -> classD.getClassId())
 				.collect(Collectors.toSet());
 		schoolDto.setClassId(classId);
-		
-		 if(school.getEducationalInstitution() !=null) {
+
+		if(school.getEducationalInstitution() !=null) {
 			schoolDto.setEducationalInstitutionId(school.getEducationalInstitution().getId());
 		}
-		
+
 		return schoolDto;
 	}
 
@@ -113,8 +116,7 @@ public class SchoolMapper {
 		regionDto.setCode(region.getCode());
 		regionDto.setName(region.getName());
 		regionDto.setId(region.getId());
-		
-		
+
 		Set<ClassDto> classDtoSet = new HashSet<>();
 		if(school.getClassDetail() != null) {
 			for (ClassDetail classDetail : school.getClassDetail()) {
@@ -128,21 +130,19 @@ public class SchoolMapper {
 			}
 		}
 		EducationalInstitution edu=school.getEducationalInstitution();
-		EducationalInstitutionDto edDto=new EducationalInstitutionDto();
-		edDto.setId(edu.getId());
-		edDto.setEducationalInstitutionCode(edu.getEducationalInstitutionCode());
-		edDto.setEducationalInstitutionName(edu.getEducationalInstitutionName());
-		edDto.setEducationalInstitutionType(edu.getEducationalInstitutionType());
-		edDto.setStrength(edu.getStrength());
-		edDto.setState(edu.getState());
-		edDto.setExemptionFlag(edu.getExemptionFlag());
-		edDto.setVvnAccount(edu.getVvnAccount());
-		
-		//edDto.setRegionsId(edu.ge);
-		//edDto.setRegionsId(edu.getRegion());
+		EducationalInstitutionDto edDto=null;
+		if(edu != null){
+			edDto = new EducationalInstitutionDto();
+			edDto.setId(edu.getId());
+			edDto.setEducationalInstitutionCode(edu.getEducationalInstitutionCode());
+			edDto.setEducationalInstitutionName(edu.getEducationalInstitutionName());
+			edDto.setEducationalInstitutionType(edu.getEducationalInstitutionType());
+			edDto.setStrength(edu.getStrength());
+			edDto.setState(edu.getState());
+			edDto.setExemptionFlag(edu.getExemptionFlag());
+			edDto.setVvnAccount(edu.getVvnAccount());
+		}
 		return new SchoolRegionDto(schoolDto, regionDto, classDtoSet, edDto);
-		
-		
-		
+
 	}
 }
