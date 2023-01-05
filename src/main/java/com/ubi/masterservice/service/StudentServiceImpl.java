@@ -247,6 +247,7 @@ public class StudentServiceImpl implements StudentService {
 			if (existingStudentContainer.isPresent()) {
 				if(!Boolean.TRUE.equals(existingStudentContainer.get().getVerifiedByTeacher())) {
 					existingStudentContainer.get().setVerifiedByTeacher(true);
+					existingStudentContainer.get().setLastVerifiedByTeacher(Long.parseLong(userId));
 					studentRepository.save(existingStudentContainer.get());
 				}
 
@@ -274,6 +275,7 @@ public class StudentServiceImpl implements StudentService {
 
 				if(Boolean.TRUE.equals(existingStudentContainer.get().getVerifiedByTeacher())) {
 					existingStudentContainer.get().setVerifiedByPrincipal(true);
+					existingStudentContainer.get().setLastVerifiedByPrincipal(Long.parseLong(userId));
 					studentRepository.save(existingStudentContainer.get());
 
 				} else {
