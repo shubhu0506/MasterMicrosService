@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import com.ubi.masterservice.dto.response.Response;
+import com.ubi.masterservice.dto.studentDto.StudentDetailsDto;
 import com.ubi.masterservice.dto.studentDto.StudentDto;
 import com.ubi.masterservice.dto.studentDto.StudentPromoteDemoteDto;
 import com.ubi.masterservice.dto.studentDto.StudentVerifyDto;
@@ -12,9 +13,9 @@ import com.ubi.masterservice.dto.studentDto.StudentVerifyDto;
 public interface StudentService {
 	Response<StudentDto> saveStudent(StudentDto studentDto);
 
-	Response<PaginationResponse<List<StudentDto>>> getStudents(Integer PageNumber, Integer PageSize);
+	Response<PaginationResponse<List<StudentDetailsDto>>> getStudents(Integer PageNumber, Integer PageSize);
 
-	Response<StudentDto> getStudentById(Long id);
+	Response<StudentDetailsDto> getStudentById(Long id);
 
 	public Response<StudentDto> deleteById(Long id);
 
