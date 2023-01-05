@@ -28,6 +28,8 @@ public class Student {
 	@GeneratedValue
 	private Long studentId;
 	private String studentName;
+	private Long lastVerifiedByTeacher;
+	private Long lastVerifiedByPrincipal;
 
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dateOfBirth;
