@@ -1,8 +1,10 @@
 package com.ubi.masterservice.service;
 
 import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import com.ubi.masterservice.dto.studentDto.StudentPromoteDemoteDto;
@@ -16,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ubi.masterservice.dto.response.Response;
+import com.ubi.masterservice.dto.studentDto.StudentDetailsDto;
 import com.ubi.masterservice.dto.studentDto.StudentDto;
 import com.ubi.masterservice.entity.ClassDetail;
 import com.ubi.masterservice.entity.Student;
@@ -82,13 +85,15 @@ public class StudentServiceImpl implements StudentService {
 		return response;
 	}
 
-	public Response<PaginationResponse<List<StudentDto>>> getStudents(Integer PageNumber, Integer PageSize) {
-		Result<PaginationResponse<List<StudentDto>>> res = new Result<>();
+	public Response<PaginationResponse<List<StudentDetailsDto>>> getStudents(Integer PageNumber, Integer PageSize) {
+		Result<PaginationResponse<List<StudentDetailsDto>>> res = new Result<>();
 		Pageable paging = PageRequest.of(PageNumber, PageSize);
-		Response<PaginationResponse<List<StudentDto>>> getListofStudent = new Response<>();
+		Response<PaginationResponse<List<StudentDetailsDto>>> getListofStudent = new Response<>();
 		Page<Student> list = this.studentRepository.findAll(paging);
 
-		List<StudentDto> studentDtos = studentMapper.entitiesToDtos(list.toList());
+		List<StudentDetailsDto> studentDtos = (list.toList().stream().map(student -> studentMapper.toStudentDetails(student)).collect(Collectors.toList()));
+	
+		
 
 
 		if (list.isEmpty()) {
@@ -96,7 +101,7 @@ public class StudentServiceImpl implements StudentService {
 					HttpStatusCode.NO_ENTRY_FOUND.getMessage(), res);
 		}
 
-		PaginationResponse paginationResponse=new PaginationResponse<List<StudentDto>>(studentDtos,list.getTotalPages(),list.getTotalElements());
+		PaginationResponse paginationResponse=new PaginationResponse<List<StudentDetailsDto>>(studentDtos,list.getTotalPages(),list.getTotalElements());
 
 		res.setData(paginationResponse);
 		getListofStudent.setStatusCode(200);
@@ -104,16 +109,16 @@ public class StudentServiceImpl implements StudentService {
 		return getListofStudent;
 	}
 
-	public Response<StudentDto> getStudentById(Long id) {
-		Result<StudentDto> res = new Result<>();
-		Response<StudentDto> getStudent = new Response<StudentDto>();
+	public Response<StudentDetailsDto> getStudentById(Long id) {
+		Result<StudentDetailsDto> res = new Result<>();
+		Response<StudentDetailsDto> getStudent = new Response<StudentDetailsDto>();
 		Optional<Student> std = this.studentRepository.findById(id);
-		Result<StudentDto> studentResult = new Result<>();
+		Result<StudentDetailsDto> studentResult = new Result<>();
 		if (!std.isPresent()) {
 			throw new CustomException(HttpStatusCode.NO_STUDENT_MATCH_WITH_ID.getCode(),
 					HttpStatusCode.NO_STUDENT_MATCH_WITH_ID, HttpStatusCode.NO_STUDENT_MATCH_WITH_ID.getMessage(), res);
 		}
-		StudentDto student = studentMapper.entityToDto(std.get());
+		StudentDetailsDto student = studentMapper.toStudentDetails(std.get());
 		studentResult.setData(student);
 		getStudent.setStatusCode(200);
 		getStudent.setResult(studentResult);

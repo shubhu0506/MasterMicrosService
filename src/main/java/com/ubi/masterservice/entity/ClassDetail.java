@@ -20,10 +20,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "class_data ")
@@ -45,7 +47,7 @@ public class ClassDetail
 	@JoinColumn(name = "schoolId" )
 	private School school;
 
-	@OneToMany(mappedBy = "classDetail",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "classDetail",cascade = CascadeType.MERGE)
 	Set<Student> students = new HashSet<>();
 }
 
