@@ -1,20 +1,29 @@
 package com.ubi.masterservice.service;
 
 import java.io.ByteArrayInputStream;
+
+import java.io.IOException;
+
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import com.ubi.masterservice.dto.studentDto.StudentPromoteDemoteDto;
 import com.ubi.masterservice.dto.studentDto.StudentVerifyDto;
 import com.ubi.masterservice.entity.StudentPromoteDemote;
 import com.ubi.masterservice.repository.StudentPromoteDemoteRepository;
+import org.apache.kafka.clients.admin.NewTopic;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import com.ubi.masterservice.dto.response.Response;
@@ -32,6 +41,7 @@ import com.ubi.masterservice.repository.StudentRepository;
 @Service
 public class StudentServiceImpl implements StudentService {
 
+	private static  final Logger LOGGER = LoggerFactory.getLogger(SchoolServiceImpl.class);
 	@Autowired
 	private StudentMapper studentMapper;
 
@@ -46,6 +56,21 @@ public class StudentServiceImpl implements StudentService {
 
 	@Autowired
 	Result result;
+
+	private String topicName="master_topic_4";
+
+	private String topicDelete="master_delete_topic";
+
+	private NewTopic topic;
+
+	@Autowired
+	private KafkaTemplate<String, String> kafkaTemplate;
+
+	public StudentServiceImpl(NewTopic topic , KafkaTemplate<String, String> kafkaTemplate)
+	{
+		this.topic=topic;
+		this.kafkaTemplate=kafkaTemplate;
+	}
 
 
 
@@ -79,9 +104,22 @@ public class StudentServiceImpl implements StudentService {
 		student.setIsActivate(false);
 
 		Student savedStudent = studentRepository.save(student);
+		res.setData(studentMapper.entityToDto(savedStudent));
 		response.setStatusCode(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getCode());
 		response.setMessage(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getMessage());
-		response.setResult(new Result<StudentDto>(studentMapper.entityToDto(savedStudent)));
+		response.setResult(res);
+		ObjectMapper obj = new ObjectMapper();
+
+		String jsonStr = null;
+		try {
+			jsonStr = obj.writeValueAsString(res.getData());
+			LOGGER.info(jsonStr);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		kafkaTemplate.send(topicName,4,"Key1",jsonStr);
+		LOGGER.info(String.format("Order Event => %s", jsonStr.toString()));
 		return response;
 	}
 
@@ -178,9 +216,22 @@ public class StudentServiceImpl implements StudentService {
 		student.setClassDetail(classDetail);
 		Student updateStudent = studentRepository.save(student);
 		Response<StudentDto> response = new Response<>();
+		res.setData(studentMapper.entityToDto(updateStudent));
 		response.setMessage(HttpStatusCode.STUDENT_UPDATED.getMessage());
 		response.setStatusCode(HttpStatusCode.STUDENT_UPDATED.getCode());
-		response.setResult(new Result<>(studentMapper.entityToDto(updateStudent)));
+		response.setResult(res);
+		ObjectMapper obj = new ObjectMapper();
+
+		String jsonStr = null;
+		try {
+			jsonStr = obj.writeValueAsString(res.getData());
+			System.out.println(jsonStr);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		kafkaTemplate.send(topicName,4, "Key2",jsonStr);
+		LOGGER.info(String.format("Order Event => %s", jsonStr.toString()));
 		return response;
 	}
 

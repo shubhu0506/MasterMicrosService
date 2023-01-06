@@ -39,7 +39,7 @@ public class StudentDto {
 
 	private String status;
 
-	private boolean verifiedByTeacher;
+	private Boolean verifiedByTeacher;
 	private Boolean verifiedByPrincipal;
 
 	private Boolean isActivate;
