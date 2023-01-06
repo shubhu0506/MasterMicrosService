@@ -1,5 +1,6 @@
 package com.ubi.masterservice.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -7,7 +8,9 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
+import org.apache.kafka.clients.admin.NewTopic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import com.ubi.masterservice.dto.classDto.ClassDto;
@@ -57,6 +61,21 @@ public class ClassServiceImpl implements ClassService {
 	@Autowired
 	private StudentMapper studentMapper;
 
+	private String topicName="master_topic_4";
+
+	private String topicDelete="master_delete_topic";
+
+	private NewTopic topic;
+
+	@Autowired
+	private KafkaTemplate<String, String> kafkaTemplate;
+
+	public ClassServiceImpl(NewTopic topic , KafkaTemplate<String, String> kafkaTemplate)
+	{
+		this.topic=topic;
+		this.kafkaTemplate=kafkaTemplate;
+	}
+
 
 	public Response<ClassStudentDto> addClassDetails(ClassDto classDto) {
 
@@ -86,9 +105,24 @@ public class ClassServiceImpl implements ClassService {
 
 		ClassDetail savedClass=classRepository.save(classDetail);
 		ClassStudentDto classStudentDto=classMapper.toStudentDto(savedClass);
+		res.setData(classStudentDto);
 		response.setStatusCode(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getCode());
 		response.setMessage(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getMessage());
-		response.setResult(new Result<ClassStudentDto>(classStudentDto));
+		response.setResult(res);
+
+		ObjectMapper obj = new ObjectMapper();
+
+		String jsonStr = null;
+		try {
+			jsonStr = obj.writeValueAsString(res.getData());
+			LOGGER.info(jsonStr);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		kafkaTemplate.send(topicName,0,"Key1",jsonStr);
+		LOGGER.info(String.format("Order Event => %s", jsonStr.toString()));
+
 		return response;
 	}
 
@@ -201,6 +235,20 @@ public class ClassServiceImpl implements ClassService {
 		response.setMessage(HttpStatusCode.CLASS_UPDATED.getMessage());
 		response.setStatusCode(HttpStatusCode.CLASS_UPDATED.getCode());
 		response.setResult(res);
+
+
+		ObjectMapper obj = new ObjectMapper();
+
+		String jsonStr = null;
+		try {
+			jsonStr = obj.writeValueAsString(res.getData());
+			LOGGER.info(jsonStr);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		kafkaTemplate.send(topicName,0, "Key2",jsonStr);
+		LOGGER.info(String.format("Order Event => %s", jsonStr.toString()));
 		return response;
 	}
 
