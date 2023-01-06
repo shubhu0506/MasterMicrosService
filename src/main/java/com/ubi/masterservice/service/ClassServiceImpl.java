@@ -222,7 +222,6 @@ public class ClassServiceImpl implements ClassService {
 					HttpStatusCode.NO_CLASS_FOUND.getMessage(), res);
 		}
 		ClassDto existingClassDetail=classMapper.entityToDto(existingClassContainer.get());
-		existingClassDetail.setClassId(classDetailDto.getClassId());
 		existingClassDetail.setClassName(classDetailDto.getClassName());
 		existingClassDetail.setClassCode(classDetailDto.getClassCode());
 		existingClassDetail.setSchoolId(classDetailDto.getSchoolId());
