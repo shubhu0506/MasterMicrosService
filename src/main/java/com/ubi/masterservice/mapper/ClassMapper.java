@@ -1,6 +1,7 @@
 package com.ubi.masterservice.mapper;
 
 import java.util.HashSet;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -32,6 +33,8 @@ public class ClassMapper {
 			classDto.setSchoolId(classDetail.getSchool().getSchoolId());
 		}
 		return classDto;
+		
+		
 	}
 
 	public List<ClassDto> entitiesToDtos(List<ClassDetail> classDetail) {
@@ -81,6 +84,11 @@ public class ClassMapper {
 		schoolDto.setVvnAccount(school.getVvnAccount());
 		schoolDto.setVvnFund(school.getVvnFund());
 		schoolDto.setRegionId(school.getRegion().getId());
+		
+		Set<Long> setClassId = new HashSet<Long>();
+		setClassId.add(classDetail.getClassId());
+		schoolDto.setClassId(setClassId);
+		
 		if(school.getEducationalInstitution() != null){
 			schoolDto.setEducationalInstitutionId(school.getEducationalInstitution().getId());
 		}

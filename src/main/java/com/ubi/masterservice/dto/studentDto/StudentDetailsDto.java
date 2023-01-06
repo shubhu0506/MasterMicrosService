@@ -1,35 +1,25 @@
-package com.ubi.masterservice.entity;
+package com.ubi.masterservice.dto.studentDto;
 
 import java.time.LocalDate;
-
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ubi.masterservice.dto.classDto.ClassDto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.ToString;
 
 @Data
-@Setter
-@NoArgsConstructor
 @AllArgsConstructor
-@Builder
-@Entity
-public class Student {
+@NoArgsConstructor
+@ToString
+public class StudentDetailsDto {
 
-	@Id
-	@GeneratedValue
 	private Long studentId;
 	private String studentName;
-	private Long lastVerifiedByTeacher;
-	private Long lastVerifiedByPrincipal;
 
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dateOfBirth;
@@ -42,17 +32,18 @@ public class Student {
 	private String motherName;
 	private String motherOccupation;
 	private String gender;
+
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate joiningDate;
+
 	private String status;
 
-	private Boolean verifiedByTeacher;
+	private boolean verifiedByTeacher;
 	private Boolean verifiedByPrincipal;
 
 	private Boolean isActivate;
 	private String currentStatus;
-
-	@ManyToOne(fetch = FetchType.LAZY )
-	private ClassDetail classDetail;
+	
+	private ClassDto classDto;
 
 }

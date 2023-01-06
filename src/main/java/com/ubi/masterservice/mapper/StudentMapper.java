@@ -9,14 +9,22 @@ import com.ubi.masterservice.dto.studentDto.StudentPromoteDemoteDto;
 import com.ubi.masterservice.dto.studentDto.StudentVerifyDto;
 import com.ubi.masterservice.entity.StudentPromoteDemote;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.ubi.masterservice.dto.educationalInstitutiondto.EducationalInstitutionDto;
+import com.ubi.masterservice.dto.regionDto.RegionDetailsDto;
+import com.ubi.masterservice.dto.studentDto.StudentDetailsDto;
 import com.ubi.masterservice.dto.studentDto.StudentDto;
+import com.ubi.masterservice.entity.Region;
 import com.ubi.masterservice.entity.Student;
 
 @Component
 public class StudentMapper {
 	ModelMapper modelMapper = new ModelMapper();
+	
+	@Autowired
+	ClassMapper classMapper;
 
 	// entity to DTO Mapping
 	public StudentDto entityToDto(Student student) {
@@ -40,6 +48,7 @@ public class StudentMapper {
 		studentDto.setVerifiedByTeacher(student.getVerifiedByTeacher());
 		studentDto.setClassId(student.getClassDetail().getClassId());
 		return studentDto;
+			
 	}
 
 	public StudentVerifyDto entityToDtoId(StudentVerifyDto student) {
@@ -58,7 +67,7 @@ public class StudentMapper {
 		return student.stream().filter(Objects::nonNull).map(this::entityToDto).collect(Collectors.toList());
 	}
 
-	// DTO to entity Mapping
+	
 	public Student dtoToEntity(StudentDto studentDto) {
 		return modelMapper.map(studentDto, Student.class);
 	}
@@ -91,6 +100,37 @@ public class StudentMapper {
 
 		return studentPromoteDemoteCreationDto;
 	}
+	
+	
+	public StudentDetailsDto toStudentDetails(Student student) {
+		StudentDetailsDto studentDetailsDto = new StudentDetailsDto();
+		studentDetailsDto.setStudentId(student.getStudentId());
+		studentDetailsDto.setStudentName(student.getStudentName());
+		studentDetailsDto.setDateOfBirth(student.getDateOfBirth());
+		studentDetailsDto.setStudentStatus(student.isStudentStatus());
+		studentDetailsDto.setCategory(student.getCategory());
+		studentDetailsDto.setMinority(student.getMinority());
+		studentDetailsDto.setFatherName(student.getFatherName());
+		studentDetailsDto.setFatherOccupation(student.getFatherOccupation());
+		studentDetailsDto.setMotherName(student.getMotherName());
+		studentDetailsDto.setMotherOccupation(student.getMotherOccupation());
+		studentDetailsDto.setGender(student.getGender());
+		studentDetailsDto.setJoiningDate(student.getJoiningDate());
+		studentDetailsDto.setStatus(student.getStatus());
+		studentDetailsDto.setVerifiedByPrincipal(student.getVerifiedByPrincipal());
+		studentDetailsDto.setVerifiedByTeacher(student.getVerifiedByTeacher());
+		studentDetailsDto.setIsActivate(student.getIsActivate());
+		studentDetailsDto.setCurrentStatus(student.getCurrentStatus());
+		
+		if(student.getClassDetail()!=null) {
+        studentDetailsDto.setClassDto(classMapper.entityToDto(student.getClassDetail()));
+		}	
+		
+		return studentDetailsDto;
+	}
+	
+	
+	
 
 
 }

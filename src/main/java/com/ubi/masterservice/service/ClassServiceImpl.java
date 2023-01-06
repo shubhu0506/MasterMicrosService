@@ -97,7 +97,7 @@ public class ClassServiceImpl implements ClassService {
 		}
 
 		ClassDetail classDetail=new ClassDetail();
-		classDetail.setClassId(classDto.getClassId());
+		//classDetail.setClassId(classDto.getClassId());
 		classDetail.setClassName(classDto.getClassName());
 		classDetail.setClassCode(classDto.getClassCode());
 		classDetail.setSchool(school);
