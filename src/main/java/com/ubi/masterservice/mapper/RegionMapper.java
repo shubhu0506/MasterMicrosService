@@ -58,7 +58,7 @@ public class RegionMapper {
 		regionDetailsDto.setName(region.getName());
 		regionDetailsDto.setId(region.getId());
 		regionDetailsDto.setEduInstiDto(region.getEducationalInstitiute().stream().filter(Objects::nonNull).map(eduInsti->educationalInstitutionMapper.entityToDto(eduInsti)).collect(Collectors.toSet()));
-		regionDetailsDto.setSchoolDto(region.getSchool().stream().filter(Objects::nonNull).map(school->schoolMapper.entityToDto(school)).collect(Collectors.toSet()));
+		//regionDetailsDto.setSchoolDto(region.getSchool().stream().filter(Objects::nonNull).map(school->schoolMapper.entityToDto(school)).collect(Collectors.toSet()));
 
 		return regionDetailsDto;
 	}

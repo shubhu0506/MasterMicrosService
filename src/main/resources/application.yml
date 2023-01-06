@@ -7,7 +7,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/ubi_kvms_master
     username: postgres
-    password: root
+    password: 12345
     
   jpa:
     hibernate:
@@ -21,3 +21,9 @@ spring:
 
   config:
     import: optional:configserver:http://localhost:8888
+spring.kafka:
+  producer:
+    bootstrap-servers: localhost:9092
+
+    key.serializer: org.apache.common.serialization.*
+    value.serializer : org.springframework.kafka.support.serializer.*

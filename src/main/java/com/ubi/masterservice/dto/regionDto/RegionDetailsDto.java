@@ -19,5 +19,4 @@ public class RegionDetailsDto {
 	private String name;
 
 	Set<EducationalInstitutionDto> eduInstiDto = new HashSet<>();
-	Set<SchoolDto> schoolDto = new HashSet<>();
 }

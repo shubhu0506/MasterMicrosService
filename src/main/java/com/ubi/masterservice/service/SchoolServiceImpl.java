@@ -1,6 +1,7 @@
 package com.ubi.masterservice.service;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -8,7 +9,9 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
+import org.apache.kafka.clients.admin.NewTopic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import com.ubi.masterservice.dto.classDto.ClassDto;
@@ -41,6 +45,8 @@ import com.ubi.masterservice.repository.SchoolRepository;
 @Service
 public class SchoolServiceImpl implements SchoolService {
 
+	private static  final Logger LOGGER = LoggerFactory.getLogger(SchoolServiceImpl.class);
+
 	@Autowired
 	private SchoolMapper schoolMapper;
 
@@ -64,7 +70,20 @@ public class SchoolServiceImpl implements SchoolService {
 	@Autowired
 	private RegionMapper regionMapper;
 
-	Logger logger = LoggerFactory.getLogger(SchoolServiceImpl.class);
+	private String topicName="master_topic_4";
+
+	private String topicDelete="master_delete_topic";
+
+	private NewTopic topic;
+
+	@Autowired
+	private KafkaTemplate<String, String> kafkaTemplate;
+
+	public SchoolServiceImpl(NewTopic topic , KafkaTemplate<String, String> kafkaTemplate)
+	{
+		this.topic=topic;
+		this.kafkaTemplate=kafkaTemplate;
+	}
 
 	@Override
 	public Response<SchoolRegionDto> addSchool(SchoolDto schoolDto) {
@@ -124,9 +143,23 @@ public class SchoolServiceImpl implements SchoolService {
 		School savedSchool = schoolRepository.save(school);
 
 		SchoolRegionDto schoolRegionDto = schoolMapper.toSchoolClassDto(savedSchool);
+		res.setData(schoolRegionDto);
 		response.setStatusCode(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getCode());
 		response.setMessage(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getMessage());
-		response.setResult(new Result<SchoolRegionDto>(schoolRegionDto));
+		response.setResult(res);
+
+		ObjectMapper obj = new ObjectMapper();
+
+		String jsonStr = null;
+		try {
+			jsonStr = obj.writeValueAsString(res.getData());
+			LOGGER.info(jsonStr);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		kafkaTemplate.send(topicName,3,"Key1",jsonStr);
+		LOGGER.info(String.format("Order Event => %s", jsonStr.toString()));
 		return response;
 	}
 
@@ -295,12 +328,24 @@ public class SchoolServiceImpl implements SchoolService {
 		School updatedSchool = schoolRepository.save(school);
 
 		SchoolRegionDto schoolRegionDto = schoolMapper.toSchoolClassDto(updatedSchool);
-
-
+		res.setData(schoolRegionDto);
 		Response<SchoolRegionDto> response = new Response<>();
 		response.setMessage(HttpStatusCode.SCHOOL_UPDATED.getMessage());
 		response.setStatusCode(HttpStatusCode.SCHOOL_UPDATED.getCode());
-		response.setResult(new Result<SchoolRegionDto>(schoolRegionDto));
+		response.setResult(res);
+
+		ObjectMapper obj = new ObjectMapper();
+
+		String jsonStr = null;
+		try {
+			jsonStr = obj.writeValueAsString(res.getData());
+			System.out.println(jsonStr);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		kafkaTemplate.send(topicName,3, "Key2",jsonStr);
+		LOGGER.info(String.format("Order Event => %s", jsonStr.toString()));
 		return response;
 	}
 
