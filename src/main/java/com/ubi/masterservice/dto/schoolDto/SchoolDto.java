@@ -29,6 +29,8 @@ public class SchoolDto {
 
 	private String shift;
 
+	private Boolean isCollege=false;
+	
 	private boolean exemptionFlag;
 
 	private int vvnAccount;

@@ -7,7 +7,9 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/ubi_kvms_master
     username: postgres
-    password: 12345
+    password: rohan
+    password: root
+
     
   jpa:
     hibernate:

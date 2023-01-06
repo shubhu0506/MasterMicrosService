@@ -44,6 +44,7 @@ public class SchoolMapper {
 		schoolDto.setExemptionFlag(school.isExemptionFlag());
 		schoolDto.setVvnAccount(school.getVvnAccount());
 		schoolDto.setVvnFund(school.getVvnFund());
+		schoolDto.setIsCollege(school.getIsCollege());
 
 		if(school.getRegion() != null)
 		{

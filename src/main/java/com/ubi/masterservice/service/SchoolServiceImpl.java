@@ -1,7 +1,9 @@
 package com.ubi.masterservice.service;
 
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import org.apache.kafka.clients.admin.NewTopic;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import com.ubi.masterservice.dto.classDto.ClassDto;
+import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import com.ubi.masterservice.dto.response.Response;
 import com.ubi.masterservice.dto.schoolDto.SchoolDto;
 import com.ubi.masterservice.dto.schoolDto.SchoolRegionDto;
@@ -108,7 +112,6 @@ public class SchoolServiceImpl implements SchoolService {
 		}
 
 		School school = new School();
-		school.setSchoolId(schoolDto.getSchoolId());
 		school.setCode(schoolDto.getCode());
 		school.setName(schoolDto.getName());
 		school.setEmail(schoolDto.getEmail());
@@ -117,25 +120,29 @@ public class SchoolServiceImpl implements SchoolService {
 		school.setType(schoolDto.getType());
 		school.setStrength(schoolDto.getStrength());
 		school.setShift(schoolDto.getShift());
+		school.setIsCollege(schoolDto.getIsCollege());
 		school.setExemptionFlag(schoolDto.isExemptionFlag());
 		school.setVvnAccount(schoolDto.getVvnAccount());
 		school.setVvnFund(schoolDto.getVvnFund());
 
+		
+		
 		school.setRegion(regionRepository.getReferenceById(schoolDto.getRegionId()));
 
 		school.setClassDetail(new HashSet<>());
 
 		for (Long classId : schoolDto.getClassId()) {
-			//System.out.println(classId);
+			// System.out.println(classId);
 			ClassDetail classDetail = classRepository.getReferenceById(classId);
 			if (classDetail != null) {
 				school.getClassDetail().add(classDetail);
 				classDetail.setSchool(school);
 			}
 		}
-		if(schoolDto.getEducationalInstitutionId() != 0){
-			EducationalInstitution educationalInstitution = educationalRepository.getReferenceById(schoolDto.getEducationalInstitutionId());
-			if(educationalInstitution != null){
+		if (schoolDto.getEducationalInstitutionId() != 0) {
+			EducationalInstitution educationalInstitution = educationalRepository
+					.getReferenceById(schoolDto.getEducationalInstitutionId());
+			if (educationalInstitution != null) {
 				school.setEducationalInstitution(educationalInstitution);
 			}
 		}
@@ -170,7 +177,9 @@ public class SchoolServiceImpl implements SchoolService {
 		Pageable paging = PageRequest.of(PageNumber, PageSize);
 		Response<PaginationResponse<List<SchoolRegionDto>>> getListofSchools = new Response<>();
 
-		Page<School> list = this.schoolRepository.findAll(paging);
+		//Page<School> list = this.schoolRepository.findAll(paging);
+		Page<School> list = this.schoolRepository.findByisCollege(false, paging);
+		
 		List<SchoolRegionDto> schoolDtos = new ArrayList<>();
 		for (School school : list) {
 			SchoolRegionDto schoolRegionDto = new SchoolRegionDto();
@@ -191,14 +200,55 @@ public class SchoolServiceImpl implements SchoolService {
 					HttpStatusCode.NO_SCHOOL_FOUND.getMessage(), allSchoolResult);
 		}
 
-		PaginationResponse paginationResponse=new PaginationResponse<List<SchoolRegionDto>>(schoolDtos,list.getTotalPages(),list.getTotalElements());
-
+		PaginationResponse paginationResponse = new PaginationResponse<List<SchoolRegionDto>>(schoolDtos,
+				list.getTotalPages(), list.getTotalElements());
 
 		allSchoolResult.setData(paginationResponse);
 		getListofSchools.setStatusCode(HttpStatusCode.SCHOOL_RETRIVED_SUCCESSFULLY.getCode());
 		getListofSchools.setMessage(HttpStatusCode.SCHOOL_RETRIVED_SUCCESSFULLY.getMessage());
 		getListofSchools.setResult(allSchoolResult);
 		return getListofSchools;
+	}
+
+	@Override
+	public Response<PaginationResponse<List<SchoolRegionDto>>> getAllColleges(Integer PageNumber, Integer PageSize) {
+
+		Result<PaginationResponse<List<SchoolRegionDto>>> allCollegeResult = new Result<>();
+		Response<PaginationResponse<List<SchoolRegionDto>>> getListofColleges = new Response<>();
+
+		Pageable paging = PageRequest.of(PageNumber, PageSize);
+		Response<PaginationResponse<List<SchoolRegionDto>>> getListofSchools = new Response<>();
+
+		Page<School> list = this.schoolRepository.findByisCollege(true, paging);
+		List<SchoolRegionDto> schoolDtos = new ArrayList<>();
+
+		for (School school : list) {
+			SchoolRegionDto schoolRegionDto = new SchoolRegionDto();
+			schoolRegionDto.setSchoolDto(schoolMapper.entityToDtos(school));
+
+			schoolRegionDto.setRegionDto(regionMapper.toDto(school.getRegion()));
+			Set<ClassDto> classDto = school.getClassDetail().stream()
+					.map(classDetail -> classMapper.entityToDto(classDetail)).collect(Collectors.toSet());
+
+			schoolRegionDto.setClassDto(classDto);
+			schoolDtos.add(schoolRegionDto);
+
+			schoolRegionDto.setEducationalInstitutionDto(educationalMapper.toDto(school.getEducationalInstitution()));
+		}
+
+		if (list.isEmpty()) {
+			throw new CustomException(HttpStatusCode.NO_COLLEGE_FOUND.getCode(), HttpStatusCode.NO_COLLEGE_FOUND,
+					HttpStatusCode.NO_COLLEGE_FOUND.getMessage(), allCollegeResult);
+		}
+
+		PaginationResponse paginationResponse = new PaginationResponse<List<SchoolRegionDto>>(schoolDtos,
+				list.getTotalPages(), list.getTotalElements());
+
+		allCollegeResult.setData(paginationResponse);
+		getListofColleges.setStatusCode(HttpStatusCode.COLLEGE_RETRIVED_SUCCESSFULLY.getCode());
+		getListofColleges.setMessage(HttpStatusCode.COLLEGE_RETRIVED_SUCCESSFULLY.getMessage());
+		getListofColleges.setResult(allCollegeResult);
+		return getListofColleges;
 	}
 
 	@Override
@@ -267,7 +317,7 @@ public class SchoolServiceImpl implements SchoolService {
 
 			EducationalInstitution educationalInstitution = school.get().getEducationalInstitution();
 			educationalInstitution.getSchool().remove(school.get());
-			educationalRepository.save(educationalInstitution );
+			educationalRepository.save(educationalInstitution);
 
 		}
 
@@ -296,6 +346,7 @@ public class SchoolServiceImpl implements SchoolService {
 		school.setCode(schoolDto.getCode());
 		school.setContact(schoolDto.getContact());
 		school.setAddress(schoolDto.getAddress());
+		school.setIsCollege(schoolDto.getIsCollege());
 		school.setExemptionFlag(schoolDto.isExemptionFlag());
 		school.setName(schoolDto.getName());
 		school.setStrength(schoolDto.getStrength());
@@ -311,7 +362,6 @@ public class SchoolServiceImpl implements SchoolService {
 		regionRepository.save(region);
 		school.setRegion(region);
 
-
 		for (Long classId : schoolDto.getClassId()) {
 			ClassDetail classDetail = classRepository.getReferenceById(classId);
 			classDetail.setSchool(school);
@@ -319,15 +369,15 @@ public class SchoolServiceImpl implements SchoolService {
 			school.getClassDetail().add(classDetail);
 		}
 
-		EducationalInstitution educationalInstitution = educationalRepository.getReferenceById(schoolDto.getEducationalInstitutionId());
+		EducationalInstitution educationalInstitution = educationalRepository
+				.getReferenceById(schoolDto.getEducationalInstitutionId());
 		educationalRepository.save(educationalInstitution);
 		school.setEducationalInstitution(educationalInstitution);
-
-
 
 		School updatedSchool = schoolRepository.save(school);
 
 		SchoolRegionDto schoolRegionDto = schoolMapper.toSchoolClassDto(updatedSchool);
+
 		res.setData(schoolRegionDto);
 		Response<SchoolRegionDto> response = new Response<>();
 		response.setMessage(HttpStatusCode.SCHOOL_UPDATED.getMessage());
@@ -349,8 +399,6 @@ public class SchoolServiceImpl implements SchoolService {
 		return response;
 	}
 
-
-
 	@Override
 	public Response<List<SchoolDto>> getSchoolwithSort(String field) {
 
@@ -370,7 +418,6 @@ public class SchoolServiceImpl implements SchoolService {
 		getListofSchools.setResult(allSchoolResult);
 		return getListofSchools;
 	}
-
 
 //	@Override
 //	public ByteArrayInputStream loadSchoolAndClass() {
