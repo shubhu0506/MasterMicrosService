@@ -60,6 +60,9 @@ public class School {
 	@Column(name ="schoolShift")
 	private String shift;
 
+	@Column(name = "isCollege")
+	private Boolean isCollege;	
+	
 	@Column(name = "exemptionFlag")
 	private boolean exemptionFlag;
 

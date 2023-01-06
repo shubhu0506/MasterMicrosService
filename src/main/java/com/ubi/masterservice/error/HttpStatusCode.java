@@ -35,6 +35,8 @@ public enum HttpStatusCode {
 	PAYMENT_RETRIVED_SUCCESSFULLY(200,"Payment Retrived"),
 
 	STUDENT_RETRIVED_SUCCESSFULLY(200,"Student retrived"),
+	
+	COLLEGE_RETRIVED_SUCCESSFULLY(200, "Colleges Retrived"),
 
 	CONTACTINFO_RETRIVED_SUCCESSFULLY(200,"Contact Info retrived successfully"),
 
@@ -70,6 +72,8 @@ public enum HttpStatusCode {
 	NO_SCHOOL_MATCH_WITH_ID(109, "No School Found with Given ID"),
 
 	NO_SCHOOL_FOUND(108, "No School Found"),
+	
+	NO_COLLEGE_FOUND(108, "No School Found"),
 
 	NO_CLASS_FOUND(108, "No Class Found"),
 

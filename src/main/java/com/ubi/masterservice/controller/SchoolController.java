@@ -58,6 +58,16 @@ public class SchoolController {
 		Response<PaginationResponse<List<SchoolRegionDto>>> response = schoolService.getAllSchools(pageNumber, pageSize);
 		return ResponseEntity.ok().body(response);
 	}
+	
+	@Operation(summary = "Get All Colleges ", security = @SecurityRequirement(name = "bearerAuth"))
+	@GetMapping("/colleges")
+	public ResponseEntity<Response<PaginationResponse<List<SchoolRegionDto>>>> getAllColleges(
+			@RequestParam(value = "PageNumber", defaultValue = "0", required = false) Integer pageNumber,
+			@RequestParam(value = "PageSize", defaultValue = "5", required = false) Integer pageSize) {
+		Response<PaginationResponse<List<SchoolRegionDto>>> response = schoolService.getAllColleges(pageNumber, pageSize);
+		return ResponseEntity.ok().body(response);
+	}
+	
 	@Operation(summary = "Delete School By Id", security = @SecurityRequirement(name = "bearerAuth"))
 	@DeleteMapping("/{schoolId}")
 	public ResponseEntity<Response<SchoolDto>> deleteSchoolById(@PathVariable("schoolId") int schoolId)

@@ -1,6 +1,5 @@
 package com.ubi.masterservice.service;
 
-import java.io.ByteArrayInputStream;
 import java.util.List;
 
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
@@ -11,8 +10,10 @@ import com.ubi.masterservice.dto.schoolDto.SchoolRegionDto;
 public interface SchoolService {
 
 	Response<SchoolRegionDto> addSchool(SchoolDto schoolDto);
-
+	
 	Response<PaginationResponse<List<SchoolRegionDto>>> getAllSchools(Integer PageNumber, Integer PageSize);
+
+	Response<PaginationResponse<List<SchoolRegionDto>>> getAllColleges(Integer PageNumber, Integer PageSize);
 
 	Response<SchoolRegionDto> getSchoolById(int schoolId);
 
@@ -24,5 +25,6 @@ public interface SchoolService {
 
 	Response<List<SchoolDto>> getSchoolwithSort(String field);
 
-//	ByteArrayInputStream loadSchoolAndClass();
+
+	
 }
