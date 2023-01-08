@@ -205,7 +205,7 @@ public class StudentServiceImpl implements StudentService {
 		existingStudent.setGender(studentDto.getGender());
 		existingStudent.setJoiningDate(studentDto.getJoiningDate());
 		existingStudent.setStatus(studentDto.getStatus());
-		existingStudent.setVerifiedByTeacher(studentDto.isVerifiedByTeacher());
+		existingStudent.setVerifiedByTeacher(studentDto.getVerifiedByTeacher());
 		existingStudent.setVerifiedByPrincipal(studentDto.getVerifiedByPrincipal());
 
 		existingStudent.setClassId(studentDto.getClassId());
