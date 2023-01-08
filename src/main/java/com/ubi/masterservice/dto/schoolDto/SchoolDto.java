@@ -29,7 +29,7 @@ public class SchoolDto {
 
 	private String shift;
 
-	private Boolean isCollege=false;
+	private Boolean isCollege;
 	
 	private boolean exemptionFlag;
 

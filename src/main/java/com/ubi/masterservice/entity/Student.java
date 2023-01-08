@@ -10,6 +10,11 @@ import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,6 +37,8 @@ public class Student {
 	private Long lastVerifiedByPrincipal;
 
 	@JsonFormat(pattern = "yyyy-MM-dd")
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
+	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
 	private LocalDate dateOfBirth;
 
 	private boolean studentStatus;
@@ -54,5 +61,7 @@ public class Student {
 
 	@ManyToOne(fetch = FetchType.LAZY )
 	private ClassDetail classDetail;
+
+
 
 }
