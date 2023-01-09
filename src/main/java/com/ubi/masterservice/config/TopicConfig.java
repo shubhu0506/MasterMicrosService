@@ -17,9 +17,9 @@ import java.util.Map;
 @Configuration
 public class TopicConfig {
 
-    private String topicName="master_topic_4";
+    private String topicName="master_topic";
 
-    private String topicDelete="master_delete_topic";
+    private String topicDelete="master_delete";
 
     private String bootstrapServers="localhost:9092";
 
@@ -68,7 +68,39 @@ public class TopicConfig {
     public NewTopic topic6()
     {
         return TopicBuilder.name(topicDelete)
-                .partitions(1)
+                .partitions(5)
+                .compact().build();
+    }
+
+    @Bean
+    public NewTopic topic7()
+    {
+        return TopicBuilder.name(topicDelete)
+                .partitions(5)
+                .compact().build();
+    }
+
+    @Bean
+    public NewTopic topic8()
+    {
+        return TopicBuilder.name(topicDelete)
+                .partitions(5)
+                .compact().build();
+    }
+
+    @Bean
+    public NewTopic topic9()
+    {
+        return TopicBuilder.name(topicDelete)
+                .partitions(5)
+                .compact().build();
+    }
+
+    @Bean
+    public NewTopic topic10()
+    {
+        return TopicBuilder.name(topicDelete)
+                .partitions(5)
                 .compact().build();
     }
 

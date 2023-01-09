@@ -124,20 +124,6 @@ public class RegionController {
 		}
 	}
 
-	@Operation(summary = "Map Region and School", security = @SecurityRequirement(name = "bearerAuth"))
-	@PostMapping("/addSchool")
-	public ResponseEntity<Response<RegionSchoolDto>> addSchool(@RequestBody RegionSchoolMappingDto regionSchoolDto) {
-		Response<RegionSchoolDto> response = regionService.addSchool(regionSchoolDto);
-		return ResponseEntity.ok().body(response);
-	}
-
-	@Operation(summary = "Get School in Region", security = @SecurityRequirement(name = "bearerAuth"))
-	@GetMapping("/getRegion/{id}")
-	public ResponseEntity<Response<RegionSchoolDto>> getSchoolInRegion(@PathVariable int id) {
-		Response<RegionSchoolDto> response = regionService.getRegionwithSchool(id);
-		return ResponseEntity.ok().body(response);
-	}
-
 	// -----Sorting
 
 	@Operation(summary = "Get Region in Sorting", security = @SecurityRequirement(name = "bearerAuth"))
