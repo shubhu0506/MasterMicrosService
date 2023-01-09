@@ -53,9 +53,9 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 	@Autowired
 	private RegionRepository regionRepository;
 
-	private String topicName="master_topic_4";
+	private String topicName="master_topic";
 
-	private String topicDelete="master_delete_topic";
+	private String topicDelete="master_delete";
 
 	private NewTopic topic;
 
@@ -251,11 +251,25 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 		educationalInstitutionRepository.save(educationalInst.get());
 
 		educationalInstitutionRepository.deleteById(id);
+		res.setData(educationalInstitutionMapper.entityToDto(educationalInst.get()));
 		Response<EducationalInstitutionDto> response = new Response<>();
 		response.setMessage(HttpStatusCode.EDUCATIONAL_INSTITUTION_DELETED.getMessage());
 		response.setStatusCode(HttpStatusCode.EDUCATIONAL_INSTITUTION_DELETED.getCode());
-		response.setResult(
-				new Result<EducationalInstitutionDto>(educationalInstitutionMapper.entityToDto(educationalInst.get())));
+		response.setResult(res);
+
+		ObjectMapper obj = new ObjectMapper();
+
+		String jsonStr = null;
+		try {
+			jsonStr = obj.writeValueAsString(res.getData());
+			LOGGER.info(jsonStr);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		kafkaTemplate.send(topicDelete,1,"Key3",jsonStr);
+		LOGGER.info(String.format("Order Event => %s", jsonStr.toString()));
+
 		return response;
 	}
 

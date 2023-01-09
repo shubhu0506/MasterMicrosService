@@ -29,10 +29,6 @@ public interface RegionService {
 
 	Response<RegionDto> getRegionByName(String name);
 
-	Response<RegionSchoolDto> addSchool(RegionSchoolMappingDto regionSchoolMappingDto);
-
-	Response<RegionSchoolDto> getRegionwithSchool(int id);
-
 	Response<List<RegionDetailsDto>> getRegionwithSort(String field);
 
 }

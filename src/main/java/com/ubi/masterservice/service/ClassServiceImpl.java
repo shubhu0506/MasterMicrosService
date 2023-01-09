@@ -61,9 +61,9 @@ public class ClassServiceImpl implements ClassService {
 	@Autowired
 	private StudentMapper studentMapper;
 
-	private String topicName="master_topic_4";
+	private String topicName="master_topic";
 
-	private String topicDelete="master_delete_topic";
+	private String topicDelete="master_delete";
 
 	private NewTopic topic;
 
@@ -207,9 +207,25 @@ public class ClassServiceImpl implements ClassService {
 		}
 
 		classRepository.deleteById(id);
+		res.setData(classMapper.entityToDto(classes.get()));
 		response.setMessage(HttpStatusCode.CLASS_DELETED_SUCCESSFULLY.getMessage());
 		response.setStatusCode(HttpStatusCode.CLASS_DELETED_SUCCESSFULLY.getCode());
-		response.setResult(new Result<ClassDto>(classMapper.entityToDto(classes.get())));
+		response.setResult(res);
+
+		ObjectMapper obj = new ObjectMapper();
+
+		String jsonStr = null;
+		try {
+			jsonStr = obj.writeValueAsString(res.getData());
+			LOGGER.info(jsonStr);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		kafkaTemplate.send(topicDelete,0,"Key3",jsonStr);
+		LOGGER.info(String.format("Order Event => %s", jsonStr.toString()));
+
+
 		return response;
 	}
 

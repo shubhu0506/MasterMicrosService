@@ -50,9 +50,9 @@ public class RegionServiceImpl implements RegionService {
 	@Autowired
 	private RegionMapper regionMapper;
 
-	private String topicName="master_topic_4";
+	private String topicName="master_topic";
 
-	private String topicDelete="master_delete_topic";
+	private String topicDelete="master_delete";
 
 	@Autowired
 	private SchoolMapper schoolMapper;
@@ -196,16 +196,18 @@ public class RegionServiceImpl implements RegionService {
 		response.setStatusCode(HttpStatusCode.REGION_DELETED_SUCCESSFULLY.getCode());
 		response.setResult(res);
 
-//		ObjectMapper obj = new ObjectMapper();
-//
-//		String jsonStr = null;
-//		try {
-//			jsonStr = obj.writeValueAsString(res.getData());
-//			System.out.println(jsonStr);
-//		}
-//		catch (IOException e) {
-//			e.printStackTrace();
-//		}
+		ObjectMapper obj = new ObjectMapper();
+
+		String jsonStr = null;
+		try {
+			jsonStr = obj.writeValueAsString(res.getData());
+			LOGGER.info(jsonStr);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		kafkaTemplate.send(topicDelete,2,"Key3",jsonStr);
+		LOGGER.info(String.format("Order Event => %s", jsonStr.toString()));
 
 		return response;
 	}
@@ -307,61 +309,6 @@ public class RegionServiceImpl implements RegionService {
 		getRegion.setMessage(HttpStatusCode.REGION_RETREIVED_SUCCESSFULLY.getMessage());
 		getRegion.setResult(regionResult);
 		return getRegion;
-	}
-
-	// Mapping
-	@Override
-	public Response<RegionSchoolDto> addSchool(RegionSchoolMappingDto regionSchoolMappingDto) {
-		int regionId = regionSchoolMappingDto.getRegionId();
-		int schoolId = regionSchoolMappingDto.getSchoolId();
-		Response<RegionSchoolDto> response = new Response<>();
-		Result<RegionSchoolDto> res = new Result<>();
-		Region region = regionRepository.getReferenceById(regionId);
-		School school = schoolRepository.getReferenceById(schoolId);
-		Set<School> setOfSchool = region.getSchool();
-		for (School currSchool : setOfSchool) {
-			if (currSchool.getSchoolId() == region.getId()) {
-				throw new CustomException(HttpStatusCode.MAPPING_ALREADY_EXIST.getCode(),
-						HttpStatusCode.MAPPING_ALREADY_EXIST, HttpStatusCode.MAPPING_ALREADY_EXIST.getMessage(), res);
-			}
-		}
-		region.getSchool().add(school);
-		school.setRegion(region);
-
-		schoolRepository.save(school);
-		regionRepository.save(region);
-		RegionSchoolDto regionSchoolDto = regionMapper.toRegionSchoolDto(region);
-		response.setStatusCode(HttpStatusCode.SUCCESSFUL.getCode());
-		response.setMessage(HttpStatusCode.SUCCESSFUL.getMessage());
-		response.setResult(new Result<>(regionSchoolDto));
-		return response;
-	}
-
-	@Override
-	public Response<RegionSchoolDto> getRegionwithSchool(int id) {
-
-		Response<RegionSchoolDto> response = new Response<>();
-		Result<RegionSchoolDto> res = new Result<>();
-
-		Optional<Region> region = this.regionRepository.findById(id);
-
-		if (!region.isPresent()) {
-			throw new CustomException(HttpStatusCode.NO_REGION_MATCH_WITH_ID.getCode(),
-					HttpStatusCode.NO_REGION_MATCH_WITH_ID, HttpStatusCode.NO_REGION_MATCH_WITH_ID.getMessage(), res);
-		}
-
-		RegionSchoolDto regionSchoolDto = new RegionSchoolDto();
-
-		regionSchoolDto.setRegionDto(regionMapper.entityToDto(region.get()));
-		regionSchoolDto.setSchoolDto(schoolMapper.entitiesToDtos(region.get().getSchool()));
-
-		res.setData(regionSchoolDto);
-
-		response.setStatusCode(HttpStatusCode.REGION_RETRIEVED_SUCCESSFULLY.getCode());
-		response.setMessage(HttpStatusCode.REGION_RETRIEVED_SUCCESSFULLY.getMessage());
-		response.setResult(new Result<>(regionSchoolDto));
-		return response;
-
 	}
 
 	@Override

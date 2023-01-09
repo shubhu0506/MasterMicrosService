@@ -74,9 +74,9 @@ public class SchoolServiceImpl implements SchoolService {
 	@Autowired
 	private RegionMapper regionMapper;
 
-	private String topicName="master_topic_4";
+	private String topicName="master_topic";
 
-	private String topicDelete="master_delete_topic";
+	private String topicDelete="master_delete";
 
 	private NewTopic topic;
 
@@ -323,9 +323,22 @@ public class SchoolServiceImpl implements SchoolService {
 
 		schoolRepository.deleteById(schoolId);
 		Response<SchoolDto> response = new Response<>();
+		res.setData(schoolMapper.entityToDto(school.get()));
 		response.setMessage(HttpStatusCode.SCHOOL_DELETED.getMessage());
 		response.setStatusCode(HttpStatusCode.SCHOOL_DELETED.getCode());
-		response.setResult(new Result<SchoolDto>(schoolMapper.entityToDto(school.get())));
+		response.setResult(res);
+		ObjectMapper obj = new ObjectMapper();
+
+		String jsonStr = null;
+		try {
+			jsonStr = obj.writeValueAsString(res.getData());
+			LOGGER.info(jsonStr);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		kafkaTemplate.send(topicDelete,3,"Key3",jsonStr);
+		LOGGER.info(String.format("Order Event => %s", jsonStr.toString()));
 		return response;
 	}
 
