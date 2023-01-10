@@ -1,6 +1,7 @@
 package com.ubi.masterservice.dto.studentDto;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,7 +23,7 @@ public class StudentDetailsDto {
 	private String studentName;
 
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	private LocalDate dateOfBirth;
+	private Date dateOfBirth;
 
 	private boolean studentStatus;
 	private String category;
@@ -34,7 +35,7 @@ public class StudentDetailsDto {
 	private String gender;
 
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	private LocalDate joiningDate;
+	private Date joiningDate;
 
 	private String status;
 

@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -105,6 +106,7 @@ public class StudentServiceImpl implements StudentService {
 
 		Student savedStudent = studentRepository.save(student);
 		res.setData(studentMapper.entityToDto(savedStudent));
+		//LOGGER.info("i am working -> " ,studentMapper.entityToDto(savedStudent).toString());
 		response.setStatusCode(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getCode());
 		response.setMessage(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getMessage());
 		response.setResult(res);
@@ -112,13 +114,15 @@ public class StudentServiceImpl implements StudentService {
 
 		String jsonStr = null;
 		try {
+			//Date date=(Date) res.getData().getDateOfBirth().toString();
 			jsonStr = obj.writeValueAsString(res.getData());
-			LOGGER.info(jsonStr);
+//			LOGGER.info(String.format("Heloo-------",jsonStr));
 		}
 		catch (IOException e) {
 			e.printStackTrace();
 		}
 		kafkaTemplate.send(topicName,4,"Key1",jsonStr);
+		LOGGER.info(String.format("Hello-------"));
 		LOGGER.info(String.format("Order Event => %s", jsonStr.toString()));
 		return response;
 	}
