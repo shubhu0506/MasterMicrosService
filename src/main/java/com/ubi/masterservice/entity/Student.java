@@ -1,6 +1,7 @@
 package com.ubi.masterservice.entity;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,12 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,10 +35,10 @@ public class Student {
 	private Long lastVerifiedByTeacher;
 	private Long lastVerifiedByPrincipal;
 
-	@JsonFormat(pattern = "yyyy-MM-dd")
-	@JsonSerialize(using = LocalDateTimeSerializer.class)
-	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
-	private LocalDate dateOfBirth;
+	@JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
+	@JsonSerialize(using = ToStringSerializer.class)
+//	@JsonDeserialize(using = LocalDateDeserializer.class)
+	private Date dateOfBirth;
 
 	private boolean studentStatus;
 	private String category;
@@ -49,8 +48,9 @@ public class Student {
 	private String motherName;
 	private String motherOccupation;
 	private String gender;
-	@JsonFormat(pattern = "yyyy-MM-dd")
-	private LocalDate joiningDate;
+	@JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
+//	@JsonDeserialize(using = LocalDateDeserializer.class)
+	private Date joiningDate;
 	private String status;
 
 	private Boolean verifiedByTeacher;

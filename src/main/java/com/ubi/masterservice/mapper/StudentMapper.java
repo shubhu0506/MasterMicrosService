@@ -47,6 +47,7 @@ public class StudentMapper {
 		studentDto.setVerifiedByPrincipal(student.getVerifiedByPrincipal());
 		studentDto.setVerifiedByTeacher(student.getVerifiedByTeacher());
 		studentDto.setClassId(student.getClassDetail().getClassId());
+		//System.out.println(studentDto.toString());
 		return studentDto;
 			
 	}

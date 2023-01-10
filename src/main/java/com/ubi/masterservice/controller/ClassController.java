@@ -42,6 +42,7 @@ public class ClassController {
 		return ResponseEntity.ok().body(response);
 	}
 
+
 	@Operation(summary = "Get All Class details", security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping
 	public ResponseEntity<Response<PaginationResponse<List<ClassStudentDto>>>> getClassDetails(
@@ -51,6 +52,7 @@ public class ClassController {
 		return ResponseEntity.ok().body(response);
 
 	}
+
 
 	@GetMapping("/{classid}")
 	@Operation(summary = "Get Class By Id", security = @SecurityRequirement(name = "bearerAuth"))
@@ -62,6 +64,7 @@ public class ClassController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 		}
 	}
+
 
 	@GetMapping("/get/{className}")
 	@Operation(summary = "Get Class By Name", security = @SecurityRequirement(name = "bearerAuth"))
