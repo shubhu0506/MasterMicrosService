@@ -34,7 +34,7 @@ public class StudentMapper {
 		studentDto.setCurrentStatus(student.getCurrentStatus());
 		studentDto.setDateOfBirth(student.getDateOfBirth());
 		studentDto.setFatherName(student.getFatherName());
-		studentDto.setFatherOccupation(student.getFatherName());
+		studentDto.setFatherOccupation(student.getFatherOccupation());
 		studentDto.setGender(student.getGender());
 		studentDto.setIsActivate(student.getIsActivate());
 		studentDto.setJoiningDate(student.getJoiningDate());
