@@ -17,7 +17,6 @@ import lombok.*;
 @Builder
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@ToString
 public class Region {
 
 	@Id
