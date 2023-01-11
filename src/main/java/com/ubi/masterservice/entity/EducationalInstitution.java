@@ -18,7 +18,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @Entity
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-@ToString
 public class EducationalInstitution {
 
 	@Id
