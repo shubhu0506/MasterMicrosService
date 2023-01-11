@@ -51,7 +51,7 @@ public class StudentMapper {
 		return studentDto;
 			
 	}
-
+	
 	public StudentVerifyDto entityToDtoId(StudentVerifyDto student) {
 		StudentVerifyDto studentDto=modelMapper.map(student, StudentVerifyDto.class);
 		studentDto.setStudentId(student.getStudentId());
@@ -67,7 +67,6 @@ public class StudentMapper {
 	public List<StudentDto> entitiesToDtos(List<Student> student) {
 		return student.stream().filter(Objects::nonNull).map(this::entityToDto).collect(Collectors.toList());
 	}
-
 	
 	public Student dtoToEntity(StudentDto studentDto) {
 		return modelMapper.map(studentDto, Student.class);

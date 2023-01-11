@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -27,8 +29,7 @@ public class StudentDto {
 	private String studentName;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
-//	@JsonSerialize(using = ToStringSerializer.class)
-	//@JsonDeserialize(using = LocalDateDeserializer.class)
+    @Temporal(TemporalType.DATE)
 	private Date dateOfBirth;
 
 	private boolean studentStatus;

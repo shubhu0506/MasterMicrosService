@@ -1,5 +1,6 @@
 package com.ubi.masterservice.service;
 
+import java.text.ParseException;
 import java.util.List;
 
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
@@ -13,7 +14,7 @@ import com.ubi.masterservice.dto.studentDto.StudentVerifyDto;
 public interface StudentService {
 	Response<StudentDto> saveStudent(StudentDto studentDto);
 
-	Response<PaginationResponse<List<StudentDetailsDto>>> getStudents(Integer PageNumber, Integer PageSize);
+	Response<PaginationResponse<List<StudentDetailsDto>>> getStudents(String fieldName,String searchByField,Integer PageNumber, Integer PageSize) throws ParseException;
 
 	Response<StudentDetailsDto> getStudentById(Long id);
 

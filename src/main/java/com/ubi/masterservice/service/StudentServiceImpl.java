@@ -1,22 +1,14 @@
 package com.ubi.masterservice.service;
 
-import java.io.ByteArrayInputStream;
-
 import java.io.IOException;
-
-import java.util.ArrayList;
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ubi.masterservice.dto.pagination.PaginationResponse;
-import com.ubi.masterservice.dto.studentDto.StudentPromoteDemoteDto;
-import com.ubi.masterservice.dto.studentDto.StudentVerifyDto;
-import com.ubi.masterservice.entity.StudentPromoteDemote;
-import com.ubi.masterservice.repository.StudentPromoteDemoteRepository;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,16 +19,22 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import com.ubi.masterservice.dto.response.Response;
 import com.ubi.masterservice.dto.studentDto.StudentDetailsDto;
 import com.ubi.masterservice.dto.studentDto.StudentDto;
+import com.ubi.masterservice.dto.studentDto.StudentPromoteDemoteDto;
+import com.ubi.masterservice.dto.studentDto.StudentVerifyDto;
 import com.ubi.masterservice.entity.ClassDetail;
 import com.ubi.masterservice.entity.Student;
+import com.ubi.masterservice.entity.StudentPromoteDemote;
 import com.ubi.masterservice.error.CustomException;
 import com.ubi.masterservice.error.HttpStatusCode;
 import com.ubi.masterservice.error.Result;
 import com.ubi.masterservice.mapper.StudentMapper;
 import com.ubi.masterservice.repository.ClassRepository;
+import com.ubi.masterservice.repository.StudentPromoteDemoteRepository;
 import com.ubi.masterservice.repository.StudentRepository;
 
 @Service
@@ -127,7 +125,7 @@ public class StudentServiceImpl implements StudentService {
 		return response;
 	}
 
-	public Response<PaginationResponse<List<StudentDetailsDto>>> getStudents(Integer PageNumber, Integer PageSize) {
+	/*public Response<PaginationResponse<List<StudentDetailsDto>>> getStudents(String fieldName,String searchByField,Integer PageNumber, Integer PageSize) {
 		Result<PaginationResponse<List<StudentDetailsDto>>> res = new Result<>();
 		Pageable paging = PageRequest.of(PageNumber, PageSize);
 		Response<PaginationResponse<List<StudentDetailsDto>>> getListofStudent = new Response<>();
@@ -145,6 +143,88 @@ public class StudentServiceImpl implements StudentService {
 
 		PaginationResponse paginationResponse=new PaginationResponse<List<StudentDetailsDto>>(studentDtos,list.getTotalPages(),list.getTotalElements());
 
+		res.setData(paginationResponse);
+		getListofStudent.setStatusCode(200);
+		getListofStudent.setResult(res);
+		return getListofStudent;
+	}*/
+	public Response<PaginationResponse<List<StudentDetailsDto>>> getStudents(String fieldName,String searchByField,Integer PageNumber, Integer PageSize) throws ParseException {
+		Result<PaginationResponse<List<StudentDetailsDto>>> res = new Result<>();
+		Pageable paging = PageRequest.of(PageNumber, PageSize);
+		Response<PaginationResponse<List<StudentDetailsDto>>> getListofStudent = new Response<>();
+		Page<Student> list = this.studentRepository.findAll(paging);
+		List<StudentDetailsDto> studentDtos;
+		PaginationResponse<List<StudentDetailsDto>> paginationResponse = null;
+		List<Student> studentData = null;
+		//String strDateRegEx = "[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]";
+		
+		String strDateRegEx ="^((?:19|20)[0-9][0-9])-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$";
+		if(!fieldName.equals("*") && !searchByField.equals("*"))
+		{
+			if(searchByField.matches(strDateRegEx)) {
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+				Date localDate = formatter.parse(searchByField);
+				if(fieldName.equalsIgnoreCase("dateOfBirth")) {
+					studentData = studentRepository.findByDateOfBirth(localDate);
+				} else {
+					studentData = studentRepository.findByJoiningDate(localDate);
+				}
+				studentDtos = (studentData.stream().map(student -> studentMapper.toStudentDetails(student)).collect(Collectors.toList()));
+				paginationResponse=new PaginationResponse<List<StudentDetailsDto>>(studentDtos,list.getTotalPages(),list.getTotalElements());
+			} else {
+				if(fieldName.equalsIgnoreCase("studentName")) {
+					studentData = studentRepository.findByStudentName(searchByField);
+				}
+				if(fieldName.equalsIgnoreCase("category")) {
+					studentData = studentRepository.findByCategory(searchByField);
+				}
+				if(fieldName.equalsIgnoreCase("minority")) {
+					studentData = studentRepository.findByMinority(searchByField);
+				}
+				if(fieldName.equalsIgnoreCase("fatherName")) {
+					studentData = studentRepository.findByFatherName(searchByField);
+				}
+				if(fieldName.equalsIgnoreCase("fatherOccupation")) {
+					studentData = studentRepository.findByFatherOccupation(searchByField);
+				}
+				if(fieldName.equalsIgnoreCase("motherName")) {
+					studentData = studentRepository.findByMotherName(searchByField);
+				}
+				if(fieldName.equalsIgnoreCase("gender")) {
+					studentData = studentRepository.findByGender(searchByField);
+				}
+				if(fieldName.equalsIgnoreCase("studentId")) {
+					studentData = studentRepository.findByStudentId(Long.parseLong(searchByField));
+				}
+				if(fieldName.equalsIgnoreCase("lastVerifiedByTeacher")) {
+					studentData = studentRepository.findByLastVerifiedByTeacher(Long.parseLong(searchByField));
+				}
+				if(fieldName.equalsIgnoreCase("lastVerifiedByPrincipal")) {
+					studentData = studentRepository.findByLastVerifiedByPrincipal(Long.parseLong(searchByField));
+				}
+				if(fieldName.equalsIgnoreCase("verifiedByTeacher")) {
+					studentData = studentRepository.findByVerifiedByTeacher(Boolean.parseBoolean(searchByField));
+				}
+				if(fieldName.equalsIgnoreCase("currentStatus")) {
+					studentData = studentRepository.findByCurrentStatus(searchByField);
+				}
+				if(fieldName.equalsIgnoreCase("verifiedByPrincipal")) {
+					studentData = studentRepository.findByVerifiedByPrincipal(Boolean.parseBoolean(searchByField));
+				}
+				if(fieldName.equalsIgnoreCase("studentStatus")) {
+					studentData = studentRepository.findByStudentStatus(Boolean.parseBoolean(searchByField));
+				}
+				studentDtos = (studentData.stream().map(student -> studentMapper.toStudentDetails(student)).collect(Collectors.toList()));
+				paginationResponse=new PaginationResponse<List<StudentDetailsDto>>(studentDtos,list.getTotalPages(),list.getTotalElements());
+			}
+		} else {
+			studentDtos = (list.toList().stream().map(student -> studentMapper.toStudentDetails(student)).collect(Collectors.toList()));
+			paginationResponse=new PaginationResponse<List<StudentDetailsDto>>(studentDtos,list.getTotalPages(),list.getTotalElements());
+		}
+		if (list.isEmpty()) {
+			throw new CustomException(HttpStatusCode.NO_ENTRY_FOUND.getCode(), HttpStatusCode.NO_ENTRY_FOUND,
+					HttpStatusCode.NO_ENTRY_FOUND.getMessage(), res);
+		}
 		res.setData(paginationResponse);
 		getListofStudent.setStatusCode(200);
 		getListofStudent.setResult(res);

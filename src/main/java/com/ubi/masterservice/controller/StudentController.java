@@ -1,5 +1,6 @@
 package com.ubi.masterservice.controller;
 
+import java.text.ParseException;
 import java.util.List;
 
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
@@ -48,9 +49,10 @@ public class StudentController {
 	@Operation(summary = "Get All Student", security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping
 	public ResponseEntity<Response<PaginationResponse<List<StudentDetailsDto>>>> getStudents(
+			@RequestParam (defaultValue = "*") String fieldName,@RequestParam (defaultValue = "*") String searchByField,
 			@RequestParam(value = "PageNumber", defaultValue = "0", required = false) Integer pageNumber,
-			@RequestParam(value = "PageSize", defaultValue = "5", required = false) Integer pageSize) {
-		Response<PaginationResponse<List<StudentDetailsDto>>> response = service.getStudents(pageNumber, pageSize);
+			@RequestParam(value = "PageSize", defaultValue = "5", required = false) Integer pageSize) throws ParseException {
+		Response<PaginationResponse<List<StudentDetailsDto>>> response = service.getStudents(fieldName,searchByField,pageNumber, pageSize);
 		return ResponseEntity.ok().body(response);
 
 	}

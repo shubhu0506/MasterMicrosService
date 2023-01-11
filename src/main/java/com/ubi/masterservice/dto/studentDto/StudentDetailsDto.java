@@ -1,9 +1,9 @@
 package com.ubi.masterservice.dto.studentDto;
 
-import java.time.LocalDate;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ubi.masterservice.dto.classDto.ClassDto;
@@ -22,7 +22,8 @@ public class StudentDetailsDto {
 	private Long studentId;
 	private String studentName;
 
-	@JsonFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
 	private Date dateOfBirth;
 
 	private boolean studentStatus;
@@ -34,7 +35,8 @@ public class StudentDetailsDto {
 	private String motherOccupation;
 	private String gender;
 
-	@JsonFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
 	private Date joiningDate;
 
 	private String status;
