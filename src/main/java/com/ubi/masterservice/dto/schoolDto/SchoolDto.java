@@ -36,6 +36,8 @@ public class SchoolDto {
 	private int vvnAccount;
 
 	private int vvnFund;
+	
+	private Long principalId;
 
 	private int regionId;
 

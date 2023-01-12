@@ -23,6 +23,10 @@ public enum HttpStatusCode {
 	CLASS_RETRIVED_SUCCESSFULLY(200,"class Retrived"),
 
 	NO_USER_MATCH_WITH_ID(109,"No User found with given Id "),
+	
+    USER_NOT_EXISTS(110, "User with given roleType not exist"),
+	
+	USER_WITH_ROLE_PRINCIPAL_NOT_EXISTS(110, "User with Principal roleType does not exist"),
 
 	NO_STUDENT_MATCH_WITH_ID(109,"No such student found with such id"),
 

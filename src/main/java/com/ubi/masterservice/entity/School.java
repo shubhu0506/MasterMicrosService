@@ -62,6 +62,8 @@ public class School {
 
 	@Column(name = "vvnFund")
 	private int vvnFund;
+	
+	private Long principalId;
 
 	@ManyToOne
 	@JoinColumn(name="region_id",referencedColumnName="id" )

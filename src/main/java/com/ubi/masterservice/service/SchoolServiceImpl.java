@@ -1,9 +1,7 @@
 package com.ubi.masterservice.service;
 
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -11,10 +9,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import org.apache.kafka.clients.admin.NewTopic;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +17,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubi.masterservice.dto.classDto.ClassDto;
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import com.ubi.masterservice.dto.response.Response;
+import com.ubi.masterservice.dto.schoolDto.PrincipalDto;
 import com.ubi.masterservice.dto.schoolDto.SchoolDto;
 import com.ubi.masterservice.dto.schoolDto.SchoolRegionDto;
+import com.ubi.masterservice.dto.user.UserDto;
 import com.ubi.masterservice.entity.ClassDetail;
 import com.ubi.masterservice.entity.EducationalInstitution;
 import com.ubi.masterservice.entity.Region;
@@ -37,6 +36,7 @@ import com.ubi.masterservice.entity.School;
 import com.ubi.masterservice.error.CustomException;
 import com.ubi.masterservice.error.HttpStatusCode;
 import com.ubi.masterservice.error.Result;
+import com.ubi.masterservice.externalServices.UserFeignService;
 import com.ubi.masterservice.mapper.ClassMapper;
 import com.ubi.masterservice.mapper.EducationalInstitutionMapper;
 import com.ubi.masterservice.mapper.RegionMapper;
@@ -45,6 +45,7 @@ import com.ubi.masterservice.repository.ClassRepository;
 import com.ubi.masterservice.repository.EducationalInstitutionRepository;
 import com.ubi.masterservice.repository.RegionRepository;
 import com.ubi.masterservice.repository.SchoolRepository;
+import com.ubi.masterservice.util.PermissionUtil;
 
 @Service
 public class SchoolServiceImpl implements SchoolService {
@@ -53,6 +54,12 @@ public class SchoolServiceImpl implements SchoolService {
 
 	@Autowired
 	private SchoolMapper schoolMapper;
+	
+	@Autowired
+	private PermissionUtil permissionUtil;
+
+	@Autowired
+    UserFeignService userFeignService;
 
 	@Autowired
 	private RegionRepository regionRepository;
@@ -124,13 +131,23 @@ public class SchoolServiceImpl implements SchoolService {
 		school.setExemptionFlag(schoolDto.isExemptionFlag());
 		school.setVvnAccount(schoolDto.getVvnAccount());
 		school.setVvnFund(schoolDto.getVvnFund());
-
 		
+		String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+		
+		
+		ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,schoolDto.getPrincipalId().toString());
+		PrincipalDto principalDto = null;
+		UserDto userDto = principalResponse.getBody().getResult().getData();
+		if(userDto != null) {
+			principalDto = new PrincipalDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
+		}
+		
+		school.setPrincipalId(schoolDto.getPrincipalId());
 		
 		school.setRegion(regionRepository.getReferenceById(schoolDto.getRegionId()));
-
+		
 		school.setClassDetail(new HashSet<>());
-
+		
 		for (Long classId : schoolDto.getClassId()) {
 			// System.out.println(classId);
 			ClassDetail classDetail = classRepository.getReferenceById(classId);
@@ -150,6 +167,7 @@ public class SchoolServiceImpl implements SchoolService {
 		School savedSchool = schoolRepository.save(school);
 
 		SchoolRegionDto schoolRegionDto = schoolMapper.toSchoolClassDto(savedSchool);
+		schoolRegionDto.setPrincipalDto(principalDto);
 		res.setData(schoolRegionDto);
 		response.setStatusCode(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getCode());
 		response.setMessage(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getMessage());
@@ -184,8 +202,19 @@ public class SchoolServiceImpl implements SchoolService {
 		for (School school : list) {
 			SchoolRegionDto schoolRegionDto = new SchoolRegionDto();
 			schoolRegionDto.setSchoolDto(schoolMapper.entityToDtos(school));
-
+	
+			String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+			
+			ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,school.getPrincipalId().toString());
+			PrincipalDto principalDto = null;
+			UserDto userDto = principalResponse.getBody().getResult().getData();
+			if(userDto != null) {
+				principalDto = new PrincipalDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
+			}
+			
+			
 			schoolRegionDto.setRegionDto(regionMapper.toDto(school.getRegion()));
+			schoolRegionDto.setPrincipalDto(principalDto);
 			Set<ClassDto> classDto = school.getClassDetail().stream()
 					.map(classDetail -> classMapper.entityToDto(classDetail)).collect(Collectors.toSet());
 
@@ -225,8 +254,20 @@ public class SchoolServiceImpl implements SchoolService {
 		for (School school : list) {
 			SchoolRegionDto schoolRegionDto = new SchoolRegionDto();
 			schoolRegionDto.setSchoolDto(schoolMapper.entityToDtos(school));
+			
+            String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+			
+			ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,school.getPrincipalId().toString());
+			PrincipalDto principalDto = null;
+			UserDto userDto = principalResponse.getBody().getResult().getData();
+			if(userDto != null) {
+				principalDto = new PrincipalDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
+			}
+			
+			
 
 			schoolRegionDto.setRegionDto(regionMapper.toDto(school.getRegion()));
+			schoolRegionDto.setPrincipalDto(principalDto);
 			Set<ClassDto> classDto = school.getClassDetail().stream()
 					.map(classDetail -> classMapper.entityToDto(classDetail)).collect(Collectors.toSet());
 
@@ -265,9 +306,21 @@ public class SchoolServiceImpl implements SchoolService {
 
 		SchoolRegionDto schoolRegionDto = new SchoolRegionDto();
 		schoolRegionDto.setSchoolDto(schoolMapper.entityToDto(sch.get()));
+		
+		String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+		
+		ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,sch.get().getPrincipalId().toString());
+		PrincipalDto principalDto = null;
+		UserDto userDto = principalResponse.getBody().getResult().getData();
+		if(userDto != null) {
+			principalDto = new PrincipalDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
+		}
+		
+		
 		schoolRegionDto.setRegionDto(regionMapper.toDto(sch.get().getRegion()));
 		schoolRegionDto.setClassDto(classMapper.entitiesToDto(sch.get().getClassDetail()));
 		schoolRegionDto.setEducationalInstitutionDto(educationalMapper.toDto(sch.get().getEducationalInstitution()));
+		schoolRegionDto.setPrincipalDto(principalDto);
 		schoolResult.setData(schoolRegionDto);
 		getSchool.setStatusCode(HttpStatusCode.SCHOOL_RETRIVED_SUCCESSFULLY.getCode());
 		getSchool.setMessage(HttpStatusCode.SCHOOL_RETRIVED_SUCCESSFULLY.getMessage());
@@ -289,9 +342,18 @@ public class SchoolServiceImpl implements SchoolService {
 		}
 		SchoolRegionDto schoolRegionDto = new SchoolRegionDto();
 		schoolRegionDto.setSchoolDto(schoolMapper.entityToDto(sch.get()));
+        String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+		
+		ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,sch.get().getPrincipalId().toString());
+		PrincipalDto principalDto = null;
+		UserDto userDto = principalResponse.getBody().getResult().getData();
+		if(userDto != null) {
+			principalDto = new PrincipalDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
+		}
 		schoolRegionDto.setRegionDto(regionMapper.toDto(sch.get().getRegion()));
 		schoolRegionDto.setClassDto(classMapper.entitiesToDto(sch.get().getClassDetail()));
 		schoolRegionDto.setEducationalInstitutionDto(educationalMapper.toDto(sch.get().getEducationalInstitution()));
+		schoolRegionDto.setPrincipalDto(principalDto);
 		schoolResult.setData(schoolRegionDto);
 		getSchoolName.setStatusCode(HttpStatusCode.SCHOOL_RETRIVED_SUCCESSFULLY.getCode());
 		getSchoolName.setMessage(HttpStatusCode.SCHOOL_RETRIVED_SUCCESSFULLY.getMessage());
@@ -370,6 +432,18 @@ public class SchoolServiceImpl implements SchoolService {
 		school.setType(schoolDto.getType());
 		school.setEmail(schoolDto.getEmail());
 		school.setSchoolId(schoolDto.getSchoolId());
+		
+		String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+		
+		ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,schoolDto.getPrincipalId().toString());
+		PrincipalDto principalDto = null;
+		UserDto userDto = principalResponse.getBody().getResult().getData();
+		if(userDto != null) {
+			principalDto = new PrincipalDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
+		}
+		
+		
+		school.setPrincipalId(schoolDto.getPrincipalId());
 
 		Region region = regionRepository.getReferenceById(schoolDto.getRegionId());
 		regionRepository.save(region);
@@ -390,7 +464,7 @@ public class SchoolServiceImpl implements SchoolService {
 		School updatedSchool = schoolRepository.save(school);
 
 		SchoolRegionDto schoolRegionDto = schoolMapper.toSchoolClassDto(updatedSchool);
-
+		schoolRegionDto.setPrincipalDto(principalDto);
 		res.setData(schoolRegionDto);
 		Response<SchoolRegionDto> response = new Response<>();
 		response.setMessage(HttpStatusCode.SCHOOL_UPDATED.getMessage());
