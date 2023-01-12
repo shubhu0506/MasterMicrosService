@@ -10,7 +10,6 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class EducationalInstitutionDto {
 
 	private int id;

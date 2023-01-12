@@ -1,6 +1,7 @@
 package com.ubi.masterservice.mapper;
 
 import java.util.HashSet;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 import com.ubi.masterservice.dto.classDto.ClassDto;
 import com.ubi.masterservice.dto.educationalInstitutiondto.EducationalInstitutionDto;
 import com.ubi.masterservice.dto.regionDto.RegionDto;
+import com.ubi.masterservice.dto.schoolDto.PrincipalDto;
 import com.ubi.masterservice.dto.schoolDto.SchoolDto;
 import com.ubi.masterservice.dto.schoolDto.SchoolRegionDto;
 import com.ubi.masterservice.entity.ClassDetail;
@@ -45,6 +47,14 @@ public class SchoolMapper {
 		schoolDto.setVvnAccount(school.getVvnAccount());
 		schoolDto.setVvnFund(school.getVvnFund());
 		schoolDto.setIsCollege(school.getIsCollege());
+		if(school.getPrincipalId() != null)schoolDto.setPrincipalId(school.getPrincipalId());
+		
+		
+		
+//		if(school.getPrincipalId()!=null)
+//		{
+//			schoolDto.getPrincipalId();
+//		}
 
 		if(school.getRegion() != null)
 		{
@@ -117,7 +127,7 @@ public class SchoolMapper {
 		regionDto.setCode(region.getCode());
 		regionDto.setName(region.getName());
 		regionDto.setId(region.getId());
-
+			
 		Set<ClassDto> classDtoSet = new HashSet<>();
 		if(school.getClassDetail() != null) {
 			for (ClassDetail classDetail : school.getClassDetail()) {
@@ -143,7 +153,7 @@ public class SchoolMapper {
 			edDto.setExemptionFlag(edu.getExemptionFlag());
 			edDto.setVvnAccount(edu.getVvnAccount());
 		}
-		return new SchoolRegionDto(schoolDto, regionDto, classDtoSet, edDto);
+		return new SchoolRegionDto(schoolDto,null, regionDto, classDtoSet, edDto);
 
 	}
 }

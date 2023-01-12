@@ -4,15 +4,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.ubi.masterservice.dto.classDto.ClassDto;
+import com.ubi.masterservice.dto.educationalInstitutiondto.EducationalInstitutionDto;
+import com.ubi.masterservice.dto.regionDto.RegionGet;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+public class GetSchoolDetails {
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class SchoolDetailsDto {
 	private int schoolId;
 
 	private int code;
@@ -36,12 +32,13 @@ public class SchoolDetailsDto {
 	private int vvnAccount;
 
 	private int vvnFund;
-	
-	private Long principalId;
 
-	private int regionId;
+	private RegionGet regionGet;
 
-	Set<ClassDto> classDto=new HashSet<>();
+	private PrincipalDto principalDto;
 
-	private int educationalInstitutionId;
+	Set<ClassDto> classDto = new HashSet<>();
+
+	private EducationalInstitutionDto educationalInstitutionDto;
+
 }

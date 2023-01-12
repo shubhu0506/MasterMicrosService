@@ -33,8 +33,6 @@ public class ClassMapper {
 			classDto.setSchoolId(classDetail.getSchool().getSchoolId());
 		}
 		return classDto;
-		
-		
 	}
 
 	public List<ClassDto> entitiesToDtos(List<ClassDetail> classDetail) {
