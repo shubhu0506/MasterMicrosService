@@ -2,6 +2,7 @@ package com.ubi.masterservice.controller;
 
 import java.util.List;
 
+
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,10 +66,14 @@ public class RegionController {
 
 	@Operation(summary = "Get All Region", security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping()
+//	@IsEducationInstituteHQAdmin
 	public ResponseEntity<Response<PaginationResponse<List<RegionDetailsDto>>>> getAllRegions(
+			@RequestParam( defaultValue = "*") String fieldName,
+			@RequestParam( defaultValue = "*") String searchByField,
 			@RequestParam(value = "PageNumber", defaultValue = "0", required = false) Integer pageNumber,
-			@RequestParam(value = "PageSize", defaultValue = "5", required = false) Integer pageSize) {
-		Response<PaginationResponse<List<RegionDetailsDto>>> response = regionService.getRegionDetails(pageNumber, pageSize);
+			@RequestParam(value = "PageSize", defaultValue = "5", required = false) Integer pageSize  )
+	{
+		Response<PaginationResponse<List<RegionDetailsDto>>> response = regionService.getRegionDetails(fieldName, searchByField, pageNumber, pageSize  );
 		return ResponseEntity.ok().body(response);
 
 	}
