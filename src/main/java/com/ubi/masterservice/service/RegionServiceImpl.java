@@ -1,6 +1,5 @@
 package com.ubi.masterservice.service;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
@@ -8,8 +7,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,11 +18,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import com.ubi.masterservice.dto.regionDto.RegionCreationDto;
 import com.ubi.masterservice.dto.regionDto.RegionDetailsDto;
 import com.ubi.masterservice.dto.regionDto.RegionDto;
-import com.ubi.masterservice.dto.regionDto.RegionSchoolDto;
-import com.ubi.masterservice.dto.regionDto.RegionSchoolMappingDto;
 import com.ubi.masterservice.dto.response.Response;
 import com.ubi.masterservice.entity.EducationalInstitution;
 import com.ubi.masterservice.entity.Region;
@@ -126,7 +123,7 @@ public class RegionServiceImpl implements RegionService {
 		return response;
 	}
 
-	@Override
+	/*@Override
 	public Response<PaginationResponse<List<RegionDetailsDto>>> getRegionDetails(Integer PageNumber, Integer PageSize) {
 		Result<PaginationResponse<List<RegionDetailsDto>>> allRegion = new Result<>();
 		Pageable paging = PageRequest.of(PageNumber, PageSize);
@@ -146,7 +143,49 @@ public class RegionServiceImpl implements RegionService {
 		getListofRegion.setMessage(HttpStatusCode.REGION_RETREIVED_SUCCESSFULLY.getMessage());
 		getListofRegion.setResult(allRegion);
 		return getListofRegion;
+	}*/
+	public Response<PaginationResponse<List<RegionDetailsDto>>> getRegionDetails(String fieldName,String searchByField,Integer PageNumber, Integer PageSize) {
+		Result<PaginationResponse<List<RegionDetailsDto>>> res = new Result<>();
+		Pageable paging = PageRequest.of(PageNumber, PageSize);
+		Response<PaginationResponse<List<RegionDetailsDto>>> getListofRegion = new Response<>();
+		Page<Region> list = this.regionRepository.findAll(paging);
+		List<RegionDetailsDto> regionDtos;
+		PaginationResponse<List<RegionDetailsDto>> paginationResponse = null;
+		Optional<Region> regionData = null;
+		
+	
+		if(!fieldName.equals("*") && !searchByField.equals("*")) {
+				if(fieldName.equalsIgnoreCase("code")) {
+					regionData = regionRepository.findByCode(searchByField);
+				}
+				if(fieldName.equalsIgnoreCase("name")) {
+					regionData = regionRepository.findByName(searchByField);
+				}
+				
+				if(fieldName.equalsIgnoreCase("id")) {
+					regionData = regionRepository.findAllById(Integer.parseInt(searchByField));
+				}
+				regionDtos = (regionData.stream().map(region -> regionMapper.toRegionDetails(region)).collect(Collectors.toList()));
+				paginationResponse=new PaginationResponse<List<RegionDetailsDto>>(regionDtos,list.getTotalPages(),list.getTotalElements());
+		} else {
+	 
+			regionDtos = (list.toList().stream().map(region -> regionMapper.toRegionDetails(region)).collect(Collectors.toList()));
+			paginationResponse=new PaginationResponse<List<RegionDetailsDto>>(regionDtos,list.getTotalPages(),list.getTotalElements());
+		}
+		if (list.isEmpty()) {
+			throw new CustomException(HttpStatusCode.NO_ENTRY_FOUND.getCode(), HttpStatusCode.NO_ENTRY_FOUND,
+					HttpStatusCode.NO_ENTRY_FOUND.getMessage(), res);
+		}
+		res.setData(paginationResponse);
+		getListofRegion.setStatusCode(200);
+		getListofRegion.setResult(res);
+		return getListofRegion;
+	
 	}
+		
+	
+	
+	
 
 	@Override
 	public Response<RegionDetailsDto> getRegionById(int id) {

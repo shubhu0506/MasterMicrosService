@@ -15,7 +15,7 @@ public interface RegionService {
 
 	Response<RegionDetailsDto> addRegion(RegionCreationDto regionCreationDto);
 
-	Response<PaginationResponse<List<RegionDetailsDto>>> getRegionDetails(Integer PageNumber, Integer PageSize);
+	Response<PaginationResponse<List<RegionDetailsDto>>> getRegionDetails(String fieldName, String searchByField ,Integer PageSize,Integer PageNumber );
 
 	public Response<RegionDetailsDto> getRegionById(int id);
 
