@@ -17,9 +17,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-
 @Entity
-@ToString
 @Table(name = "School_Details")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class School {

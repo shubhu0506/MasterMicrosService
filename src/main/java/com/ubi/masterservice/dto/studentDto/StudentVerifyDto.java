@@ -20,6 +20,4 @@ public class StudentVerifyDto {
 	
 	private Set<Long> studentId;
 
-	
-
 }
