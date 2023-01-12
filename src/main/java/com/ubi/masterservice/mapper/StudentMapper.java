@@ -5,19 +5,16 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.ubi.masterservice.dto.studentDto.StudentPromoteDemoteDto;
-import com.ubi.masterservice.dto.studentDto.StudentVerifyDto;
-import com.ubi.masterservice.entity.StudentPromoteDemote;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.ubi.masterservice.dto.educationalInstitutiondto.EducationalInstitutionDto;
-import com.ubi.masterservice.dto.regionDto.RegionDetailsDto;
 import com.ubi.masterservice.dto.studentDto.StudentDetailsDto;
 import com.ubi.masterservice.dto.studentDto.StudentDto;
-import com.ubi.masterservice.entity.Region;
+import com.ubi.masterservice.dto.studentDto.StudentPromoteDemoteDto;
+import com.ubi.masterservice.dto.studentDto.StudentVerifyDto;
 import com.ubi.masterservice.entity.Student;
+import com.ubi.masterservice.entity.StudentPromoteDemote;
 
 @Component
 public class StudentMapper {

@@ -1,19 +1,11 @@
 package com.ubi.masterservice.dto.studentDto;
 
-import java.time.LocalDate;
 import java.util.Date;
 
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,7 +21,6 @@ public class StudentDto {
 	private String studentName;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
-    @Temporal(TemporalType.DATE)
 	private Date dateOfBirth;
 
 	private boolean studentStatus;
@@ -42,7 +33,6 @@ public class StudentDto {
 	private String gender;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
-	//@JsonDeserialize(using = LocalDateDeserializer.class)
 	private Date joiningDate;
 
 	private String status;
@@ -55,4 +45,5 @@ public class StudentDto {
 
 	private Long classId;
 }
+
 

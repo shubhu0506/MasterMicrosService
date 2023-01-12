@@ -11,6 +11,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,7 +36,7 @@ public class Student {
 	private Long lastVerifiedByPrincipal;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
-	@Temporal(TemporalType.DATE)
+	@JsonSerialize(using = ToStringSerializer.class)
 	private Date dateOfBirth;
 
 	private boolean studentStatus;
@@ -46,7 +48,6 @@ public class Student {
 	private String motherOccupation;
 	private String gender;
 	@JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
-	@Temporal(TemporalType.DATE)
 	private Date joiningDate;
 	private String status;
 
