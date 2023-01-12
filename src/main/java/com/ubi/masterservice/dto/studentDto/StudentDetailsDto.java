@@ -1,9 +1,6 @@
 package com.ubi.masterservice.dto.studentDto;
 
-import java.time.LocalDate;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ubi.masterservice.dto.classDto.ClassDto;
@@ -12,7 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

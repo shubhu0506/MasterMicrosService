@@ -5,19 +5,16 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.ubi.masterservice.dto.studentDto.StudentPromoteDemoteDto;
-import com.ubi.masterservice.dto.studentDto.StudentVerifyDto;
-import com.ubi.masterservice.entity.StudentPromoteDemote;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.ubi.masterservice.dto.educationalInstitutiondto.EducationalInstitutionDto;
-import com.ubi.masterservice.dto.regionDto.RegionDetailsDto;
 import com.ubi.masterservice.dto.studentDto.StudentDetailsDto;
 import com.ubi.masterservice.dto.studentDto.StudentDto;
-import com.ubi.masterservice.entity.Region;
+import com.ubi.masterservice.dto.studentDto.StudentPromoteDemoteDto;
+import com.ubi.masterservice.dto.studentDto.StudentVerifyDto;
 import com.ubi.masterservice.entity.Student;
+import com.ubi.masterservice.entity.StudentPromoteDemote;
 
 @Component
 public class StudentMapper {
@@ -51,7 +48,7 @@ public class StudentMapper {
 		return studentDto;
 			
 	}
-
+	
 	public StudentVerifyDto entityToDtoId(StudentVerifyDto student) {
 		StudentVerifyDto studentDto=modelMapper.map(student, StudentVerifyDto.class);
 		studentDto.setStudentId(student.getStudentId());
@@ -67,7 +64,6 @@ public class StudentMapper {
 	public List<StudentDto> entitiesToDtos(List<Student> student) {
 		return student.stream().filter(Objects::nonNull).map(this::entityToDto).collect(Collectors.toList());
 	}
-
 	
 	public Student dtoToEntity(StudentDto studentDto) {
 		return modelMapper.map(studentDto, Student.class);
