@@ -56,10 +56,11 @@ public class StudentServiceImpl implements StudentService {
 	@Autowired
 	Result result;
 
-	private String topicName="master_topic";
+	private String topicName="master_topic_add";
 
 	private String topicDelete="master_delete";
 
+	private String topicUpdateName="master_topic_update";
 	private NewTopic topic;
 
 	@Autowired
@@ -71,14 +72,6 @@ public class StudentServiceImpl implements StudentService {
 		this.kafkaTemplate=kafkaTemplate;
 	}
 
-
-
-//	public ByteArrayInputStream load() {
-//		List<Student> student = studentRepository.findAll();
-//
-//		ByteArrayInputStream in = StudentCSVHelper.StudentToCSV(student);
-//		return in;
-//	}
 
 	public Response<StudentDto> saveStudent(StudentDto studentDto) {
 		Result<StudentDto> res = new Result<>();
@@ -326,7 +319,7 @@ public class StudentServiceImpl implements StudentService {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-		kafkaTemplate.send(topicName,4, "Key2",jsonStr);
+		kafkaTemplate.send(topicUpdateName,4, "Key2",jsonStr);
 		LOGGER.info(String.format("Order Event => %s", jsonStr.toString()));
 		return response;
 	}

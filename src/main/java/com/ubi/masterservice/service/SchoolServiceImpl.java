@@ -81,9 +81,11 @@ public class SchoolServiceImpl implements SchoolService {
 	@Autowired
 	private RegionMapper regionMapper;
 
-	private String topicName="master_topic";
+	private String topicName="master_topic_add";
 
 	private String topicDelete="master_delete";
+
+	private String topicUpdateName="master_topic_update";
 
 	private NewTopic topic;
 
@@ -481,7 +483,7 @@ public class SchoolServiceImpl implements SchoolService {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-		kafkaTemplate.send(topicName,3, "Key2",jsonStr);
+		kafkaTemplate.send(topicUpdateName,3, "Key2",jsonStr);
 		LOGGER.info(String.format("Order Event => %s", jsonStr.toString()));
 		return response;
 	}
@@ -506,10 +508,4 @@ public class SchoolServiceImpl implements SchoolService {
 		return getListofSchools;
 	}
 
-//	@Override
-//	public ByteArrayInputStream loadSchoolAndClass() {
-//		List<School> school = schoolRepository.findAll();
-//		ByteArrayInputStream out = SchoolClassCsvHelper.regionCSV(school);
-//		return out;
-//	}
 }

@@ -61,9 +61,11 @@ public class ClassServiceImpl implements ClassService {
 	@Autowired
 	private StudentMapper studentMapper;
 
-	private String topicName="master_topic";
+	private String topicName="master_topic_add";
 
 	private String topicDelete="master_delete";
+
+	private String topicUpdateName="master_topic_update";
 
 	private NewTopic topic;
 
@@ -262,7 +264,7 @@ public class ClassServiceImpl implements ClassService {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-		kafkaTemplate.send(topicName,0, "Key2",jsonStr);
+		kafkaTemplate.send(topicUpdateName,0, "Key2",jsonStr);
 		LOGGER.info(String.format("Order Event => %s", jsonStr.toString()));
 		return response;
 	}
