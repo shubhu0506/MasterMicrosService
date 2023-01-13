@@ -153,7 +153,7 @@ public class RegionServiceImpl implements RegionService {
 		Page<Region> list = this.regionRepository.findAll(paging);
 		List<RegionDetailsDto> regionDtos;
 		PaginationResponse<List<RegionDetailsDto>> paginationResponse = null;
-		Optional<Region> regionData = null;
+		List<Region> regionData = null;
 		
 	
 		if(!fieldName.equals("*") && !searchByField.equals("*")) {
