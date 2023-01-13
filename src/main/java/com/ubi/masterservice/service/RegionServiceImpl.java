@@ -50,9 +50,11 @@ public class RegionServiceImpl implements RegionService {
 	@Autowired
 	private RegionMapper regionMapper;
 
-	private String topicName="master_topic";
+	private String topicName="master_topic_add";
 
 	private String topicDelete="master_delete";
+
+	private String topicUpdateName="master_topic_update";
 
 	@Autowired
 	private SchoolMapper schoolMapper;
@@ -275,7 +277,7 @@ public class RegionServiceImpl implements RegionService {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-		kafkaTemplate.send(topicName,2, "Key2",jsonStr);
+		kafkaTemplate.send(topicUpdateName,2, "Key2",jsonStr);
 		LOGGER.info(String.format("Order Event => %s", jsonStr.toString()));
 		return response;
 	}

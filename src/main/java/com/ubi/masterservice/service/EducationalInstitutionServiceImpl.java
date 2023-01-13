@@ -53,9 +53,11 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 	@Autowired
 	private RegionRepository regionRepository;
 
-	private String topicName="master_topic";
+	private String topicName="master_topic_add";
 
 	private String topicDelete="master_delete";
+
+	private String topicUpdateName="master_topic_update";
 
 	private NewTopic topic;
 
@@ -331,7 +333,7 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-		kafkaTemplate.send(topicName,1, "Key2",jsonStr);
+		kafkaTemplate.send(topicUpdateName,1, "Key2",jsonStr);
 		LOGGER.info(String.format("Order Event => %s", jsonStr.toString()));
 
 		return response;
