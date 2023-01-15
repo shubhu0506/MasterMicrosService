@@ -23,17 +23,15 @@ public class Region {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	//	@Column(name="regionCode")
 	private String code;
 
-	//	@Column(name="regionName")
 	private String name;
 
 	@JsonIgnore
-	@ManyToMany(fetch = FetchType.EAGER,mappedBy="region",cascade = CascadeType.MERGE)
+	@ManyToMany(fetch = FetchType.EAGER,mappedBy="region", cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
 	private Set<EducationalInstitution> educationalInstitiute;
 
-	@OneToMany(fetch = FetchType.EAGER,mappedBy="region" , cascade=CascadeType.MERGE)
+	@OneToMany(fetch = FetchType.EAGER,mappedBy="region" , cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
 	private Set<School> school;
 
 }

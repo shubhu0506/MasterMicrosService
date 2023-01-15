@@ -30,6 +30,7 @@ public class StudentMapper {
 		studentDto.setCategory(student.getCategory());
 		studentDto.setCurrentStatus(student.getCurrentStatus());
 		studentDto.setDateOfBirth(student.getDateOfBirth());
+
 		studentDto.setFatherName(student.getFatherName());
 		studentDto.setFatherOccupation(student.getFatherOccupation());
 		studentDto.setGender(student.getGender());

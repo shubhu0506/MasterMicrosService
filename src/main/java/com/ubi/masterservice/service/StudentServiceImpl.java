@@ -338,9 +338,10 @@ public class StudentServiceImpl implements StudentService {
 		Student student = studentRepository.getReferenceById(id);
 		student.setIsActivate(true);
 		Student updateStudent = studentRepository.save(student);
+		res.setData(studentMapper.entityToDto(updateStudent));
 		response.setStatusCode(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getCode());
 		response.setMessage(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getMessage());
-		response.setResult(new Result<StudentDto>(studentMapper.entityToDto(updateStudent)));
+		response.setResult(res);
 		return response;
 
 	}
@@ -358,9 +359,10 @@ public class StudentServiceImpl implements StudentService {
 		Student student = studentRepository.getReferenceById(id);
 		student.setIsActivate(false);
 		Student updateStudent = studentRepository.save(student);
+		res.setData(studentMapper.entityToDto(updateStudent));
 		response.setStatusCode(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getCode());
 		response.setMessage(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getMessage());
-		response.setResult(new Result<StudentDto>(studentMapper.entityToDto(updateStudent)));
+		response.setResult(res);
 		return response;
 
 	}
@@ -386,6 +388,7 @@ public class StudentServiceImpl implements StudentService {
 	public Response<List<StudentVerifyDto>> verifiedByTeacher(String userId,StudentVerifyDto studentVerifyDto) {
 
 		Result<List<StudentVerifyDto>> res = new Result<>();
+		Result<StudentVerifyDto> res2=new Result<>();
 		for(Long category: studentVerifyDto.getStudentId()){
 
 			Optional<Student> existingStudentContainer = studentRepository.findById(category);
@@ -403,10 +406,14 @@ public class StudentServiceImpl implements StudentService {
 		}
 
 		Response<List<StudentVerifyDto>> response = new Response<>();
+		res2.setData(studentMapper.entityToDtoId(studentVerifyDto));
+		//res.setData((List<StudentVerifyDto>) studentMapper.entityToDtoId(studentVerifyDto));
 		response.setStatusCode(HttpStatusCode.STUDENT_VERIFIED_SUCCESSFULLY.getCode());
 		response.setMessage(HttpStatusCode.STUDENT_VERIFIED_SUCCESSFULLY.getMessage());
 		response.setResult(new Result(studentMapper.entityToDtoId(studentVerifyDto)));
+		System.out.println("Heloo hi there  " + res2);
 		return response;
+
 	}
 
 
@@ -450,9 +457,10 @@ public class StudentServiceImpl implements StudentService {
 		Student student = studentRepository.getReferenceById(id);
 		student.setCurrentStatus("Promoted");
 		Student updateStudent = studentRepository.save(student);
+		res.setData(studentMapper.entityToDto(student));
 		response.setStatusCode(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getCode());
 		response.setMessage(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getMessage());
-		response.setResult(new Result<StudentDto>(studentMapper.entityToDto(student)));
+		response.setResult(res);
 
 		return response;
 	}
@@ -470,9 +478,10 @@ public class StudentServiceImpl implements StudentService {
 		Student student = studentRepository.getReferenceById(id);
 		student.setCurrentStatus("Demoted");
 		Student updateStudent = studentRepository.save(student);
+		res.setData(studentMapper.entityToDto(student));
 		response.setStatusCode(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getCode());
 		response.setMessage(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getMessage());
-		response.setResult(new Result<StudentDto>(studentMapper.entityToDto(student)));
+		response.setResult(res);
 
 		return response;
 	}

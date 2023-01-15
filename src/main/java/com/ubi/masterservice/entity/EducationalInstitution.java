@@ -38,13 +38,13 @@ public class EducationalInstitution {
 
 	private Long vvnAccount;
 
-	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
 	@JoinTable(name = "EI_REGION_TABLE", joinColumns = {
 			@JoinColumn(name = "educationalInstitution_id", referencedColumnName = "id") }, inverseJoinColumns = {
 			@JoinColumn(name = "region_id", referencedColumnName = "id") })
 	private Set<Region> region;
 
-	@OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL, mappedBy = "educationalInstitution")
+	@OneToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.REMOVE}, mappedBy = "educationalInstitution")
 	private Set<School> school;
 
 }
