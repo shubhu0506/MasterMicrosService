@@ -13,9 +13,9 @@ public interface EducationalInstitutionService {
 
 	Response<EducationalRegionDto> addEducationalInstitution(EducationalInstitutionDto educationalInstitutionDto);
 
-	Response<EducationRegionGetDto> getEducationalInstituteByName(String educationalInstitutionName);
+	//Response<EducationRegionGetDto> getEducationalInstituteByName(String educationalInstitutionName);
 
-	Response<PaginationResponse<List<EducationRegionGetDto>>> getAllEducationalInstitutions(Integer pageNumber, Integer pageSize);
+	Response<PaginationResponse<List<EducationRegionGetDto>>> getAllEducationalInstitutions(String fieldName,String searchByField,Integer pageNumber, Integer pageSize);
 
 	Response<EducationalInstitutionDto> deleteEducationalInstitution(int id);
 

@@ -2,15 +2,13 @@ package com.ubi.masterservice.service;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
+import com.ubi.masterservice.dto.studentDto.StudentDetailsDto;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,11 +86,11 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 				.getEducationalInstitutionByeducationalInstitutionCode(
 						educationalInstitutionDto.getEducationalInstitutionCode());
 
-		if (tempeducationalInstitution.isPresent()) {
-			throw new CustomException(HttpStatusCode.NO_EDUCATIONAL_INSTITUTION_FOUND.getCode(),
-					HttpStatusCode.NO_EDUCATIONAL_INSTITUTION_FOUND,
-					HttpStatusCode.NO_EDUCATIONAL_INSTITUTION_FOUND.getMessage(), res);
-		}
+//		if (tempeducationalInstitution.isPresent()) {
+//			throw new CustomException(HttpStatusCode.NO_EDUCATIONAL_INSTITUTION_FOUND.getCode(),
+//					HttpStatusCode.NO_EDUCATIONAL_INSTITUTION_FOUND,
+//					HttpStatusCode.NO_EDUCATIONAL_INSTITUTION_FOUND.getMessage(), res);
+//		}
 
 		if (educationalInstitutionName != null) {
 			throw new CustomException(HttpStatusCode.EDUCATIONAL_INSTITUTION_NAME_ALREADY_EXISTS.getCode(),
@@ -158,63 +156,146 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 
 	}
 
+//	@Override
+//	public Response<EducationRegionGetDto> getEducationalInstituteByName(String educationalInstitutionName) {
+//
+//		Result<EducationRegionGetDto> res = new Result<>();
+//		res.setData(null);
+//		Response<EducationRegionGetDto> getEducationalInstitutionName = new Response<>();
+//		Optional<EducationalInstitution> educationalInst = this.educationalInstitutionRepository
+//				.findByeducationalInstitutionName(educationalInstitutionName);
+//		Result<EducationRegionGetDto> educationalInstitutionResult = new Result<>();
+//		if (!educationalInst.isPresent()) {
+//			throw new CustomException(HttpStatusCode.NO_EDUCATIONAL_INSTITUTION_NAME_FOUND.getCode(),
+//					HttpStatusCode.NO_EDUCATIONAL_INSTITUTION_NAME_FOUND,
+//					HttpStatusCode.NO_EDUCATIONAL_INSTITUTION_NAME_FOUND.getMessage(), res);
+//		}
+//
+//		EducationRegionGetDto educationalRegionDto = new EducationRegionGetDto();
+//		educationalRegionDto
+//				.setEducationalInstituteDto(educationalInstitutionMapper.entityToDtos(educationalInst.get()));
+//		educationalRegionDto.setRegionDto(regionMapper.entitiesToDtos(educationalInst.get().getRegion()));
+//
+//		res.setData(educationalRegionDto);
+//
+//		getEducationalInstitutionName
+//				.setStatusCode(HttpStatusCode.EDUCATIONAL_INSTITUTION_RETRIVED_SUCCESSFULLY.getCode());
+//		getEducationalInstitutionName
+//				.setMessage(HttpStatusCode.EDUCATIONAL_INSTITUTION_RETRIVED_SUCCESSFULLY.getMessage());
+//		getEducationalInstitutionName.setResult(new Result<>(educationalRegionDto));
+//		return getEducationalInstitutionName;
+//
+//	}
+
+//	@Override
+//	public Response<PaginationResponse<List<EducationRegionGetDto>>> getAllEducationalInstitutions(String fieldName,String searchByField,Integer pageNumber,Integer pageSize) {
+//
+//		Result<PaginationResponse<List<EducationRegionGetDto>>> allEducationalResult = new Result<>();
+//
+//
+//
+//		Pageable paging = PageRequest.of(pageNumber, pageSize);
+//
+//		Response<PaginationResponse<List<EducationRegionGetDto>>> getListofEducationalInstitution = new Response<>();
+//
+//
+//
+//		Page<EducationalInstitution> list = this.educationalInstitutionRepository.findAll(paging);
+//
+//		List<EducationRegionGetDto> EducationalRegionDtoList = new ArrayList<>();
+//		for (EducationalInstitution eduInsti : list) {
+//			EducationRegionGetDto educationalRegionDto = new EducationRegionGetDto();
+//
+//			educationalRegionDto.setEducationalInstituteDto(educationalInstitutionMapper.entityToDtos(eduInsti));
+//			Set<RegionGet> regionDtos = eduInsti.getRegion().stream().map(region -> regionMapper.toDtos(region))
+//					.collect(Collectors.toSet());
+//			educationalRegionDto.setRegionDto(regionDtos);
+//			EducationalRegionDtoList.add(educationalRegionDto);
+//
+//		}
+//
+//		if (list.isEmpty()) {
+//			throw new CustomException(HttpStatusCode.NO_EDUCATIONAL_INSTITUTION_FOUND.getCode(),
+//					HttpStatusCode.NO_EDUCATIONAL_INSTITUTION_FOUND,
+//					HttpStatusCode.NO_EDUCATIONAL_INSTITUTION_FOUND.getMessage(), allEducationalResult);
+//		}
+//
+//		PaginationResponse paginationResponse=new PaginationResponse<List<EducationRegionGetDto>>(EducationalRegionDtoList,list.getTotalPages(),list.getTotalElements());
+//
+//		allEducationalResult.setData(paginationResponse);
+//		getListofEducationalInstitution
+//				.setStatusCode(HttpStatusCode.EDUCATIONAL_INSTITUTION_RETRIVED_SUCCESSFULLY.getCode());
+//		getListofEducationalInstitution
+//				.setMessage(HttpStatusCode.EDUCATIONAL_INSTITUTION_RETRIVED_SUCCESSFULLY.getMessage());
+//		getListofEducationalInstitution.setResult(allEducationalResult);
+//		return getListofEducationalInstitution;
+//	}
+
 	@Override
-	public Response<EducationRegionGetDto> getEducationalInstituteByName(String educationalInstitutionName) {
-
-		Result<EducationRegionGetDto> res = new Result<>();
-		res.setData(null);
-		Response<EducationRegionGetDto> getEducationalInstitutionName = new Response<>();
-		Optional<EducationalInstitution> educationalInst = this.educationalInstitutionRepository
-				.findByeducationalInstitutionName(educationalInstitutionName);
-		Result<EducationRegionGetDto> educationalInstitutionResult = new Result<>();
-		if (!educationalInst.isPresent()) {
-			throw new CustomException(HttpStatusCode.NO_EDUCATIONAL_INSTITUTION_NAME_FOUND.getCode(),
-					HttpStatusCode.NO_EDUCATIONAL_INSTITUTION_NAME_FOUND,
-					HttpStatusCode.NO_EDUCATIONAL_INSTITUTION_NAME_FOUND.getMessage(), res);
-		}
-
-		EducationRegionGetDto educationalRegionDto = new EducationRegionGetDto();
-		educationalRegionDto
-				.setEducationalInstituteDto(educationalInstitutionMapper.entityToDtos(educationalInst.get()));
-		educationalRegionDto.setRegionDto(regionMapper.entitiesToDtos(educationalInst.get().getRegion()));
-
-		res.setData(educationalRegionDto);
-
-		getEducationalInstitutionName
-				.setStatusCode(HttpStatusCode.EDUCATIONAL_INSTITUTION_RETRIVED_SUCCESSFULLY.getCode());
-		getEducationalInstitutionName
-				.setMessage(HttpStatusCode.EDUCATIONAL_INSTITUTION_RETRIVED_SUCCESSFULLY.getMessage());
-		getEducationalInstitutionName.setResult(new Result<>(educationalRegionDto));
-		return getEducationalInstitutionName;
-
-	}
-
-	@Override
-	public Response<PaginationResponse<List<EducationRegionGetDto>>> getAllEducationalInstitutions(Integer pageNumber,Integer pageSize) {
-
+	public Response<PaginationResponse<List<EducationRegionGetDto>>> getAllEducationalInstitutions(String fieldName,String searchByField,Integer pageNumber,Integer pageSize) {
 		Result<PaginationResponse<List<EducationRegionGetDto>>> allEducationalResult = new Result<>();
-
-
-
 		Pageable paging = PageRequest.of(pageNumber, pageSize);
-
 		Response<PaginationResponse<List<EducationRegionGetDto>>> getListofEducationalInstitution = new Response<>();
-
-
-
 		Page<EducationalInstitution> list = this.educationalInstitutionRepository.findAll(paging);
-
 		List<EducationRegionGetDto> EducationalRegionDtoList = new ArrayList<>();
-		for (EducationalInstitution eduInsti : list) {
-			EducationRegionGetDto educationalRegionDto = new EducationRegionGetDto();
+		PaginationResponse<List<EducationRegionGetDto>> paginationResponse = null;
 
-			educationalRegionDto.setEducationalInstituteDto(educationalInstitutionMapper.entityToDtos(eduInsti));
-			Set<RegionGet> regionDtos = eduInsti.getRegion().stream().map(region -> regionMapper.toDtos(region))
-					.collect(Collectors.toSet());
-			educationalRegionDto.setRegionDto(regionDtos);
-			EducationalRegionDtoList.add(educationalRegionDto);
+		List<EducationalInstitution>eduData=null;
 
+		if(!fieldName.equals("*") && !searchByField.equals("*")) {
+			if (fieldName.equalsIgnoreCase("educationalInstitutionCode")) {
+				eduData = educationalInstitutionRepository.findByEducationalInstitutionCode(searchByField);
+			}
+
+			if (fieldName.equalsIgnoreCase("educationalInstitutionName")) {
+				eduData = educationalInstitutionRepository.findByEducationalInstitutionName(searchByField);
+			}
+
+			if (fieldName.equalsIgnoreCase("educationalInstitutionType")) {
+				eduData = educationalInstitutionRepository.findByEducationalInstitutionType(searchByField);
+			}
+
+			if (fieldName.equalsIgnoreCase("strength")) {
+				eduData = educationalInstitutionRepository.findByStrength(Long.parseLong(searchByField));
+			}
+
+			if (fieldName.equalsIgnoreCase("state")) {
+				eduData = educationalInstitutionRepository.findByState(searchByField);
+			}
+
+			if (fieldName.equalsIgnoreCase("exemptionFlag")) {
+				eduData = educationalInstitutionRepository.findByExemptionFlag(searchByField);
+			}
+
+			if (fieldName.equalsIgnoreCase("vvnAccount")) {
+				eduData = educationalInstitutionRepository.findByVvnAccount(Long.parseLong(searchByField));
+			}
+
+			if (fieldName.equalsIgnoreCase("id")) {
+				eduData = educationalInstitutionRepository.findAllById(Integer.parseInt(searchByField));
+			}
+
+			EducationalRegionDtoList = eduData.stream().map(eduInst -> educationalInstitutionMapper.toEducationalRegionDtos(eduInst)).collect(Collectors.toList());
+			paginationResponse = new PaginationResponse<List<EducationRegionGetDto>>(EducationalRegionDtoList, list.getTotalPages(), list.getTotalElements());
 		}
+		else {
+			EducationalRegionDtoList = (list.toList().stream().map(eduInst -> educationalInstitutionMapper.toEducationalRegionDtos(eduInst)).collect(Collectors.toList()));
+			paginationResponse=new PaginationResponse<List<EducationRegionGetDto>>(EducationalRegionDtoList,list.getTotalPages(),list.getTotalElements());
+		}
+
+
+
+//			for (EducationalInstitution eduInsti : list) {
+//				EducationRegionGetDto educationalRegionDto = new EducationRegionGetDto();
+//
+//				educationalRegionDto.setEducationalInstituteDto(educationalInstitutionMapper.entityToDtos(eduInsti));
+//				Set<RegionGet> regionDtos = eduInsti.getRegion().stream().map(region -> regionMapper.toDtos(region))
+//						.collect(Collectors.toSet());
+//				educationalRegionDto.setRegionDto(regionDtos);
+//				EducationalRegionDtoList.add(educationalRegionDto);
+//
+//			}
+
 
 		if (list.isEmpty()) {
 			throw new CustomException(HttpStatusCode.NO_EDUCATIONAL_INSTITUTION_FOUND.getCode(),
@@ -222,7 +303,7 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 					HttpStatusCode.NO_EDUCATIONAL_INSTITUTION_FOUND.getMessage(), allEducationalResult);
 		}
 
-		PaginationResponse paginationResponse=new PaginationResponse<List<EducationRegionGetDto>>(EducationalRegionDtoList,list.getTotalPages(),list.getTotalElements());
+		//PaginationResponse paginationResponse=new PaginationResponse<List<EducationRegionGetDto>>(EducationalRegionDtoList,list.getTotalPages(),list.getTotalElements());
 
 		allEducationalResult.setData(paginationResponse);
 		getListofEducationalInstitution
