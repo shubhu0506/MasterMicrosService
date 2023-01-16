@@ -1,7 +1,5 @@
 package com.ubi.masterservice.dto.regionDto;
 
-import java.util.Set;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,9 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegionCreationDto {
-	private String code;
-	private String name;
-	private Long adminId;
-	private Set<Integer> eduInstId;
+public class RegionAdminDto {
+    private Long userId;
+    private String firstName;
+    private String lastName;
 }

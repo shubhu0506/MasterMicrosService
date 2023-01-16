@@ -29,6 +29,9 @@ public class Region {
 	//	@Column(name="regionName")
 	private String name;
 
+	@Column(name = "adminId")
+	private Long adminId;
+
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER,mappedBy="region",cascade = CascadeType.MERGE)
 	private Set<EducationalInstitution> educationalInstitiute;

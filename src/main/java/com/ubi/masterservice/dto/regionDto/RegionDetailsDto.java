@@ -17,6 +17,6 @@ public class RegionDetailsDto {
 	private int id;
 	private String code;
 	private String name;
-
+	private RegionAdminDto regionAdminDto;
 	Set<EducationalInstitutionDto> eduInstiDto = new HashSet<>();
 }
