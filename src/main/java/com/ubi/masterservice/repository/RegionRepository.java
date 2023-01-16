@@ -1,6 +1,7 @@
 package com.ubi.masterservice.repository;
 
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -17,10 +18,10 @@ public interface RegionRepository extends JpaRepository<Region,Integer> {
 
     Set<Region> getReferenceByIdIn(Set<Integer> regionId);
 
-	Optional<Region> findByName(String searchByField);
-Optional<Region> findByCode(String searchByField);
+	List<Region> findByName(String searchByField);
+    List<Region> findByCode(String searchByField);
 
-Optional<Region> findAllById(int searchByField);
+    List<Region> findAllById(int searchByField);
 
 
 }
