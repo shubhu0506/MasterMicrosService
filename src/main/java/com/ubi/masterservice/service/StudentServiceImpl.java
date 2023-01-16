@@ -613,6 +613,7 @@ public class StudentServiceImpl implements StudentService {
 		}
 
 		Response<StudentPromoteDemoteDto> response = new Response<>();
+
 		response.setStatusCode(HttpStatusCode.STUDENT_DEMOTED_SUCCESSFULLY.getCode());
 		response.setMessage(HttpStatusCode.STUDENT_DEMOTED_SUCCESSFULLY.getMessage());
 		response.setResult(new Result(studentMapper.entityToDtoId(studentPromoteDemoteCreationDto)));
