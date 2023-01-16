@@ -37,6 +37,7 @@ public class Student {
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
 	@JsonSerialize(using = ToStringSerializer.class)
+	@Temporal(TemporalType.DATE)
 	private Date dateOfBirth;
 
 	private boolean studentStatus;
@@ -48,6 +49,7 @@ public class Student {
 	private String motherOccupation;
 	private String gender;
 	@JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
+	@Temporal(TemporalType.DATE)
 	private Date joiningDate;
 	private String status;
 

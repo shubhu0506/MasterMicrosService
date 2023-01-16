@@ -61,6 +61,9 @@ public class StudentServiceImpl implements StudentService {
 	private String topicDelete="master_delete";
 
 	private String topicUpdateName="master_topic_update";
+
+	private String topicPartialUpdate="master_topic_student_patch";
+
 	private NewTopic topic;
 
 	@Autowired
@@ -338,9 +341,23 @@ public class StudentServiceImpl implements StudentService {
 		Student student = studentRepository.getReferenceById(id);
 		student.setIsActivate(true);
 		Student updateStudent = studentRepository.save(student);
+		res.setData(studentMapper.entityToDto(updateStudent));
 		response.setStatusCode(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getCode());
 		response.setMessage(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getMessage());
-		response.setResult(new Result<StudentDto>(studentMapper.entityToDto(updateStudent)));
+		response.setResult(res);
+
+		ObjectMapper obj = new ObjectMapper();
+
+		String jsonStr = null;
+		try {
+			jsonStr = obj.writeValueAsString(res.getData());
+			LOGGER.info(jsonStr);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		kafkaTemplate.send(topicPartialUpdate,0,"Key4",jsonStr);
+		LOGGER.info(String.format("Order Event => %s", jsonStr.toString()));
 		return response;
 
 	}
@@ -358,9 +375,22 @@ public class StudentServiceImpl implements StudentService {
 		Student student = studentRepository.getReferenceById(id);
 		student.setIsActivate(false);
 		Student updateStudent = studentRepository.save(student);
+		res.setData(studentMapper.entityToDto(updateStudent));
 		response.setStatusCode(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getCode());
 		response.setMessage(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getMessage());
-		response.setResult(new Result<StudentDto>(studentMapper.entityToDto(updateStudent)));
+		response.setResult(res);
+		ObjectMapper obj = new ObjectMapper();
+
+		String jsonStr = null;
+		try {
+			jsonStr = obj.writeValueAsString(res.getData());
+			LOGGER.info(jsonStr);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		kafkaTemplate.send(topicPartialUpdate,1,"Key5",jsonStr);
+		LOGGER.info(String.format("Order Event => %s", jsonStr.toString()));
 		return response;
 
 	}
@@ -450,10 +480,23 @@ public class StudentServiceImpl implements StudentService {
 		Student student = studentRepository.getReferenceById(id);
 		student.setCurrentStatus("Promoted");
 		Student updateStudent = studentRepository.save(student);
+		res.setData(studentMapper.entityToDto(student));
 		response.setStatusCode(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getCode());
 		response.setMessage(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getMessage());
-		response.setResult(new Result<StudentDto>(studentMapper.entityToDto(student)));
+		response.setResult(res);
 
+		ObjectMapper obj = new ObjectMapper();
+
+		String jsonStr = null;
+		try {
+			jsonStr = obj.writeValueAsString(res.getData());
+			LOGGER.info(jsonStr);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		kafkaTemplate.send(topicPartialUpdate,2,"Key6",jsonStr);
+		LOGGER.info(String.format("Order Event => %s", jsonStr.toString()));
 		return response;
 	}
 
@@ -470,10 +513,24 @@ public class StudentServiceImpl implements StudentService {
 		Student student = studentRepository.getReferenceById(id);
 		student.setCurrentStatus("Demoted");
 		Student updateStudent = studentRepository.save(student);
+		res.setData(studentMapper.entityToDto(student));
 		response.setStatusCode(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getCode());
 		response.setMessage(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getMessage());
-		response.setResult(new Result<StudentDto>(studentMapper.entityToDto(student)));
+		response.setResult(res);
 
+
+		ObjectMapper obj = new ObjectMapper();
+
+		String jsonStr = null;
+		try {
+			jsonStr = obj.writeValueAsString(res.getData());
+			LOGGER.info(jsonStr);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		kafkaTemplate.send(topicPartialUpdate,3,"Key7",jsonStr);
+		LOGGER.info(String.format("Order Event => %s", jsonStr.toString()));
 		return response;
 	}
 
