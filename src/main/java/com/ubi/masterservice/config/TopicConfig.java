@@ -23,6 +23,8 @@ public class TopicConfig {
 
     private String topicUpdateName="master_topic_update";
 
+    private String topicPartialUpdate="master_topic_student_patch";
+
     private String bootstrapServers="localhost:9092";
 
     @Bean
@@ -143,6 +145,38 @@ public class TopicConfig {
     {
         return TopicBuilder.name(topicUpdateName)
                 .partitions(5)
+                .compact().build();
+    }
+
+    @Bean
+    public NewTopic topic16()
+    {
+        return TopicBuilder.name(topicPartialUpdate)
+                .partitions(4)
+                .compact().build();
+    }
+
+    @Bean
+    public NewTopic topic17()
+    {
+        return TopicBuilder.name(topicPartialUpdate)
+                .partitions(4)
+                .compact().build();
+    }
+
+    @Bean
+    public NewTopic topic18()
+    {
+        return TopicBuilder.name(topicPartialUpdate)
+                .partitions(4)
+                .compact().build();
+    }
+
+    @Bean
+    public NewTopic topic19()
+    {
+        return TopicBuilder.name(topicPartialUpdate)
+                .partitions(4)
                 .compact().build();
     }
 
