@@ -5,14 +5,16 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.ubi.masterservice.dto.regionDto.*;
+import com.ubi.masterservice.dto.response.Response;
+import com.ubi.masterservice.dto.user.UserDto;
+import com.ubi.masterservice.externalServices.UserFeignService;
+import com.ubi.masterservice.util.PermissionUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import com.ubi.masterservice.dto.regionDto.RegionDetailsDto;
-import com.ubi.masterservice.dto.regionDto.RegionDto;
-import com.ubi.masterservice.dto.regionDto.RegionGet;
-import com.ubi.masterservice.dto.regionDto.RegionSchoolDto;
 import com.ubi.masterservice.dto.schoolDto.SchoolDto;
 import com.ubi.masterservice.entity.Region;
 import com.ubi.masterservice.entity.School;
@@ -24,6 +26,12 @@ public class RegionMapper {
 
 	@Autowired
 	SchoolMapper schoolMapper;
+
+	@Autowired
+	PermissionUtil permissionUtil;
+
+	@Autowired
+	UserFeignService userFeignService;
 
 	@Autowired
 	EducationalInstitutionMapper educationalInstitutionMapper;
@@ -59,6 +67,17 @@ public class RegionMapper {
 		regionDetailsDto.setId(region.getId());
 		regionDetailsDto.setEduInstiDto(region.getEducationalInstitiute().stream().filter(Objects::nonNull).map(eduInsti->educationalInstitutionMapper.entityToDto(eduInsti)).collect(Collectors.toSet()));
 		//regionDetailsDto.setSchoolDto(region.getSchool().stream().filter(Objects::nonNull).map(school->schoolMapper.entityToDto(school)).collect(Collectors.toSet()));
+
+		RegionAdminDto regionAdminDto = null;
+		if(region.getAdminId() != null){
+			String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+			ResponseEntity<Response<UserDto>> regionAdminResponse = userFeignService.getRegionAdminById(currJwtToken,region.getAdminId().toString());
+			UserDto userDto = regionAdminResponse.getBody().getResult().getData();
+			if(userDto != null) {
+				regionAdminDto = new RegionAdminDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
+			}
+		}
+		regionDetailsDto.setRegionAdminDto(regionAdminDto);
 
 		return regionDetailsDto;
 	}

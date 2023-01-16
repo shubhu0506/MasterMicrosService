@@ -21,7 +21,7 @@ public interface RegionService {
 
 	public Response<RegionDto> deleteRegionById(int id);
 
-	Response<RegionDetailsDto> updateRegionDetails(RegionDto regionDto);
+	Response<RegionDetailsDto> updateRegionDetails(RegionCreationDto regionCreationDto,Long regionId);
 
 //	ByteArrayInputStream load();
 

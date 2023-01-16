@@ -8,11 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PrincipalDto {
-	
 	private Long userId;
 	private String firstName;
 	private String lastName;
-	
-	
-
 }

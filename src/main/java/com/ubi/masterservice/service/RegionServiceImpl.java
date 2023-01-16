@@ -7,6 +7,11 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.ubi.masterservice.dto.regionDto.RegionAdminDto;
+import com.ubi.masterservice.dto.schoolDto.PrincipalDto;
+import com.ubi.masterservice.dto.user.UserDto;
+import com.ubi.masterservice.externalServices.UserFeignService;
+import com.ubi.masterservice.util.PermissionUtil;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -62,6 +68,12 @@ public class RegionServiceImpl implements RegionService {
 	@Autowired
 	private EducationalInstitutionRepository educationalInstitutionRepository;
 
+	@Autowired
+	private PermissionUtil permissionUtil;
+
+	@Autowired
+	private UserFeignService userFeignService;
+
 	private NewTopic topic;
 
 	@Autowired
@@ -96,21 +108,34 @@ public class RegionServiceImpl implements RegionService {
 		savedRegion.setName(regionCreationDto.getName());
 		savedRegion.setEducationalInstitiute(new HashSet<>());
 		savedRegion.setSchool(new HashSet<>());
-		savedRegion = regionRepository.save(savedRegion);
 
+		RegionAdminDto regionAdminDto = null;
+		if(regionCreationDto.getAdminId() != null){
+			String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+			ResponseEntity<Response<UserDto>> regionAdminResponse = userFeignService.getRegionAdminById(currJwtToken,regionCreationDto.getAdminId().toString());
+			UserDto userDto = regionAdminResponse.getBody().getResult().getData();
+			if(userDto != null) {
+				regionAdminDto = new RegionAdminDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
+				savedRegion.setAdminId(regionCreationDto.getAdminId());
+			}
+		}
+		savedRegion = regionRepository.save(savedRegion);
 		for(Integer eduInstiId : regionCreationDto.getEduInstId()) {
 			EducationalInstitution eduInsti = educationalInstitutionRepository.getReferenceById(eduInstiId);
 			eduInsti.getRegion().add(savedRegion);
 			educationalInstitutionRepository.save(eduInsti);
 			savedRegion.getEducationalInstitiute().add(eduInsti);
 		}
+
 		savedRegion = regionRepository.save(savedRegion);
-		res.setData(regionMapper.toRegionDetails(savedRegion));
+		RegionDetailsDto regionDetailsDto = regionMapper.toRegionDetails(savedRegion);
+
+		res.setData(regionDetailsDto);
 		response.setStatusCode(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getCode());
 		response.setMessage(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getMessage());
 		response.setResult(res);
-		ObjectMapper obj = new ObjectMapper();
 
+		ObjectMapper obj = new ObjectMapper();
 		String jsonStr = null;
 		try {
 			jsonStr = obj.writeValueAsString(res.getData());
@@ -170,7 +195,6 @@ public class RegionServiceImpl implements RegionService {
 				regionDtos = (regionData.stream().map(region -> regionMapper.toRegionDetails(region)).collect(Collectors.toList()));
 				paginationResponse=new PaginationResponse<List<RegionDetailsDto>>(regionDtos,list.getTotalPages(),list.getTotalElements());
 		} else {
-	 
 			regionDtos = (list.toList().stream().map(region -> regionMapper.toRegionDetails(region)).collect(Collectors.toList()));
 			paginationResponse=new PaginationResponse<List<RegionDetailsDto>>(regionDtos,list.getTotalPages(),list.getTotalElements());
 		}
@@ -184,10 +208,6 @@ public class RegionServiceImpl implements RegionService {
 		return getListofRegion;
 	
 	}
-		
-	
-	
-	
 
 	@Override
 	public Response<RegionDetailsDto> getRegionById(int id) {
@@ -254,36 +274,43 @@ public class RegionServiceImpl implements RegionService {
 	}
 
 	@Override
-	public Response<RegionDetailsDto> updateRegionDetails(RegionDto regionDto) {
+	public Response<RegionDetailsDto> updateRegionDetails(RegionCreationDto regionCreationDto,Long regionId) {
 		Result<RegionDetailsDto> res = new Result<>();
 
 		res.setData(null);
-		Optional<Region> existingRegionContainer = regionRepository.findById(regionDto.getId());
+		Optional<Region> existingRegionContainer = regionRepository.findById(Integer.parseInt(regionId.toString()));
 		if (!existingRegionContainer.isPresent()) {
 			throw new CustomException(HttpStatusCode.REGION_NOT_FOUND.getCode(), HttpStatusCode.REGION_NOT_FOUND,
 					HttpStatusCode.REGION_NOT_FOUND.getMessage(), res);
 		}
 		Region region = existingRegionContainer.get();
 
-		if(!region.getCode().equals(regionDto.getCode())){
-			System.out.println(region.getCode() + " --- " + regionDto.getCode());
-			Region regionWithSameCode = regionRepository.getRegionByCode(regionDto.getCode());
+		if(!region.getCode().equals(regionCreationDto.getCode())){
+			System.out.println(region.getCode() + " --- " + regionCreationDto.getCode());
+			Region regionWithSameCode = regionRepository.getRegionByCode(regionCreationDto.getCode());
 			if(regionWithSameCode != null) {
 				throw new CustomException(HttpStatusCode.REGION_CODE_DUPLICATE.getCode(), HttpStatusCode.REGION_CODE_DUPLICATE,
 						HttpStatusCode.REGION_CODE_DUPLICATE.getMessage(), res);
 			}
 		}
 
-		if(!region.getName().equals(regionDto.getName())){
-			Region regionWithSameName = regionRepository.getRegionByName(regionDto.getName());
+		if(!region.getName().equals(regionCreationDto.getName())){
+			Region regionWithSameName = regionRepository.getRegionByName(regionCreationDto.getName());
 			if(regionWithSameName != null) {
 				throw new CustomException(HttpStatusCode.REGION_NAME_DUPLICATE.getCode(), HttpStatusCode.REGION_NAME_DUPLICATE,
 						HttpStatusCode.REGION_NAME_DUPLICATE.getMessage(), res);
 			}
 		}
 
-		region.setCode(regionDto.getCode());
-		region.setName(regionDto.getName());
+		if(regionCreationDto.getAdminId() != null){
+			String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+			ResponseEntity<Response<UserDto>> regionAdminResponse = userFeignService.getRegionAdminById(currJwtToken,regionCreationDto.getAdminId().toString());
+		}
+
+		region.setAdminId(regionCreationDto.getAdminId());
+		region.setCode(regionCreationDto.getCode());
+		region.setName(regionCreationDto.getName());
+
 		Set<EducationalInstitution> educationalInstitutionSet = region.getEducationalInstitiute();
 		for(EducationalInstitution educationalInstitution:educationalInstitutionSet){
 			educationalInstitution.getRegion().remove(region);
@@ -292,7 +319,7 @@ public class RegionServiceImpl implements RegionService {
 		}
 		Region updateRegion = regionRepository.save(region);
 
-		for(Integer educationId:regionDto.getEduInstId()){
+		for(Integer educationId:regionCreationDto.getEduInstId()){
 			EducationalInstitution educationalInstitution = educationalInstitutionRepository.getReferenceById(educationId);
 			educationalInstitution.getRegion().add(region);
 			educationalInstitutionRepository.save(educationalInstitution);
