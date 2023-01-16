@@ -89,10 +89,10 @@ public class RegionController {
 	}
 
 	@Operation(summary = "Update Region with Id", security = @SecurityRequirement(name = "bearerAuth"))
-	@PutMapping
-	public ResponseEntity<Response<RegionDetailsDto>> updateRegion(@RequestBody RegionDto region) { // NOSONAR
+	@PutMapping("/{regionId}")
+	public ResponseEntity<Response<RegionDetailsDto>> updateRegion(@RequestBody RegionCreationDto regionCreationDto,@PathVariable("regionId") Long regionId) { // NOSONAR
 
-		Response<RegionDetailsDto> response = this.regionService.updateRegionDetails(region);
+		Response<RegionDetailsDto> response = this.regionService.updateRegionDetails(regionCreationDto,regionId);
 
 		return ResponseEntity.ok().body(response);
 

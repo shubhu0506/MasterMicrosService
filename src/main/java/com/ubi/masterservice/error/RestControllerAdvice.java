@@ -49,7 +49,6 @@ public class RestControllerAdvice {
 		StringBuilder message = new StringBuilder();
 
 		for(int i = index2+10;i<value.length();i++){
-			System.out.println(value.charAt(i));
 			if(value.charAt(i) == '\"')break;
 			message.append(value.charAt(i));
 		}
