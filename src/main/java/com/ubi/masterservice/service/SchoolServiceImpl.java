@@ -214,7 +214,6 @@ public class SchoolServiceImpl implements SchoolService {
 				principalDto = new PrincipalDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
 			}
 			
-			
 			schoolRegionDto.setRegionDto(regionMapper.toDto(school.getRegion()));
 			schoolRegionDto.setPrincipalDto(principalDto);
 			Set<ClassDto> classDto = school.getClassDetail().stream()

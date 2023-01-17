@@ -6,11 +6,7 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter
@@ -18,6 +14,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @Entity
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+@Builder
 public class EducationalInstitution {
 
 	@Id
@@ -37,6 +34,8 @@ public class EducationalInstitution {
 	private String exemptionFlag;
 
 	private Long vvnAccount;
+
+	private Long adminId;
 
 	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	@JoinTable(name = "EI_REGION_TABLE", joinColumns = {

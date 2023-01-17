@@ -28,7 +28,7 @@ public class EducationalInstitutionDto {
 
 	private Long vvnAccount;
 
+	private Long adminId;
+
 	private Set<Integer> regionId;
-
-
 }
