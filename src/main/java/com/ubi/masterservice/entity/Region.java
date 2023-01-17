@@ -1,5 +1,6 @@
 package com.ubi.masterservice.entity;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -33,10 +34,10 @@ public class Region {
 	private Long adminId;
 
 	@JsonIgnore
-	@ManyToMany(fetch = FetchType.EAGER,mappedBy="region",cascade = CascadeType.MERGE)
-	private Set<EducationalInstitution> educationalInstitiute;
+	@ManyToMany(fetch = FetchType.EAGER,mappedBy="region",cascade = CascadeType.PERSIST)
+	private Set<EducationalInstitution> educationalInstitiute = new HashSet<>();
 
-	@OneToMany(fetch = FetchType.EAGER,mappedBy="region" , cascade=CascadeType.MERGE)
-	private Set<School> school;
+	@OneToMany(fetch = FetchType.EAGER,mappedBy="region" , cascade=CascadeType.PERSIST)
+	private Set<School> school = new HashSet<>();
 
 }

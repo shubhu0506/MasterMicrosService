@@ -3,27 +3,26 @@ package com.ubi.masterservice.service;
 import java.io.ByteArrayInputStream;
 import java.util.List;
 
-import com.ubi.masterservice.dto.educationalInstitutiondto.EducationRegionGetDto;
-import com.ubi.masterservice.dto.educationalInstitutiondto.EducationalInstitutionDto;
-import com.ubi.masterservice.dto.educationalInstitutiondto.EducationalRegionDto;
+import com.ubi.masterservice.dto.educationalInstitutiondto.*;
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import com.ubi.masterservice.dto.response.Response;
 
 public interface EducationalInstitutionService {
 
-	Response<EducationalRegionDto> addEducationalInstitution(EducationalInstitutionDto educationalInstitutionDto);
+	Response<InstituteDto> addEducationalInstitution(InstituteCreationDto instituteCreationDto);
 
-	//Response<EducationRegionGetDto> getEducationalInstituteByName(String educationalInstitutionName);
+	Response<InstituteDto> getEducationalInstituteByName(String educationalInstitutionName);
 
-	Response<PaginationResponse<List<EducationRegionGetDto>>> getAllEducationalInstitutions(String fieldName,String searchByField,Integer pageNumber, Integer pageSize);
+	Response<PaginationResponse<List<InstituteDto>>> getAllEducationalInstitutions(Integer pageNumber, Integer pageSize);
 
-	Response<EducationalInstitutionDto> deleteEducationalInstitution(int id);
 
-	Response<EducationalRegionDto> updateEducationalInstitution(EducationalInstitutionDto educationalInstitutionDto);
+	Response<InstituteDto> deleteEducationalInstitution(int id);
 
-	Response<EducationRegionGetDto> getEduInstwithRegion(int id);
+	Response<InstituteDto> updateEducationalInstitution(InstituteCreationDto instituteCreationDto,Long instituteId);
 
-	Response<List<EducationalInstitutionDto>> getEduInstwithSort(String field);
+	Response<InstituteDto> getEduInstwithRegion(int id);
+
+	Response<List<InstituteDto>> getEduInstwithSort(String field);
 
 //	ByteArrayInputStream load();
 
