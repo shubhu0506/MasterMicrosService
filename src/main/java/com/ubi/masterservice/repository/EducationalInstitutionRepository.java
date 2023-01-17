@@ -12,7 +12,7 @@ import com.ubi.masterservice.entity.EducationalInstitution;
 public interface EducationalInstitutionRepository extends JpaRepository<EducationalInstitution, Integer>{
 
 
-//	Optional<EducationalInstitution>findByeducationalInstitutionName(String educationalInstitutionName);
+	Optional<EducationalInstitution>findByeducationalInstitutionName(String educationalInstitutionName);
 
 	EducationalInstitution getEducationalInstitutionByeducationalInstitutionName(String educationalInstitutionName);
 

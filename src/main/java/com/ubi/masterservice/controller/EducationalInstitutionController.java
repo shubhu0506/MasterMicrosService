@@ -1,6 +1,5 @@
 package com.ubi.masterservice.controller;
 
-import java.text.ParseException;
 import java.util.List;
 
 import com.ubi.masterservice.dto.educationalInstitutiondto.*;
@@ -63,30 +62,10 @@ public class EducationalInstitutionController {
 	@Operation(summary = "Get All Educational Institution", security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping()
 	public ResponseEntity<Response<PaginationResponse<List<InstituteDto>>>> getEducationalInstitutions(
-
-//	@Operation(summary = "Get Educational Institution By Name", security = @SecurityRequirement(name = "bearerAuth"))
-//	@GetMapping("name/{educationalInstitutionName}")
-//	public ResponseEntity<Response<EducationRegionGetDto>> getEducationalInstByName(
-//			@PathVariable String educationalInstitutionName) {
-//		Response<EducationRegionGetDto> response = educationalInstitutionService
-//				.getEducationalInstituteByName(educationalInstitutionName);
-//		if (response.getStatusCode() == 200) {
-//			return ResponseEntity.status(HttpStatus.OK).body(response);
-//		} else {
-//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-//		}
-//
-//	}
-
-	@Operation(summary = "Get All Educational Institution", security = @SecurityRequirement(name = "bearerAuth"))
-	@GetMapping()
-	public ResponseEntity<Response<PaginationResponse<List<EducationRegionGetDto>>>> getEducationalInstitutions(
-			@RequestParam (defaultValue = "*") String fieldName,@RequestParam (defaultValue = "*") String searchByField,
 			@RequestParam(value = "PageNumber", defaultValue = "0", required = false) Integer pageNumber,
 			@RequestParam(value = "PageSize", defaultValue = "5", required = false) Integer pageSize
-	) throws ParseException
+	)
 	{
-
 		Response<PaginationResponse<List<InstituteDto>>> response = educationalInstitutionService
 				.getAllEducationalInstitutions(pageNumber, pageSize);
 		return ResponseEntity.status(HttpStatus.OK).body(response);
