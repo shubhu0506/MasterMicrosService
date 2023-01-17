@@ -15,6 +15,7 @@ public interface EducationalInstitutionService {
 
 	Response<PaginationResponse<List<InstituteDto>>> getAllEducationalInstitutions(Integer pageNumber, Integer pageSize);
 
+
 	Response<InstituteDto> deleteEducationalInstitution(int id);
 
 	Response<InstituteDto> updateEducationalInstitution(InstituteCreationDto instituteCreationDto,Long instituteId);

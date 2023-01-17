@@ -2,6 +2,7 @@ package com.ubi.masterservice.service;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -12,6 +13,7 @@ import com.ubi.masterservice.dto.regionDto.RegionAdminDto;
 import com.ubi.masterservice.dto.user.UserDto;
 import com.ubi.masterservice.externalServices.UserFeignService;
 import com.ubi.masterservice.util.PermissionUtil;
+import com.ubi.masterservice.dto.studentDto.StudentDetailsDto;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,7 +89,9 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 
 		EducationalInstitution educationalInstitutionCode = educationalInstitutionRepository
 				.getEducationalInstitutionByeducationalInstitutionCode(
+        
 						instituteCreationDto.getEducationalInstitutionCode());
+
 
 		if (educationalInstitutionName != null) {
 			throw new CustomException(HttpStatusCode.EDUCATIONAL_INSTITUTION_NAME_ALREADY_EXISTS.getCode(),
@@ -191,14 +195,19 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 
 		Response<PaginationResponse<List<InstituteDto>>> response = new Response<>();
 
-		Page<EducationalInstitution> list = this.educationalInstitutionRepository.findAll(paging);
-
 		List<InstituteDto> instituteDtos= new ArrayList<>();
 		for (EducationalInstitution eduInsti : list) {
 			instituteDtos.add(educationalInstitutionMapper.toInstituteDto(eduInsti));
 		}
 
 		PaginationResponse paginationResponse=new PaginationResponse<List<InstituteDto>>(instituteDtos,list.getTotalPages(),list.getTotalElements());
+
+		if (list.isEmpty()) {
+			throw new CustomException(HttpStatusCode.NO_EDUCATIONAL_INSTITUTION_FOUND.getCode(),
+					HttpStatusCode.NO_EDUCATIONAL_INSTITUTION_FOUND,
+					HttpStatusCode.NO_EDUCATIONAL_INSTITUTION_FOUND.getMessage(), allEducationalResult);
+		}
+
 
 		allEducationalResult.setData(paginationResponse);
 		response.setStatusCode(HttpStatusCode.EDUCATIONAL_INSTITUTION_RETRIVED_SUCCESSFULLY.getCode());
