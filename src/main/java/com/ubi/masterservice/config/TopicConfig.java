@@ -25,6 +25,14 @@ public class TopicConfig {
 
     private String topicPartialUpdate="master_topic_student_patch";
 
+    private String topicPromote="master_topic_promote";
+
+    private String topicDemote="master_topic_demote";
+
+    private String topicVerifyByTeacher="master_topic_verify_by_teacher";
+
+    private String topicVerifyByPrincipal="master_topic_verify_by_principal";
+
     private String bootstrapServers="localhost:9092";
 
     @Bean
@@ -177,6 +185,38 @@ public class TopicConfig {
     {
         return TopicBuilder.name(topicPartialUpdate)
                 .partitions(4)
+                .compact().build();
+    }
+
+    @Bean
+    public NewTopic topic20()
+    {
+        return TopicBuilder.name(topicPromote)
+                .partitions(1)
+                .compact().build();
+    }
+
+    @Bean
+    public NewTopic topic21()
+    {
+        return TopicBuilder.name(topicDemote)
+                .partitions(1)
+                .compact().build();
+    }
+
+    @Bean
+    public NewTopic topic22()
+    {
+        return TopicBuilder.name(topicVerifyByTeacher)
+                .partitions(1)
+                .compact().build();
+    }
+
+    @Bean
+    public NewTopic topic23()
+    {
+        return TopicBuilder.name(topicVerifyByPrincipal)
+                .partitions(1)
                 .compact().build();
     }
 
