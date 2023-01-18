@@ -140,6 +140,7 @@ public class EducationalInstitutionMapper {
 				.exemptionFlag(educationalInstitution.getExemptionFlag())
 				.state(educationalInstitution.getState())
 				.vvnAccount(educationalInstitution.getVvnAccount())
+				.strength(educationalInstitution.getStrength())
 				.id(educationalInstitution.getId())
 				.regionDto(new HashSet<>())
 				.state(educationalInstitution.getState()).build();
