@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubi.masterservice.dto.classDto.ClassDto;
+import com.ubi.masterservice.dto.classDto.TeacherDto;
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import com.ubi.masterservice.dto.response.Response;
 import com.ubi.masterservice.dto.schoolDto.PrincipalDto;
@@ -133,19 +134,31 @@ public class SchoolServiceImpl implements SchoolService {
 		school.setExemptionFlag(schoolDto.isExemptionFlag());
 		school.setVvnAccount(schoolDto.getVvnAccount());
 		school.setVvnFund(schoolDto.getVvnFund());
-		
-		String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
-		
-		
-		ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,schoolDto.getPrincipalId().toString());
-		PrincipalDto principalDto = null;
-		UserDto userDto = principalResponse.getBody().getResult().getData();
-		if(userDto != null) {
-			principalDto = new PrincipalDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
-		}
-		
 		school.setPrincipalId(schoolDto.getPrincipalId());
 		
+//		String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+//		
+//		
+//		ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,schoolDto.getPrincipalId().toString());
+//		PrincipalDto principalDto = null;
+//		UserDto userDto = principalResponse.getBody().getResult().getData();
+//		if(userDto != null) {
+//			principalDto = new PrincipalDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
+//		}
+//		
+//		school.setPrincipalId(schoolDto.getPrincipalId());
+		
+		PrincipalDto principalDto = null;	
+		if (school.getPrincipalId() != null) {
+			String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+			ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,
+					school.getPrincipalId().toString());
+			UserDto userDto = principalResponse.getBody().getResult().getData();
+			if (userDto != null) {
+				principalDto = new PrincipalDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
+						userDto.getContactInfoDto().getLastName());
+			}
+		}	
 		school.setRegion(regionRepository.getReferenceById(schoolDto.getRegionId()));
 		
 		school.setClassDetail(new HashSet<>());
@@ -204,15 +217,31 @@ public class SchoolServiceImpl implements SchoolService {
 		for (School school : list) {
 			SchoolRegionDto schoolRegionDto = new SchoolRegionDto();
 			schoolRegionDto.setSchoolDto(schoolMapper.entityToDtos(school));
-	
-			String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+	        
+//			String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+//			
+//			ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,school.getPrincipalId().toString());
+//			PrincipalDto principalDto = null;
+//			UserDto userDto = principalResponse.getBody().getResult().getData();
+//			if(userDto != null) {
+//				principalDto = new PrincipalDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
+//			}
 			
-			ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,school.getPrincipalId().toString());
+			String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+
 			PrincipalDto principalDto = null;
-			UserDto userDto = principalResponse.getBody().getResult().getData();
-			if(userDto != null) {
-				principalDto = new PrincipalDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
+
+			if (school.getPrincipalId() != null) {
+				ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getTeacherById(currJwtToken,
+						school.getPrincipalId().toString());
+				UserDto userDto = principalResponse.getBody().getResult().getData();
+				if (userDto != null) {
+					principalDto = new PrincipalDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
+							userDto.getContactInfoDto().getLastName());
+				}
 			}
+			
+			
 			
 			schoolRegionDto.setRegionDto(regionMapper.toDto(school.getRegion()));
 			schoolRegionDto.setPrincipalDto(principalDto);
@@ -256,16 +285,28 @@ public class SchoolServiceImpl implements SchoolService {
 			SchoolRegionDto schoolRegionDto = new SchoolRegionDto();
 			schoolRegionDto.setSchoolDto(schoolMapper.entityToDtos(school));
 			
-            String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
-			
-			ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,school.getPrincipalId().toString());
+//            String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+//			
+//			ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,school.getPrincipalId().toString());
+//			PrincipalDto principalDto = null;
+//			UserDto userDto = principalResponse.getBody().getResult().getData();
+//			if(userDto != null) {
+//				principalDto = new PrincipalDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
+//			}
+			String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+
 			PrincipalDto principalDto = null;
-			UserDto userDto = principalResponse.getBody().getResult().getData();
-			if(userDto != null) {
-				principalDto = new PrincipalDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
+
+			if (school.getPrincipalId() != null) {
+				ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getTeacherById(currJwtToken,
+						school.getPrincipalId().toString());
+				UserDto userDto = principalResponse.getBody().getResult().getData();
+				if (userDto != null) {
+					principalDto = new PrincipalDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
+							userDto.getContactInfoDto().getLastName());
+				}
 			}
-			
-			
+
 
 			schoolRegionDto.setRegionDto(regionMapper.toDto(school.getRegion()));
 			schoolRegionDto.setPrincipalDto(principalDto);
@@ -307,16 +348,29 @@ public class SchoolServiceImpl implements SchoolService {
 
 		SchoolRegionDto schoolRegionDto = new SchoolRegionDto();
 		schoolRegionDto.setSchoolDto(schoolMapper.entityToDto(sch.get()));
+//		
+//		String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+//		
+//		ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,sch.get().getPrincipalId().toString());
+//		PrincipalDto principalDto = null;
+//		UserDto userDto = principalResponse.getBody().getResult().getData();
+//		if(userDto != null) {
+//			principalDto = new PrincipalDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
+//		}
 		
 		String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
-		
-		ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,sch.get().getPrincipalId().toString());
+
 		PrincipalDto principalDto = null;
-		UserDto userDto = principalResponse.getBody().getResult().getData();
-		if(userDto != null) {
-			principalDto = new PrincipalDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
+
+		if (sch.get().getPrincipalId() != null) {
+			ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getTeacherById(currJwtToken,
+					sch.get().getPrincipalId().toString());
+			UserDto userDto = principalResponse.getBody().getResult().getData();
+			if (userDto != null) {
+				principalDto = new PrincipalDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
+						userDto.getContactInfoDto().getLastName());
+			}
 		}
-		
 		
 		schoolRegionDto.setRegionDto(regionMapper.toDto(sch.get().getRegion()));
 		schoolRegionDto.setClassDto(classMapper.entitiesToDto(sch.get().getClassDetail()));
@@ -343,14 +397,30 @@ public class SchoolServiceImpl implements SchoolService {
 		}
 		SchoolRegionDto schoolRegionDto = new SchoolRegionDto();
 		schoolRegionDto.setSchoolDto(schoolMapper.entityToDto(sch.get()));
-        String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+//        String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+//		
+//		ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,sch.get().getPrincipalId().toString());
+//		PrincipalDto principalDto = null;
+//		UserDto userDto = principalResponse.getBody().getResult().getData();
+//		if(userDto != null) {
+//			principalDto = new PrincipalDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
+//		}
 		
-		ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,sch.get().getPrincipalId().toString());
+		String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+
 		PrincipalDto principalDto = null;
-		UserDto userDto = principalResponse.getBody().getResult().getData();
-		if(userDto != null) {
-			principalDto = new PrincipalDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
+
+		if (sch.get().getPrincipalId() != null) {
+			ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getTeacherById(currJwtToken,
+					sch.get().getPrincipalId().toString());
+			UserDto userDto = principalResponse.getBody().getResult().getData();
+			if (userDto != null) {
+				principalDto = new PrincipalDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
+						userDto.getContactInfoDto().getLastName());
+			}
 		}
+		
+		
 		schoolRegionDto.setRegionDto(regionMapper.toDto(sch.get().getRegion()));
 		schoolRegionDto.setClassDto(classMapper.entitiesToDto(sch.get().getClassDetail()));
 		schoolRegionDto.setEducationalInstitutionDto(educationalMapper.toDto(sch.get().getEducationalInstitution()));
@@ -433,19 +503,34 @@ public class SchoolServiceImpl implements SchoolService {
 		school.setType(schoolDto.getType());
 		school.setEmail(schoolDto.getEmail());
 		school.setSchoolId(schoolDto.getSchoolId());
-		
-		String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
-		
-		ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,schoolDto.getPrincipalId().toString());
-		PrincipalDto principalDto = null;
-		UserDto userDto = principalResponse.getBody().getResult().getData();
-		if(userDto != null) {
-			principalDto = new PrincipalDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
-		}
-		
-		
 		school.setPrincipalId(schoolDto.getPrincipalId());
+		
+//		String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+//		
+//		ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,schoolDto.getPrincipalId().toString());
+//		PrincipalDto principalDto = null;
+//		UserDto userDto = principalResponse.getBody().getResult().getData();
+//		if(userDto != null) {
+//			principalDto = new PrincipalDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
+//		}
+//		
+//		
+//		school.setPrincipalId(schoolDto.getPrincipalId());
 
+		String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+
+		PrincipalDto principalDto = null;
+
+		if (existingSchool.get().getPrincipalId() != null) {
+			ResponseEntity<Response<UserDto>> teacherResponse = userFeignService.getTeacherById(currJwtToken,
+					existingSchool.get().getPrincipalId().toString());
+			UserDto userDto = teacherResponse.getBody().getResult().getData();
+			if (userDto != null) {
+				principalDto = new PrincipalDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
+						userDto.getContactInfoDto().getLastName());
+			}
+		}
+		school.setPrincipalId(schoolDto.getPrincipalId());		
 		Region region = regionRepository.getReferenceById(schoolDto.getRegionId());
 		regionRepository.save(region);
 		school.setRegion(region);

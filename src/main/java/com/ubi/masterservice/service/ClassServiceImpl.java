@@ -18,25 +18,30 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import com.ubi.masterservice.dto.classDto.ClassDto;
 import com.ubi.masterservice.dto.classDto.ClassStudentDto;
+import com.ubi.masterservice.dto.classDto.TeacherDto;
 import com.ubi.masterservice.dto.response.Response;
 import com.ubi.masterservice.dto.studentDto.StudentDto;
+import com.ubi.masterservice.dto.user.UserDto;
 import com.ubi.masterservice.entity.ClassDetail;
 import com.ubi.masterservice.entity.School;
 import com.ubi.masterservice.entity.Student;
 import com.ubi.masterservice.error.CustomException;
 import com.ubi.masterservice.error.HttpStatusCode;
 import com.ubi.masterservice.error.Result;
+import com.ubi.masterservice.externalServices.UserFeignService;
 import com.ubi.masterservice.mapper.ClassMapper;
 import com.ubi.masterservice.mapper.SchoolMapper;
 import com.ubi.masterservice.mapper.StudentMapper;
 import com.ubi.masterservice.repository.ClassRepository;
 import com.ubi.masterservice.repository.SchoolRepository;
 import com.ubi.masterservice.repository.StudentRepository;
+import com.ubi.masterservice.util.PermissionUtil;
 
 @Service
 public class ClassServiceImpl implements ClassService {
@@ -55,6 +60,12 @@ public class ClassServiceImpl implements ClassService {
 	@Autowired
 	private ClassMapper classMapper;
 
+	@Autowired
+	private PermissionUtil permissionUtil;
+	
+	@Autowired
+	private UserFeignService userFeignService;
+	
 	@Autowired
 	private SchoolMapper schoolMapper;
 
@@ -103,10 +114,26 @@ public class ClassServiceImpl implements ClassService {
 		classDetail.setClassName(classDto.getClassName());
 		classDetail.setClassCode(classDto.getClassCode());
 		classDetail.setSchool(school);
+		classDetail.setTeacherId(classDto.getTeacherId());
 		classDetail.setStudents(new HashSet<>());
 
+		TeacherDto teacherDto = null;	
+		if (classDetail.getTeacherId() != null) {
+			String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+			ResponseEntity<Response<UserDto>> teacherResponse = userFeignService.getTeacherById(currJwtToken,
+					classDetail.getTeacherId().toString());
+			UserDto userDto = teacherResponse.getBody().getResult().getData();
+			if (userDto != null) {
+				teacherDto = new TeacherDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
+						userDto.getContactInfoDto().getLastName());
+			}
+		}
+		//classDetail.setTeacherId(classDto.getTeacherId());
+		
+		
 		ClassDetail savedClass=classRepository.save(classDetail);
 		ClassStudentDto classStudentDto=classMapper.toStudentDto(savedClass);
+		classStudentDto.setTeacherDto(teacherDto);
 		res.setData(classStudentDto);
 		response.setStatusCode(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getCode());
 		response.setMessage(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getMessage());
@@ -143,10 +170,26 @@ public class ClassServiceImpl implements ClassService {
 			classStudentDto.setClassDto(classMapper.entityToDto(classDetail));
 			classStudentDto.setSchoolDto(schoolMapper.entityToDto(classDetail.getSchool()));
 
+			String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+
+			TeacherDto teacherDto = null;
+
+			if (classDetail.getTeacherId() != null) {
+				ResponseEntity<Response<UserDto>> teacherResponse = userFeignService.getTeacherById(currJwtToken,
+						classDetail.getTeacherId().toString());
+				UserDto userDto = teacherResponse.getBody().getResult().getData();
+				if (userDto != null) {
+					teacherDto = new TeacherDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
+							userDto.getContactInfoDto().getLastName());
+				}
+			}
+			
+			
 			//Set<Student> s1=classDetail.getStudents();
 			Set<StudentDto> studentDto=classDetail.getStudents().stream()
 					.map(students -> studentMapper.entityToDto(students)).collect(Collectors.toSet());
 			classStudentDto.setStudentDto(studentDto);
+			classStudentDto.setTeacherDto(teacherDto);
 			classDto.add(classStudentDto);
 		}
 		if (classList.isEmpty()) {
@@ -175,13 +218,29 @@ public class ClassServiceImpl implements ClassService {
 					classResult);
 		}
 
+		String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+
+		TeacherDto teacherDto = null;
+
+		if (classDetail.get().getTeacherId() != null) {
+			ResponseEntity<Response<UserDto>> teacherResponse = userFeignService.getTeacherById(currJwtToken,
+					classDetail.get().getTeacherId().toString());
+			UserDto userDto = teacherResponse.getBody().getResult().getData();
+			if (userDto != null) {
+				teacherDto = new TeacherDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
+						userDto.getContactInfoDto().getLastName());
+			}
+		}
+		
+		
 		ClassStudentDto classStudentDto=new ClassStudentDto();
 		classStudentDto.setClassDto(classMapper.entityToDto(classDetail.get()));
 		classStudentDto.setSchoolDto(schoolMapper.entityToDto(classDetail.get().getSchool()));
 		Set<StudentDto> studentDto=classDetail.get().getStudents().stream()
 				.map(students -> studentMapper.entityToDto(students)).collect(Collectors.toSet());
+		classStudentDto.setTeacherDto(teacherDto);
 		classStudentDto.setStudentDto(studentDto);
-		;
+		
 		classResult.setData(classStudentDto);
 		getClass.setStatusCode(HttpStatusCode.CLASS_RETREIVED_SUCCESSFULLY.getCode());
 		getClass.setMessage(HttpStatusCode.CLASS_RETREIVED_SUCCESSFULLY.getMessage());
@@ -243,11 +302,27 @@ public class ClassServiceImpl implements ClassService {
 		existingClassDetail.setClassName(classDetailDto.getClassName());
 		existingClassDetail.setClassCode(classDetailDto.getClassCode());
 		existingClassDetail.setSchoolId(classDetailDto.getSchoolId());
+		existingClassDetail.setTeacherId(classDetailDto.getTeacherId());
 
+		String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
 
+		TeacherDto teacherDto = null;
+
+		if (existingClassDetail.getTeacherId() != null) {
+			ResponseEntity<Response<UserDto>> teacherResponse = userFeignService.getTeacherById(currJwtToken,
+					existingClassDetail.getTeacherId().toString());
+			UserDto userDto = teacherResponse.getBody().getResult().getData();
+			if (userDto != null) {
+				teacherDto = new TeacherDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
+						userDto.getContactInfoDto().getLastName());
+			}
+		}
+		existingClassDetail.setTeacherId(classDetailDto.getTeacherId());
+		
 		ClassDetail classDetail1=classMapper.dtoToEntity(existingClassDetail);
 		ClassDetail updatedClassDetail=classRepository.save(classDetail1);
 		ClassStudentDto classStudentDto=classMapper.toStudentDto(updatedClassDetail);
+		classStudentDto.setTeacherDto(teacherDto);
 		res.setData(classStudentDto);
 		response.setMessage(HttpStatusCode.CLASS_UPDATED.getMessage());
 		response.setStatusCode(HttpStatusCode.CLASS_UPDATED.getCode());
@@ -279,12 +354,29 @@ public class ClassServiceImpl implements ClassService {
 			throw new CustomException(HttpStatusCode.CLASS_NOT_FOUND.getCode(), HttpStatusCode.CLASS_NOT_FOUND,
 					HttpStatusCode.CLASS_NOT_FOUND.getMessage(), classResult);
 		}
+		
+		String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+
+		TeacherDto teacherDto = null;
+
+		if (classDetail.getTeacherId() != null) {
+			ResponseEntity<Response<UserDto>> teacherResponse = userFeignService.getTeacherById(currJwtToken,
+					classDetail.getTeacherId().toString());
+			UserDto userDto = teacherResponse.getBody().getResult().getData();
+			if (userDto != null) {
+				teacherDto = new TeacherDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
+						userDto.getContactInfoDto().getLastName());
+			}
+		}
+		
+		
 		ClassStudentDto classStudentDto=new ClassStudentDto();
 		classStudentDto.setClassDto(classMapper.entityToDto(classDetail));
 		classStudentDto.setSchoolDto(schoolMapper.entityToDto(classDetail.getSchool()));
 		Set<StudentDto> studentDto=classDetail.getStudents().stream()
 				.map(students -> studentMapper.entityToDto(students)).collect(Collectors.toSet());
 		classStudentDto.setStudentDto(studentDto);
+		classStudentDto.setTeacherDto(teacherDto);
 		classResult.setData(classStudentDto);
 		getClass.setStatusCode(HttpStatusCode.CLASS_RETREIVED_SUCCESSFULLY.getCode());
 		getClass.setMessage(HttpStatusCode.CLASS_RETREIVED_SUCCESSFULLY.getMessage());

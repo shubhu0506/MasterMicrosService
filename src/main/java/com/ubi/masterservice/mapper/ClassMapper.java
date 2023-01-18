@@ -31,6 +31,7 @@ public class ClassMapper {
 			classDto.setClassName(classDetail.getClassName());
 			classDto.setClassCode(classDetail.getClassCode());
 			classDto.setSchoolId(classDetail.getSchool().getSchoolId());
+			if(classDetail.getTeacherId() != null)classDto.setTeacherId(classDetail.getTeacherId());
 		}
 		return classDto;
 	}
@@ -60,6 +61,28 @@ public class ClassMapper {
 		return classDto;
 	}
 
+	/*public ClassDetailsDto toClassDetails(ClassDetail classDetail) {
+	ClassDetailsDto classDetailsDto = new ClassDetailsDto();
+	classDetailsDto.setClassCode(classDetail.getClassCode());
+	classDetailsDto.setClassName(classDetail.getClassName());
+	classDetailsDto.setClassId(classDetail.getClassId());
+	//classDetailsDto.setSchoolId(classDetail.getSchool().stream().filter(Objects::nonNull).map(school->schoolMapper.entityToDto(school)).collect(Collectors.toSet()));
+	//regionDetailsDto.setSchoolDto(region.getSchool().stream().filter(Objects::nonNull).map(school->schoolMapper.entityToDto(school)).collect(Collectors.toSet()));
+
+	TeacherDto teacherDto = null;
+	if(classDetail.getTeacherId() != null){
+		String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+		ResponseEntity<Response<UserDto>> teacherResponse = userFeignService.getTeacherById(currJwtToken,classDetail.getTeacherId().toString());
+		UserDto userDto = teacherResponse.getBody().getResult().getData();
+		if(userDto != null) {
+			teacherDto = new TeacherDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
+		}
+	}
+	classDetailsDto.setTeacherDto(teacherDto);
+
+	return classDetailsDto;
+}*/
+	
 
 	public ClassStudentDto toStudentDto(ClassDetail classDetail)
 	{
@@ -117,7 +140,7 @@ public class ClassMapper {
 				studentDtoSet.add(studentDto);
 			}
 		}
-		return new ClassStudentDto(classDto,schoolDto, studentDtoSet );
+		return new ClassStudentDto(classDto,schoolDto,null, studentDtoSet );
 	}
 
 

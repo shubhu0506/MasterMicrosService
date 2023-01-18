@@ -10,8 +10,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClassDto {
+	
 	private Long classId;
 	private String classCode;
 	private String className;
 	private int schoolId;
+	private Long teacherId;
+	
+	
+	
+	
+//	private Long classId;
+//	private String classCode;
+//	private String className;
+//	private int schoolId;
 }

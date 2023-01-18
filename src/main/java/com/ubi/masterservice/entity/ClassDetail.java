@@ -33,6 +33,8 @@ public class ClassDetail
 	@Column(name = "ClassName")
 	private String className;
 
+	private Long teacherId;
+	
 	@ManyToOne
 	@JoinColumn(name = "schoolId")
 	private School school;
