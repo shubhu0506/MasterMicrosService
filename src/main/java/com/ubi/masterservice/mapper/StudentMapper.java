@@ -52,12 +52,14 @@ public class StudentMapper {
 	public StudentVerifyDto entityToDtoId(StudentVerifyDto student) {
 		StudentVerifyDto studentDto=modelMapper.map(student, StudentVerifyDto.class);
 		studentDto.setStudentId(student.getStudentId());
+		studentDto.setUserId(student.getUserId());
 		return studentDto;
 	}
 
 	public StudentVerifyDto entityToDtoIds(StudentVerifyDto student) {
 		StudentVerifyDto studentDto=modelMapper.map(student, StudentVerifyDto.class);
 		studentDto.setStudentId(student.getStudentId());
+		studentDto.setUserId(student.getUserId());
 		return studentDto;
 	}
 
@@ -83,6 +85,7 @@ public class StudentMapper {
 
 	public StudentPromoteDemoteDto entityToDto(StudentPromoteDemote studentPromoteDemoteCreation) {
 		StudentPromoteDemoteDto studentPromoteDemoteCreationDto=modelMapper.map(studentPromoteDemoteCreation, StudentPromoteDemoteDto.class);
+		studentPromoteDemoteCreationDto.setUserId(studentPromoteDemoteCreationDto.getUserId());
 		studentPromoteDemoteCreationDto.setClassId(studentPromoteDemoteCreationDto.getClassId());
 		studentPromoteDemoteCreationDto.setStudentId(studentPromoteDemoteCreationDto.getStudentId());
 
@@ -92,6 +95,7 @@ public class StudentMapper {
 	public StudentPromoteDemoteDto entityToDtoId(StudentPromoteDemoteDto student) {
 
 		StudentPromoteDemoteDto studentPromoteDemoteCreationDto=modelMapper.map(student, StudentPromoteDemoteDto.class);
+		studentPromoteDemoteCreationDto.setUserId(student.getUserId());
 		studentPromoteDemoteCreationDto.setClassId(student.getClassId());
 		studentPromoteDemoteCreationDto.setStudentId(student.getStudentId());
 

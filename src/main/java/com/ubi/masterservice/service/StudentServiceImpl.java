@@ -64,6 +64,14 @@ public class StudentServiceImpl implements StudentService {
 
 	private String topicPartialUpdate="master_topic_student_patch";
 
+	private String topicPromote="master_topic_promote";
+
+	private String topicDemote="master_topic_demote";
+
+	private String topicVerifyByTeacher="master_topic_verify_by_teacher";
+
+	private String topicVerifyByPrincipal="master_topic_verify_by_principal";
+
 	private NewTopic topic;
 
 	@Autowired
@@ -416,6 +424,7 @@ public class StudentServiceImpl implements StudentService {
 	public Response<List<StudentVerifyDto>> verifiedByTeacher(String userId,StudentVerifyDto studentVerifyDto) {
 
 		Result<List<StudentVerifyDto>> res = new Result<>();
+		Result<StudentVerifyDto> result=new Result<>();
 		for(Long category: studentVerifyDto.getStudentId()){
 
 			Optional<Student> existingStudentContainer = studentRepository.findById(category);
@@ -433,15 +442,30 @@ public class StudentServiceImpl implements StudentService {
 		}
 
 		Response<List<StudentVerifyDto>> response = new Response<>();
+		result.setData(studentMapper.entityToDtoId(studentVerifyDto));
 		response.setStatusCode(HttpStatusCode.STUDENT_VERIFIED_SUCCESSFULLY.getCode());
 		response.setMessage(HttpStatusCode.STUDENT_VERIFIED_SUCCESSFULLY.getMessage());
 		response.setResult(new Result(studentMapper.entityToDtoId(studentVerifyDto)));
+		ObjectMapper obj = new ObjectMapper();
+
+		String jsonStr = null;
+		try {
+			jsonStr = obj.writeValueAsString(result.getData());
+			LOGGER.info(jsonStr);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		kafkaTemplate.send(topicVerifyByTeacher,0,"Key10",jsonStr);
+		LOGGER.info(String.format("Order Event => %s", jsonStr.toString()));
 		return response;
 	}
 
 
 	@Override
 	public Response<List<StudentVerifyDto>> verifiedByPrincipal(String userId,StudentVerifyDto studentVerifyDto) {
+
+		Result<StudentVerifyDto> result=new Result<>();
 
 		for(Long category: studentVerifyDto.getStudentId()) {
 
@@ -460,9 +484,22 @@ public class StudentServiceImpl implements StudentService {
 			}
 		}
 		Response<List<StudentVerifyDto>> response = new Response<>();
+		result.setData(studentMapper.entityToDtoId(studentVerifyDto));
 		response.setStatusCode(HttpStatusCode.STUDENT_VERIFIED_SUCCESSFULLY.getCode());
 		response.setMessage(HttpStatusCode.STUDENT_VERIFIED_SUCCESSFULLY.getMessage());
 		response.setResult(new Result(studentMapper.entityToDtoId(studentVerifyDto)));
+		ObjectMapper obj = new ObjectMapper();
+
+		String jsonStr = null;
+		try {
+			jsonStr = obj.writeValueAsString(result.getData());
+			LOGGER.info(jsonStr);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		kafkaTemplate.send(topicVerifyByPrincipal,0,"Key11",jsonStr);
+		LOGGER.info(String.format("Order Event => %s", jsonStr.toString()));
 		return response;
 	}
 
@@ -537,7 +574,7 @@ public class StudentServiceImpl implements StudentService {
 
 	@Override
 	public Response<StudentPromoteDemoteDto> studentPromoted(String userId,StudentPromoteDemoteDto studentPromoteDemoteCreationDto) {
-		Result<List<StudentPromoteDemoteDto>> res = new Result<>();
+		Result<StudentPromoteDemoteDto> res = new Result<>();
 		ClassDetail classDetails=classRepository.getReferenceById(studentPromoteDemoteCreationDto.getClassId());
 
 		for(Long category: studentPromoteDemoteCreationDto.getStudentId()){
@@ -568,21 +605,31 @@ public class StudentServiceImpl implements StudentService {
 
 
 		Response<StudentPromoteDemoteDto> response = new Response<>();
+		res.setData(studentMapper.entityToDtoId(studentPromoteDemoteCreationDto));
 		response.setStatusCode(HttpStatusCode.STUDENT_PROMOTED_SUCCESSFULLY.getCode());
 		response.setMessage(HttpStatusCode.STUDENT_PROMOTED_SUCCESSFULLY.getMessage());
-		response.setResult(new Result(studentMapper.entityToDtoId(studentPromoteDemoteCreationDto)));
+		response.setResult(res);
+
+		ObjectMapper obj = new ObjectMapper();
+
+		String jsonStr = null;
+		try {
+			jsonStr = obj.writeValueAsString(res.getData());
+			LOGGER.info(jsonStr);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		kafkaTemplate.send(topicPromote,0,"Key8",jsonStr);
+		LOGGER.info(String.format("Order Event => %s", jsonStr.toString()));
 		return response;
 	}
-
-
-
-
 
 
 	@Override
 	public Response<StudentPromoteDemoteDto> studentDemoted(String userId, StudentPromoteDemoteDto studentPromoteDemoteCreationDto) {
 
-		Result<List<StudentPromoteDemoteDto>> res = new Result<>();
+		Result<StudentPromoteDemoteDto> res = new Result<>();
 		ClassDetail classDetails=classRepository.getReferenceById(studentPromoteDemoteCreationDto.getClassId());
 
 
@@ -614,9 +661,24 @@ public class StudentServiceImpl implements StudentService {
 
 		Response<StudentPromoteDemoteDto> response = new Response<>();
 
+		res.setData(studentMapper.entityToDtoId(studentPromoteDemoteCreationDto));
 		response.setStatusCode(HttpStatusCode.STUDENT_DEMOTED_SUCCESSFULLY.getCode());
 		response.setMessage(HttpStatusCode.STUDENT_DEMOTED_SUCCESSFULLY.getMessage());
-		response.setResult(new Result(studentMapper.entityToDtoId(studentPromoteDemoteCreationDto)));
+		response.setResult(res);
+
+
+		ObjectMapper obj = new ObjectMapper();
+
+		String jsonStr = null;
+		try {
+			jsonStr = obj.writeValueAsString(res.getData());
+			LOGGER.info(jsonStr);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		kafkaTemplate.send(topicDemote,0,"Key9",jsonStr);
+		LOGGER.info(String.format("Order Event => %s", jsonStr.toString()));
 		return response;
 
 	}

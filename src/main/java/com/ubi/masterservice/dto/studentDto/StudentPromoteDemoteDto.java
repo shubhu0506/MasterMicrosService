@@ -10,6 +10,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 public class StudentPromoteDemoteDto {
+    private Long userId;
     private Long classId;
     private Set<Long> studentId ;
 }

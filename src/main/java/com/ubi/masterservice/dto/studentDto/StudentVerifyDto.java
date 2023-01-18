@@ -16,8 +16,9 @@ import java.util.Set;
 public class StudentVerifyDto {
 	
 	@Id
-	@GeneratedValue
-	
 	private Set<Long> studentId;
+
+	private Long userId;
+
 
 }
