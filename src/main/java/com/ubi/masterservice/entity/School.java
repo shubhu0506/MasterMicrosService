@@ -60,14 +60,15 @@ public class School {
 
 	@Column(name = "vvnFund")
 	private int vvnFund;
-	
+
+	@Column
 	private Long principalId;
 
 	@ManyToOne
 	@JoinColumn(name="region_id",referencedColumnName="id" )
 	private Region region;
 
-	@OneToMany(fetch= FetchType.EAGER,cascade = CascadeType.ALL, mappedBy = "school")
+	@OneToMany(fetch= FetchType.EAGER,cascade = CascadeType.PERSIST, mappedBy = "school")
 	private Set<ClassDetail> classDetail;
 
 	@ManyToOne
