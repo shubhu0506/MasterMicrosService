@@ -1,9 +1,10 @@
 package com.ubi.masterservice.repository;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,22 +17,22 @@ public interface StudentRepository extends JpaRepository<Student,Long> {
 
 	List<Student> findByGenderAndCategoryAndMinority(String gender,String category, String minority);
 
-	List<Student> findByDateOfBirth(Date dateofBirth);
-	List<Student> findByJoiningDate(Date dateofBirth);
-	List<Student> findByStudentName (String studentName);
-	List<Student> findByGender (String gender);
-	List<Student> findByCategory (String category);
-	List<Student> findByMinority (String minority);
-	List<Student> findByFatherName (String fatherName);
-	List<Student> findByFatherOccupation (String fatherOccupation);
-	List<Student> findByMotherName (String motherName);
-	List<Student> findByCurrentStatus (String currentStatus);
-	List<Student> findByLastVerifiedByTeacher(Long lastVerifiedByTeacher);
-	List<Student> findByLastVerifiedByPrincipal(Long lastVerifiedByPrincipal);
+	Page<Student> findByDateOfBirth(Date dateofBirth,Pageable paging);
+	Page<Student> findByJoiningDate(Date joiningDate,Pageable paging);
+	Page<Student> findByStudentNameIgnoreCase(String studentName, Pageable paging);
+	Page<Student> findByGenderIgnoreCase(String gender,Pageable paging);
+	Page<Student> findByCategoryIgnoreCase (String category,Pageable paging);
+	Page<Student> findByMinorityIgnoreCase (String minority,Pageable paging);
+	Page<Student> findByFatherNameIgnoreCase (String fatherName,Pageable paging);
+	Page<Student> findByFatherOccupationIgnoreCase (String fatherOccupatatus,Pageable paging);
+	Page<Student> findByLastVerifiedByTeacher(Long lastVerifiedByTeacher,Pageable paging);
+	Page<Student> findByLastVerifiedByPrincipal(Long lastVerifiedByPrincipal,Pageable paging);
+	Page<Student> findByMotherNameIgnoreCase (String motherName,Pageable paging);
+	Page<Student> findByCurrentStatus (String currentStastVerifiedByPrincipal,Pageable paging);
 
-	List<Student> findByVerifiedByTeacher(Boolean verifiedByTeacher);
-	List<Student> findByStudentId(Long studentId);
-	List<Student> findByVerifiedByTeacher(boolean verifiedByTeacher);
-	List<Student> findByVerifiedByPrincipal(boolean verifiedByPrincipal);
-	List<Student> findByStudentStatus(boolean studentStatus);
+	Page<Student> findByVerifiedByTeacher(Boolean verifiedByTeacher,Pageable paging);
+	Page<Student> findByStudentId(Long studentId,Pageable paging);
+	Page<Student> findByVerifiedByTeacher(boolean verifiedByTeacher,Pageable paging);
+	Page<Student> findByVerifiedByPrincipal(boolean verifiedByPrincipal,Pageable paging);
+	Page<Student> findByStudentStatus(boolean studentStatus,Pageable paging);
 }
