@@ -1,6 +1,5 @@
 package com.ubi.masterservice.service;
 
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -23,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubi.masterservice.dto.classDto.ClassDto;
+import com.ubi.masterservice.dto.classDto.TeacherDto;
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import com.ubi.masterservice.dto.response.Response;
 import com.ubi.masterservice.dto.schoolDto.PrincipalDto;
@@ -50,16 +50,16 @@ import com.ubi.masterservice.util.PermissionUtil;
 @Service
 public class SchoolServiceImpl implements SchoolService {
 
-	private static  final Logger LOGGER = LoggerFactory.getLogger(SchoolServiceImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SchoolServiceImpl.class);
 
 	@Autowired
 	private SchoolMapper schoolMapper;
-	
+
 	@Autowired
 	private PermissionUtil permissionUtil;
 
 	@Autowired
-    UserFeignService userFeignService;
+	UserFeignService userFeignService;
 
 	@Autowired
 	private RegionRepository regionRepository;
@@ -81,21 +81,20 @@ public class SchoolServiceImpl implements SchoolService {
 	@Autowired
 	private RegionMapper regionMapper;
 
-	private String topicName="master_topic_add";
+	private String topicName = "master_topic_add";
 
-	private String topicDelete="master_delete";
+	private String topicDelete = "master_delete";
 
-	private String topicUpdateName="master_topic_update";
+	private String topicUpdateName = "master_topic_update";
 
 	private NewTopic topic;
 
 	@Autowired
 	private KafkaTemplate<String, String> kafkaTemplate;
 
-	public SchoolServiceImpl(NewTopic topic , KafkaTemplate<String, String> kafkaTemplate)
-	{
-		this.topic=topic;
-		this.kafkaTemplate=kafkaTemplate;
+	public SchoolServiceImpl(NewTopic topic, KafkaTemplate<String, String> kafkaTemplate) {
+		this.topic = topic;
+		this.kafkaTemplate = kafkaTemplate;
 	}
 
 	@Override
@@ -133,23 +132,23 @@ public class SchoolServiceImpl implements SchoolService {
 		school.setExemptionFlag(schoolDto.isExemptionFlag());
 		school.setVvnAccount(schoolDto.getVvnAccount());
 		school.setVvnFund(schoolDto.getVvnFund());
-		
-		String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
-		
-		
-		ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,schoolDto.getPrincipalId().toString());
-		PrincipalDto principalDto = null;
-		UserDto userDto = principalResponse.getBody().getResult().getData();
-		if(userDto != null) {
-			principalDto = new PrincipalDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
-		}
-		
 		school.setPrincipalId(schoolDto.getPrincipalId());
-		
+
+		PrincipalDto principalDto = null;
+		if (school.getPrincipalId() != null) {
+			String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+			ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,
+					school.getPrincipalId().toString());
+			UserDto userDto = principalResponse.getBody().getResult().getData();
+			if (userDto != null) {
+				principalDto = new PrincipalDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
+						userDto.getContactInfoDto().getLastName());
+			}
+		}
 		school.setRegion(regionRepository.getReferenceById(schoolDto.getRegionId()));
-		
+
 		school.setClassDetail(new HashSet<>());
-		
+
 		for (Long classId : schoolDto.getClassId()) {
 			// System.out.println(classId);
 			ClassDetail classDetail = classRepository.getReferenceById(classId);
@@ -181,11 +180,10 @@ public class SchoolServiceImpl implements SchoolService {
 		try {
 			jsonStr = obj.writeValueAsString(res.getData());
 			LOGGER.info(jsonStr);
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		kafkaTemplate.send(topicName,3,"Key1",jsonStr);
+		kafkaTemplate.send(topicName, 3, "Key1", jsonStr);
 		LOGGER.info(String.format("Order Event => %s", jsonStr.toString()));
 		return response;
 	}
@@ -197,23 +195,28 @@ public class SchoolServiceImpl implements SchoolService {
 		Pageable paging = PageRequest.of(PageNumber, PageSize);
 		Response<PaginationResponse<List<SchoolRegionDto>>> getListofSchools = new Response<>();
 
-		//Page<School> list = this.schoolRepository.findAll(paging);
+		// Page<School> list = this.schoolRepository.findAll(paging);
 		Page<School> list = this.schoolRepository.findByisCollege(false, paging);
-		
+
 		List<SchoolRegionDto> schoolDtos = new ArrayList<>();
 		for (School school : list) {
 			SchoolRegionDto schoolRegionDto = new SchoolRegionDto();
 			schoolRegionDto.setSchoolDto(schoolMapper.entityToDtos(school));
-	
+
 			String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
-			
-			ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,school.getPrincipalId().toString());
+
 			PrincipalDto principalDto = null;
-			UserDto userDto = principalResponse.getBody().getResult().getData();
-			if(userDto != null) {
-				principalDto = new PrincipalDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
+
+			if (school.getPrincipalId() != null) {
+				ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,
+						school.getPrincipalId().toString());
+				UserDto userDto = principalResponse.getBody().getResult().getData();
+				if (userDto != null) {
+					principalDto = new PrincipalDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
+							userDto.getContactInfoDto().getLastName());
+				}
 			}
-			
+
 			schoolRegionDto.setRegionDto(regionMapper.toDto(school.getRegion()));
 			schoolRegionDto.setPrincipalDto(principalDto);
 			Set<ClassDto> classDto = school.getClassDetail().stream()
@@ -255,17 +258,20 @@ public class SchoolServiceImpl implements SchoolService {
 		for (School school : list) {
 			SchoolRegionDto schoolRegionDto = new SchoolRegionDto();
 			schoolRegionDto.setSchoolDto(schoolMapper.entityToDtos(school));
-			
-            String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
-			
-			ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,school.getPrincipalId().toString());
+
+			String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+
 			PrincipalDto principalDto = null;
-			UserDto userDto = principalResponse.getBody().getResult().getData();
-			if(userDto != null) {
-				principalDto = new PrincipalDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
+
+			if (school.getPrincipalId() != null) {
+				ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,
+						school.getPrincipalId().toString());
+				UserDto userDto = principalResponse.getBody().getResult().getData();
+				if (userDto != null) {
+					principalDto = new PrincipalDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
+							userDto.getContactInfoDto().getLastName());
+				}
 			}
-			
-			
 
 			schoolRegionDto.setRegionDto(regionMapper.toDto(school.getRegion()));
 			schoolRegionDto.setPrincipalDto(principalDto);
@@ -307,17 +313,21 @@ public class SchoolServiceImpl implements SchoolService {
 
 		SchoolRegionDto schoolRegionDto = new SchoolRegionDto();
 		schoolRegionDto.setSchoolDto(schoolMapper.entityToDto(sch.get()));
-		
+
 		String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
-		
-		ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,sch.get().getPrincipalId().toString());
+
 		PrincipalDto principalDto = null;
-		UserDto userDto = principalResponse.getBody().getResult().getData();
-		if(userDto != null) {
-			principalDto = new PrincipalDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
+
+		if (sch.get().getPrincipalId() != null) {
+			ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,
+					sch.get().getPrincipalId().toString());
+			UserDto userDto = principalResponse.getBody().getResult().getData();
+			if (userDto != null) {
+				principalDto = new PrincipalDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
+						userDto.getContactInfoDto().getLastName());
+			}
 		}
-		
-		
+
 		schoolRegionDto.setRegionDto(regionMapper.toDto(sch.get().getRegion()));
 		schoolRegionDto.setClassDto(classMapper.entitiesToDto(sch.get().getClassDetail()));
 		schoolRegionDto.setEducationalInstitutionDto(educationalMapper.toDto(sch.get().getEducationalInstitution()));
@@ -343,14 +353,21 @@ public class SchoolServiceImpl implements SchoolService {
 		}
 		SchoolRegionDto schoolRegionDto = new SchoolRegionDto();
 		schoolRegionDto.setSchoolDto(schoolMapper.entityToDto(sch.get()));
-        String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
-		
-		ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,sch.get().getPrincipalId().toString());
+
+		String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+
 		PrincipalDto principalDto = null;
-		UserDto userDto = principalResponse.getBody().getResult().getData();
-		if(userDto != null) {
-			principalDto = new PrincipalDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
+
+		if (sch.get().getPrincipalId() != null) {
+			ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,
+					sch.get().getPrincipalId().toString());
+			UserDto userDto = principalResponse.getBody().getResult().getData();
+			if (userDto != null) {
+				principalDto = new PrincipalDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
+						userDto.getContactInfoDto().getLastName());
+			}
 		}
+
 		schoolRegionDto.setRegionDto(regionMapper.toDto(sch.get().getRegion()));
 		schoolRegionDto.setClassDto(classMapper.entitiesToDto(sch.get().getClassDetail()));
 		schoolRegionDto.setEducationalInstitutionDto(educationalMapper.toDto(sch.get().getEducationalInstitution()));
@@ -364,6 +381,7 @@ public class SchoolServiceImpl implements SchoolService {
 
 	@Override
 	public Response<SchoolDto> deleteSchoolById(int schoolId) {
+		System.out.println(" here ----- *");
 		Result<SchoolDto> res = new Result<>();
 		res.setData(null);
 		Optional<School> school = schoolRepository.findById(schoolId);
@@ -377,18 +395,18 @@ public class SchoolServiceImpl implements SchoolService {
 		for (ClassDetail classDetail : school.get().getClassDetail()) {
 			classDetail.setSchool(null);
 			classRepository.save(classDetail);
-
-			EducationalInstitution educationalInstitution = school.get().getEducationalInstitution();
-			educationalInstitution.getSchool().remove(school.get());
-			educationalRepository.save(educationalInstitution);
-
 		}
 
+		EducationalInstitution educationalInstitution = school.get().getEducationalInstitution();
+		educationalInstitution.getSchool().remove(school.get());
+		educationalRepository.save(educationalInstitution);
+
 		schoolRepository.deleteById(schoolId);
+		System.out.println();
 		Response<SchoolDto> response = new Response<>();
 		res.setData(schoolMapper.entityToDto(school.get()));
-		response.setMessage(HttpStatusCode.SCHOOL_DELETED.getMessage());
-		response.setStatusCode(HttpStatusCode.SCHOOL_DELETED.getCode());
+		response.setMessage(HttpStatusCode.SCHOOL_DELETED_SUCCESSFULLY.getMessage());
+		response.setStatusCode(HttpStatusCode.SCHOOL_DELETED_SUCCESSFULLY.getCode());
 		response.setResult(res);
 		ObjectMapper obj = new ObjectMapper();
 
@@ -396,11 +414,10 @@ public class SchoolServiceImpl implements SchoolService {
 		try {
 			jsonStr = obj.writeValueAsString(res.getData());
 			LOGGER.info(jsonStr);
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		kafkaTemplate.send(topicDelete,3,"Key3",jsonStr);
+		kafkaTemplate.send(topicDelete, 3, "Key3", jsonStr);
 		LOGGER.info(String.format("Order Event => %s", jsonStr.toString()));
 		return response;
 	}
@@ -433,18 +450,22 @@ public class SchoolServiceImpl implements SchoolService {
 		school.setType(schoolDto.getType());
 		school.setEmail(schoolDto.getEmail());
 		school.setSchoolId(schoolDto.getSchoolId());
-		
-		String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
-		
-		ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,schoolDto.getPrincipalId().toString());
-		PrincipalDto principalDto = null;
-		UserDto userDto = principalResponse.getBody().getResult().getData();
-		if(userDto != null) {
-			principalDto = new PrincipalDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
-		}
-		
-		
 		school.setPrincipalId(schoolDto.getPrincipalId());
+
+		String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+
+		PrincipalDto principalDto = null;
+
+		if (existingSchool.get().getPrincipalId() != null) {
+			ResponseEntity<Response<UserDto>> teacherResponse = userFeignService.getPrincipalById(currJwtToken,
+					existingSchool.get().getPrincipalId().toString());
+			UserDto userDto = teacherResponse.getBody().getResult().getData();
+			if (userDto != null) {
+				principalDto = new PrincipalDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
+						userDto.getContactInfoDto().getLastName());
+			}
+		}
+		// school.setPrincipalId(schoolDto.getPrincipalId());
 
 		Region region = regionRepository.getReferenceById(schoolDto.getRegionId());
 		regionRepository.save(region);
@@ -478,11 +499,10 @@ public class SchoolServiceImpl implements SchoolService {
 		try {
 			jsonStr = obj.writeValueAsString(res.getData());
 			System.out.println(jsonStr);
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		kafkaTemplate.send(topicUpdateName,3, "Key2",jsonStr);
+		kafkaTemplate.send(topicUpdateName, 3, "Key2", jsonStr);
 		LOGGER.info(String.format("Order Event => %s", jsonStr.toString()));
 		return response;
 	}

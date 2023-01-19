@@ -16,6 +16,7 @@ public class ClassStudentDto {
 
 	private ClassDto classDto;
 	private SchoolDto schoolDto;
+	private TeacherDto teacherDto;
 	private Set<StudentDto> studentDto;
 
 }

@@ -19,5 +19,4 @@ public class SchoolRegionDto {
 	private RegionDto regionDto;
 	private Set<ClassDto> classDto;
 	private EducationalInstitutionDto educationalInstitutionDto;
-
 }

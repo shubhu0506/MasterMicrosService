@@ -30,8 +30,8 @@ public interface UserFeignService {
     @GetMapping("/user/principal/{principalId}")
     public ResponseEntity<Response<UserDto>> getPrincipalById(@RequestHeader(value = "Authorization", required = true) String authorizationHeader,@PathVariable String principalId);
 
-
-
+    @GetMapping("/user/teacher/{teacherId}")
+    public ResponseEntity<Response<UserDto>> getTeacherById(@RequestHeader(value = "Authorization", required = true) String authorizationHeader,@PathVariable String teacherId);
 
     @GetMapping("/user/regionadmin/{regionAdminId}")
     public ResponseEntity<Response<UserDto>> getRegionAdminById(@RequestHeader(value = "Authorization", required = true) String authorizationHeader,@PathVariable String regionAdminId);
