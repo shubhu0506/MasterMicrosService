@@ -23,9 +23,5 @@ public class ClassDetailsDto {
 	//private TeacherDto teacherDto;
 	Set<Student> student = new HashSet<>();
 	
-//	private Long classId;
-//	private String classCode;
-//	private String className;
-//	private int schoolId;
-//	Set<Student> student = new HashSet<>();
+
 }

@@ -18,12 +18,5 @@ public class ClassStudentDto {
 	private SchoolDto schoolDto;
 	private TeacherDto teacherDto;
 	private Set<StudentDto> studentDto;
-	
-	
-	
-	
-//	private ClassDto classDto;
-//	private SchoolDto schoolDto;
-//	private Set<StudentDto> studentDto;
 
 }

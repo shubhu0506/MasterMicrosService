@@ -19,8 +19,4 @@ public class ClassCreationDto {
 	private Long teacherId;
 	private Set<Student> student;	
 	
-//	private String classCode;
-//	private String className;
-//	private int schoolId;
-//	private Set<Student> student;
 }

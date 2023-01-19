@@ -17,11 +17,4 @@ public class ClassDto {
 	private int schoolId;
 	private Long teacherId;
 	
-	
-	
-	
-//	private Long classId;
-//	private String classCode;
-//	private String className;
-//	private int schoolId;
 }
