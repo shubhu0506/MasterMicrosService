@@ -60,7 +60,8 @@ public class School {
 
 	@Column(name = "vvnFund")
 	private int vvnFund;
-	
+
+	@Column
 	private Long principalId;
 
 	@ManyToOne

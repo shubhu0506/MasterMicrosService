@@ -5,9 +5,9 @@ spring:
   profiles:
     active: default
   datasource:
-    url: jdbc:postgresql://localhost:5432/ubi_kvms_master2
+    url: jdbc:postgresql://localhost:5432/ubi_kvms_master
     username: postgres
-    password: rohan
+    password: root
 
     
   jpa:

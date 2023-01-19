@@ -113,7 +113,9 @@ public class RegionServiceImpl implements RegionService {
 		if(regionCreationDto.getAdminId() != null){
 			String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
 			ResponseEntity<Response<UserDto>> regionAdminResponse = userFeignService.getRegionAdminById(currJwtToken,regionCreationDto.getAdminId().toString());
+			System.out.println(regionAdminResponse.getBody().getResult().getData().toString());
 			UserDto userDto = regionAdminResponse.getBody().getResult().getData();
+			System.out.println(userDto.toString());
 			if(userDto != null) {
 				regionAdminDto = new RegionAdminDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
 				savedRegion.setAdminId(regionCreationDto.getAdminId());

@@ -128,30 +128,7 @@ public class StudentServiceImpl implements StudentService {
 		LOGGER.info(String.format("Order Event => %s", jsonStr.toString()));
 		return response;
 	}
-
-	/*public Response<PaginationResponse<List<StudentDetailsDto>>> getStudents(String fieldName,String searchByField,Integer PageNumber, Integer PageSize) {
-		Result<PaginationResponse<List<StudentDetailsDto>>> res = new Result<>();
-		Pageable paging = PageRequest.of(PageNumber, PageSize);
-		Response<PaginationResponse<List<StudentDetailsDto>>> getListofStudent = new Response<>();
-		Page<Student> list = this.studentRepository.findAll(paging);
-
-		List<StudentDetailsDto> studentDtos = (list.toList().stream().map(student -> studentMapper.toStudentDetails(student)).collect(Collectors.toList()));
 	
-		
-
-
-		if (list.isEmpty()) {
-			throw new CustomException(HttpStatusCode.NO_ENTRY_FOUND.getCode(), HttpStatusCode.NO_ENTRY_FOUND,
-					HttpStatusCode.NO_ENTRY_FOUND.getMessage(), res);
-		}
-
-		PaginationResponse paginationResponse=new PaginationResponse<List<StudentDetailsDto>>(studentDtos,list.getTotalPages(),list.getTotalElements());
-
-		res.setData(paginationResponse);
-		getListofStudent.setStatusCode(200);
-		getListofStudent.setResult(res);
-		return getListofStudent;
-	}*/
 	public Response<PaginationResponse<List<StudentDetailsDto>>> getStudents(String fieldName,String searchByField,Integer PageNumber, Integer PageSize) throws ParseException {
 		Result<PaginationResponse<List<StudentDetailsDto>>> res = new Result<>();
 		Pageable paging = PageRequest.of(PageNumber, PageSize);
@@ -159,9 +136,7 @@ public class StudentServiceImpl implements StudentService {
 		Page<Student> list = this.studentRepository.findAll(paging);
 		List<StudentDetailsDto> studentDtos;
 		PaginationResponse<List<StudentDetailsDto>> paginationResponse = null;
-		List<Student> studentData = null;
-		//String strDateRegEx = "[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]";
-		
+		Page<Student> studentData = null;
 		String strDateRegEx ="^((?:19|20)[0-9][0-9])-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$";
 		if(!fieldName.equals("*") && !searchByField.equals("*"))
 		{
@@ -169,57 +144,57 @@ public class StudentServiceImpl implements StudentService {
 				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 				Date localDate = formatter.parse(searchByField);
 				if(fieldName.equalsIgnoreCase("dateOfBirth")) {
-					studentData = studentRepository.findByDateOfBirth(localDate);
+					studentData = studentRepository.findByDateOfBirth(localDate,paging);
 				} else {
-					studentData = studentRepository.findByJoiningDate(localDate);
+					studentData = studentRepository.findByJoiningDate(localDate,paging);
 				}
-				studentDtos = (studentData.stream().map(student -> studentMapper.toStudentDetails(student)).collect(Collectors.toList()));
-				paginationResponse=new PaginationResponse<List<StudentDetailsDto>>(studentDtos,list.getTotalPages(),list.getTotalElements());
+				studentDtos = (studentData.toList().stream().map(student -> studentMapper.toStudentDetails(student)).collect(Collectors.toList()));
+				paginationResponse=new PaginationResponse<List<StudentDetailsDto>>(studentDtos,studentData.getTotalPages(),studentData.getTotalElements());
 			} else {
 				if(fieldName.equalsIgnoreCase("studentName")) {
-					studentData = studentRepository.findByStudentName(searchByField);
+					studentData = studentRepository.findByStudentNameIgnoreCase(searchByField, paging);
 				}
 				if(fieldName.equalsIgnoreCase("category")) {
-					studentData = studentRepository.findByCategory(searchByField);
+					studentData = studentRepository.findByCategoryIgnoreCase(searchByField, paging);
 				}
 				if(fieldName.equalsIgnoreCase("minority")) {
-					studentData = studentRepository.findByMinority(searchByField);
+					studentData = studentRepository.findByMinorityIgnoreCase(searchByField, paging);
 				}
 				if(fieldName.equalsIgnoreCase("fatherName")) {
-					studentData = studentRepository.findByFatherName(searchByField);
+					studentData = studentRepository.findByFatherNameIgnoreCase(searchByField,paging);
 				}
 				if(fieldName.equalsIgnoreCase("fatherOccupation")) {
-					studentData = studentRepository.findByFatherOccupation(searchByField);
+					studentData = studentRepository.findByFatherOccupationIgnoreCase(searchByField,paging);
 				}
 				if(fieldName.equalsIgnoreCase("motherName")) {
-					studentData = studentRepository.findByMotherName(searchByField);
+					studentData = studentRepository.findByMotherNameIgnoreCase(searchByField,paging);
 				}
 				if(fieldName.equalsIgnoreCase("gender")) {
-					studentData = studentRepository.findByGender(searchByField);
+					studentData = studentRepository.findByGenderIgnoreCase(searchByField,paging);
 				}
 				if(fieldName.equalsIgnoreCase("studentId")) {
-					studentData = studentRepository.findByStudentId(Long.parseLong(searchByField));
+					studentData = studentRepository.findByStudentId(Long.parseLong(searchByField),paging);
 				}
 				if(fieldName.equalsIgnoreCase("lastVerifiedByTeacher")) {
-					studentData = studentRepository.findByLastVerifiedByTeacher(Long.parseLong(searchByField));
+					studentData = studentRepository.findByLastVerifiedByTeacher(Long.parseLong(searchByField),paging);
 				}
 				if(fieldName.equalsIgnoreCase("lastVerifiedByPrincipal")) {
-					studentData = studentRepository.findByLastVerifiedByPrincipal(Long.parseLong(searchByField));
+					studentData = studentRepository.findByLastVerifiedByPrincipal(Long.parseLong(searchByField),paging);
 				}
 				if(fieldName.equalsIgnoreCase("verifiedByTeacher")) {
-					studentData = studentRepository.findByVerifiedByTeacher(Boolean.parseBoolean(searchByField));
+					studentData = studentRepository.findByVerifiedByTeacher(Boolean.parseBoolean(searchByField),paging);
 				}
 				if(fieldName.equalsIgnoreCase("currentStatus")) {
-					studentData = studentRepository.findByCurrentStatus(searchByField);
+					studentData = studentRepository.findByCurrentStatus(searchByField,paging);
 				}
 				if(fieldName.equalsIgnoreCase("verifiedByPrincipal")) {
-					studentData = studentRepository.findByVerifiedByPrincipal(Boolean.parseBoolean(searchByField));
+					studentData = studentRepository.findByVerifiedByPrincipal(Boolean.parseBoolean(searchByField),paging);
 				}
 				if(fieldName.equalsIgnoreCase("studentStatus")) {
-					studentData = studentRepository.findByStudentStatus(Boolean.parseBoolean(searchByField));
+					studentData = studentRepository.findByStudentStatus(Boolean.parseBoolean(searchByField),paging);
 				}
-				studentDtos = (studentData.stream().map(student -> studentMapper.toStudentDetails(student)).collect(Collectors.toList()));
-				paginationResponse=new PaginationResponse<List<StudentDetailsDto>>(studentDtos,list.getTotalPages(),list.getTotalElements());
+				studentDtos = (studentData.toList().stream().map(student -> studentMapper.toStudentDetails(student)).collect(Collectors.toList()));
+				paginationResponse=new PaginationResponse<List<StudentDetailsDto>>(studentDtos,studentData.getTotalPages(),studentData.getTotalElements());
 			}
 		} else {
 			studentDtos = (list.toList().stream().map(student -> studentMapper.toStudentDetails(student)).collect(Collectors.toList()));

@@ -40,7 +40,7 @@ public class ClassDetail
 	private School school;
 
 
-	@OneToMany(fetch= FetchType.EAGER,mappedBy = "classDetail",cascade = CascadeType.ALL)
+	@OneToMany(fetch= FetchType.EAGER,mappedBy = "classDetail",cascade = CascadeType.PERSIST)
 	Set<Student> students = new HashSet<>();
 }
 
