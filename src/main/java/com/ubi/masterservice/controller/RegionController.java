@@ -3,6 +3,7 @@ package com.ubi.masterservice.controller;
 import java.util.List;
 
 
+import com.ubi.masterservice.dto.educationalInstitutiondto.InstituteDto;
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,11 +47,8 @@ public class RegionController {
 	@Operation(summary = "Create New Region", security = @SecurityRequirement(name = "bearerAuth"))
 	@PostMapping
 	public ResponseEntity<Response<RegionDetailsDto>> insertRegion(@RequestBody RegionCreationDto regionCreationDto) {
-
 		Response<RegionDetailsDto> response = this.regionService.addRegion(regionCreationDto);
-
 		return ResponseEntity.ok().body(response);
-
 	}
 
 	@Operation(summary = "Get Region By Id", security = @SecurityRequirement(name = "bearerAuth"))
@@ -135,6 +133,13 @@ public class RegionController {
 	@GetMapping("/sort/{field}")
 	public ResponseEntity<Response<List<RegionDetailsDto>>> getRegionBySorting(@PathVariable String field) {
 		Response<List<RegionDetailsDto>> response = regionService.getRegionwithSort(field);
+		return ResponseEntity.ok().body(response);
+	}
+
+	@Operation(summary = "Get Region By Admin Id", security = @SecurityRequirement(name = "bearerAuth"))
+	@GetMapping("/admin/{adminId}")
+	public ResponseEntity<Response<RegionDetailsDto>> getRegionByAdminId(@PathVariable String adminId) {
+		Response<RegionDetailsDto> response = regionService.getRegionByAdminId(Long.parseLong(adminId));
 		return ResponseEntity.ok().body(response);
 	}
 

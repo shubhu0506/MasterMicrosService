@@ -10,6 +10,7 @@ import com.ubi.masterservice.dto.regionDto.RegionDto;
 import com.ubi.masterservice.dto.regionDto.RegionSchoolDto;
 import com.ubi.masterservice.dto.regionDto.RegionSchoolMappingDto;
 import com.ubi.masterservice.dto.response.Response;
+import com.ubi.masterservice.entity.Region;
 
 public interface RegionService {
 
@@ -31,5 +32,6 @@ public interface RegionService {
 
 	Response<List<RegionDetailsDto>> getRegionwithSort(String field);
 
+	Response<RegionDetailsDto> getRegionByAdminId(Long adminId);
 }
 

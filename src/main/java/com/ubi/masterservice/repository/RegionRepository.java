@@ -23,4 +23,6 @@ public interface RegionRepository extends JpaRepository<Region,Integer> {
 
     List<Region> findAllById(int searchByField);
 
+    Region findByAdminId(Long adminId);
+
 }

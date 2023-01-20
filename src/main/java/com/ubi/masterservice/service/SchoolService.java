@@ -4,8 +4,10 @@ import java.util.List;
 
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import com.ubi.masterservice.dto.response.Response;
+import com.ubi.masterservice.dto.schoolDto.GetSchoolDetails;
 import com.ubi.masterservice.dto.schoolDto.SchoolDto;
 import com.ubi.masterservice.dto.schoolDto.SchoolRegionDto;
+import com.ubi.masterservice.entity.School;
 
 public interface SchoolService {
 
@@ -25,6 +27,6 @@ public interface SchoolService {
 
 	Response<List<SchoolDto>> getSchoolwithSort(String field);
 
-
+	Response<SchoolRegionDto> getSchoolByPrincipalId(Long principalId);
 	
 }

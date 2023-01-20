@@ -9,6 +9,7 @@ import com.ubi.masterservice.dto.studentDto.StudentDetailsDto;
 import com.ubi.masterservice.dto.studentDto.StudentDto;
 import com.ubi.masterservice.dto.studentDto.StudentPromoteDemoteDto;
 import com.ubi.masterservice.dto.studentDto.StudentVerifyDto;
+import com.ubi.masterservice.entity.School;
 
 
 public interface StudentService {
@@ -39,4 +40,5 @@ public interface StudentService {
 	Response<StudentPromoteDemoteDto> studentPromoted(String userId, StudentPromoteDemoteDto studentPromoteDemoteCreationDto);
 
 	Response<StudentPromoteDemoteDto> studentDemoted(String userId,StudentPromoteDemoteDto studentPromoteDemoteCreationDto);
+
 }

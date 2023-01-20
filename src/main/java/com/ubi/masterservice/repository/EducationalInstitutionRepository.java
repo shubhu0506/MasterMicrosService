@@ -34,4 +34,6 @@ public interface EducationalInstitutionRepository extends JpaRepository<Educatio
 
 	List<EducationalInstitution> findAllById(int id);
 
+	EducationalInstitution findByAdminId(Long adminId);
+
 }

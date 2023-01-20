@@ -7,8 +7,14 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.ubi.masterservice.dto.regionDto.RegionAdminDto;
+import com.ubi.masterservice.dto.response.Response;
+import com.ubi.masterservice.dto.user.UserDto;
+import com.ubi.masterservice.externalServices.UserFeignService;
+import com.ubi.masterservice.util.PermissionUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import com.ubi.masterservice.dto.classDto.ClassDto;
@@ -27,6 +33,12 @@ public class SchoolMapper {
 
 	@Autowired
 	ClassMapper mapper;
+
+	@Autowired
+	PermissionUtil permissionUtil;
+
+	@Autowired
+	UserFeignService userFeignService;
 
 	ModelMapper modelMapper = new ModelMapper();
 
@@ -153,7 +165,17 @@ public class SchoolMapper {
 			edDto.setExemptionFlag(edu.getExemptionFlag());
 			edDto.setVvnAccount(edu.getVvnAccount());
 		}
-		return new SchoolRegionDto(schoolDto,null, regionDto, classDtoSet, edDto);
+		PrincipalDto principalDto = null;
+		if(school.getPrincipalId() != null){
+			String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+			ResponseEntity<Response<UserDto>> regionAdminResponse = userFeignService.getPrincipalById(currJwtToken,school.getPrincipalId().toString());
+			UserDto userDto = regionAdminResponse.getBody().getResult().getData();
+			if(userDto != null) {
+				principalDto = new PrincipalDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
+			}
+		}
+
+		return new SchoolRegionDto(schoolDto,principalDto, regionDto, classDtoSet, edDto);
 
 	}
 }

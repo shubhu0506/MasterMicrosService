@@ -25,7 +25,7 @@ public class StudentMapper {
 
 	// entity to DTO Mapping
 	public StudentDto entityToDto(Student student) {
-		StudentDto studentDto=modelMapper.map(student, StudentDto.class);
+		StudentDto studentDto= new StudentDto();
 		studentDto.setStudentId(student.getStudentId());
 		studentDto.setCategory(student.getCategory());
 		studentDto.setCurrentStatus(student.getCurrentStatus());

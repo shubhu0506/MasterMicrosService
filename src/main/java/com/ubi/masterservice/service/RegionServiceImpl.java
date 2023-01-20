@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.ubi.masterservice.dto.educationalInstitutiondto.InstituteDto;
 import com.ubi.masterservice.dto.regionDto.RegionAdminDto;
 import com.ubi.masterservice.dto.schoolDto.PrincipalDto;
 import com.ubi.masterservice.dto.user.UserDto;
@@ -111,6 +112,14 @@ public class RegionServiceImpl implements RegionService {
 
 		RegionAdminDto regionAdminDto = null;
 		if(regionCreationDto.getAdminId() != null){
+			Region region = regionRepository.findByAdminId(regionCreationDto.getAdminId());
+			if(region != null){
+				throw new CustomException(HttpStatusCode.BAD_REQUEST_EXCEPTION.getCode(),
+						HttpStatusCode.BAD_REQUEST_EXCEPTION,
+						"Given region admin id is already mapped with another Region",
+						res);
+			}
+
 			String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
 			ResponseEntity<Response<UserDto>> regionAdminResponse = userFeignService.getRegionAdminById(currJwtToken,regionCreationDto.getAdminId().toString());
 			System.out.println(regionAdminResponse.getBody().getResult().getData().toString());
@@ -400,6 +409,18 @@ public class RegionServiceImpl implements RegionService {
 		getListofRegion.setMessage(HttpStatusCode.REGION_RETRIEVED_SUCCESSFULLY.getMessage());
 		getListofRegion.setResult(allRegionResult);
 		return getListofRegion;
+	}
+
+	@Override
+	public Response<RegionDetailsDto> getRegionByAdminId(Long adminId) {
+		Region region = regionRepository.findByAdminId(adminId);
+		if(region == null){
+			throw new CustomException(HttpStatusCode.NO_CONTENT.getCode(),
+					HttpStatusCode.NO_CONTENT,
+					"Region Not Found For Given Admin Id", null);
+		}
+		RegionDetailsDto regionDetailsDto = regionMapper.toRegionDetails(region);
+		return new Response<RegionDetailsDto>(new Result<>(regionDetailsDto));
 	}
 
 }

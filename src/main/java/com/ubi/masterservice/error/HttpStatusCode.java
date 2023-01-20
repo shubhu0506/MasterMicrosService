@@ -16,6 +16,8 @@ public enum HttpStatusCode {
 
 	NO_REGION_ADDED(108,"Add a region in Educational Institution"),
 
+	NO_CONTENT(204,"Content Not Found"),
+
 	NO_REGION_ID_FOUND(206,"please enter Region Id"),
 
 	USER_RETRIVED_SUCCESSFULLY(200,"User Retrived"),

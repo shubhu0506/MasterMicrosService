@@ -6,6 +6,7 @@ import java.util.List;
 import com.ubi.masterservice.dto.educationalInstitutiondto.*;
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import com.ubi.masterservice.dto.response.Response;
+import com.ubi.masterservice.entity.EducationalInstitution;
 
 public interface EducationalInstitutionService {
 
@@ -23,6 +24,8 @@ public interface EducationalInstitutionService {
 	Response<InstituteDto> getEduInstwithRegion(int id);
 
 	Response<List<InstituteDto>> getEduInstwithSort(String field);
+
+	Response<InstituteDto> getInstituteByAdminId(Long adminId);
 
 //	ByteArrayInputStream load();
 

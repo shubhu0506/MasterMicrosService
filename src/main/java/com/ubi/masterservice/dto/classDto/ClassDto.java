@@ -16,5 +16,4 @@ public class ClassDto {
 	private String className;
 	private int schoolId;
 	private Long teacherId;
-	
 }

@@ -6,10 +6,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ubi.masterservice.dto.classDto.ClassDto;
 import com.ubi.masterservice.dto.educationalInstitutiondto.*;
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import com.ubi.masterservice.dto.regionDto.RegionAdminDto;
 import com.ubi.masterservice.dto.user.UserDto;
+import com.ubi.masterservice.entity.ClassDetail;
 import com.ubi.masterservice.externalServices.UserFeignService;
 import com.ubi.masterservice.util.PermissionUtil;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -118,10 +120,23 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 		for (Integer regionId : instituteCreationDto.getRegionId()) {
 			Region region = regionRepository.getReferenceById(regionId);
 			if (region != null) educationalInstitution.getRegion().add(region);
+			else{
+				throw new CustomException(HttpStatusCode.NO_REGION_ADDED.getCode(),
+						HttpStatusCode.NO_REGION_ADDED,
+						"Invalid region is being sent to map with institute", res);
+			}
 		}
 
 		InstituteAdminDto instituteAdminDto = null;
 		if(instituteCreationDto.getAdminId() != null){
+			EducationalInstitution educationalInstitution1 = educationalInstitutionRepository.findByAdminId(instituteCreationDto.getAdminId());
+			if(educationalInstitution1 != null){
+				throw new CustomException(HttpStatusCode.BAD_REQUEST_EXCEPTION.getCode(),
+						HttpStatusCode.BAD_REQUEST_EXCEPTION,
+						"Given Education Institute admin id is already mapped with another Insitute",
+						res);
+			}
+
 			String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
 			ResponseEntity<Response<UserDto>> regionAdminResponse = userFeignService.getInstituteAdminById(currJwtToken,instituteCreationDto.getAdminId().toString());
 			UserDto userDto = regionAdminResponse.getBody().getResult().getData();
@@ -391,6 +406,18 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 		response.setMessage(HttpStatusCode.EDUCATIONAL_INSTITUTION_RETRIVED_SUCCESSFULLY.getMessage());
 		response.setResult(allEducationalResult);
 		return response;
+	}
+
+	@Override
+	public Response<InstituteDto> getInstituteByAdminId(Long adminId) {
+		EducationalInstitution educationalInstitution = educationalInstitutionRepository.findByAdminId(adminId);
+		if(educationalInstitution == null){
+			throw new CustomException(HttpStatusCode.NO_CONTENT.getCode(),
+					HttpStatusCode.NO_CONTENT,
+					"Institute Not Found For Given Admin Id", null);
+		}
+		InstituteDto instituteDto = educationalInstitutionMapper.toInstituteDto(educationalInstitution);
+		return new Response<InstituteDto>(new Result<>(instituteDto));
 	}
 
 }
