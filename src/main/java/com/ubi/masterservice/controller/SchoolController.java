@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
+import com.ubi.masterservice.dto.regionDto.RegionDetailsDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -119,21 +120,12 @@ public class SchoolController {
 		return ResponseEntity.ok().body(response);
 	}
 
-//	@Operation(summary="Download file ",security=@SecurityRequirement(name= "bearerAuth"))
-//	@GetMapping("/download")
-//	public ResponseEntity<Resource> getCSVFileData()
-//	{
-//		String filename = "class.csv";
-//		InputStreamResource file = new InputStreamResource(schoolService.loadSchoolAndClass());
-//
-//		return ResponseEntity.ok()
-//				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
-//				.contentType(MediaType.parseMediaType("application/csv"))
-//				.body(file);
-//
-//	}
-//
-
+	@Operation(summary = "Get School By Principal Id", security = @SecurityRequirement(name = "bearerAuth"))
+	@GetMapping("/principal/{principalId}")
+	public ResponseEntity<Response<SchoolRegionDto>> getSchoolByPrincipalId(@PathVariable String principalId) {
+		Response<SchoolRegionDto> response = schoolService.getSchoolByPrincipalId(Long.parseLong(principalId));
+		return ResponseEntity.ok().body(response);
+	}
 
 }
 

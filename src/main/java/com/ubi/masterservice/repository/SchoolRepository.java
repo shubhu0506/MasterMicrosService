@@ -23,6 +23,6 @@ public interface SchoolRepository extends JpaRepository<School, Integer>{
 
 	Page<School> findByisCollege(boolean flag, Pageable paging);
 	
-	
+	School findByPrincipalId(Long principalId);
 	
 }

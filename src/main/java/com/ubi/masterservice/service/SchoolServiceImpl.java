@@ -8,6 +8,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.ubi.masterservice.dto.regionDto.RegionDetailsDto;
+import com.ubi.masterservice.dto.schoolDto.GetSchoolDetails;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -136,6 +138,15 @@ public class SchoolServiceImpl implements SchoolService {
 
 		PrincipalDto principalDto = null;
 		if (school.getPrincipalId() != null) {
+			School school1 = schoolRepository.findByPrincipalId(schoolDto.getPrincipalId());
+			if(school1 != null){
+				throw new CustomException(HttpStatusCode.BAD_REQUEST_EXCEPTION.getCode(),
+						HttpStatusCode.BAD_REQUEST_EXCEPTION,
+						"Given Principal Id is already mapped with another School",
+						res);
+			}
+
+
 			String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
 			ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,
 					school.getPrincipalId().toString());
@@ -525,6 +536,18 @@ public class SchoolServiceImpl implements SchoolService {
 		getListofSchools.setMessage(HttpStatusCode.SCHOOL_RETRIVED_SUCCESSFULLY.getMessage());
 		getListofSchools.setResult(allSchoolResult);
 		return getListofSchools;
+	}
+
+	@Override
+	public Response<SchoolRegionDto> getSchoolByPrincipalId(Long principalId) {
+		School school = schoolRepository.findByPrincipalId(principalId);
+		if(school == null){
+			throw new CustomException(HttpStatusCode.NO_CONTENT.getCode(),
+					HttpStatusCode.NO_CONTENT,
+					"School Not Found For Given Principal Id", null);
+		}
+		SchoolRegionDto schoolRegionDto = schoolMapper.toSchoolClassDto(school);
+		return new Response<SchoolRegionDto>(new Result<>(schoolRegionDto));
 	}
 
 }

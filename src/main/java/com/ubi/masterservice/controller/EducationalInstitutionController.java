@@ -2,6 +2,7 @@ package com.ubi.masterservice.controller;
 
 import java.util.List;
 
+import com.ubi.masterservice.dto.classDto.ClassDto;
 import com.ubi.masterservice.dto.educationalInstitutiondto.*;
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import org.slf4j.Logger;
@@ -109,14 +110,12 @@ public class EducationalInstitutionController {
 		return ResponseEntity.ok().body(response);
 	}
 
-//	@Operation(summary = "Download file ", security = @SecurityRequirement(name = "bearerAuth"))
-//	@GetMapping("/download")
-//	public ResponseEntity<Resource> getCSVFileData() {
-//		String filename = "education.csv";
-//		InputStreamResource file = new InputStreamResource(educationalInstitutionService.load());
-//
-//		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
-//				.contentType(MediaType.parseMediaType("application/csv")).body(file);
-//	}
+	@Operation(summary = "Get Institute By Admin Id", security = @SecurityRequirement(name = "bearerAuth"))
+	@GetMapping("/admin/{adminId}")
+	public ResponseEntity<Response<InstituteDto>> getInstituteByAdminId(@PathVariable String adminId) {
+		Response<InstituteDto> response = educationalInstitutionService.getInstituteByAdminId(Long.parseLong(adminId));
+		return ResponseEntity.ok().body(response);
+	}
+
 
 }

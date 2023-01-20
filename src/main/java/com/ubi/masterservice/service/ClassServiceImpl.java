@@ -117,8 +117,18 @@ public class ClassServiceImpl implements ClassService {
 		classDetail.setTeacherId(classDto.getTeacherId());
 		classDetail.setStudents(new HashSet<>());
 
-		TeacherDto teacherDto = null;	
+		TeacherDto teacherDto = null;
+
+
 		if (classDetail.getTeacherId() != null) {
+			ClassDetail classDetail1 = classRepository.findByTeacherId(classDetail.getTeacherId());
+			if(classDetail != null){
+				throw new CustomException(HttpStatusCode.BAD_REQUEST_EXCEPTION.getCode(),
+						HttpStatusCode.BAD_REQUEST_EXCEPTION,
+						"Given teacher is already mapped with another school/college",
+						res);
+			}
+
 			String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
 			ResponseEntity<Response<UserDto>> teacherResponse = userFeignService.getTeacherById(currJwtToken,
 					classDetail.getTeacherId().toString());
@@ -405,10 +415,16 @@ public class ClassServiceImpl implements ClassService {
 		return getListofClasses;
 	}
 
-//	@Override
-//	public ByteArrayInputStream load() {
-//		List<ClassDetail> classd = classRepository.findAll();
-//		ByteArrayInputStream out = ClassCsvHelper.classCSV(classd);
-//		return out;
-//	}
+	@Override
+	public Response<ClassDto> getClassByTeacherId(Long teacherId) {
+		ClassDetail classDetail = classRepository.findByTeacherId(teacherId);
+		if(classDetail == null){
+			throw new CustomException(HttpStatusCode.NO_CONTENT.getCode(),
+					HttpStatusCode.NO_CONTENT,
+					"Class Not Found For Given Teacher Id", null);
+		}
+		ClassDto classDto = classMapper.entityToDto(classDetail);
+		return new Response<ClassDto>(new Result<>(classDto));
+	}
+
 }

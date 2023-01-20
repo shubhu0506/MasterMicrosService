@@ -109,4 +109,11 @@ public class ClassController {
 //				.contentType(MediaType.parseMediaType("application/csv")).body(file);
 //	}
 
+	@Operation(summary = "Get Class By Teacher Id", security = @SecurityRequirement(name = "bearerAuth"))
+	@GetMapping("/teacher/{teacherId}")
+	public ResponseEntity<Response<ClassDto>> getClassByTeacherId(@PathVariable String teacherId) {
+		Response<ClassDto> response = classServiceImpl.getClassByTeacherId(Long.parseLong(teacherId));
+		return ResponseEntity.ok().body(response);
+	}
+
 }

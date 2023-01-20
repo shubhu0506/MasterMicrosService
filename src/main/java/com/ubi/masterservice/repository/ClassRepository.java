@@ -19,4 +19,6 @@ public interface ClassRepository extends JpaRepository<ClassDetail, Long> {
     //Optional<ClassDetail> findByName(String className);
 
     //ClassDetail getClassByName(String schoolName);
+
+    ClassDetail findByTeacherId(Long teacherId);
 }
