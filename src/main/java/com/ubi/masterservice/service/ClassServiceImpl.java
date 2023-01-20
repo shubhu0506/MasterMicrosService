@@ -1,11 +1,7 @@
 package com.ubi.masterservice.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -122,10 +118,10 @@ public class ClassServiceImpl implements ClassService {
 
 		if (classDetail.getTeacherId() != null) {
 			ClassDetail classDetail1 = classRepository.findByTeacherId(classDetail.getTeacherId());
-			if(classDetail != null){
+			if(classDetail1 != null){
 				throw new CustomException(HttpStatusCode.BAD_REQUEST_EXCEPTION.getCode(),
 						HttpStatusCode.BAD_REQUEST_EXCEPTION,
-						"Given teacher is already mapped with another school/college",
+						"Given teacher is already mapped with another class",
 						res);
 			}
 

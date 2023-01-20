@@ -24,7 +24,7 @@ spring:
     import: optional:configserver:http://localhost:8888
 spring.kafka:
   producer:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: http://localhost:9092
 
     key.serializer: org.apache.common.serialization.*
     value.serializer : org.springframework.kafka.support.serializer.*
