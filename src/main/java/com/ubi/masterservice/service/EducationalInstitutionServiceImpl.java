@@ -313,6 +313,25 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 				.strength(instituteCreationDto.getStrength())
 				.region(new HashSet<>()).build();
 
+		InstituteAdminDto instituteAdminDto = null;
+		if(instituteCreationDto.getAdminId() != null && existingEducationalInstitution.getAdminId() != instituteCreationDto.getAdminId()){
+			EducationalInstitution educationalInstitution1 = educationalInstitutionRepository.findByAdminId(instituteCreationDto.getAdminId());
+			if(educationalInstitution1 != null){
+				throw new CustomException(HttpStatusCode.BAD_REQUEST_EXCEPTION.getCode(),
+						HttpStatusCode.BAD_REQUEST_EXCEPTION,
+						"Given Education Institute admin id is already mapped with another Insitute",
+						res);
+			}
+
+			String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+			ResponseEntity<Response<UserDto>> regionAdminResponse = userFeignService.getInstituteAdminById(currJwtToken,instituteCreationDto.getAdminId().toString());
+			UserDto userDto = regionAdminResponse.getBody().getResult().getData();
+			if(userDto != null) {
+				instituteAdminDto = new InstituteAdminDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
+			}
+			educationalInstitution.setAdminId(instituteCreationDto.getAdminId());
+		}
+
 		for (Integer regionId : instituteCreationDto.getRegionId()) {
 			Region region = regionRepository.getReferenceById(regionId);
 			if(region != null) {
@@ -327,12 +346,6 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 					HttpStatusCode.NO_REGION_ADDED.getMessage(), res);
 		}
 
-		if(instituteCreationDto.getAdminId() != null){
-			String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
-			ResponseEntity<Response<UserDto>> regionAdminResponse = userFeignService.getInstituteAdminById(currJwtToken,instituteCreationDto.getAdminId().toString());
-		}
-
-		educationalInstitution.setAdminId(instituteCreationDto.getAdminId());
 
 		EducationalInstitution updateEducationalInst = educationalInstitutionRepository.save(educationalInstitution);
 		InstituteDto instituteDto = educationalInstitutionMapper.toInstituteDto(updateEducationalInst);
@@ -412,9 +425,7 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 	public Response<InstituteDto> getInstituteByAdminId(Long adminId) {
 		EducationalInstitution educationalInstitution = educationalInstitutionRepository.findByAdminId(adminId);
 		if(educationalInstitution == null){
-			throw new CustomException(HttpStatusCode.NO_CONTENT.getCode(),
-					HttpStatusCode.NO_CONTENT,
-					"Institute Not Found For Given Admin Id", null);
+			return new Response<InstituteDto>(new Result<>(null));
 		}
 		InstituteDto instituteDto = educationalInstitutionMapper.toInstituteDto(educationalInstitution);
 		return new Response<InstituteDto>(new Result<>(instituteDto));

@@ -122,10 +122,10 @@ public class ClassServiceImpl implements ClassService {
 
 		if (classDetail.getTeacherId() != null) {
 			ClassDetail classDetail1 = classRepository.findByTeacherId(classDetail.getTeacherId());
-			if(classDetail != null){
+			if(classDetail1 != null){
 				throw new CustomException(HttpStatusCode.BAD_REQUEST_EXCEPTION.getCode(),
 						HttpStatusCode.BAD_REQUEST_EXCEPTION,
-						"Given teacher is already mapped with another school/college",
+						"Given teacher is already mapped with another class",
 						res);
 			}
 
@@ -318,7 +318,16 @@ public class ClassServiceImpl implements ClassService {
 
 		TeacherDto teacherDto = null;
 
-		if (existingClassDetail.getTeacherId() != null) {
+		if (existingClassDetail.getTeacherId() != null && existingClassDetail.getClassId() != classDetailDto.getTeacherId()) {
+
+			ClassDetail classDetail1 = classRepository.findByTeacherId(existingClassDetail.getTeacherId());
+			if(classDetail1 != null){
+				throw new CustomException(HttpStatusCode.BAD_REQUEST_EXCEPTION.getCode(),
+						HttpStatusCode.BAD_REQUEST_EXCEPTION,
+						"Given teacher is already mapped with another class",
+						res);
+			}
+
 			ResponseEntity<Response<UserDto>> teacherResponse = userFeignService.getTeacherById(currJwtToken,
 					existingClassDetail.getTeacherId().toString());
 			UserDto userDto = teacherResponse.getBody().getResult().getData();
@@ -338,9 +347,7 @@ public class ClassServiceImpl implements ClassService {
 		response.setStatusCode(HttpStatusCode.CLASS_UPDATED.getCode());
 		response.setResult(res);
 
-
 		ObjectMapper obj = new ObjectMapper();
-
 		String jsonStr = null;
 		try {
 			jsonStr = obj.writeValueAsString(res.getData());
@@ -370,6 +377,8 @@ public class ClassServiceImpl implements ClassService {
 		TeacherDto teacherDto = null;
 
 		if (classDetail.getTeacherId() != null) {
+
+
 			ResponseEntity<Response<UserDto>> teacherResponse = userFeignService.getTeacherById(currJwtToken,
 					classDetail.getTeacherId().toString());
 			UserDto userDto = teacherResponse.getBody().getResult().getData();
@@ -419,12 +428,11 @@ public class ClassServiceImpl implements ClassService {
 	public Response<ClassDto> getClassByTeacherId(Long teacherId) {
 		ClassDetail classDetail = classRepository.findByTeacherId(teacherId);
 		if(classDetail == null){
-			throw new CustomException(HttpStatusCode.NO_CONTENT.getCode(),
-					HttpStatusCode.NO_CONTENT,
-					"Class Not Found For Given Teacher Id", null);
+			return new Response<ClassDto>(new Result<>(null));
 		}
 		ClassDto classDto = classMapper.entityToDto(classDetail);
 		return new Response<ClassDto>(new Result<>(classDto));
 	}
+
 
 }

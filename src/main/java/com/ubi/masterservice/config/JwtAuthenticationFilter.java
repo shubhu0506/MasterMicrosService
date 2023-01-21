@@ -43,7 +43,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         final String requestTokenHeader = request.getHeader("Authorization");
         String currentUri = request.getRequestURI();
-
         boolean isSwaggerUrl = false;
         for(String publicUri:PUBLIC_URLS){
             if(Pattern.matches(publicUri, currentUri)) {
