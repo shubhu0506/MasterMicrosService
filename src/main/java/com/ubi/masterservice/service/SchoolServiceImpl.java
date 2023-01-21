@@ -461,22 +461,29 @@ public class SchoolServiceImpl implements SchoolService {
 		school.setType(schoolDto.getType());
 		school.setEmail(schoolDto.getEmail());
 		school.setSchoolId(schoolDto.getSchoolId());
-		school.setPrincipalId(schoolDto.getPrincipalId());
-
-		String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
 
 		PrincipalDto principalDto = null;
+		if (schoolDto.getPrincipalId() != null && school.getPrincipalId() != schoolDto.getPrincipalId()) {
+			School school1 = schoolRepository.findByPrincipalId(schoolDto.getPrincipalId());
+			if(school1 != null){
+				throw new CustomException(HttpStatusCode.BAD_REQUEST_EXCEPTION.getCode(),
+						HttpStatusCode.BAD_REQUEST_EXCEPTION,
+						"Given Principal Id is already mapped with another School",
+						res);
+			}
 
-		if (existingSchool.get().getPrincipalId() != null) {
-			ResponseEntity<Response<UserDto>> teacherResponse = userFeignService.getPrincipalById(currJwtToken,
-					existingSchool.get().getPrincipalId().toString());
-			UserDto userDto = teacherResponse.getBody().getResult().getData();
+
+			String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+			ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,
+					school.getPrincipalId().toString());
+			UserDto userDto = principalResponse.getBody().getResult().getData();
 			if (userDto != null) {
 				principalDto = new PrincipalDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
 						userDto.getContactInfoDto().getLastName());
 			}
 		}
-		// school.setPrincipalId(schoolDto.getPrincipalId());
+
+		school.setPrincipalId(schoolDto.getPrincipalId());
 
 		Region region = regionRepository.getReferenceById(schoolDto.getRegionId());
 		regionRepository.save(region);
@@ -542,9 +549,7 @@ public class SchoolServiceImpl implements SchoolService {
 	public Response<SchoolRegionDto> getSchoolByPrincipalId(Long principalId) {
 		School school = schoolRepository.findByPrincipalId(principalId);
 		if(school == null){
-			throw new CustomException(HttpStatusCode.NO_CONTENT.getCode(),
-					HttpStatusCode.NO_CONTENT,
-					"School Not Found For Given Principal Id", null);
+			return new Response<SchoolRegionDto>(new Result<>(null));
 		}
 		SchoolRegionDto schoolRegionDto = schoolMapper.toSchoolClassDto(school);
 		return new Response<SchoolRegionDto>(new Result<>(schoolRegionDto));
