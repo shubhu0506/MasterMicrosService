@@ -1,9 +1,11 @@
 package com.ubi.masterservice.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.Valid;
 
+import com.ubi.masterservice.dto.classDto.TeacherDto;
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import com.ubi.masterservice.dto.regionDto.RegionDetailsDto;
 import org.slf4j.Logger;
@@ -124,6 +126,13 @@ public class SchoolController {
 	@GetMapping("/principal/{principalId}")
 	public ResponseEntity<Response<SchoolRegionDto>> getSchoolByPrincipalId(@PathVariable String principalId) {
 		Response<SchoolRegionDto> response = schoolService.getSchoolByPrincipalId(Long.parseLong(principalId));
+		return ResponseEntity.ok().body(response);
+	}
+
+	@Operation(summary = "Get All Teachers By School Id", security = @SecurityRequirement(name = "bearerAuth"))
+	@GetMapping("/teachers/{schoolId}")
+	public ResponseEntity<Response<Set<TeacherDto>>> getTeachersBySchool(@PathVariable String schoolId) {
+		Response<Set<TeacherDto>> response = schoolService.getAllTeacherBySchoolId(Integer.parseInt(schoolId));
 		return ResponseEntity.ok().body(response);
 	}
 

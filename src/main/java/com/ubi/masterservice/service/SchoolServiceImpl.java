@@ -555,4 +555,32 @@ public class SchoolServiceImpl implements SchoolService {
 		return new Response<SchoolRegionDto>(new Result<>(schoolRegionDto));
 	}
 
+	@Override
+	public Response<Set<TeacherDto>> getAllTeacherBySchoolId(int schoolId) {
+		School school = schoolRepository.getReferenceById(schoolId);
+		if(school == null) {
+			throw new CustomException(HttpStatusCode.BAD_REQUEST_EXCEPTION.getCode(),
+					HttpStatusCode.BAD_REQUEST_EXCEPTION,
+					"School Not Exists With Given School Id", null);
+		}
+		Set<TeacherDto> teachers = new HashSet<>();
+		Set<ClassDetail> classes = school.getClassDetail();
+		for(ClassDetail classDetail:classes){
+			if(classDetail.getTeacherId() != null) {
+				String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+				ResponseEntity<Response<UserDto>> teacherResponse = userFeignService.getTeacherById(currJwtToken,
+						classDetail.getTeacherId().toString());
+				UserDto userDto = teacherResponse.getBody().getResult().getData();
+				if (userDto != null) {
+					TeacherDto teacherDto = new TeacherDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
+							userDto.getContactInfoDto().getLastName());
+					teachers.add(teacherDto);
+				}
+			}
+		}
+
+		Response<Set<TeacherDto>> response = new Response<>(new Result<>(teachers));
+		return response;
+	}
+
 }

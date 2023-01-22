@@ -189,8 +189,7 @@ public class ClassServiceImpl implements ClassService {
 							userDto.getContactInfoDto().getLastName());
 				}
 			}
-			
-			
+
 			//Set<Student> s1=classDetail.getStudents();
 			Set<StudentDto> studentDto=classDetail.getStudents().stream()
 					.map(students -> studentMapper.entityToDto(students)).collect(Collectors.toSet());
