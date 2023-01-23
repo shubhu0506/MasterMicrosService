@@ -63,12 +63,15 @@ public class EducationalInstitutionController {
 	@Operation(summary = "Get All Educational Institution", security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping()
 	public ResponseEntity<Response<PaginationResponse<List<InstituteDto>>>> getEducationalInstitutions(
+			@RequestParam (defaultValue = "*") String fieldName,
+			@RequestParam (defaultValue = "*") String searchByField,
 			@RequestParam(value = "PageNumber", defaultValue = "0", required = false) Integer pageNumber,
 			@RequestParam(value = "PageSize", defaultValue = "5", required = false) Integer pageSize
+			//@RequestParam(value = "sortDir", defaultValue = "ASC", required = false) String sortDir
 	)
 	{
 		Response<PaginationResponse<List<InstituteDto>>> response = educationalInstitutionService
-				.getAllEducationalInstitutions(pageNumber, pageSize);
+				.getAllEducationalInstitutions(fieldName,searchByField,pageNumber, pageSize);
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 

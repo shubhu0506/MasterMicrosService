@@ -27,14 +27,26 @@ public class EducationalInstitution {
 
 	private String educationalInstitutionType;
 
+//	private Long strength;
+//
+//	private String state;
+//
+//	private String exemptionFlag;
+//
+//	private Long vvnAccount;
+
+	@Column(name="educational_institution_strength")
 	private Long strength;
 
 	private String state;
 
+	@Column(name="educational_institution_exemptionFlag")
 	private String exemptionFlag;
 
+	@Column(name="educational_institution_vvnAccount")
 	private Long vvnAccount;
 
+	@Column(name = "educational_adminId")
 	private Long adminId;
 
 	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
