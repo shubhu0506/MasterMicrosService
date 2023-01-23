@@ -13,7 +13,7 @@ public interface ClassService {
 
 	Response<ClassStudentDto> addClassDetails(ClassDto classDto);
 
-	Response<PaginationResponse<List<ClassStudentDto>>> getClassDetails(Integer PageNumber, Integer PageSize);
+	Response<PaginationResponse<List<ClassStudentDto>>> getClassDetails(String fieldName, String searchByField ,Integer PageNumber, Integer PageSize);
 
 	public Response<ClassStudentDto> getClassById(Long classid);
 
@@ -28,7 +28,7 @@ public interface ClassService {
 
 	Response<ClassDto> getClassByTeacherId(Long teacherId);
 
-//	ByteArrayInputStream load();
+
 
 }
 
