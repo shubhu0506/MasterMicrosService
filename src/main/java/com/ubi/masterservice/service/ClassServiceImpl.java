@@ -161,7 +161,7 @@ public class ClassServiceImpl implements ClassService {
 		return response;
 	}
 
-	public Response<PaginationResponse<List<ClassStudentDto>>> getClassDetails(Integer PageNumber, Integer PageSize) {
+	/*public Response<PaginationResponse<List<ClassStudentDto>>> getClassDetails(Integer PageNumber, Integer PageSize) {
 
 		Result<PaginationResponse<List<ClassStudentDto>>> allClasses = new Result<>();
 		Pageable pageing = PageRequest.of(PageNumber, PageSize);
@@ -211,7 +211,74 @@ public class ClassServiceImpl implements ClassService {
 		getListofClasses.setMessage(HttpStatusCode.CLASS_RETREIVED_SUCCESSFULLY.getMessage());
 		getListofClasses.setResult(allClasses);
 		return getListofClasses;
+	}*/
+	
+	public Response<PaginationResponse<List<ClassStudentDto>>> getClassDetails(String fieldName,String searchByField,Integer PageNumber, Integer PageSize) {
+
+		Result<PaginationResponse<List<ClassStudentDto>>> allClasses = new Result<>();
+		Pageable pageing = PageRequest.of(PageNumber, PageSize);
+		Response<PaginationResponse<List<ClassStudentDto>>> getListofClasses = new Response<PaginationResponse<List<ClassStudentDto>>>();
+		ClassStudentDto classStudentDto = null;
+		Set<StudentDto> studentDto = null;
+		TeacherDto teacherDto = null;
+		Page<ClassDetail> classList = this.classRepository.findAll(pageing);
+		
+		List<ClassStudentDto> classDto =new ArrayList();
+		PaginationResponse paginationResponse;
+		
+		if(!fieldName.equals("*") && !searchByField.equals("*")) {
+			if(fieldName.equalsIgnoreCase("classCode")) {
+				classList = classRepository.findByClassCode(searchByField, pageing);
+			}
+			if(fieldName.equalsIgnoreCase("className")) {
+				classList = classRepository.findByClassNameIgnoreCase(searchByField, pageing);
+			}
+			if(fieldName.equalsIgnoreCase("classId")) {
+				classList = classRepository.findByClassId((Long.parseLong(searchByField)),pageing);
+			}
+		}
+		for(ClassDetail classDetail:classList)
+		{
+			classStudentDto=new ClassStudentDto();
+			classStudentDto.setClassDto(classMapper.entityToDto(classDetail));
+			classStudentDto.setSchoolDto(schoolMapper.entityToDto(classDetail.getSchool()));
+
+			String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+
+			if (classDetail.getTeacherId() != null) {
+				ResponseEntity<Response<UserDto>> teacherResponse = userFeignService.getTeacherById(currJwtToken,
+						classDetail.getTeacherId().toString());
+				UserDto userDto = teacherResponse.getBody().getResult().getData();
+				if (userDto != null) {
+					teacherDto = new TeacherDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
+							userDto.getContactInfoDto().getLastName());
+				}
+			}
+			
+			
+			studentDto=classDetail.getStudents().stream()
+					.map(students -> studentMapper.entityToDto(students)).collect(Collectors.toSet());
+			classStudentDto.setStudentDto(studentDto);
+			classStudentDto.setTeacherDto(teacherDto);
+			classDto.add(classStudentDto);
+		}
+
+		if (classList.isEmpty()) {
+			throw new CustomException(HttpStatusCode.RESOURCE_NOT_FOUND.getCode(), HttpStatusCode.RESOURCE_NOT_FOUND,
+					HttpStatusCode.RESOURCE_NOT_FOUND.getMessage(), allClasses);
+		}
+
+		paginationResponse=new PaginationResponse<List<ClassStudentDto>>(classDto,classList.getTotalPages(),classList.getTotalElements());
+
+
+		allClasses.setData(paginationResponse);
+		getListofClasses.setStatusCode(HttpStatusCode.CLASS_RETREIVED_SUCCESSFULLY.getCode());
+		getListofClasses.setMessage(HttpStatusCode.CLASS_RETREIVED_SUCCESSFULLY.getMessage());
+		getListofClasses.setResult(allClasses);
+		return getListofClasses;
 	}
+
+
 
 	public Response<ClassStudentDto> getClassById(Long classid) {
 
