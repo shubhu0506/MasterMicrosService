@@ -3,6 +3,8 @@ package com.ubi.masterservice.repository;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -18,21 +20,23 @@ public interface EducationalInstitutionRepository extends JpaRepository<Educatio
 
 	EducationalInstitution getEducationalInstitutionByeducationalInstitutionCode(String educationalInstitutionCode);
 
-	List<EducationalInstitution> findByEducationalInstitutionCode(String educationalInstitutionCode);
+	Page<EducationalInstitution> findByEducationalInstitutionCode(String educationalInstitutionCode, Pageable paging);
 
-	List<EducationalInstitution> findByEducationalInstitutionName(String educationalInstitutionName);
+	Page<EducationalInstitution> findByEducationalInstitutionName(String educationalInstitutionName,Pageable paging);
 
-	List<EducationalInstitution> findByEducationalInstitutionType(String educationalInstitutionType);
+	Page<EducationalInstitution> findByEducationalInstitutionType(String educationalInstitutionType,Pageable paging);
 
-	List<EducationalInstitution> findByStrength(Long strength);
+	Page<EducationalInstitution> findByStrength(Long strength,Pageable paging);
 
-	List<EducationalInstitution> findByState(String state);
+	Page<EducationalInstitution> findByState(String state,Pageable paging);
 
-	List<EducationalInstitution> findByExemptionFlag(String exemptionFlag);
+	Page<EducationalInstitution> findByExemptionFlag(String exemptionFlag,Pageable paging);
 
-	List<EducationalInstitution> findByVvnAccount(Long vvnAccount);
+	Page<EducationalInstitution> findByVvnAccount(Long vvnAccount,Pageable paging);
 
-	List<EducationalInstitution> findAllById(int id);
+	Page<EducationalInstitution> findAllById(int id,Pageable paging);
+
+	Page<EducationalInstitution> findAllByAdminId(Long adminId,Pageable paging);
 
 	EducationalInstitution findByAdminId(Long adminId);
 
