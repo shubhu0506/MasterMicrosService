@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -18,10 +20,10 @@ public interface RegionRepository extends JpaRepository<Region,Integer> {
 
     Set<Region> getReferenceByIdIn(Set<Integer> regionId);
 
-	List<Region> findByName(String searchByField);
-    List<Region> findByCode(String searchByField);
+	Page<Region> findByName(String searchByField,Pageable paging);
+	Page<Region> findByCode(String searchByField,Pageable paging);
 
-    List<Region> findAllById(int searchByField);
+	Page<Region> findAllById(int searchByField,Pageable paging);
 
     Region findByAdminId(Long adminId);
 
