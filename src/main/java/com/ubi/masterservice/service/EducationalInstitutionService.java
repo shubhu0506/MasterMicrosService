@@ -19,7 +19,7 @@ public interface EducationalInstitutionService {
 
 	Response<InstituteDto> getEducationalInstituteByName(String educationalInstitutionName);
 
-	Response<PaginationResponse<List<InstituteDto>>> getAllEducationalInstitutions(Integer pageNumber, Integer pageSize);
+	Response<PaginationResponse<List<InstituteDto>>> getAllEducationalInstitutions(String fieldName,String searchByField,Integer pageNumber, Integer pageSize);
 
 
 	Response<InstituteDto> deleteEducationalInstitution(int id);

@@ -13,6 +13,8 @@ import com.ubi.masterservice.dto.schoolDto.PrincipalDto;
 import com.ubi.masterservice.dto.schoolDto.SchoolRegionDto;
 import com.ubi.masterservice.dto.user.UserDto;
 import com.ubi.masterservice.entity.School;
+import com.ubi.masterservice.entity.ClassDetail;
+import com.ubi.masterservice.entity.Student;
 import com.ubi.masterservice.externalServices.UserFeignService;
 import com.ubi.masterservice.mapper.SchoolMapper;
 import com.ubi.masterservice.util.PermissionUtil;
@@ -206,7 +208,11 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 	}
 
 	@Override
-	public Response<PaginationResponse<List<InstituteDto>>> getAllEducationalInstitutions(Integer pageNumber,Integer pageSize) {
+	public Response<PaginationResponse<List<InstituteDto>>> getAllEducationalInstitutions(String fieldName,String searchByField,Integer pageNumber,Integer pageSize) {
+
+//		Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(searchByField).ascending()
+//				: Sort.by(searchByField).descending();
+
 
 		Result<PaginationResponse<List<InstituteDto>>> allEducationalResult = new Result<>();
 		Pageable paging = PageRequest.of(pageNumber, pageSize);
@@ -215,12 +221,70 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 
 		Page<EducationalInstitution> list = this.educationalInstitutionRepository.findAll(paging);
 
-		List<InstituteDto> instituteDtos= new ArrayList<>();
-		for (EducationalInstitution eduInsti : list) {
-			instituteDtos.add(educationalInstitutionMapper.toInstituteDto(eduInsti));
+		PaginationResponse<List<InstituteDto>> paginationResponse = null;
+
+		List<InstituteDto> instituteDtos;
+
+		Page<EducationalInstitution> eduData = null;
+
+		if (!fieldName.equals("*") && !searchByField.equals("*")) {
+			if (fieldName.equalsIgnoreCase("educationalInstitutionCode")) {
+				eduData = educationalInstitutionRepository.findByEducationalInstitutionCode(searchByField, paging);
+			}
+
+			if (fieldName.equalsIgnoreCase("educationalInstitutionName")) {
+				eduData = educationalInstitutionRepository.findByEducationalInstitutionName(searchByField, paging);
+			}
+
+			if (fieldName.equalsIgnoreCase("educationalInstitutionType")) {
+				eduData = educationalInstitutionRepository.findByEducationalInstitutionType(searchByField,paging);
+			}
+
+			if (fieldName.equalsIgnoreCase("strength")) {
+				eduData = educationalInstitutionRepository.findByStrength(Long.parseLong(searchByField),paging);
+			}
+
+			if (fieldName.equalsIgnoreCase("state")) {
+				eduData = educationalInstitutionRepository.findByState(searchByField,paging);
+			}
+
+			if (fieldName.equalsIgnoreCase("exemptionFlag")) {
+				eduData = educationalInstitutionRepository.findByExemptionFlag(searchByField, paging);
+			}
+
+			if (fieldName.equalsIgnoreCase("vvnAccount")) {
+				eduData = educationalInstitutionRepository.findByVvnAccount(Long.parseLong(searchByField), paging);
+			}
+
+			if (fieldName.equalsIgnoreCase("adminId")) {
+				eduData = educationalInstitutionRepository.findAllByAdminId(Long.parseLong(searchByField), paging);
+			}
+
+			if (fieldName.equalsIgnoreCase("id")) {
+				eduData = educationalInstitutionRepository.findAllById(Integer.parseInt(searchByField), paging);
+			}
+
+			instituteDtos = (eduData.stream().map(education -> educationalInstitutionMapper.toInstituteDto(education)).collect(Collectors.toList()));
+
+			 paginationResponse = new PaginationResponse<List<InstituteDto>>(instituteDtos, eduData.getTotalPages(), eduData.getTotalElements());
+		}
+	 else {
+			instituteDtos = list.toList().stream().map(education -> educationalInstitutionMapper.toInstituteDto(education)).collect(Collectors.toList());
+
+			 paginationResponse = new PaginationResponse<List<InstituteDto>>(instituteDtos, list.getTotalPages(), list.getTotalElements());
 		}
 
-		PaginationResponse paginationResponse=new PaginationResponse<List<InstituteDto>>(instituteDtos,list.getTotalPages(),list.getTotalElements());
+//		for (EducationalInstitution eduInsti : list) {
+//			instituteDtos.add(educationalInstitutionMapper.toInstituteDto(eduInsti));
+//		}
+
+	//	PaginationResponse paginationResponse=new PaginationResponse<List<InstituteDto>>(instituteDtos,list.getTotalPages(),list.getTotalElements());
+
+		if (list.isEmpty()) {
+			throw new CustomException(HttpStatusCode.NO_EDUCATIONAL_INSTITUTION_FOUND.getCode(),
+					HttpStatusCode.NO_EDUCATIONAL_INSTITUTION_FOUND,
+					HttpStatusCode.NO_EDUCATIONAL_INSTITUTION_FOUND.getMessage(), allEducationalResult);
+		}
 
 		allEducationalResult.setData(paginationResponse);
 		response.setStatusCode(HttpStatusCode.EDUCATIONAL_INSTITUTION_RETRIVED_SUCCESSFULLY.getCode());
