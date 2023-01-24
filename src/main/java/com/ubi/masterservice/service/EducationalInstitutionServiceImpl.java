@@ -201,9 +201,9 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 
 	@Override
 	public Response<PaginationResponse<List<InstituteDto>>> getAllEducationalInstitutions(String fieldName,String searchByField,Integer pageNumber,Integer pageSize) {
-
-//		Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(searchByField).ascending()
-//				: Sort.by(searchByField).descending();
+//
+//		Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(fieldName).ascending()
+//				: Sort.by(fieldName).descending();
 
 
 		Result<PaginationResponse<List<InstituteDto>>> allEducationalResult = new Result<>();
@@ -217,7 +217,9 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 
 		List<InstituteDto> instituteDtos;
 
-		Page<EducationalInstitution> eduData = null;
+		//Page<EducationalInstitution> eduData=null;
+		Page<EducationalInstitution> eduData =  this.educationalInstitutionRepository.findAll(paging);
+
 
 		if (!fieldName.equals("*") && !searchByField.equals("*")) {
 			if (fieldName.equalsIgnoreCase("educationalInstitutionCode")) {
@@ -255,8 +257,7 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 			if (fieldName.equalsIgnoreCase("id")) {
 				eduData = educationalInstitutionRepository.findAllById(Integer.parseInt(searchByField), paging);
 			}
-
-			instituteDtos = (eduData.stream().map(education -> educationalInstitutionMapper.toInstituteDto(education)).collect(Collectors.toList()));
+			instituteDtos = (eduData.toList().stream().map(education -> educationalInstitutionMapper.toInstituteDto(education)).collect(Collectors.toList()));
 
 			 paginationResponse = new PaginationResponse<List<InstituteDto>>(instituteDtos, eduData.getTotalPages(), eduData.getTotalElements());
 		}

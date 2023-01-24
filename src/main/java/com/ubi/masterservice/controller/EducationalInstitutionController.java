@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -67,7 +68,7 @@ public class EducationalInstitutionController {
 			@RequestParam (defaultValue = "*") String searchByField,
 			@RequestParam(value = "PageNumber", defaultValue = "0", required = false) Integer pageNumber,
 			@RequestParam(value = "PageSize", defaultValue = "5", required = false) Integer pageSize
-			//@RequestParam(value = "sortDir", defaultValue = "ASC", required = false) String sortDir
+		//	@RequestParam(value = "sortDir", defaultValue = "ASC", required = false) String sortDir
 	)
 	{
 		Response<PaginationResponse<List<InstituteDto>>> response = educationalInstitutionService
