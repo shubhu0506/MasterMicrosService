@@ -1,15 +1,21 @@
 package com.ubi.masterservice.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import com.ubi.masterservice.dto.classDto.ClassDto;
+import com.ubi.masterservice.dto.classDto.TeacherDto;
 import com.ubi.masterservice.dto.educationalInstitutiondto.*;
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
+import com.ubi.masterservice.dto.regionDto.RegionDetailsDto;
+import com.ubi.masterservice.dto.schoolDto.PrincipalDto;
+import com.ubi.masterservice.dto.schoolDto.SchoolRegionDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -67,7 +73,7 @@ public class EducationalInstitutionController {
 			@RequestParam (defaultValue = "*") String searchByField,
 			@RequestParam(value = "PageNumber", defaultValue = "0", required = false) Integer pageNumber,
 			@RequestParam(value = "PageSize", defaultValue = "5", required = false) Integer pageSize
-			//@RequestParam(value = "sortDir", defaultValue = "ASC", required = false) String sortDir
+		//	@RequestParam(value = "sortDir", defaultValue = "ASC", required = false) String sortDir
 	)
 	{
 		Response<PaginationResponse<List<InstituteDto>>> response = educationalInstitutionService
@@ -117,6 +123,27 @@ public class EducationalInstitutionController {
 	@GetMapping("/admin/{adminId}")
 	public ResponseEntity<Response<InstituteDto>> getInstituteByAdminId(@PathVariable String adminId) {
 		Response<InstituteDto> response = educationalInstitutionService.getInstituteByAdminId(Long.parseLong(adminId));
+		return ResponseEntity.ok().body(response);
+	}
+
+	@Operation(summary = "Get All Region Inside Education Institute", security = @SecurityRequirement(name = "bearerAuth"))
+	@GetMapping("/regions/{instituteId}")
+	public ResponseEntity<Response<List<RegionDetailsDto>> > getAllRegionInsideInstitute(@PathVariable String instituteId) {
+		Response<List<RegionDetailsDto>>  response = educationalInstitutionService.getAllRegionsByInstituteId(Integer.parseInt(instituteId));
+		return ResponseEntity.ok().body(response);
+	}
+
+	@Operation(summary = "Get All Teachers Inside Education Institute", security = @SecurityRequirement(name = "bearerAuth"))
+	@GetMapping("/teachers/{instituteId}")
+	public ResponseEntity<Response<Set<TeacherDto>>> getAllTeachersInsideInstitute(@PathVariable String instituteId) {
+		Response<Set<TeacherDto>> response = educationalInstitutionService.getAllTeacherByInstituteId(Integer.parseInt(instituteId));
+		return ResponseEntity.ok().body(response);
+	}
+
+	@Operation(summary = "Get All Schools Inside Education Institute", security = @SecurityRequirement(name = "bearerAuth"))
+	@GetMapping("/principals/{instituteId}")
+	public ResponseEntity<Response<Set<SchoolRegionDto>>> getAllPrincipalsInsideInstitute(@PathVariable String instituteId) {
+		Response<Set<SchoolRegionDto>> response = educationalInstitutionService.getAllSchoolByInstituteId(Integer.parseInt(instituteId));
 		return ResponseEntity.ok().body(response);
 	}
 

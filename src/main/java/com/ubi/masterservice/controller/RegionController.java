@@ -1,10 +1,12 @@
 package com.ubi.masterservice.controller;
 
 import java.util.List;
+import java.util.Set;
 
 
 import com.ubi.masterservice.dto.educationalInstitutiondto.InstituteDto;
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
+import com.ubi.masterservice.dto.schoolDto.SchoolRegionDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,26 +98,6 @@ public class RegionController {
 
 	}
 
-//	@Operation(summary = "Download Region and Education Detail file ", security = @SecurityRequirement(name = "bearerAuth"))
-//	@GetMapping("/download")
-//	public ResponseEntity<Resource> getCSVFileData() {
-//		String filename = "region.csv";
-//		InputStreamResource file = new InputStreamResource(regionService.load());
-//
-//		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
-//				.contentType(MediaType.parseMediaType("application/csv")).body(file);
-//	}
-
-//	@Operation(summary = "Download file ", security = @SecurityRequirement(name = "bearerAuth"))
-//	@GetMapping("/getcsvdata")
-//	public ResponseEntity<Resource> getRegionCsvFileData() {
-//		String filename = "regionschool.csv";
-//		InputStreamResource file = new InputStreamResource(regionService.Regionload());
-//
-//		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
-//				.contentType(MediaType.parseMediaType("application/csv")).body(file);
-//	}
-
 	@Operation(summary = "Get Region By Region Name", security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping("/region/{name}")
 	public ResponseEntity<Response<RegionDto>> getSingleRegion(@RequestParam String name) {
@@ -140,6 +122,20 @@ public class RegionController {
 	@GetMapping("/admin/{adminId}")
 	public ResponseEntity<Response<RegionDetailsDto>> getRegionByAdminId(@PathVariable String adminId) {
 		Response<RegionDetailsDto> response = regionService.getRegionByAdminId(Long.parseLong(adminId));
+		return ResponseEntity.ok().body(response);
+	}
+
+	@Operation(summary = "Get All Schools By Region Id", security = @SecurityRequirement(name = "bearerAuth"))
+	@GetMapping("/school/{regionId}")
+	public ResponseEntity<Response<Set<SchoolRegionDto>>>  getAllSchoolsByRegionId(@PathVariable String regionId) {
+		Response<Set<SchoolRegionDto>> response = regionService.getSchoolsByRegionId(Long.parseLong(regionId));
+		return ResponseEntity.ok().body(response);
+	}
+
+	@Operation(summary = "Get All Colleges By Region Id", security = @SecurityRequirement(name = "bearerAuth"))
+	@GetMapping("/college/{regionId}")
+	public ResponseEntity<Response<Set<SchoolRegionDto>>>  getAllCollegesByRegionId(@PathVariable String regionId) {
+		Response<Set<SchoolRegionDto>> response = regionService.getCollegeByRegionId(Long.parseLong(regionId));
 		return ResponseEntity.ok().body(response);
 	}
 
