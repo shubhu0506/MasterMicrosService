@@ -217,7 +217,7 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 
 		List<InstituteDto> instituteDtos;
 
-		Page<EducationalInstitution> eduData = null;
+		Page<EducationalInstitution> eduData =  this.educationalInstitutionRepository.findAll(paging);
 
 		if (!fieldName.equals("*") && !searchByField.equals("*")) {
 			if (fieldName.equalsIgnoreCase("educationalInstitutionCode")) {

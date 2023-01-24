@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.ubi.masterservice.dto.classDto.ClassStudentDto;
 import com.ubi.masterservice.dto.educationalInstitutiondto.InstituteDto;
 import com.ubi.masterservice.dto.regionDto.RegionAdminDto;
 import com.ubi.masterservice.dto.schoolDto.PrincipalDto;
@@ -185,26 +186,26 @@ public class RegionServiceImpl implements RegionService {
 	public Response<PaginationResponse<List<RegionDetailsDto>>> getRegionDetails(String fieldName,String searchByField,Integer PageNumber, Integer PageSize) {
 		Result<PaginationResponse<List<RegionDetailsDto>>> res = new Result<>();
 		Pageable paging = PageRequest.of(PageNumber, PageSize);
-		Response<PaginationResponse<List<RegionDetailsDto>>> getListofRegion = new Response<>();
+		Response<PaginationResponse<List<RegionDetailsDto>>> getListofRegion = new Response<PaginationResponse<List<RegionDetailsDto>>>();
 		Page<Region> list = this.regionRepository.findAll(paging);
 		List<RegionDetailsDto> regionDtos;
 		PaginationResponse<List<RegionDetailsDto>> paginationResponse = null;
-		List<Region> regionData = null;
+		Page<Region> regionData = this.regionRepository.findAll(paging);
 		
 	
 		if(!fieldName.equals("*") && !searchByField.equals("*")) {
 				if(fieldName.equalsIgnoreCase("code")) {
-					regionData = regionRepository.findByCode(searchByField);
+					regionData = regionRepository.findByCode(searchByField,paging);
 				}
 				if(fieldName.equalsIgnoreCase("name")) {
-					regionData = regionRepository.findByName(searchByField);
+					regionData = regionRepository.findByName(searchByField,paging);
 				}
 				
 				if(fieldName.equalsIgnoreCase("id")) {
-					regionData = regionRepository.findAllById(Integer.parseInt(searchByField));
+					regionData = regionRepository.findAllById((Integer.parseInt(searchByField)),paging);
 				}
 				regionDtos = (regionData.stream().map(region -> regionMapper.toRegionDetails(region)).collect(Collectors.toList()));
-				paginationResponse=new PaginationResponse<List<RegionDetailsDto>>(regionDtos,list.getTotalPages(),list.getTotalElements());
+				paginationResponse=new PaginationResponse<List<RegionDetailsDto>>(regionDtos,regionData.getTotalPages(),regionData.getTotalElements());
 		} else {
 			regionDtos = (list.toList().stream().map(region -> regionMapper.toRegionDetails(region)).collect(Collectors.toList()));
 			paginationResponse=new PaginationResponse<List<RegionDetailsDto>>(regionDtos,list.getTotalPages(),list.getTotalElements());
