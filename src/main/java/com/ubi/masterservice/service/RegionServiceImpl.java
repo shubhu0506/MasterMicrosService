@@ -4,10 +4,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import com.ubi.masterservice.dto.educationalInstitutiondto.InstituteDto;
 import com.ubi.masterservice.dto.regionDto.RegionAdminDto;
-import com.ubi.masterservice.dto.schoolDto.GetSchoolDetails;
-import com.ubi.masterservice.dto.schoolDto.PrincipalDto;
 import com.ubi.masterservice.dto.schoolDto.SchoolRegionDto;
 import com.ubi.masterservice.dto.user.UserDto;
 import com.ubi.masterservice.externalServices.UserFeignService;
@@ -184,13 +181,13 @@ public class RegionServiceImpl implements RegionService {
 	public Response<PaginationResponse<List<RegionDetailsDto>>> getRegionDetails(String fieldName,String searchByField,Integer PageNumber, Integer PageSize) {
 		Result<PaginationResponse<List<RegionDetailsDto>>> res = new Result<>();
 		Pageable paging = PageRequest.of(PageNumber, PageSize);
+
 		Response<PaginationResponse<List<RegionDetailsDto>>> getListofRegion = new Response<>();
 		Page<Region> list = this.regionRepository.findAll(paging);
 		List<RegionDetailsDto> regionDtos;
 		PaginationResponse<List<RegionDetailsDto>> paginationResponse = null;
 		List<Region> regionData = null;
-		
-	
+
 		if(!fieldName.equals("*") && !searchByField.equals("*")) {
 				if(fieldName.equalsIgnoreCase("code")) {
 					regionData = regionRepository.findByCode(searchByField);
@@ -431,7 +428,7 @@ public class RegionServiceImpl implements RegionService {
 		Response<RegionDetailsDto> response = new Response<>();
 		if(region == null){
 			response.setStatusCode(HttpStatusCode.NO_CONTENT.getCode());
-			response.setMessage("No School Found With Given Region Id");
+			response.setMessage("No Region Found With Given Admin Id");
 			response.setResult(new Result<>(null));
 			return response;
 		}
@@ -449,7 +446,7 @@ public class RegionServiceImpl implements RegionService {
 		Response<Set<SchoolRegionDto>> response = new Response<>();
 		if(schools.isEmpty()){
 			response.setStatusCode(HttpStatusCode.NO_CONTENT.getCode());
-			response.setMessage("No School Found With Given Region Id");
+			response.setMessage("No Schools Found With Given Region Id");
 			response.setResult(new Result<>(null));
 			return response;
 		}

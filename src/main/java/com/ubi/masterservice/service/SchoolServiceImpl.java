@@ -153,7 +153,7 @@ public class SchoolServiceImpl implements SchoolService {
 			UserDto userDto = principalResponse.getBody().getResult().getData();
 			if (userDto != null) {
 				principalDto = new PrincipalDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
-						userDto.getContactInfoDto().getLastName());
+						userDto.getContactInfoDto().getLastName(),school.getSchoolId());
 			}
 		}
 		school.setRegion(regionRepository.getReferenceById(schoolDto.getRegionId()));
@@ -224,7 +224,7 @@ public class SchoolServiceImpl implements SchoolService {
 				UserDto userDto = principalResponse.getBody().getResult().getData();
 				if (userDto != null) {
 					principalDto = new PrincipalDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
-							userDto.getContactInfoDto().getLastName());
+							userDto.getContactInfoDto().getLastName(),school.getSchoolId());
 				}
 			}
 
@@ -280,7 +280,7 @@ public class SchoolServiceImpl implements SchoolService {
 				UserDto userDto = principalResponse.getBody().getResult().getData();
 				if (userDto != null) {
 					principalDto = new PrincipalDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
-							userDto.getContactInfoDto().getLastName());
+							userDto.getContactInfoDto().getLastName(),school.getSchoolId());
 				}
 			}
 
@@ -335,7 +335,7 @@ public class SchoolServiceImpl implements SchoolService {
 			UserDto userDto = principalResponse.getBody().getResult().getData();
 			if (userDto != null) {
 				principalDto = new PrincipalDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
-						userDto.getContactInfoDto().getLastName());
+						userDto.getContactInfoDto().getLastName(),sch.get().getSchoolId());
 			}
 		}
 
@@ -375,7 +375,7 @@ public class SchoolServiceImpl implements SchoolService {
 			UserDto userDto = principalResponse.getBody().getResult().getData();
 			if (userDto != null) {
 				principalDto = new PrincipalDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
-						userDto.getContactInfoDto().getLastName());
+						userDto.getContactInfoDto().getLastName(),sch.get().getSchoolId());
 			}
 		}
 
@@ -463,7 +463,7 @@ public class SchoolServiceImpl implements SchoolService {
 		school.setSchoolId(schoolDto.getSchoolId());
 
 		PrincipalDto principalDto = null;
-		if (schoolDto.getPrincipalId() != null && school.getPrincipalId() != schoolDto.getPrincipalId()) {
+		if (schoolDto.getPrincipalId() != null && existingSchool.get().getPrincipalId() != schoolDto.getPrincipalId()) {
 			School school1 = schoolRepository.findByPrincipalId(schoolDto.getPrincipalId());
 			if(school1 != null){
 				throw new CustomException(HttpStatusCode.BAD_REQUEST_EXCEPTION.getCode(),
@@ -475,11 +475,11 @@ public class SchoolServiceImpl implements SchoolService {
 
 			String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
 			ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,
-					school.getPrincipalId().toString());
+					schoolDto.getPrincipalId().toString());
 			UserDto userDto = principalResponse.getBody().getResult().getData();
 			if (userDto != null) {
 				principalDto = new PrincipalDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
-						userDto.getContactInfoDto().getLastName());
+						userDto.getContactInfoDto().getLastName(),school.getSchoolId());
 			}
 		}
 
@@ -548,23 +548,49 @@ public class SchoolServiceImpl implements SchoolService {
 	@Override
 	public Response<SchoolRegionDto> getSchoolByPrincipalId(Long principalId) {
 		School school = schoolRepository.findByPrincipalId(principalId);
+		Response<SchoolRegionDto> response = new Response<>();
 		if(school == null){
-			return new Response<SchoolRegionDto>(new Result<>(null));
+			response.setStatusCode(HttpStatusCode.NO_CONTENT.getCode());
+			response.setMessage("No School Found With Given Principal Id");
+			response.setResult(new Result<>(null));
+			return response;
 		}
 		SchoolRegionDto schoolRegionDto = schoolMapper.toSchoolClassDto(school);
-		return new Response<SchoolRegionDto>(new Result<>(schoolRegionDto));
+		response.setStatusCode(HttpStatusCode.SUCCESSFUL.getCode());
+		response.setMessage(HttpStatusCode.SUCCESSFUL.getMessage());
+		response.setResult(new Result<>(schoolRegionDto));
+		return response;
+	}
+
+	@Override
+	public Response<SchoolRegionDto> getCollegeByPrincipalId(Long principalId) {
+		School school = schoolRepository.findCollegeByPrincipalId(principalId);
+		Response<SchoolRegionDto> response = new Response<>();
+		if(school == null){
+			response.setStatusCode(HttpStatusCode.NO_CONTENT.getCode());
+			response.setMessage("No College Found With Given Principal Id");
+			response.setResult(new Result<>(null));
+			return response;
+		}
+		SchoolRegionDto schoolRegionDto = schoolMapper.toSchoolClassDto(school);
+		response.setStatusCode(HttpStatusCode.SUCCESSFUL.getCode());
+		response.setMessage(HttpStatusCode.SUCCESSFUL.getMessage());
+		response.setResult(new Result<>(schoolRegionDto));
+		return response;
 	}
 
 	@Override
 	public Response<Set<TeacherDto>> getAllTeacherBySchoolId(int schoolId) {
-		School school = schoolRepository.getReferenceById(schoolId);
-		if(school == null) {
+		Optional<School> schoolOptional = schoolRepository.findById(schoolId);
+		if(!schoolOptional.isPresent()) {
 			throw new CustomException(HttpStatusCode.BAD_REQUEST_EXCEPTION.getCode(),
 					HttpStatusCode.BAD_REQUEST_EXCEPTION,
-					"School Not Exists With Given School Id", null);
+					"School Not Exists With Given School Id", new Result<>(null));
 		}
+		School school = schoolOptional.get();
 		Set<TeacherDto> teachers = new HashSet<>();
-		Set<ClassDetail> classes = school.getClassDetail();
+		Set<ClassDetail> classes = new HashSet<>();
+		if(!school.getClassDetail().isEmpty()) classes = school.getClassDetail();
 		for(ClassDetail classDetail:classes){
 			if(classDetail.getTeacherId() != null) {
 				String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
@@ -573,7 +599,7 @@ public class SchoolServiceImpl implements SchoolService {
 				UserDto userDto = teacherResponse.getBody().getResult().getData();
 				if (userDto != null) {
 					TeacherDto teacherDto = new TeacherDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
-							userDto.getContactInfoDto().getLastName());
+							userDto.getContactInfoDto().getLastName(),classDetail.getClassId(),classDetail.getSchool().getSchoolId());
 					teachers.add(teacherDto);
 				}
 			}

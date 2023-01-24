@@ -1,18 +1,20 @@
 package com.ubi.masterservice.service;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ubi.masterservice.dto.classDto.ClassDto;
+import com.ubi.masterservice.dto.classDto.TeacherDto;
 import com.ubi.masterservice.dto.educationalInstitutiondto.*;
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
-import com.ubi.masterservice.dto.regionDto.RegionAdminDto;
+import com.ubi.masterservice.dto.regionDto.RegionDetailsDto;
+import com.ubi.masterservice.dto.schoolDto.PrincipalDto;
+import com.ubi.masterservice.dto.schoolDto.SchoolRegionDto;
 import com.ubi.masterservice.dto.user.UserDto;
-import com.ubi.masterservice.entity.ClassDetail;
+import com.ubi.masterservice.entity.School;
 import com.ubi.masterservice.externalServices.UserFeignService;
+import com.ubi.masterservice.mapper.SchoolMapper;
 import com.ubi.masterservice.util.PermissionUtil;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.slf4j.Logger;
@@ -26,7 +28,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-import com.ubi.masterservice.dto.regionDto.RegionGet;
 import com.ubi.masterservice.dto.response.Response;
 import com.ubi.masterservice.entity.EducationalInstitution;
 import com.ubi.masterservice.entity.Region;
@@ -55,10 +56,16 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 	private RegionRepository regionRepository;
 
 	@Autowired
+	private SchoolServiceImpl schoolService;
+
+	@Autowired
 	private PermissionUtil permissionUtil;
 
 	@Autowired
 	private UserFeignService userFeignService;
+
+	@Autowired
+	private SchoolMapper schoolMapper;
 
 	private String topicName="master_topic_add";
 
@@ -424,11 +431,128 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 	@Override
 	public Response<InstituteDto> getInstituteByAdminId(Long adminId) {
 		EducationalInstitution educationalInstitution = educationalInstitutionRepository.findByAdminId(adminId);
+		Response<InstituteDto> response = new Response<>();
 		if(educationalInstitution == null){
-			return new Response<InstituteDto>(new Result<>(null));
+			response.setStatusCode(HttpStatusCode.NO_CONTENT.getCode());
+			response.setMessage("No Institute Found With Given Admin Id");
+			response.setResult(new Result<>(null));
+			return response;
 		}
 		InstituteDto instituteDto = educationalInstitutionMapper.toInstituteDto(educationalInstitution);
-		return new Response<InstituteDto>(new Result<>(instituteDto));
+		response.setStatusCode(HttpStatusCode.SUCCESSFUL.getCode());
+		response.setMessage("Institute Retrived Successfully");
+		response.setResult(new Result<>(instituteDto));
+		return response;
+	}
+
+	@Override
+	public Response<List<RegionDetailsDto>> getAllRegionsByInstituteId(Integer instituteId) {
+		Optional<EducationalInstitution> educationalInst = educationalInstitutionRepository.findById(instituteId);
+
+		if (!educationalInst.isPresent()) {
+			throw new CustomException(HttpStatusCode.BAD_REQUEST_EXCEPTION.getCode(),
+					HttpStatusCode.BAD_REQUEST_EXCEPTION,
+					"No Insitute Found With Given Institute Id", new Result<>(null));
+		}
+		List<RegionDetailsDto> regionDetailsSet = new ArrayList<>();
+		Set<Region> regions = educationalInst.get().getRegion();
+		regionDetailsSet = regions.stream().filter(Objects::nonNull).map(region -> regionMapper.toRegionDetails(region)).collect(Collectors.toList());
+		Response<List<RegionDetailsDto>> response = new Response<>();
+		if(regionDetailsSet.isEmpty()){
+			response.setStatusCode(HttpStatusCode.NO_CONTENT.getCode());
+			response.setMessage("No Region Found");
+			response.setResult(new Result<>(regionDetailsSet));
+			return response;
+		}
+		response.setStatusCode(HttpStatusCode.SUCCESSFUL.getCode());
+		response.setMessage("Regions Retrived Sucessfully");
+		response.setResult(new Result<>(regionDetailsSet));
+		return response;
+	}
+
+	@Override
+	public Response<Set<TeacherDto>> getAllTeacherByInstituteId(Integer instituteId) {
+		Optional<EducationalInstitution> educationalInst = educationalInstitutionRepository.findById(instituteId);
+
+		if (!educationalInst.isPresent()) {
+			throw new CustomException(HttpStatusCode.BAD_REQUEST_EXCEPTION.getCode(),
+					HttpStatusCode.BAD_REQUEST_EXCEPTION,
+					"No Insitute Found With Given Institute Id", new Result<>(null));
+		}
+
+		EducationalInstitution educationalInstitution = educationalInst.get();
+		Set<School> schools = educationalInstitution.getSchool();
+		Set<TeacherDto> allTeachers = new HashSet<>();
+		for(School school:schools){
+			Response<Set<TeacherDto>> teachers = schoolService.getAllTeacherBySchoolId(school.getSchoolId());
+			if(teachers.getResult().getData() != null){
+				for(TeacherDto teacherDto : teachers.getResult().getData()){
+					allTeachers.add(teacherDto);
+				}
+			}
+		}
+
+		for(Region region : educationalInstitution.getRegion()){
+			Set<School> school1 = region.getSchool();
+			for(School school:school1){
+				Response<Set<TeacherDto>> teachers = schoolService.getAllTeacherBySchoolId(school.getSchoolId());
+				if(teachers.getResult().getData() != null){
+					for(TeacherDto teacherDto : teachers.getResult().getData()){
+						allTeachers.add(teacherDto);
+					}
+				}
+			}
+		}
+
+		Response<Set<TeacherDto>> response = new Response<>();
+		if(schools.isEmpty()){
+			response.setStatusCode(HttpStatusCode.NO_CONTENT.getCode());
+			response.setMessage("No Teachers Found");
+			response.setResult(new Result<>(null));
+			return response;
+		}
+
+		response.setStatusCode(HttpStatusCode.SUCCESSFUL.getCode());
+		response.setMessage("Teachers Retrived Successfully");
+		response.setResult(new Result<>(allTeachers));
+		return response;
+	}
+
+	@Override
+	public Response<Set<SchoolRegionDto>> getAllSchoolByInstituteId(Integer instituteId) {
+		Optional<EducationalInstitution> educationalInst = educationalInstitutionRepository.findById(instituteId);
+
+		if (!educationalInst.isPresent()) {
+			throw new CustomException(HttpStatusCode.BAD_REQUEST_EXCEPTION.getCode(),
+					HttpStatusCode.BAD_REQUEST_EXCEPTION,
+					"No Insitute Found With Given Institute Id", new Result<>(null));
+		}
+
+		EducationalInstitution educationalInstitution = educationalInst.get();
+		Set<School> schools = educationalInstitution.getSchool();
+		Set<SchoolRegionDto> allSchools = schools.stream().filter(Objects::nonNull).map(school -> schoolMapper.toSchoolClassDto(school)).collect(Collectors.toSet());
+
+		Set<Region> regions = educationalInstitution.getRegion();
+		for(Region region:regions){
+			Set<School> schools1 = region.getSchool();
+			Set<SchoolRegionDto> allSchools1 = schools1.stream().filter(Objects::nonNull).map(school -> schoolMapper.toSchoolClassDto(school)).collect(Collectors.toSet());
+			if(!allSchools1.isEmpty()){
+				allSchools.addAll(allSchools1);
+			}
+		}
+
+		Response<Set<SchoolRegionDto>> response = new Response<>();
+		if(allSchools.isEmpty()){
+			response.setStatusCode(HttpStatusCode.NO_CONTENT.getCode());
+			response.setMessage("No Teachers Found");
+			response.setResult(new Result<>(null));
+			return response;
+		}
+
+		response.setStatusCode(HttpStatusCode.SUCCESSFUL.getCode());
+		response.setMessage("Teachers Retrived Successfully");
+		response.setResult(new Result<>(allSchools));
+		return response;
 	}
 
 }

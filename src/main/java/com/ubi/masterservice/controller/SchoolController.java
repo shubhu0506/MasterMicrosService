@@ -129,6 +129,13 @@ public class SchoolController {
 		return ResponseEntity.ok().body(response);
 	}
 
+	@Operation(summary = "Get College By Principal Id", security = @SecurityRequirement(name = "bearerAuth"))
+	@GetMapping("/collegeprincipal/{principalId}")
+	public ResponseEntity<Response<SchoolRegionDto>> getCollegeByPrincipalId(@PathVariable String principalId) {
+		Response<SchoolRegionDto> response = schoolService.getCollegeByPrincipalId(Long.parseLong(principalId));
+		return ResponseEntity.ok().body(response);
+	}
+
 	@Operation(summary = "Get All Teachers By School Id", security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping("/teachers/{schoolId}")
 	public ResponseEntity<Response<Set<TeacherDto>>> getTeachersBySchool(@PathVariable String schoolId) {

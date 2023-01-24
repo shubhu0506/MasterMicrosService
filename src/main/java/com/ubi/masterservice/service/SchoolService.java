@@ -31,5 +31,9 @@ public interface SchoolService {
 
 	Response<SchoolRegionDto> getSchoolByPrincipalId(Long principalId);
 
+	Response<SchoolRegionDto> getCollegeByPrincipalId(Long principalId);
+
 	Response<Set<TeacherDto>> getAllTeacherBySchoolId(int schoolId);
+
+
 }

@@ -23,8 +23,16 @@ public interface SchoolRepository extends JpaRepository<School, Integer>{
 	Optional<School> findByname(String name);
 
 	Page<School> findByisCollege(boolean flag, Pageable paging);
-	
+
+	@Query(
+			value = "SELECT * FROM School_Details sch WHERE principal_id = ?1 and is_college = false",
+			nativeQuery = true)
 	School findByPrincipalId(Long principalId);
+
+	@Query(
+			value = "SELECT * FROM School_Details sch WHERE principal_id = ?1 and is_college = true",
+			nativeQuery = true)
+	School findCollegeByPrincipalId(Long principalId);
 
 	@Query(
 			value = "SELECT * FROM School_Details sch WHERE region_id = ?1 and is_college = false",
@@ -35,4 +43,6 @@ public interface SchoolRepository extends JpaRepository<School, Integer>{
 			value = "SELECT * FROM School_Details sch WHERE region_id = ?1 and is_college = true",
 			nativeQuery = true)
 	Set<School> findCollegeByRegionId(Long regionId);
+
+	Optional<School> findById(int id);
 }

@@ -131,7 +131,7 @@ public class ClassServiceImpl implements ClassService {
 			UserDto userDto = teacherResponse.getBody().getResult().getData();
 			if (userDto != null) {
 				teacherDto = new TeacherDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
-						userDto.getContactInfoDto().getLastName());
+						userDto.getContactInfoDto().getLastName(),classDetail.getClassId(), school.getSchoolId());
 			}
 		}
 		//classDetail.setTeacherId(classDto.getTeacherId());
@@ -186,7 +186,7 @@ public class ClassServiceImpl implements ClassService {
 				UserDto userDto = teacherResponse.getBody().getResult().getData();
 				if (userDto != null) {
 					teacherDto = new TeacherDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
-							userDto.getContactInfoDto().getLastName());
+							userDto.getContactInfoDto().getLastName(),classDetail.getClassId(),classDetail.getSchool().getSchoolId());
 				}
 			}
 
@@ -233,7 +233,7 @@ public class ClassServiceImpl implements ClassService {
 			UserDto userDto = teacherResponse.getBody().getResult().getData();
 			if (userDto != null) {
 				teacherDto = new TeacherDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
-						userDto.getContactInfoDto().getLastName());
+						userDto.getContactInfoDto().getLastName(),classDetail.get().getClassId(),classDetail.get().getSchool().getSchoolId());
 			}
 		}
 		
@@ -313,7 +313,7 @@ public class ClassServiceImpl implements ClassService {
 
 		TeacherDto teacherDto = null;
 
-		if (existingClassDetail.getTeacherId() != null && existingClassDetail.getClassId() != classDetailDto.getTeacherId()) {
+		if (classDetailDto.getTeacherId() != null && existingClassContainer.get().getTeacherId() != classDetailDto.getTeacherId()) {
 
 			ClassDetail classDetail1 = classRepository.findByTeacherId(existingClassDetail.getTeacherId());
 			if(classDetail1 != null){
@@ -324,11 +324,11 @@ public class ClassServiceImpl implements ClassService {
 			}
 
 			ResponseEntity<Response<UserDto>> teacherResponse = userFeignService.getTeacherById(currJwtToken,
-					existingClassDetail.getTeacherId().toString());
+					classDetailDto.getTeacherId().toString());
 			UserDto userDto = teacherResponse.getBody().getResult().getData();
 			if (userDto != null) {
 				teacherDto = new TeacherDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
-						userDto.getContactInfoDto().getLastName());
+						userDto.getContactInfoDto().getLastName(),classDetail1.getClassId(), classDetail1.getSchool().getSchoolId());
 			}
 		}
 		existingClassDetail.setTeacherId(classDetailDto.getTeacherId());
@@ -372,14 +372,12 @@ public class ClassServiceImpl implements ClassService {
 		TeacherDto teacherDto = null;
 
 		if (classDetail.getTeacherId() != null) {
-
-
 			ResponseEntity<Response<UserDto>> teacherResponse = userFeignService.getTeacherById(currJwtToken,
 					classDetail.getTeacherId().toString());
 			UserDto userDto = teacherResponse.getBody().getResult().getData();
 			if (userDto != null) {
 				teacherDto = new TeacherDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
-						userDto.getContactInfoDto().getLastName());
+						userDto.getContactInfoDto().getLastName(),classDetail.getClassId(),classDetail.getSchool().getSchoolId());
 			}
 		}
 		
@@ -422,11 +420,18 @@ public class ClassServiceImpl implements ClassService {
 	@Override
 	public Response<ClassDto> getClassByTeacherId(Long teacherId) {
 		ClassDetail classDetail = classRepository.findByTeacherId(teacherId);
+		Response<ClassDto> response = new Response<>();
 		if(classDetail == null){
-			return new Response<ClassDto>(new Result<>(null));
+			response.setStatusCode(HttpStatusCode.NO_CONTENT.getCode());
+			response.setMessage("No Class Found With Given Teacher Id");
+			response.setResult(new Result<>(null));
+			return response;
 		}
 		ClassDto classDto = classMapper.entityToDto(classDetail);
-		return new Response<ClassDto>(new Result<>(classDto));
+		response.setStatusCode(HttpStatusCode.SUCCESSFUL.getCode());
+		response.setMessage("Class Retrieved Successfully");
+		response.setResult(new Result<>(classDto));
+		return response;
 	}
 
 
