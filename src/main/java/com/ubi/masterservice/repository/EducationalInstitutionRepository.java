@@ -3,8 +3,10 @@ package com.ubi.masterservice.repository;
 import java.util.List;
 import java.util.Optional;
 
+import com.sun.prism.shader.Solid_LinearGradient_REFLECT_AlphaTest_Loader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -36,7 +38,7 @@ public interface EducationalInstitutionRepository extends JpaRepository<Educatio
 
 	Page<EducationalInstitution> findAllById(int id,Pageable paging);
 
-	Page<EducationalInstitution> findAllByAdminId(Long adminId,Pageable paging);
+	Page<EducationalInstitution> findAllByAdminId(Long adminId, Pageable paging);
 
 	EducationalInstitution findByAdminId(Long adminId);
 
