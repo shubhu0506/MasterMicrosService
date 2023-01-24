@@ -144,11 +144,13 @@ public class SchoolMapper {
 		if(school.getClassDetail() != null) {
 			for (ClassDetail classDetail : school.getClassDetail()) {
 				if (classDetail != null) {
-					ClassDto classDetailDto = new ClassDto();
-					classDetailDto.setClassCode(classDetail.getClassCode());
-					classDetailDto.setClassName(classDetail.getClassName());
-					classDetailDto.setClassId(classDetail.getClassId());
-					classDtoSet.add(classDetailDto);
+					ClassDto classDto = new ClassDto();
+					classDto.setClassCode(classDetail.getClassCode());
+					classDto.setClassName(classDetail.getClassName());
+					classDto.setClassId(classDetail.getClassId());
+					classDto.setSchoolId(school.getSchoolId());
+					classDto.setTeacherId(classDetail.getTeacherId());
+					classDtoSet.add(classDto);
 				}
 			}
 		}
@@ -163,7 +165,9 @@ public class SchoolMapper {
 			edDto.setStrength(edu.getStrength());
 			edDto.setState(edu.getState());
 			edDto.setExemptionFlag(edu.getExemptionFlag());
+			edDto.setAdminId(edDto.getAdminId());
 			edDto.setVvnAccount(edu.getVvnAccount());
+			edDto.setRegionId(edu.getRegion().stream().filter(Objects::nonNull).map(tempRegion -> tempRegion.getId()).collect(Collectors.toSet()));
 		}
 		PrincipalDto principalDto = null;
 		if(school.getPrincipalId() != null){
@@ -171,7 +175,7 @@ public class SchoolMapper {
 			ResponseEntity<Response<UserDto>> regionAdminResponse = userFeignService.getPrincipalById(currJwtToken,school.getPrincipalId().toString());
 			UserDto userDto = regionAdminResponse.getBody().getResult().getData();
 			if(userDto != null) {
-				principalDto = new PrincipalDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
+				principalDto = new PrincipalDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName(),school.getSchoolId());
 			}
 		}
 

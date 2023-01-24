@@ -11,4 +11,6 @@ public class TeacherDto {
 	private Long userId;
 	private String firstName;
 	private String lastName;
+	private Long classId;
+	private Integer schoolOrCollegeId;
 }

@@ -2,6 +2,7 @@ package com.ubi.masterservice.service;
 
 import java.io.ByteArrayInputStream;
 import java.util.List;
+import java.util.Set;
 
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import com.ubi.masterservice.dto.regionDto.RegionCreationDto;
@@ -10,6 +11,8 @@ import com.ubi.masterservice.dto.regionDto.RegionDto;
 import com.ubi.masterservice.dto.regionDto.RegionSchoolDto;
 import com.ubi.masterservice.dto.regionDto.RegionSchoolMappingDto;
 import com.ubi.masterservice.dto.response.Response;
+import com.ubi.masterservice.dto.schoolDto.GetSchoolDetails;
+import com.ubi.masterservice.dto.schoolDto.SchoolRegionDto;
 import com.ubi.masterservice.entity.Region;
 
 public interface RegionService {
@@ -33,5 +36,10 @@ public interface RegionService {
 	Response<List<RegionDetailsDto>> getRegionwithSort(String field);
 
 	Response<RegionDetailsDto> getRegionByAdminId(Long adminId);
+
+	Response<Set<SchoolRegionDto>> getSchoolsByRegionId(Long regionId);
+
+	Response<Set<SchoolRegionDto>> getCollegeByRegionId(Long regionId);
+
 }
 
