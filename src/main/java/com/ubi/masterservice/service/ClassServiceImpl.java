@@ -250,7 +250,7 @@ public class ClassServiceImpl implements ClassService {
 				UserDto userDto = teacherResponse.getBody().getResult().getData();
 				if (userDto != null) {
 					teacherDto = new TeacherDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
-							userDto.getContactInfoDto().getLastName());
+							userDto.getContactInfoDto().getLastName(),classDetail.getClassId(),classDetail.getSchool().getSchoolId());
 				}
 			}
 			
