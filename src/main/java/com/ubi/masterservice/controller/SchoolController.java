@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.ubi.masterservice.dto.educationalInstitutiondto.InstituteDto;
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import com.ubi.masterservice.dto.regionDto.RegionDetailsDto;
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -50,22 +52,26 @@ public class SchoolController {
 		return ResponseEntity.ok().body(schoolResponse);
 
 	}
-
+	
 	@Operation(summary = "Get All Schools ", security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping
 	public ResponseEntity<Response<PaginationResponse<List<SchoolRegionDto>>>> getAllSchools(
+			@RequestParam (defaultValue = "*") String fieldName,
+			@RequestParam (defaultValue = "*") String searchByField,
 			@RequestParam(value = "PageNumber", defaultValue = "0", required = false) Integer pageNumber,
 			@RequestParam(value = "PageSize", defaultValue = "5", required = false) Integer pageSize) {
-		Response<PaginationResponse<List<SchoolRegionDto>>> response = schoolService.getAllSchools(pageNumber, pageSize);
+		Response<PaginationResponse<List<SchoolRegionDto>>> response = schoolService.getAllSchools(fieldName,searchByField,pageNumber, pageSize);
 		return ResponseEntity.ok().body(response);
 	}
 	
 	@Operation(summary = "Get All Colleges ", security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping("/colleges")
 	public ResponseEntity<Response<PaginationResponse<List<SchoolRegionDto>>>> getAllColleges(
+			@RequestParam (defaultValue = "*") String fieldName,
+			@RequestParam (defaultValue = "*") String searchByField,
 			@RequestParam(value = "PageNumber", defaultValue = "0", required = false) Integer pageNumber,
 			@RequestParam(value = "PageSize", defaultValue = "5", required = false) Integer pageSize) {
-		Response<PaginationResponse<List<SchoolRegionDto>>> response = schoolService.getAllColleges(pageNumber, pageSize);
+		Response<PaginationResponse<List<SchoolRegionDto>>> response = schoolService.getAllColleges(fieldName, searchByField, pageNumber, pageSize);
 		return ResponseEntity.ok().body(response);
 	}
 	
