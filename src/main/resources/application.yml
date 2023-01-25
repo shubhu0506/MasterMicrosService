@@ -1,11 +1,11 @@
 server:
-  port: 8085
+  port: 8082
 
 spring:
   profiles:
     active: default
   datasource:
-    url: jdbc:postgresql://localhost:5432/master_ubi
+    url: jdbc:postgresql://localhost:5432/ubi_kvms_master
     username: postgres
     password: root
 

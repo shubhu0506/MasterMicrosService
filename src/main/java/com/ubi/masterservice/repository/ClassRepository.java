@@ -5,10 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
 import com.ubi.masterservice.entity.ClassDetail;
-
-import java.awt.print.Pageable;
 
 @Repository
 public interface ClassRepository extends JpaRepository<ClassDetail, Long> {
