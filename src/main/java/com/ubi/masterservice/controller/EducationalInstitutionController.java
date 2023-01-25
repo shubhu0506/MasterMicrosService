@@ -140,8 +140,8 @@ public class EducationalInstitutionController {
 	}
 
 	@Operation(summary = "Get All Schools Inside Education Institute", security = @SecurityRequirement(name = "bearerAuth"))
-	@GetMapping("/principals/{instituteId}")
-	public ResponseEntity<Response<Set<SchoolRegionDto>>> getAllPrincipalsInsideInstitute(@PathVariable String instituteId) {
+	@GetMapping("/schools/{instituteId}")
+	public ResponseEntity<Response<Set<SchoolRegionDto>>> getAllSchoolsInsideInstitute(@PathVariable String instituteId) {
 		Response<Set<SchoolRegionDto>> response = educationalInstitutionService.getAllSchoolByInstituteId(Integer.parseInt(instituteId));
 		return ResponseEntity.ok().body(response);
 	}

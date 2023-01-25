@@ -78,7 +78,7 @@ public class SchoolController {
 		Response<SchoolDto> response = schoolService.deleteSchoolById(schoolId);
 		return ResponseEntity.ok().body(response);
 	}
-
+	
 	@Operation(summary = "Get Single School By Id", security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping("/school/{id}")
 	public ResponseEntity<Response<SchoolRegionDto>> getSchoolById(@PathVariable int id) {
