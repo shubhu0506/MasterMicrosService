@@ -16,7 +16,8 @@ import lombok.ToString;
 public class StudentDetailsDto {
 
 	private Long studentId;
-	private String studentName;
+	private String studentFirstName;
+	private String studentLastName;
 
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date dateOfBirth;

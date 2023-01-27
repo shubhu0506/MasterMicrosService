@@ -31,7 +31,8 @@ public class Student {
 	@Id
 	@GeneratedValue
 	private Long studentId;
-	private String studentName;
+	private String studentFirstName;
+	private String studentLastName;
 	private Long lastVerifiedByTeacher;
 	private Long lastVerifiedByPrincipal;
 

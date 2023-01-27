@@ -19,7 +19,9 @@ public interface StudentRepository extends JpaRepository<Student,Long> {
 
 	Page<Student> findByDateOfBirth(Date dateofBirth,Pageable paging);
 	Page<Student> findByJoiningDate(Date joiningDate,Pageable paging);
-	Page<Student> findByStudentNameIgnoreCase(String studentName, Pageable paging);
+	Page<Student> findByStudentFirstNameIgnoreCase(String studentFirstName, Pageable paging);
+
+	Page<Student> findByStudentLastNameIgnoreCase(String studentLastName, Pageable paging);
 	Page<Student> findByGenderIgnoreCase(String gender,Pageable paging);
 	Page<Student> findByCategoryIgnoreCase (String category,Pageable paging);
 	Page<Student> findByMinorityIgnoreCase (String minority,Pageable paging);

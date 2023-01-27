@@ -120,7 +120,8 @@ public class ClassMapper {
 			{
 				StudentDto studentDto=new StudentDto();
 				studentDto.setStudentId(student.getStudentId());
-				studentDto.setStudentName(student.getStudentName());
+				studentDto.setStudentLastName(student.getStudentLastName());
+				studentDto.setStudentFirstName(student.getStudentFirstName());
 				studentDto.setCategory(student.getCategory());
 				studentDto.setCurrentStatus(student.getCurrentStatus());
 				studentDto.setDateOfBirth(student.getDateOfBirth());

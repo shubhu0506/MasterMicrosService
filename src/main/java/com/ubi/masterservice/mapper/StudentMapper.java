@@ -39,8 +39,10 @@ public class StudentMapper {
 		studentDto.setMotherName(student.getMotherName());
 		studentDto.setMotherOccupation(student.getMotherOccupation());
 //		studentDto.setStatus(student.getStatus());
-		studentDto.setStudentName(student.getStudentName());
+//		studentDto.setStudentName(student.getStudentName());
 //		studentDto.setStudentStatus(student.isStudentStatus());
+		studentDto.setStudentFirstName(student.getStudentFirstName());
+		studentDto.setStudentLastName(student.getStudentLastName());
 		studentDto.setVerifiedByPrincipal(student.getVerifiedByPrincipal());
 		studentDto.setVerifiedByTeacher(student.getVerifiedByTeacher());
 		studentDto.setClassId(student.getClassDetail().getClassId());
@@ -106,7 +108,9 @@ public class StudentMapper {
 	public StudentDetailsDto toStudentDetails(Student student) {
 		StudentDetailsDto studentDetailsDto = new StudentDetailsDto();
 		studentDetailsDto.setStudentId(student.getStudentId());
-		studentDetailsDto.setStudentName(student.getStudentName());
+//		studentDetailsDto.setStudentName(student.getStudentName());
+		studentDetailsDto.setStudentFirstName(student.getStudentFirstName());
+		studentDetailsDto.setStudentLastName(student.getStudentLastName());
 		studentDetailsDto.setDateOfBirth(student.getDateOfBirth());
 //		studentDetailsDto.setStudentStatus(student.isStudentStatus());
 		studentDetailsDto.setCategory(student.getCategory());
