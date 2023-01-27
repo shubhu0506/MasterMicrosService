@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.ubi.masterservice.dto.regionDto.RegionDetailsDto;
+import com.ubi.masterservice.dto.regionDto.RegionDto;
 import com.ubi.masterservice.dto.schoolDto.GetSchoolDetails;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.slf4j.Logger;
@@ -24,12 +25,16 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubi.masterservice.dto.classDto.ClassDto;
+import com.ubi.masterservice.dto.classDto.ClassStudentDto;
 import com.ubi.masterservice.dto.classDto.TeacherDto;
+import com.ubi.masterservice.dto.educationalInstitutiondto.EducationalInstitutionDto;
+import com.ubi.masterservice.dto.educationalInstitutiondto.InstituteDto;
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import com.ubi.masterservice.dto.response.Response;
 import com.ubi.masterservice.dto.schoolDto.PrincipalDto;
 import com.ubi.masterservice.dto.schoolDto.SchoolDto;
 import com.ubi.masterservice.dto.schoolDto.SchoolRegionDto;
+import com.ubi.masterservice.dto.studentDto.StudentDto;
 import com.ubi.masterservice.dto.user.UserDto;
 import com.ubi.masterservice.entity.ClassDetail;
 import com.ubi.masterservice.entity.EducationalInstitution;
@@ -200,19 +205,92 @@ public class SchoolServiceImpl implements SchoolService {
 	}
 
 	@Override
-	public Response<PaginationResponse<List<SchoolRegionDto>>> getAllSchools(Integer PageNumber, Integer PageSize) {
-
+	public Response<PaginationResponse<List<SchoolRegionDto>>> getAllSchools(String fieldName, String searchByField,Integer PageNumber, Integer PageSize) {
+		
 		Result<PaginationResponse<List<SchoolRegionDto>>> allSchoolResult = new Result<>();
 		Pageable paging = PageRequest.of(PageNumber, PageSize);
-		Response<PaginationResponse<List<SchoolRegionDto>>> getListofSchools = new Response<>();
+		Response<PaginationResponse<List<SchoolRegionDto>>> getListofSchools = new Response<PaginationResponse<List<SchoolRegionDto>>>();
+        SchoolRegionDto schoolRegionDto = null;
+        
+		List<SchoolRegionDto> schoolRegionDtos;
+		PaginationResponse paginationResponse;
+		
 
-		// Page<School> list = this.schoolRepository.findAll(paging);
-		Page<School> list = this.schoolRepository.findByisCollege(false, paging);
+		Page<School> schoolData = null;
+		
+//		if (!fieldName.equals("*") && !searchByField.equals("*")) {
+			
+			if (fieldName.equalsIgnoreCase("code")) {
+				schoolData = schoolRepository.findByCode(Integer.parseInt(searchByField), paging);
+			}
 
-		List<SchoolRegionDto> schoolDtos = new ArrayList<>();
-		for (School school : list) {
-			SchoolRegionDto schoolRegionDto = new SchoolRegionDto();
-			schoolRegionDto.setSchoolDto(schoolMapper.entityToDtos(school));
+			else if (fieldName.equalsIgnoreCase("name")) {
+				schoolData = schoolRepository.findByName(searchByField, paging);
+			}
+
+			else if (fieldName.equalsIgnoreCase("email")) {
+				schoolData = schoolRepository.findByEmail(searchByField,paging);
+			}
+
+			else if (fieldName.equalsIgnoreCase("contact")) {
+				schoolData = schoolRepository.findByContact(Long.parseLong(searchByField),paging);
+			}
+
+			else if (fieldName.equalsIgnoreCase("address")) {
+				schoolData = schoolRepository.findByAddress(searchByField,paging);
+			}
+
+			else if (fieldName.equalsIgnoreCase("type")) {
+				schoolData = schoolRepository.findByType(searchByField, paging);
+			}
+
+			else if (fieldName.equalsIgnoreCase("strength")) {
+				schoolData = schoolRepository.findByStrength(Integer.parseInt(searchByField), paging);
+			}
+
+			else if (fieldName.equalsIgnoreCase("shift")) {
+				schoolData = schoolRepository.findByShift((searchByField), paging);
+			}
+
+			else if (fieldName.equalsIgnoreCase("isCollege")) {
+				schoolData = schoolRepository.findByIsCollege(Boolean.parseBoolean(searchByField), paging);
+			}
+
+			else if (fieldName.equalsIgnoreCase("exemptionFlag")) {
+				schoolData = schoolRepository.findByExemptionFlag(Boolean.parseBoolean(searchByField), paging);
+			}
+
+			
+			else if (fieldName.equalsIgnoreCase("vvnAccount")) {
+				schoolData = schoolRepository.findByVvnAccount(Integer.parseInt(searchByField), paging);
+			}
+			
+			
+			else if (fieldName.equalsIgnoreCase("vvnFund")) {
+				schoolData = schoolRepository.findByVvnFund(Integer.parseInt(searchByField), paging);
+			}
+			
+			else if (fieldName.equalsIgnoreCase("principalId")) {
+				schoolData = schoolRepository.findByPrincipalId(Long.parseLong(searchByField), paging);
+			}
+			
+			else if (fieldName.equalsIgnoreCase("id")) {
+				schoolData = schoolRepository.findAllBySchoolId(Integer.parseInt(searchByField), paging);
+			}
+			 else {
+				 
+				 schoolData = this.schoolRepository.findByisCollege(false, paging);
+					
+				}
+			schoolRegionDtos = schoolData.toList().stream().map(school -> schoolMapper.toSchoolClassDto(school)).collect(Collectors.toList());
+
+		
+			paginationResponse = new PaginationResponse<List<SchoolRegionDto>>(schoolRegionDtos, schoolData.getTotalPages(), schoolData.getTotalElements());
+		
+		// List<SchoolRegionDto> schoolDto = new ArrayList<>();
+		for (School school : schoolData) {
+			SchoolRegionDto schoolRegionDtoss = new SchoolRegionDto();
+			schoolRegionDtoss.setSchoolDto(schoolMapper.entityToDtos(school));
 
 			String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
 
@@ -228,24 +306,24 @@ public class SchoolServiceImpl implements SchoolService {
 				}
 			}
 
-			schoolRegionDto.setRegionDto(regionMapper.toDto(school.getRegion()));
-			schoolRegionDto.setPrincipalDto(principalDto);
+			schoolRegionDtoss.setRegionDto(regionMapper.toDto(school.getRegion()));
+			schoolRegionDtoss.setPrincipalDto(principalDto);
 			Set<ClassDto> classDto = school.getClassDetail().stream()
 					.map(classDetail -> classMapper.entityToDto(classDetail)).collect(Collectors.toSet());
 
-			schoolRegionDto.setClassDto(classDto);
-			schoolDtos.add(schoolRegionDto);
+			schoolRegionDtoss.setClassDto(classDto);
+//			schoolDto.add(schoolRegionDto);
 
-			schoolRegionDto.setEducationalInstitutionDto(educationalMapper.toDto(school.getEducationalInstitution()));
+			schoolRegionDtoss.setEducationalInstitutionDto(educationalMapper.toDto(school.getEducationalInstitution()));
 		}
 
-		if (list.isEmpty()) {
+		if (schoolData.isEmpty()) {
 			throw new CustomException(HttpStatusCode.NO_SCHOOL_FOUND.getCode(), HttpStatusCode.NO_SCHOOL_FOUND,
 					HttpStatusCode.NO_SCHOOL_FOUND.getMessage(), allSchoolResult);
 		}
 
-		PaginationResponse paginationResponse = new PaginationResponse<List<SchoolRegionDto>>(schoolDtos,
-				list.getTotalPages(), list.getTotalElements());
+//		PaginationResponse paginationResponse = new PaginationResponse<List<SchoolRegionDto>>(schoolDtos,
+//				list.getTotalPages(), list.getTotalElements());
 
 		allSchoolResult.setData(paginationResponse);
 		getListofSchools.setStatusCode(HttpStatusCode.SCHOOL_RETRIVED_SUCCESSFULLY.getCode());
@@ -255,20 +333,91 @@ public class SchoolServiceImpl implements SchoolService {
 	}
 
 	@Override
-	public Response<PaginationResponse<List<SchoolRegionDto>>> getAllColleges(Integer PageNumber, Integer PageSize) {
-
-		Result<PaginationResponse<List<SchoolRegionDto>>> allCollegeResult = new Result<>();
-		Response<PaginationResponse<List<SchoolRegionDto>>> getListofColleges = new Response<>();
-
+	public Response<PaginationResponse<List<SchoolRegionDto>>> getAllColleges(String fieldName, String searchByField,Integer PageNumber, Integer PageSize) {
+		
+		Result<PaginationResponse<List<SchoolRegionDto>>> allSchoolResult = new Result<>();
 		Pageable paging = PageRequest.of(PageNumber, PageSize);
-		Response<PaginationResponse<List<SchoolRegionDto>>> getListofSchools = new Response<>();
+		Response<PaginationResponse<List<SchoolRegionDto>>> getListofSchools = new Response<PaginationResponse<List<SchoolRegionDto>>>();
+        SchoolRegionDto schoolRegionDto = null;
+        
+		List<SchoolRegionDto> schoolRegionDtos;
+		PaginationResponse paginationResponse;
+		
 
-		Page<School> list = this.schoolRepository.findByisCollege(true, paging);
-		List<SchoolRegionDto> schoolDtos = new ArrayList<>();
+		Page<School> schoolData = null;
+		
+//		if (!fieldName.equals("*") && !searchByField.equals("*")) {
+			
+			if (fieldName.equalsIgnoreCase("code")) {
+				schoolData = schoolRepository.findByCode(Integer.parseInt(searchByField), paging);
+			}
 
-		for (School school : list) {
-			SchoolRegionDto schoolRegionDto = new SchoolRegionDto();
-			schoolRegionDto.setSchoolDto(schoolMapper.entityToDtos(school));
+			else if (fieldName.equalsIgnoreCase("name")) {
+				schoolData = schoolRepository.findByName(searchByField, paging);
+			}
+
+			else if (fieldName.equalsIgnoreCase("email")) {
+				schoolData = schoolRepository.findByEmail(searchByField,paging);
+			}
+
+			else if (fieldName.equalsIgnoreCase("contact")) {
+				schoolData = schoolRepository.findByContact(Long.parseLong(searchByField),paging);
+			}
+
+			else if (fieldName.equalsIgnoreCase("address")) {
+				schoolData = schoolRepository.findByAddress(searchByField,paging);
+			}
+
+			else if (fieldName.equalsIgnoreCase("type")) {
+				schoolData = schoolRepository.findByType(searchByField, paging);
+			}
+
+			else if (fieldName.equalsIgnoreCase("strength")) {
+				schoolData = schoolRepository.findByStrength(Integer.parseInt(searchByField), paging);
+			}
+
+			else if (fieldName.equalsIgnoreCase("shift")) {
+				schoolData = schoolRepository.findByShift((searchByField), paging);
+			}
+
+			else if (fieldName.equalsIgnoreCase("isCollege")) {
+				schoolData = schoolRepository.findByIsCollege(Boolean.parseBoolean(searchByField), paging);
+			}
+
+			else if (fieldName.equalsIgnoreCase("exemptionFlag")) {
+				schoolData = schoolRepository.findByExemptionFlag(Boolean.parseBoolean(searchByField), paging);
+			}
+			
+			else if (fieldName.equalsIgnoreCase("vvnAccount")) {
+				schoolData = schoolRepository.findByVvnAccount(Integer.parseInt(searchByField), paging);
+			}
+			
+			
+			else if (fieldName.equalsIgnoreCase("vvnFund")) {
+				schoolData = schoolRepository.findByVvnFund(Integer.parseInt(searchByField), paging);
+			}
+			
+			else if (fieldName.equalsIgnoreCase("principalId")) {
+				schoolData = schoolRepository.findByPrincipalId(Long.parseLong(searchByField), paging);
+			}
+			
+			else if (fieldName.equalsIgnoreCase("id")) {
+				schoolData = schoolRepository.findAllBySchoolId(Integer.parseInt(searchByField), paging);
+			}
+			 else {
+				 
+				 schoolData = this.schoolRepository.findByisCollege(true, paging);
+					
+				}
+			schoolRegionDtos = schoolData.toList().stream().map(school -> schoolMapper.toSchoolClassDto(school)).collect(Collectors.toList());
+
+		
+			paginationResponse = new PaginationResponse<List<SchoolRegionDto>>(schoolRegionDtos, schoolData.getTotalPages(), schoolData.getTotalElements());
+		
+		// List<SchoolRegionDto> schoolDto = new ArrayList<>();
+		for (School school : schoolData) {
+			SchoolRegionDto schoolRegionDtoss = new SchoolRegionDto();
+			schoolRegionDtoss.setSchoolDto(schoolMapper.entityToDtos(school));
 
 			String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
 
@@ -284,30 +433,30 @@ public class SchoolServiceImpl implements SchoolService {
 				}
 			}
 
-			schoolRegionDto.setRegionDto(regionMapper.toDto(school.getRegion()));
-			schoolRegionDto.setPrincipalDto(principalDto);
+			schoolRegionDtoss.setRegionDto(regionMapper.toDto(school.getRegion()));
+			schoolRegionDtoss.setPrincipalDto(principalDto);
 			Set<ClassDto> classDto = school.getClassDetail().stream()
 					.map(classDetail -> classMapper.entityToDto(classDetail)).collect(Collectors.toSet());
 
-			schoolRegionDto.setClassDto(classDto);
-			schoolDtos.add(schoolRegionDto);
+			schoolRegionDtoss.setClassDto(classDto);
+//			schoolDto.add(schoolRegionDto);
 
-			schoolRegionDto.setEducationalInstitutionDto(educationalMapper.toDto(school.getEducationalInstitution()));
+			schoolRegionDtoss.setEducationalInstitutionDto(educationalMapper.toDto(school.getEducationalInstitution()));
 		}
 
-		if (list.isEmpty()) {
-			throw new CustomException(HttpStatusCode.NO_COLLEGE_FOUND.getCode(), HttpStatusCode.NO_COLLEGE_FOUND,
-					HttpStatusCode.NO_COLLEGE_FOUND.getMessage(), allCollegeResult);
+		if (schoolData.isEmpty()) {
+			throw new CustomException(HttpStatusCode.NO_SCHOOL_FOUND.getCode(), HttpStatusCode.NO_SCHOOL_FOUND,
+					HttpStatusCode.NO_SCHOOL_FOUND.getMessage(), allSchoolResult);
 		}
 
-		PaginationResponse paginationResponse = new PaginationResponse<List<SchoolRegionDto>>(schoolDtos,
-				list.getTotalPages(), list.getTotalElements());
+//		PaginationResponse paginationResponse = new PaginationResponse<List<SchoolRegionDto>>(schoolDtos,
+//				list.getTotalPages(), list.getTotalElements());
 
-		allCollegeResult.setData(paginationResponse);
-		getListofColleges.setStatusCode(HttpStatusCode.COLLEGE_RETRIVED_SUCCESSFULLY.getCode());
-		getListofColleges.setMessage(HttpStatusCode.COLLEGE_RETRIVED_SUCCESSFULLY.getMessage());
-		getListofColleges.setResult(allCollegeResult);
-		return getListofColleges;
+		allSchoolResult.setData(paginationResponse);
+		getListofSchools.setStatusCode(HttpStatusCode.SCHOOL_RETRIVED_SUCCESSFULLY.getCode());
+		getListofSchools.setMessage(HttpStatusCode.SCHOOL_RETRIVED_SUCCESSFULLY.getMessage());
+		getListofSchools.setResult(allSchoolResult);
+		return getListofSchools;
 	}
 
 	@Override
@@ -461,7 +610,7 @@ public class SchoolServiceImpl implements SchoolService {
 		school.setType(schoolDto.getType());
 		school.setEmail(schoolDto.getEmail());
 		school.setSchoolId(schoolDto.getSchoolId());
-
+		school.setPrincipalId(schoolDto.getPrincipalId());
 		PrincipalDto principalDto = null;
 		if (schoolDto.getPrincipalId() != null && existingSchool.get().getPrincipalId() != schoolDto.getPrincipalId()) {
 			School school1 = schoolRepository.findByPrincipalId(schoolDto.getPrincipalId());
