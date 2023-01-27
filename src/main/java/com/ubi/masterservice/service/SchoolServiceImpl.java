@@ -126,6 +126,12 @@ public class SchoolServiceImpl implements SchoolService {
 					res);
 		}
 
+		if (schoolDto.getRegionId() == null || schoolDto.getRegionId() == 0) {
+			throw new CustomException(HttpStatusCode.REGION_NOT_FOUND.getCode(),
+					HttpStatusCode.REGION_NOT_FOUND, HttpStatusCode.REGION_NOT_FOUND.getMessage(),
+					res);
+		}
+
 		School school = new School();
 		school.setCode(schoolDto.getCode());
 		school.setName(schoolDto.getName());

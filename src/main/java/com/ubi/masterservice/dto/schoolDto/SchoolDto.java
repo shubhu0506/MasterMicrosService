@@ -39,7 +39,7 @@ public class SchoolDto {
 	
 	private Long principalId;
 
-	private int regionId;
+	private Integer regionId;
 
 	private Set<Long> classId;
 
