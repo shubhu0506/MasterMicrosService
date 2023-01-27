@@ -1,7 +1,9 @@
 package com.ubi.masterservice.service;
 
 import java.util.List;
+import java.util.Set;
 
+import com.ubi.masterservice.dto.classDto.TeacherDto;
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import com.ubi.masterservice.dto.response.Response;
 import com.ubi.masterservice.dto.schoolDto.SchoolDto;
@@ -26,5 +28,10 @@ public interface SchoolService {
 	Response<List<SchoolDto>> getSchoolwithSort(String field);
 
 	Response<SchoolRegionDto> getSchoolByPrincipalId(Long principalId);
-	
+
+	Response<SchoolRegionDto> getCollegeByPrincipalId(Long principalId);
+
+	Response<Set<TeacherDto>> getAllTeacherBySchoolId(int schoolId);
+
+
 }

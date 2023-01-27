@@ -1,10 +1,13 @@
 package com.ubi.masterservice.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.Valid;
 
+
 import com.ubi.masterservice.dto.educationalInstitutiondto.InstituteDto;
+import com.ubi.masterservice.dto.classDto.TeacherDto;
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import com.ubi.masterservice.dto.regionDto.RegionDetailsDto;
 import org.slf4j.Logger;
@@ -82,7 +85,7 @@ public class SchoolController {
 		Response<SchoolDto> response = schoolService.deleteSchoolById(schoolId);
 		return ResponseEntity.ok().body(response);
 	}
-
+	
 	@Operation(summary = "Get Single School By Id", security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping("/school/{id}")
 	public ResponseEntity<Response<SchoolRegionDto>> getSchoolById(@PathVariable int id) {
@@ -130,6 +133,20 @@ public class SchoolController {
 	@GetMapping("/principal/{principalId}")
 	public ResponseEntity<Response<SchoolRegionDto>> getSchoolByPrincipalId(@PathVariable String principalId) {
 		Response<SchoolRegionDto> response = schoolService.getSchoolByPrincipalId(Long.parseLong(principalId));
+		return ResponseEntity.ok().body(response);
+	}
+
+	@Operation(summary = "Get College By Principal Id", security = @SecurityRequirement(name = "bearerAuth"))
+	@GetMapping("/collegeprincipal/{principalId}")
+	public ResponseEntity<Response<SchoolRegionDto>> getCollegeByPrincipalId(@PathVariable String principalId) {
+		Response<SchoolRegionDto> response = schoolService.getCollegeByPrincipalId(Long.parseLong(principalId));
+		return ResponseEntity.ok().body(response);
+	}
+
+	@Operation(summary = "Get All Teachers By School Id", security = @SecurityRequirement(name = "bearerAuth"))
+	@GetMapping("/teachers/{schoolId}")
+	public ResponseEntity<Response<Set<TeacherDto>>> getTeachersBySchool(@PathVariable String schoolId) {
+		Response<Set<TeacherDto>> response = schoolService.getAllTeacherBySchoolId(Integer.parseInt(schoolId));
 		return ResponseEntity.ok().body(response);
 	}
 

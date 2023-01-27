@@ -16,12 +16,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-
-import com.ubi.masterservice.dto.regionDto.RegionDto;
 import com.ubi.masterservice.dto.regionDto.RegionGet;
 import com.ubi.masterservice.entity.EducationalInstitution;
 import com.ubi.masterservice.entity.Region;
-import com.ubi.masterservice.repository.RegionRepository;
 
 @Component
 public class EducationalInstitutionMapper {
@@ -146,7 +143,11 @@ public class EducationalInstitutionMapper {
 				.state(educationalInstitution.getState()).build();
 
 		for(Region region:educationalInstitution.getRegion()){
-			RegionGet regionGet = new RegionGet(region.getId(), region.getCode(), region.getName());
+			RegionGet regionGet = new RegionGet();
+			regionGet.setCode(region.getCode());
+			regionGet.setId(region.getId());
+			regionGet.setName(region.getName());
+			if(region.getAdminId() != null) regionGet.setAdminId(region.getAdminId());
 			instituteDto.getRegionDto().add(regionGet);
 		}
 

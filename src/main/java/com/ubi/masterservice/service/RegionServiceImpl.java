@@ -1,15 +1,15 @@
 package com.ubi.masterservice.service;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
+
+import com.ubi.masterservice.dto.classDto.ClassStudentDto;
 import com.ubi.masterservice.dto.educationalInstitutiondto.InstituteDto;
+
 import com.ubi.masterservice.dto.regionDto.RegionAdminDto;
-import com.ubi.masterservice.dto.schoolDto.PrincipalDto;
+import com.ubi.masterservice.dto.schoolDto.SchoolRegionDto;
 import com.ubi.masterservice.dto.user.UserDto;
 import com.ubi.masterservice.externalServices.UserFeignService;
 import com.ubi.masterservice.util.PermissionUtil;
@@ -185,26 +185,26 @@ public class RegionServiceImpl implements RegionService {
 	public Response<PaginationResponse<List<RegionDetailsDto>>> getRegionDetails(String fieldName,String searchByField,Integer PageNumber, Integer PageSize) {
 		Result<PaginationResponse<List<RegionDetailsDto>>> res = new Result<>();
 		Pageable paging = PageRequest.of(PageNumber, PageSize);
-		Response<PaginationResponse<List<RegionDetailsDto>>> getListofRegion = new Response<>();
+
+		Response<PaginationResponse<List<RegionDetailsDto>>> getListofRegion = new Response<PaginationResponse<List<RegionDetailsDto>>>();
 		Page<Region> list = this.regionRepository.findAll(paging);
 		List<RegionDetailsDto> regionDtos;
 		PaginationResponse<List<RegionDetailsDto>> paginationResponse = null;
-		List<Region> regionData = null;
+		Page<Region> regionData = this.regionRepository.findAll(paging);
 		
-	
 		if(!fieldName.equals("*") && !searchByField.equals("*")) {
 				if(fieldName.equalsIgnoreCase("code")) {
-					regionData = regionRepository.findByCode(searchByField);
+					regionData = regionRepository.findByCode(searchByField,paging);
 				}
 				if(fieldName.equalsIgnoreCase("name")) {
-					regionData = regionRepository.findByName(searchByField);
+					regionData = regionRepository.findByName(searchByField,paging);
 				}
 				
 				if(fieldName.equalsIgnoreCase("id")) {
-					regionData = regionRepository.findAllById(Integer.parseInt(searchByField));
+					regionData = regionRepository.findAllById((Integer.parseInt(searchByField)),paging);
 				}
 				regionDtos = (regionData.stream().map(region -> regionMapper.toRegionDetails(region)).collect(Collectors.toList()));
-				paginationResponse=new PaginationResponse<List<RegionDetailsDto>>(regionDtos,list.getTotalPages(),list.getTotalElements());
+				paginationResponse=new PaginationResponse<List<RegionDetailsDto>>(regionDtos,regionData.getTotalPages(),regionData.getTotalElements());
 		} else {
 			regionDtos = (list.toList().stream().map(region -> regionMapper.toRegionDetails(region)).collect(Collectors.toList()));
 			paginationResponse=new PaginationResponse<List<RegionDetailsDto>>(regionDtos,list.getTotalPages(),list.getTotalElements());
@@ -429,11 +429,57 @@ public class RegionServiceImpl implements RegionService {
 	@Override
 	public Response<RegionDetailsDto> getRegionByAdminId(Long adminId) {
 		Region region = regionRepository.findByAdminId(adminId);
+		Response<RegionDetailsDto> response = new Response<>();
 		if(region == null){
-			return new Response<RegionDetailsDto>(new Result<>(null));
+			response.setStatusCode(HttpStatusCode.NO_CONTENT.getCode());
+			response.setMessage("No Region Found With Given Admin Id");
+			response.setResult(new Result<>(null));
+			return response;
 		}
 		RegionDetailsDto regionDetailsDto = regionMapper.toRegionDetails(region);
-		return new Response<RegionDetailsDto>(new Result<>(regionDetailsDto));
+
+		response.setStatusCode(HttpStatusCode.SUCCESSFUL.getCode());
+		response.setMessage("Region Retrived Successfully");
+		response.setResult(new Result<>(regionDetailsDto));
+		return response;
+	}
+
+	@Override
+	public Response<Set<SchoolRegionDto>> getSchoolsByRegionId(Long regionId) {
+		Set<School> schools = schoolRepository.findSchoolByRegionId(regionId);
+		Response<Set<SchoolRegionDto>> response = new Response<>();
+		if(schools.isEmpty()){
+			response.setStatusCode(HttpStatusCode.NO_CONTENT.getCode());
+			response.setMessage("No Schools Found With Given Region Id");
+			response.setResult(new Result<>(null));
+			return response;
+		}
+		Set<SchoolRegionDto> schoolDetails = schools.stream()
+				.filter(Objects::nonNull).map(school -> schoolMapper.toSchoolClassDto(school)).collect(Collectors.toSet());
+
+		response.setStatusCode(HttpStatusCode.SUCCESSFUL.getCode());
+		response.setMessage("Schools Retrived Successfully");
+		response.setResult(new Result<>(schoolDetails));
+		return response;
+	}
+
+	@Override
+	public Response<Set<SchoolRegionDto>> getCollegeByRegionId(Long regionId) {
+		Set<School> schools = schoolRepository.findCollegeByRegionId(regionId);
+		Response<Set<SchoolRegionDto>> response = new Response<>();
+		if(schools.isEmpty()){
+			response.setStatusCode(HttpStatusCode.NO_CONTENT.getCode());
+			response.setMessage("No College Found With Given Region Id");
+			response.setResult(new Result<>(null));
+			return response;
+		}
+		Set<SchoolRegionDto> schoolDetails = schools.stream()
+				.filter(Objects::nonNull).map(school -> schoolMapper.toSchoolClassDto(school)).collect(Collectors.toSet());
+
+		response.setStatusCode(HttpStatusCode.SUCCESSFUL.getCode());
+		response.setMessage("Colleges Retrived Successfully");
+		response.setResult(new Result<>(schoolDetails));
+		return response;
 	}
 
 }

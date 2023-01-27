@@ -1,11 +1,8 @@
 package com.ubi.masterservice.entity;
 
 import java.util.Set;
-
 import javax.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import lombok.*;
 
 @Getter

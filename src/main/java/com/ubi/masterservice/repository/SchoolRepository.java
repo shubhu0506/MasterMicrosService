@@ -2,6 +2,7 @@ package com.ubi.masterservice.repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +24,10 @@ public interface SchoolRepository extends JpaRepository<School, Integer>{
 	Optional<School> findByname(String name);
 
 	Page<School> findByisCollege(boolean flag, Pageable paging);
-	
+
+	@Query(
+			value = "SELECT * FROM School_Details sch WHERE principal_id = ?1 and is_college = false",
+			nativeQuery = true)
 	School findByPrincipalId(Long principalId);
 	
 	Page<School> findByCode(Integer schoolCode, Pageable paging);
@@ -53,6 +57,5 @@ public interface SchoolRepository extends JpaRepository<School, Integer>{
 	Page<School> findByPrincipalId(Long principalId, Pageable paging);	
 	
 	Page<School> findAllBySchoolId(int id,Pageable paging);
-	
 	
 }
