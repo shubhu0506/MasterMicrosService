@@ -1,6 +1,7 @@
 package com.ubi.masterservice.controller;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import com.ubi.masterservice.dto.classDto.ClassDto;
@@ -128,8 +129,12 @@ public class EducationalInstitutionController {
 
 	@Operation(summary = "Get All Region Inside Education Institute", security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping("/regions/{instituteId}")
-	public ResponseEntity<Response<List<RegionDetailsDto>> > getAllRegionInsideInstitute(@PathVariable String instituteId) {
-		Response<List<RegionDetailsDto>>  response = educationalInstitutionService.getAllRegionsByInstituteId(Integer.parseInt(instituteId));
+	public ResponseEntity<Response<PaginationResponse<List<RegionDetailsDto>>>> getAllRegionInsideInstitute(@PathVariable String instituteId,
+																						 @RequestParam( defaultValue = "*") String fieldName,
+																						 @RequestParam( defaultValue = "*") String fieldQuery,
+																						 @RequestParam(value = "PageNumber", defaultValue = "0", required = false) Integer pageNumber,
+																						 @RequestParam(value = "PageSize", defaultValue = "10000000", required = false) Integer pageSize ) {
+		Response<PaginationResponse<List<RegionDetailsDto>>>  response = educationalInstitutionService.getAllRegionsByInstituteId(Integer.parseInt(instituteId),fieldName,fieldQuery,pageNumber,pageSize);
 		return ResponseEntity.ok().body(response);
 	}
 
@@ -146,6 +151,4 @@ public class EducationalInstitutionController {
 		Response<Set<SchoolRegionDto>> response = educationalInstitutionService.getAllSchoolByInstituteId(Integer.parseInt(instituteId));
 		return ResponseEntity.ok().body(response);
 	}
-
-
 }
