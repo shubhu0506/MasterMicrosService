@@ -190,9 +190,9 @@ public class StudentServiceImpl implements StudentService {
 				if(fieldName.equalsIgnoreCase("verifiedByPrincipal")) {
 					studentData = studentRepository.findByVerifiedByPrincipal(Boolean.parseBoolean(searchByField),paging);
 				}
-				if(fieldName.equalsIgnoreCase("studentStatus")) {
-					studentData = studentRepository.findByStudentStatus(Boolean.parseBoolean(searchByField),paging);
-				}
+//				if(fieldName.equalsIgnoreCase("studentStatus")) {
+//					studentData = studentRepository.findByStudentStatus(Boolean.parseBoolean(searchByField),paging);
+//				}
 				studentDtos = (studentData.toList().stream().map(student -> studentMapper.toStudentDetails(student)).collect(Collectors.toList()));
 				paginationResponse=new PaginationResponse<List<StudentDetailsDto>>(studentDtos,studentData.getTotalPages(),studentData.getTotalElements());
 			}
@@ -271,7 +271,7 @@ public class StudentServiceImpl implements StudentService {
 		}
 		StudentDto existingStudent = studentMapper.entityToDto(existingStudentContainer.get());
 		existingStudent.setStudentName(studentDto.getStudentName());
-		existingStudent.setStudentStatus(studentDto.isStudentStatus());
+//		existingStudent.setStudentStatus(studentDto.isStudentStatus());
 		existingStudent.setCategory(studentDto.getCategory());
 		existingStudent.setFatherName(studentDto.getFatherName());
 		existingStudent.setFatherOccupation(studentDto.getFatherOccupation());
@@ -279,7 +279,7 @@ public class StudentServiceImpl implements StudentService {
 		existingStudent.setMotherOccupation(studentDto.getMotherOccupation());
 		existingStudent.setGender(studentDto.getGender());
 		existingStudent.setJoiningDate(studentDto.getJoiningDate());
-		existingStudent.setStatus(studentDto.getStatus());
+//		existingStudent.setStatus(studentDto.getStatus());
 		existingStudent.setVerifiedByTeacher(studentDto.getVerifiedByTeacher());
 		existingStudent.setVerifiedByPrincipal(studentDto.getVerifiedByPrincipal());
 

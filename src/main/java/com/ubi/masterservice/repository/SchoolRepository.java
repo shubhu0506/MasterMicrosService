@@ -49,11 +49,9 @@ public interface SchoolRepository extends JpaRepository<School, Integer>{
 	
 	Page<School> findByIsCollege(Boolean isCollege, Pageable paging);
 	
-	Page<School> findByPrincipalId(Long principalId, Pageable paging);	
+	Page<School> findByPrincipalId(Long principalId, Pageable paging);
 	
 	Page<School> findAllBySchoolId(int id,Pageable paging);
-
-
 
 	@Query(
 			value = "SELECT * FROM School_Details sch WHERE principal_id = ?1 and is_college = false",
@@ -76,5 +74,5 @@ public interface SchoolRepository extends JpaRepository<School, Integer>{
 	Set<School> findCollegeByRegionId(Long regionId);
 
 	Optional<School> findById(int id);
-	
+
 }
