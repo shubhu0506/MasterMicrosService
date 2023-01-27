@@ -34,5 +34,5 @@ public interface StudentRepository extends JpaRepository<Student,Long> {
 	Page<Student> findByStudentId(Long studentId,Pageable paging);
 	Page<Student> findByVerifiedByTeacher(boolean verifiedByTeacher,Pageable paging);
 	Page<Student> findByVerifiedByPrincipal(boolean verifiedByPrincipal,Pageable paging);
-	Page<Student> findByStudentStatus(boolean studentStatus,Pageable paging);
+//	Page<Student> findByStudentStatus(boolean studentStatus,Pageable paging);
 }

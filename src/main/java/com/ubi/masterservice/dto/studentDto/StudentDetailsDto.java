@@ -21,7 +21,7 @@ public class StudentDetailsDto {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date dateOfBirth;
 
-	private boolean studentStatus;
+//	private boolean studentStatus;
 	private String category;
 	private String minority;
 	private String fatherName;
@@ -33,7 +33,7 @@ public class StudentDetailsDto {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date joiningDate;
 
-	private String status;
+//	private String status;
 
 	private boolean verifiedByTeacher;
 	private Boolean verifiedByPrincipal;

@@ -132,8 +132,8 @@ public class ClassMapper {
 				studentDto.setMinority(student.getMinority());
 				studentDto.setMotherName(student.getMotherName());
 				studentDto.setMotherOccupation(student.getMotherOccupation());
-				studentDto.setStatus(student.getStatus());
-				studentDto.setStudentStatus(student.isStudentStatus());
+//				studentDto.setStatus(student.getStatus());
+//				studentDto.setStudentStatus(student.isStudentStatus());
 				studentDto.setVerifiedByPrincipal(student.getVerifiedByPrincipal());
 
 				studentDto.setVerifiedByTeacher(student.getVerifiedByTeacher());
