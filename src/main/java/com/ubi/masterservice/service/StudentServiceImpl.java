@@ -148,6 +148,12 @@ public class StudentServiceImpl implements StudentService {
 				} else {
 					studentData = studentRepository.findByJoiningDate(localDate,paging);
 				}
+				if(studentData.getNumberOfElements() == 0) {
+					getListofStudent.setStatusCode(HttpStatusCode.NO_CONTENT.getCode());
+					getListofStudent.setMessage("No Student Found with given field");
+					getListofStudent.setResult( new Result(null) );
+					return getListofStudent;		
+				}
 				studentDtos = (studentData.toList().stream().map(student -> studentMapper.toStudentDetails(student)).collect(Collectors.toList()));
 				paginationResponse=new PaginationResponse<List<StudentDetailsDto>>(studentDtos,studentData.getTotalPages(),studentData.getTotalElements());
 			} else {
@@ -190,22 +196,32 @@ public class StudentServiceImpl implements StudentService {
 				if(fieldName.equalsIgnoreCase("verifiedByPrincipal")) {
 					studentData = studentRepository.findByVerifiedByPrincipal(Boolean.parseBoolean(searchByField),paging);
 				}
-//				if(fieldName.equalsIgnoreCase("studentStatus")) {
-//					studentData = studentRepository.findByStudentStatus(Boolean.parseBoolean(searchByField),paging);
-//				}
+				if(studentData.getNumberOfElements() == 0) {
+					getListofStudent.setStatusCode(HttpStatusCode.NO_CONTENT.getCode());
+					getListofStudent.setMessage("No Student Found with given field");
+					getListofStudent.setResult( new Result(null) );
+					return getListofStudent;
+					
+				} else {
 				studentDtos = (studentData.toList().stream().map(student -> studentMapper.toStudentDetails(student)).collect(Collectors.toList()));
 				paginationResponse=new PaginationResponse<List<StudentDetailsDto>>(studentDtos,studentData.getTotalPages(),studentData.getTotalElements());
+				}
 			}
 		} else {
 			studentDtos = (list.toList().stream().map(student -> studentMapper.toStudentDetails(student)).collect(Collectors.toList()));
 			paginationResponse=new PaginationResponse<List<StudentDetailsDto>>(studentDtos,list.getTotalPages(),list.getTotalElements());
 		}
 		if (list.isEmpty()) {
-			throw new CustomException(HttpStatusCode.NO_ENTRY_FOUND.getCode(), HttpStatusCode.NO_ENTRY_FOUND,
-					HttpStatusCode.NO_ENTRY_FOUND.getMessage(), res);
+			getListofStudent.setStatusCode(HttpStatusCode.NO_CONTENT.getCode());
+			getListofStudent.setMessage("No Student Found");
+			getListofStudent.setResult( new Result(null) );
+			return getListofStudent;
+			
 		}
 		res.setData(paginationResponse);
-		getListofStudent.setStatusCode(200);
+		getListofStudent.setStatusCode(HttpStatusCode.SUCCESSFUL.getCode());
+		getListofStudent.setMessage("Student retrived");
+		
 		getListofStudent.setResult(res);
 		return getListofStudent;
 	}
