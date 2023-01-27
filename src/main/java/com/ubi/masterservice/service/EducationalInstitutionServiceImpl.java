@@ -509,8 +509,7 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 		return response;
 	}
 
-	@Override
-	public Response<List<RegionDetailsDto>> getAllRegionsByInstituteId(Integer instituteId) {
+	@Override public Response<PaginationResponse<List<RegionDetailsDto>>> getAllRegionsByInstituteId(Integer instituteId,String fieldName,String fieldQuery,Integer pageNumber,Integer pageSize) {
 		Optional<EducationalInstitution> educationalInst = educationalInstitutionRepository.findById(instituteId);
 
 		if (!educationalInst.isPresent()) {
@@ -518,19 +517,32 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 					HttpStatusCode.BAD_REQUEST_EXCEPTION,
 					"No Insitute Found With Given Institute Id", new Result<>(null));
 		}
-		List<RegionDetailsDto> regionDetailsSet = new ArrayList<>();
-		Set<Region> regions = educationalInst.get().getRegion();
-		regionDetailsSet = regions.stream().filter(Objects::nonNull).map(region -> regionMapper.toRegionDetails(region)).collect(Collectors.toList());
-		Response<List<RegionDetailsDto>> response = new Response<>();
-		if(regionDetailsSet.isEmpty()){
+
+		Pageable paging = PageRequest.of(pageNumber, pageSize);
+		Response<PaginationResponse<List<RegionDetailsDto>>> response = new Response<PaginationResponse<List<RegionDetailsDto>>>();
+		Page<Region> regions = regionRepository.findAllRegionInsideInstitute(instituteId,paging);
+
+		if(!fieldName.equals("*") && !fieldQuery.equals("*")) {
+			if (fieldName.equalsIgnoreCase("code")) {
+				regions = regionRepository.findByCodeAndInstituteId(fieldQuery, instituteId, paging);
+			}
+			if (fieldName.equalsIgnoreCase("name")) {
+				regions = regionRepository.findByNameAndInstituteId(fieldQuery, instituteId, paging);
+			}
+		}
+
+		List<RegionDetailsDto> regionDetailsDtos = (regions.stream().map(region -> regionMapper.toRegionDetails(region)).collect(Collectors.toList()));
+		if(regionDetailsDtos.isEmpty()){
 			response.setStatusCode(HttpStatusCode.NO_CONTENT.getCode());
 			response.setMessage("No Region Found");
-			response.setResult(new Result<>(regionDetailsSet));
+			response.setResult(new Result<>(null));
 			return response;
 		}
+		PaginationResponse paginationResponse = new PaginationResponse<List<RegionDetailsDto>>(regionDetailsDtos,regions.getTotalPages(),regions.getTotalElements());
+
 		response.setStatusCode(HttpStatusCode.SUCCESSFUL.getCode());
 		response.setMessage("Regions Retrived Sucessfully");
-		response.setResult(new Result<>(regionDetailsSet));
+		response.setResult(new Result<>(paginationResponse));
 		return response;
 	}
 

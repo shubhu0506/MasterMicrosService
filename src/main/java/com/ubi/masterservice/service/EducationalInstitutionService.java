@@ -2,6 +2,7 @@ package com.ubi.masterservice.service;
 
 import java.io.ByteArrayInputStream;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import com.ubi.masterservice.dto.classDto.TeacherDto;
@@ -32,7 +33,7 @@ public interface EducationalInstitutionService {
 
 	Response<InstituteDto> getInstituteByAdminId(Long adminId);
 
-	Response<List<RegionDetailsDto>> getAllRegionsByInstituteId(Integer instituteId);
+	Response<PaginationResponse<List<RegionDetailsDto>>>  getAllRegionsByInstituteId(Integer instituteId,String feildName,String fieldQuery,Integer pageNumber,Integer pageSize);
 //	ByteArrayInputStream load();
 
 	Response<Set<TeacherDto>> getAllTeacherByInstituteId(Integer instituteId);

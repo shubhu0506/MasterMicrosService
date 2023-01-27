@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.Query;
 import com.ubi.masterservice.entity.EducationalInstitution;
 import com.ubi.masterservice.entity.School;
 
-public interface SchoolRepository extends JpaRepository<School, Integer>{
+public interface SchoolRepository extends JpaRepository<School, Integer> {
 
 	@Query(value = "FROM School sd  WHERE sd.name = ?1")
 	Optional<School> findByName(String name);
