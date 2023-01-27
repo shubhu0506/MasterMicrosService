@@ -89,7 +89,7 @@ public class StudentServiceImpl implements StudentService {
 		Response<StudentDto> response = new Response<>();
 
 
-		if (studentDto.getStudentName().isEmpty() || studentDto.getStudentName().length() == 0) {
+		if (studentDto.getStudentFirstName().length() == 0 || studentDto.getStudentLastName().length() == 0) {
 			throw new CustomException(HttpStatusCode.NO_STUDENT_NAME_FOUND.getCode(),
 					HttpStatusCode.NO_STUDENT_NAME_FOUND, HttpStatusCode.NO_STUDENT_NAME_FOUND.getMessage(), res);
 		}
@@ -157,8 +157,11 @@ public class StudentServiceImpl implements StudentService {
 				studentDtos = (studentData.toList().stream().map(student -> studentMapper.toStudentDetails(student)).collect(Collectors.toList()));
 				paginationResponse=new PaginationResponse<List<StudentDetailsDto>>(studentDtos,studentData.getTotalPages(),studentData.getTotalElements());
 			} else {
-				if(fieldName.equalsIgnoreCase("studentName")) {
-					studentData = studentRepository.findByStudentNameIgnoreCase(searchByField, paging);
+				if(fieldName.equalsIgnoreCase("studentFirstName")) {
+					studentData = studentRepository.findByStudentFirstNameIgnoreCase(searchByField, paging);
+				}
+				if(fieldName.equalsIgnoreCase("studentLastName")) {
+					studentData = studentRepository.findByStudentLastNameIgnoreCase(searchByField, paging);
 				}
 				if(fieldName.equalsIgnoreCase("category")) {
 					studentData = studentRepository.findByCategoryIgnoreCase(searchByField, paging);
@@ -286,7 +289,8 @@ public class StudentServiceImpl implements StudentService {
 					HttpStatusCode.NO_STUDENT_FOUND.getMessage(), res);
 		}
 		StudentDto existingStudent = studentMapper.entityToDto(existingStudentContainer.get());
-		existingStudent.setStudentName(studentDto.getStudentName());
+		existingStudent.setStudentFirstName(studentDto.getStudentFirstName());
+		existingStudent.setStudentLastName(studentDto.getStudentLastName());
 //		existingStudent.setStudentStatus(studentDto.isStudentStatus());
 		existingStudent.setCategory(studentDto.getCategory());
 		existingStudent.setFatherName(studentDto.getFatherName());

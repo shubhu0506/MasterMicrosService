@@ -19,8 +19,8 @@ import lombok.experimental.SuperBuilder;
 public class StudentDto {
 	@Id
 	private Long studentId;
-	private String studentName;
-
+	private String studentFirstName;
+	private String studentLastName;
 	@JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
 	private Date dateOfBirth;
 
