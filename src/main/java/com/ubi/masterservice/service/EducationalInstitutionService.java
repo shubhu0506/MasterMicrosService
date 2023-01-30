@@ -33,10 +33,10 @@ public interface EducationalInstitutionService {
 
 	Response<InstituteDto> getInstituteByAdminId(Long adminId);
 
-	Response<PaginationResponse<List<RegionDetailsDto>>>  getAllRegionsByInstituteId(Integer instituteId,String feildName,String fieldQuery,Integer pageNumber,Integer pageSize);
+	Response<PaginationResponse<List<RegionDetailsDto>>>  getAllRegionsByInstituteId(Integer instituteId,String fieldName,String fieldQuery,Integer pageNumber,Integer pageSize);
 //	ByteArrayInputStream load();
 
 	Response<Set<TeacherDto>> getAllTeacherByInstituteId(Integer instituteId);
 
-	Response<Set<SchoolRegionDto>> getAllSchoolByInstituteId(Integer instituteId);
+	Response<PaginationResponse<Set<SchoolRegionDto>>> getAllSchoolByInstituteId(Integer instituteId,Boolean isCollege,String fieldName,String fieldQuery,Integer pageNumber,Integer pageSize);
 }

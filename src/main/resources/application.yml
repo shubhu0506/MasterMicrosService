@@ -21,10 +21,10 @@ spring:
        fail-on-empty-beans: false
 
   config:
-    import: optional:configserver:http://43.241.63.102:8888
+    import: optional:configserver:http://localhost:8888
 spring.kafka:
   producer:
-    bootstrap-servers: http://43.241.63.102:9092
+    bootstrap-servers: http://localhost:9092
 
     key.serializer: org.apache.common.serialization.*
     value.serializer : org.springframework.kafka.support.serializer.*

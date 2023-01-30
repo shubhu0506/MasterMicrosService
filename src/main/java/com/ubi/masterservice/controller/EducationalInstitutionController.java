@@ -147,8 +147,13 @@ public class EducationalInstitutionController {
 
 	@Operation(summary = "Get All Schools Inside Education Institute", security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping("/schools/{instituteId}")
-	public ResponseEntity<Response<Set<SchoolRegionDto>>> getAllSchoolsInsideInstitute(@PathVariable String instituteId) {
-		Response<Set<SchoolRegionDto>> response = educationalInstitutionService.getAllSchoolByInstituteId(Integer.parseInt(instituteId));
+	public ResponseEntity<Response<PaginationResponse<Set<SchoolRegionDto>>>> getAllSchoolsInsideInstitute(@PathVariable String instituteId,
+																										   @RequestParam Boolean isCollege,
+																										   @RequestParam( defaultValue = "*") String fieldName,
+																										   @RequestParam( defaultValue = "*") String fieldQuery,
+																										   @RequestParam(value = "PageNumber", defaultValue = "0", required = false) Integer pageNumber,
+																										   @RequestParam(value = "PageSize", defaultValue = "10000000", required = false) Integer pageSize) {
+		Response<PaginationResponse<Set<SchoolRegionDto>>> response = educationalInstitutionService.getAllSchoolByInstituteId(Integer.parseInt(instituteId),isCollege,fieldName,fieldQuery,pageNumber,pageSize);
 		return ResponseEntity.ok().body(response);
 	}
 }

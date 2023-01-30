@@ -9,14 +9,12 @@ import com.ubi.masterservice.dto.classDto.TeacherDto;
 import com.ubi.masterservice.dto.educationalInstitutiondto.*;
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import com.ubi.masterservice.dto.regionDto.RegionDetailsDto;
-import com.ubi.masterservice.dto.schoolDto.PrincipalDto;
 import com.ubi.masterservice.dto.schoolDto.SchoolRegionDto;
 import com.ubi.masterservice.dto.user.UserDto;
 import com.ubi.masterservice.entity.School;
-import com.ubi.masterservice.entity.ClassDetail;
-import com.ubi.masterservice.entity.Student;
 import com.ubi.masterservice.externalServices.UserFeignService;
 import com.ubi.masterservice.mapper.SchoolMapper;
+import com.ubi.masterservice.repository.SchoolRepository;
 import com.ubi.masterservice.util.PermissionUtil;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.slf4j.Logger;
@@ -56,6 +54,9 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 
 	@Autowired
 	private RegionRepository regionRepository;
+
+	@Autowired
+	SchoolRepository schoolRepository;
 
 	@Autowired
 	private SchoolServiceImpl schoolService;
@@ -595,7 +596,8 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 	}
 
 	@Override
-	public Response<Set<SchoolRegionDto>> getAllSchoolByInstituteId(Integer instituteId) {
+	public Response<PaginationResponse<Set<SchoolRegionDto>>> getAllSchoolByInstituteId(Integer instituteId,Boolean isCollege,String fieldName,String fieldQuery,Integer pageNumber,Integer pageSize) {
+
 		Optional<EducationalInstitution> educationalInst = educationalInstitutionRepository.findById(instituteId);
 
 		if (!educationalInst.isPresent()) {
@@ -604,31 +606,55 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 					"No Insitute Found With Given Institute Id", new Result<>(null));
 		}
 
-		EducationalInstitution educationalInstitution = educationalInst.get();
-		Set<School> schools = educationalInstitution.getSchool();
-		Set<SchoolRegionDto> allSchools = schools.stream().filter(Objects::nonNull).map(school -> schoolMapper.toSchoolClassDto(school)).collect(Collectors.toSet());
+		Pageable paging = PageRequest.of(pageNumber, pageSize);
+		Page<School> schools = null;
 
-		Set<Region> regions = educationalInstitution.getRegion();
-		for(Region region:regions){
-			Set<School> schools1 = region.getSchool();
-			Set<SchoolRegionDto> allSchools1 = schools1.stream().filter(Objects::nonNull).map(school -> schoolMapper.toSchoolClassDto(school)).collect(Collectors.toSet());
-			if(!allSchools1.isEmpty()){
-				allSchools.addAll(allSchools1);
+		if (!fieldName.equals("*") && !fieldQuery.equals("*")) {
+			if (fieldName.equalsIgnoreCase("code")) {
+				schools = schoolRepository.getAllSchoolByCodeAndInstituteId(fieldQuery,instituteId,isCollege, paging);
+			}
+
+			if (fieldName.equalsIgnoreCase("name")) {
+				schools = schoolRepository.getAllSchoolByNameAndInstituteId(fieldQuery,instituteId,isCollege, paging);
+			}
+
+			if (fieldName.equalsIgnoreCase("email")) {
+				schools = schoolRepository.getAllSchoolByEmailAndInstituteId(fieldQuery,instituteId,isCollege, paging);
+			}
+
+			if (fieldName.equalsIgnoreCase("exemptionFlag")) {
+				if(fieldQuery.equalsIgnoreCase("true")){
+					schools = schoolRepository.getAllSchoolByExemptionFlagAndInstituteId(true,instituteId,isCollege, paging);
+				}
+				else schools = schoolRepository.getAllSchoolByExemptionFlagAndInstituteId(false,instituteId,isCollege, paging);
+			}
+
+			if (fieldName.equalsIgnoreCase("vvnAccount")) {
+				schools = schoolRepository.getAllSchoolByVVNAccountAndInstituteId(Integer.parseInt(fieldQuery),instituteId,isCollege, paging);
+			}
+
+			if (fieldName.equalsIgnoreCase("shift")) {
+				schools = schoolRepository.getAllSchoolByShiftAndInstituteId(fieldQuery,instituteId,isCollege, paging);
 			}
 		}
 
-		Response<Set<SchoolRegionDto>> response = new Response<>();
-		if(allSchools.isEmpty()){
+		if(schools == null) schools = schoolRepository.getAllSchoolByInstituteId(instituteId,isCollege,paging);
+		Set<SchoolRegionDto> schoolRegionDtos = (schools.toList().stream().filter(Objects::nonNull).map(school -> schoolMapper.toSchoolClassDto(school)).collect(Collectors.toSet()));
+
+		PaginationResponse<Set<SchoolRegionDto>> paginationResponse = new PaginationResponse<Set<SchoolRegionDto>>(schoolRegionDtos, schools.getTotalPages(), schools.getTotalElements());
+		Result<PaginationResponse<Set<SchoolRegionDto>>> result = new Result<>(paginationResponse);
+		Response<PaginationResponse<Set<SchoolRegionDto>>> response = new Response<>();
+
+		if(schoolRegionDtos.isEmpty()){
 			response.setStatusCode(HttpStatusCode.NO_CONTENT.getCode());
-			response.setMessage("No Teachers Found");
+			response.setMessage("No Schools Found");
 			response.setResult(new Result<>(null));
 			return response;
 		}
 
 		response.setStatusCode(HttpStatusCode.SUCCESSFUL.getCode());
-		response.setMessage("Teachers Retrived Successfully");
-		response.setResult(new Result<>(allSchools));
+		response.setMessage("Schools Retrived Successfully");
+		response.setResult(result);
 		return response;
 	}
-
 }
