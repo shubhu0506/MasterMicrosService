@@ -53,6 +53,7 @@ public interface SchoolRepository extends JpaRepository<School, Integer> {
 	
 	Page<School> findAllBySchoolId(int id,Pageable paging);
 
+
 	@Query(
 			value = "SELECT * FROM School_Details sch WHERE principal_id = ?1 and is_college = false",
 			nativeQuery = true)
@@ -75,4 +76,40 @@ public interface SchoolRepository extends JpaRepository<School, Integer> {
 
 	Optional<School> findById(int id);
 
+	@Query(
+			value = "SELECT * FROM School_Details sch WHERE educational_institute_id = ?1 AND is_college = ?2",
+			nativeQuery = true)
+	Page<School> getAllSchoolByInstituteId(Integer instituteId,Boolean isCollege,Pageable page);
+
+	@Query(
+			value = "SELECT * FROM School_Details sch WHERE school_name = ?1 AND educational_institute_id = ?2 AND is_college = ?3",
+			nativeQuery = true)
+	Page<School> getAllSchoolByNameAndInstituteId(String fieldQuery,Integer instituteId,Boolean isCollege,Pageable page);
+
+	@Query(
+			value = "SELECT * FROM School_Details sch WHERE school_email = ?1 AND educational_institute_id = ?2 AND is_college = ?3",
+			nativeQuery = true)
+	Page<School> getAllSchoolByEmailAndInstituteId(String fieldQuery,Integer instituteId,Boolean isCollege,Pageable page);
+
+	@Query(
+			value = "SELECT * FROM School_Details sch WHERE school_code = ?1 AND educational_institute_id = ?2 AND is_college = ?3",
+			nativeQuery = true)
+	Page<School> getAllSchoolByCodeAndInstituteId(String fieldQuery,Integer instituteId,Boolean isCollege,Pageable page);
+
+	@Query(
+			value = "SELECT * FROM School_Details sch WHERE exemption_flag = ?1 AND educational_institute_id = ?2 AND is_college = ?3",
+			nativeQuery = true)
+	Page<School> getAllSchoolByExemptionFlagAndInstituteId(Boolean fieldQuery,Integer instituteId,Boolean isCollege,Pageable page);
+
+	@Query(
+			value = "SELECT * FROM School_Details sch WHERE school_shift = ?1 AND educational_institute_id = ?2 AND is_college = ?3",
+			nativeQuery = true)
+	Page<School> getAllSchoolByShiftAndInstituteId(String fieldQuery,Integer instituteId,Boolean isCollege,Pageable page);
+
+	@Query(
+			value = "SELECT * FROM School_Details sch WHERE vvn_account = ?1 AND educational_institute_id = ?2 AND is_college = ?3",
+			nativeQuery = true)
+	Page<School> getAllSchoolByVVNAccountAndInstituteId(Integer fieldQuery,Integer instituteId,Boolean isCollege,Pageable page);
+
 }
+
