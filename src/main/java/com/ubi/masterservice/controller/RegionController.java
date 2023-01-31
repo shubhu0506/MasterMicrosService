@@ -71,7 +71,7 @@ public class RegionController {
 			@RequestParam( defaultValue = "*") String fieldName,
 			@RequestParam( defaultValue = "*") String searchByField,
 			@RequestParam(value = "PageNumber", defaultValue = "0", required = false) Integer pageNumber,
-			@RequestParam(value = "PageSize", defaultValue = "5", required = false) Integer pageSize  )
+			@RequestParam(value = "PageSize", defaultValue = "10000000", required = false) Integer pageSize  )
 	{
 		Response<PaginationResponse<List<RegionDetailsDto>>> response = regionService.getRegionDetails(fieldName, searchByField, pageNumber, pageSize  );
 		return ResponseEntity.ok().body(response);

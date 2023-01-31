@@ -51,7 +51,7 @@ public class StudentController {
 	public ResponseEntity<Response<PaginationResponse<List<StudentDetailsDto>>>> getStudents(
 			@RequestParam (defaultValue = "*") String fieldName,@RequestParam (defaultValue = "*") String searchByField,
 			@RequestParam(value = "PageNumber", defaultValue = "0", required = false) Integer pageNumber,
-			@RequestParam(value = "PageSize", defaultValue = "5", required = false) Integer pageSize) throws ParseException {
+			@RequestParam(value = "PageSize", defaultValue = "10000000", required = false) Integer pageSize) throws ParseException {
 		Response<PaginationResponse<List<StudentDetailsDto>>> response = service.getStudents(fieldName,searchByField,pageNumber, pageSize);
 		return ResponseEntity.ok().body(response);
 

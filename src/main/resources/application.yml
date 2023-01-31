@@ -1,3 +1,8 @@
+logging:
+  file:
+    path: logs
+    name: logs/masterservice.log
+
 server:
   port: 8082
 
