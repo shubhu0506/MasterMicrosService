@@ -1,6 +1,8 @@
 package com.ubi.masterservice.service;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -10,11 +12,15 @@ import com.ubi.masterservice.dto.educationalInstitutiondto.*;
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import com.ubi.masterservice.dto.regionDto.RegionDetailsDto;
 import com.ubi.masterservice.dto.schoolDto.SchoolRegionDto;
+import com.ubi.masterservice.dto.studentDto.StudentDetailsDto;
 import com.ubi.masterservice.dto.user.UserDto;
 import com.ubi.masterservice.entity.School;
+import com.ubi.masterservice.entity.Student;
 import com.ubi.masterservice.externalServices.UserFeignService;
 import com.ubi.masterservice.mapper.SchoolMapper;
+import com.ubi.masterservice.mapper.StudentMapper;
 import com.ubi.masterservice.repository.SchoolRepository;
+import com.ubi.masterservice.repository.StudentRepository;
 import com.ubi.masterservice.util.PermissionUtil;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.slf4j.Logger;
@@ -48,6 +54,12 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 
 	@Autowired
 	private EducationalInstitutionMapper educationalInstitutionMapper;
+
+	@Autowired
+	private StudentRepository studentRepository;
+
+	@Autowired
+	private StudentMapper studentMapper;
 
 	@Autowired
 	private RegionMapper regionMapper;
@@ -655,6 +667,90 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 		response.setStatusCode(HttpStatusCode.SUCCESSFUL.getCode());
 		response.setMessage("Schools Retrived Successfully");
 		response.setResult(result);
+		return response;
+	}
+
+
+	public Response<PaginationResponse<List<StudentDetailsDto>>> getStudentsByInstituteId(Integer instituteId,String fieldName, String searchByField, Integer PageNumber, Integer PageSize) throws ParseException {
+
+		Optional<EducationalInstitution> educationalInst = educationalInstitutionRepository.findById(instituteId);
+
+		if (!educationalInst.isPresent()) {
+			throw new CustomException(HttpStatusCode.BAD_REQUEST_EXCEPTION.getCode(),
+					HttpStatusCode.BAD_REQUEST_EXCEPTION,
+					"No Insitute Found With Given Institute Id", new Result<>(null));
+		}
+
+		Pageable paging = PageRequest.of(PageNumber, PageSize);
+		Page<Student> students = null;
+
+		String strDateRegEx ="^((?:19|20)[0-9][0-9])-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$";
+		if(!fieldName.equals("*") && !searchByField.equals("*"))
+		{
+			if(searchByField.matches(strDateRegEx)) {
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+				Date localDate = formatter.parse(searchByField);
+				if(fieldName.equalsIgnoreCase("dateOfBirth")) students = studentRepository.findStudentsByDOBAndInstituteId(localDate,instituteId,paging);
+				else students = studentRepository.findStudentsByDOJAndInstituteId(localDate,instituteId,paging);
+			} else {
+				if(fieldName.equalsIgnoreCase("studentFirstName")) {
+					students = studentRepository.findStudentsByFirstNameAndInstituteId(searchByField,instituteId, paging);
+				}
+				if(fieldName.equalsIgnoreCase("studentLastName")) {
+					students = studentRepository.findStudentsByLastNameAndInstituteId(searchByField,instituteId, paging);
+				}
+				if(fieldName.equalsIgnoreCase("fullName")) {
+					students = studentRepository.findStudentsByFullNameAndInstituteId(searchByField,instituteId, paging);
+				}
+				if(fieldName.equalsIgnoreCase("category")) {
+					students = studentRepository.findStudentsByCategoryAndInstituteId(searchByField,instituteId, paging);
+				}
+				if(fieldName.equalsIgnoreCase("minority")) {
+					students = studentRepository.findStudentsByMinorityAndInstituteId(searchByField,instituteId, paging);
+				}
+				if(fieldName.equalsIgnoreCase("fatherName")) {
+					students = studentRepository.findStudentsByFatherNameAndInstituteId(searchByField,instituteId, paging);
+				}
+				if(fieldName.equalsIgnoreCase("motherName")) {
+					students = studentRepository.findStudentsByMotherNameAndInstituteId(searchByField,instituteId, paging);
+				}
+				if(fieldName.equalsIgnoreCase("gender")) {
+					students = studentRepository.findStudentsByGenderAndInstituteId(searchByField,instituteId, paging);
+				}
+				if(fieldName.equalsIgnoreCase("verifiedByTeacher")) {
+					students = studentRepository.findStudentsByVerifiedByTeacherAndInstituteId(Boolean.parseBoolean(searchByField),instituteId,paging);
+				}
+				if(fieldName.equalsIgnoreCase("currentStatus")) {
+					students = studentRepository.findStudentsByCurrentStatusAndInstituteId(searchByField,instituteId,paging);
+				}
+				if(fieldName.equalsIgnoreCase("verifiedByPrincipal")) {
+					students = studentRepository.findStudentsByVerifiedByPrincipalAndInstituteId(Boolean.parseBoolean(searchByField),instituteId,paging);
+				}
+				if(fieldName.equalsIgnoreCase("isActivate")) {
+					students = studentRepository.findStudentsByIsActivateAndInstituteId(Boolean.parseBoolean(searchByField),instituteId,paging);
+				}
+			}
+		} else students = studentRepository.findStudentsByInstituteId(instituteId,paging);
+
+		Response<PaginationResponse<List<StudentDetailsDto>>> response = new Response<>();
+		if (students == null || students.isEmpty()) {
+			response.setStatusCode(HttpStatusCode.NO_CONTENT.getCode());
+			response.setMessage("No Student Found");
+			response.setResult( new Result(null) );
+			return response;
+		}
+
+		List<StudentDetailsDto> studentList = students.toList().stream().filter(Objects::nonNull).map(student -> studentMapper.toStudentDetails(student)).collect(Collectors.toList());
+
+		PaginationResponse<List<StudentDetailsDto>> paginationResponse = new PaginationResponse<>(studentList,students.getTotalPages(),students.getTotalElements());
+
+		Result<PaginationResponse<List<StudentDetailsDto>>> result = new Result<>();
+		result.setData(paginationResponse);
+
+		response.setStatusCode(HttpStatusCode.SUCCESSFUL.getCode());
+		response.setMessage("Student retrived");
+		response.setResult(result);
+
 		return response;
 	}
 }

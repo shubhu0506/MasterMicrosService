@@ -63,6 +63,4 @@ public class Student {
 	@ManyToOne(fetch = FetchType.LAZY )
 	private ClassDetail classDetail;
 
-
-
 }

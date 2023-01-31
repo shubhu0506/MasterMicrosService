@@ -13,7 +13,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/ubi_kvms_master
     username: postgres
     password: root
-
     
   jpa:
     hibernate:

@@ -1,5 +1,6 @@
 package com.ubi.masterservice.controller;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -11,6 +12,7 @@ import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import com.ubi.masterservice.dto.regionDto.RegionDetailsDto;
 import com.ubi.masterservice.dto.schoolDto.PrincipalDto;
 import com.ubi.masterservice.dto.schoolDto.SchoolRegionDto;
+import com.ubi.masterservice.dto.studentDto.StudentDetailsDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -154,6 +156,19 @@ public class EducationalInstitutionController {
 																										   @RequestParam(value = "PageNumber", defaultValue = "0", required = false) Integer pageNumber,
 																										   @RequestParam(value = "PageSize", defaultValue = "10000000", required = false) Integer pageSize) {
 		Response<PaginationResponse<Set<SchoolRegionDto>>> response = educationalInstitutionService.getAllSchoolByInstituteId(Integer.parseInt(instituteId),isCollege,fieldName,fieldQuery,pageNumber,pageSize);
+		return ResponseEntity.ok().body(response);
+	}
+
+	@Operation(summary = "Get All Student by Institute Id", security = @SecurityRequirement(name = "bearerAuth"))
+	@GetMapping("/students/{instituteId}")
+	public ResponseEntity<Response<PaginationResponse<List<StudentDetailsDto>>>> getStudents(
+			@PathVariable Integer instituteId,
+			@RequestParam( defaultValue = "*") String fieldName,
+			@RequestParam( defaultValue = "*") String fieldQuery,
+			@RequestParam(value = "PageNumber", defaultValue = "0", required = false) Integer pageNumber,
+			@RequestParam(value = "PageSize", defaultValue = "10000000", required = false) Integer pageSize
+	) throws ParseException {
+		Response<PaginationResponse<List<StudentDetailsDto>>> response = educationalInstitutionService.getStudentsByInstituteId(instituteId,fieldName,fieldQuery,pageNumber, pageSize);
 		return ResponseEntity.ok().body(response);
 	}
 }
