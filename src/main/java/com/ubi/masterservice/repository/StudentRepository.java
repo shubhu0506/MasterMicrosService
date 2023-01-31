@@ -148,4 +148,110 @@ public interface StudentRepository extends JpaRepository<Student,Long> {
 			nativeQuery = true)
 	Page<Student> findStudentsByDOJAndInstituteId(Date fieldQuery, Integer instituteId, Pageable paging);
 
+	@Query(
+			value = "SELECT * FROM student WHERE class_detail_class_id IN \n" +
+					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
+					"(SELECT school_id FROM school_details WHERE region_id = ?1))",
+			nativeQuery = true)
+	Page<Student> findStudentsByRegionId(Integer regionId,Pageable paging);
+
+	@Query(
+			value = "SELECT * FROM student WHERE student_first_name = ?1 AND class_detail_class_id IN" +
+					"(SELECT class_id FROM class_data WHERE school_id IN" +
+					"(SELECT school_id FROM school_details WHERE region_id = ?2))",
+			nativeQuery = true)
+	Page<Student> findStudentsByFirstNameAndRegionId(String fieldQuery,Integer regionId,Pageable paging);
+
+
+	@Query(
+			value = "SELECT * FROM student WHERE student_last_name = ?1 AND class_detail_class_id IN \n" +
+					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
+					"(SELECT school_id FROM school_details WHERE region_id = ?2))",
+			nativeQuery = true)
+	Page<Student> findStudentsByLastNameAndRegionId(String fieldQuery,Integer regionId,Pageable paging);
+
+
+	@Query(
+			value = "SELECT * FROM student WHERE concat_ws(' ',student_first_name,student_last_name) like CONCAT('%', CONCAT(?1, '%'))  AND class_detail_class_id IN " +
+					"(SELECT class_id FROM class_data WHERE school_id IN " +
+					"(SELECT school_id FROM school_details WHERE region_id = ?2))",
+			nativeQuery = true)
+	Page<Student> findStudentsByFullNameAndRegionId(String fieldQuery,Integer regionId,Pageable paging);
+
+	@Query(
+			value = "SELECT * FROM student WHERE verified_by_teacher = ?1 AND class_detail_class_id IN \n" +
+					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
+					"(SELECT school_id FROM school_details WHERE region_id = ?2))",
+			nativeQuery = true)
+	Page<Student> findStudentsByVerifiedByTeacherAndRegionId(Boolean fieldQuery,Integer regionId,Pageable paging);
+
+	@Query(
+			value = "SELECT * FROM student WHERE verified_by_principal = ?1 AND class_detail_class_id IN \n" +
+					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
+					"(SELECT school_id FROM school_details WHERE region_id = ?2))",
+			nativeQuery = true)
+	Page<Student> findStudentsByVerifiedByPrincipalAndRegionId(Boolean fieldQuery,Integer regionId,Pageable paging);
+
+	@Query(
+			value = "SELECT * FROM student WHERE category = ?1 AND class_detail_class_id IN \n" +
+					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
+					"(SELECT school_id FROM school_details WHERE region_id = ?2))",
+			nativeQuery = true)
+	Page<Student> findStudentsByCategoryAndRegionId(String fieldQuery,Integer regionId,Pageable paging);
+
+	@Query(
+			value = "SELECT * FROM student WHERE minority = ?1 AND class_detail_class_id IN \n" +
+					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
+					"(SELECT school_id FROM school_details WHERE region_id = ?2))",
+			nativeQuery = true)
+	Page<Student> findStudentsByMinorityAndRegionId(String fieldQuery,Integer regionId,Pageable paging);
+
+	@Query(
+			value = "SELECT * FROM student WHERE father_name = ?1 AND class_detail_class_id IN \n" +
+					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
+					"(SELECT school_id FROM school_details WHERE region_id = ?2))",
+			nativeQuery = true)
+	Page<Student> findStudentsByFatherNameAndRegionId(String fieldQuery,Integer regionId,Pageable paging);
+
+	@Query(
+			value = "SELECT * FROM student WHERE mother_name = ?1 AND class_detail_class_id IN \n" +
+					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
+					"(SELECT school_id FROM school_details WHERE region_id = ?2))",
+			nativeQuery = true)
+	Page<Student> findStudentsByMotherNameAndRegionId(String fieldQuery,Integer regionId,Pageable paging);
+
+	@Query(
+			value = "SELECT * FROM student WHERE gender = ?1 AND class_detail_class_id IN \n" +
+					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
+					"(SELECT school_id FROM school_details WHERE region_id = ?2))",
+			nativeQuery = true)
+	Page<Student> findStudentsByGenderAndRegionId(String fieldQuery,Integer regionId,Pageable paging);
+
+	@Query(
+			value = "SELECT * FROM student WHERE is_activate = ?1 AND class_detail_class_id IN \n" +
+					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
+					"(SELECT school_id FROM school_details WHERE region_id = ?2))",
+			nativeQuery = true)
+	Page<Student> findStudentsByIsActivateAndRegionId(Boolean fieldQuery,Integer regionId,Pageable paging);
+
+	@Query(
+			value = "SELECT * FROM student WHERE current_status = ?1 AND class_detail_class_id IN \n" +
+					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
+					"(SELECT school_id FROM school_details WHERE region_id = ?2))",
+			nativeQuery = true)
+	Page<Student> findStudentsByCurrentStatusAndRegionId(String fieldQuery,Integer regionId,Pageable paging);
+
+	@Query(
+			value = "SELECT * FROM student WHERE date_of_birth = ?1 AND class_detail_class_id IN \n" +
+					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
+					"(SELECT school_id FROM school_details WHERE region_id = ?2))",
+			nativeQuery = true)
+	Page<Student> findStudentsByDOBAndRegionId(Date fieldQuery, Integer regionId, Pageable paging);
+
+	@Query(
+			value = "SELECT * FROM student WHERE joining_date = ?1 AND class_detail_class_id IN \n" +
+					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
+					"(SELECT school_id FROM school_details WHERE region_id = ?2))",
+			nativeQuery = true)
+	Page<Student> findStudentsByDOJAndRegionId(Date fieldQuery, Integer regionId, Pageable paging);
 }

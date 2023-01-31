@@ -1,17 +1,19 @@
 package com.ubi.masterservice.service;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
-import com.ubi.masterservice.dto.classDto.ClassStudentDto;
-import com.ubi.masterservice.dto.educationalInstitutiondto.InstituteDto;
-
 import com.ubi.masterservice.dto.regionDto.RegionAdminDto;
 import com.ubi.masterservice.dto.schoolDto.SchoolRegionDto;
+import com.ubi.masterservice.dto.studentDto.StudentDetailsDto;
 import com.ubi.masterservice.dto.user.UserDto;
+import com.ubi.masterservice.entity.Student;
 import com.ubi.masterservice.externalServices.UserFeignService;
+import com.ubi.masterservice.mapper.StudentMapper;
+import com.ubi.masterservice.repository.StudentRepository;
 import com.ubi.masterservice.util.PermissionUtil;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.slf4j.Logger;
@@ -50,6 +52,12 @@ public class RegionServiceImpl implements RegionService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(RegionServiceImpl.class);
 	@Autowired
 	private RegionRepository regionRepository;
+
+	@Autowired
+	public StudentRepository studentRepository;
+
+	@Autowired
+	StudentMapper studentMapper;
 
 	@Autowired
 	private RegionMapper regionMapper;
@@ -479,6 +487,87 @@ public class RegionServiceImpl implements RegionService {
 		response.setStatusCode(HttpStatusCode.SUCCESSFUL.getCode());
 		response.setMessage("Colleges Retrived Successfully");
 		response.setResult(new Result<>(schoolDetails));
+		return response;
+	}
+
+	public Response<PaginationResponse<List<StudentDetailsDto>>> getStudentsByRegionId(Integer regionId, String fieldName, String searchByField, Integer PageNumber, Integer PageSize) throws ParseException {
+
+		Optional<Region> existingRegionContainer = regionRepository.findById(regionId);
+		if (!existingRegionContainer.isPresent()) {
+			throw new CustomException(HttpStatusCode.REGION_NOT_FOUND.getCode(), HttpStatusCode.REGION_NOT_FOUND,
+					HttpStatusCode.REGION_NOT_FOUND.getMessage(), new Result<>(null));
+		}
+
+		Pageable paging = PageRequest.of(PageNumber, PageSize);
+		Page<Student> students = null;
+
+		String strDateRegEx ="^((?:19|20)[0-9][0-9])-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$";
+		if(!fieldName.equals("*") && !searchByField.equals("*"))
+		{
+			if(searchByField.matches(strDateRegEx)) {
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+				Date localDate = formatter.parse(searchByField);
+				if(fieldName.equalsIgnoreCase("dateOfBirth")) students = studentRepository.findStudentsByDOBAndInstituteId(localDate,regionId,paging);
+				else students = studentRepository.findStudentsByDOJAndRegionId(localDate,regionId,paging);
+			} else {
+				if(fieldName.equalsIgnoreCase("studentFirstName")) {
+					students = studentRepository.findStudentsByFirstNameAndRegionId(searchByField,regionId, paging);
+				}
+				if(fieldName.equalsIgnoreCase("studentLastName")) {
+					students = studentRepository.findStudentsByLastNameAndRegionId(searchByField,regionId, paging);
+				}
+				if(fieldName.equalsIgnoreCase("fullName")) {
+					students = studentRepository.findStudentsByFullNameAndRegionId(searchByField,regionId, paging);
+				}
+				if(fieldName.equalsIgnoreCase("category")) {
+					students = studentRepository.findStudentsByCategoryAndRegionId(searchByField,regionId, paging);
+				}
+				if(fieldName.equalsIgnoreCase("minority")) {
+					students = studentRepository.findStudentsByMinorityAndRegionId(searchByField,regionId, paging);
+				}
+				if(fieldName.equalsIgnoreCase("fatherName")) {
+					students = studentRepository.findStudentsByFatherNameAndRegionId(searchByField,regionId, paging);
+				}
+				if(fieldName.equalsIgnoreCase("motherName")) {
+					students = studentRepository.findStudentsByMotherNameAndRegionId(searchByField,regionId, paging);
+				}
+				if(fieldName.equalsIgnoreCase("gender")) {
+					students = studentRepository.findStudentsByGenderAndRegionId(searchByField,regionId, paging);
+				}
+				if(fieldName.equalsIgnoreCase("verifiedByTeacher")) {
+					students = studentRepository.findStudentsByVerifiedByTeacherAndRegionId(Boolean.parseBoolean(searchByField),regionId,paging);
+				}
+				if(fieldName.equalsIgnoreCase("currentStatus")) {
+					students = studentRepository.findStudentsByCurrentStatusAndRegionId(searchByField,regionId,paging);
+				}
+				if(fieldName.equalsIgnoreCase("verifiedByPrincipal")) {
+					students = studentRepository.findStudentsByVerifiedByPrincipalAndRegionId(Boolean.parseBoolean(searchByField),regionId,paging);
+				}
+				if(fieldName.equalsIgnoreCase("isActivate")) {
+					students = studentRepository.findStudentsByIsActivateAndRegionId(Boolean.parseBoolean(searchByField),regionId,paging);
+				}
+			}
+		} else students = studentRepository.findStudentsByRegionId(regionId,paging);
+
+		Response<PaginationResponse<List<StudentDetailsDto>>> response = new Response<>();
+		if (students == null || students.isEmpty()) {
+			response.setStatusCode(HttpStatusCode.NO_CONTENT.getCode());
+			response.setMessage("No Student Found");
+			response.setResult( new Result(null) );
+			return response;
+		}
+
+		List<StudentDetailsDto> studentList = students.toList().stream().filter(Objects::nonNull).map(student -> studentMapper.toStudentDetails(student)).collect(Collectors.toList());
+
+		PaginationResponse<List<StudentDetailsDto>> paginationResponse = new PaginationResponse<>(studentList,students.getTotalPages(),students.getTotalElements());
+
+		Result<PaginationResponse<List<StudentDetailsDto>>> result = new Result<>();
+		result.setData(paginationResponse);
+
+		response.setStatusCode(HttpStatusCode.SUCCESSFUL.getCode());
+		response.setMessage("Students retrived");
+		response.setResult(result);
+
 		return response;
 	}
 
