@@ -23,7 +23,6 @@ public interface UserFeignService {
     @PostMapping("/validate")
     public ResponseEntity<Response<UserPermissionsDto>> validateTokenAndGetUser(@RequestBody ValidateJwt validateJwt);
     
-    
     @GetMapping("/user/{roleType}/{userId}")
     public ResponseEntity<Response<Boolean>> checkIfUserExists(@RequestHeader(value = "Authorization", required = true) String authorizationHeader, @PathVariable String roleType, @PathVariable String userId);
     

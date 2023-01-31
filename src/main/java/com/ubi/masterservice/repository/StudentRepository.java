@@ -1,11 +1,13 @@
 package com.ubi.masterservice.repository;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.ubi.masterservice.entity.Student;
@@ -37,4 +39,113 @@ public interface StudentRepository extends JpaRepository<Student,Long> {
 	Page<Student> findByVerifiedByTeacher(boolean verifiedByTeacher,Pageable paging);
 	Page<Student> findByVerifiedByPrincipal(boolean verifiedByPrincipal,Pageable paging);
 //	Page<Student> findByStudentStatus(boolean studentStatus,Pageable paging);
+
+
+	@Query(
+			value = "SELECT * FROM student WHERE class_detail_class_id IN \n" +
+					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
+					"(SELECT school_id FROM school_details WHERE educational_institute_id = ?1))",
+			nativeQuery = true)
+	Page<Student> findStudentsByInstituteId(Integer instituteId,Pageable paging);
+
+	@Query(
+			value = "SELECT * FROM student WHERE student_first_name = ?1 AND class_detail_class_id IN" +
+					"(SELECT class_id FROM class_data WHERE school_id IN" +
+					"(SELECT school_id FROM school_details WHERE educational_institute_id = ?2))",
+			nativeQuery = true)
+	Page<Student> findStudentsByFirstNameAndInstituteId(String fieldQuery,Integer instituteId,Pageable paging);
+
+
+	@Query(
+			value = "SELECT * FROM student WHERE student_last_name = ?1 AND class_detail_class_id IN \n" +
+					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
+					"(SELECT school_id FROM school_details WHERE educational_institute_id = ?2))",
+			nativeQuery = true)
+	Page<Student> findStudentsByLastNameAndInstituteId(String fieldQuery,Integer instituteId,Pageable paging);
+
+
+	@Query(
+			value = "SELECT * FROM student WHERE concat_ws(' ',student_first_name,student_last_name) like CONCAT('%', CONCAT(?1, '%'))  AND class_detail_class_id IN " +
+					"(SELECT class_id FROM class_data WHERE school_id IN " +
+					"(SELECT school_id FROM school_details WHERE educational_institute_id = ?2))",
+			nativeQuery = true)
+	Page<Student> findStudentsByFullNameAndInstituteId(String fieldQuery,Integer instituteId,Pageable paging);
+
+	@Query(
+			value = "SELECT * FROM student WHERE verified_by_teacher = ?1 AND class_detail_class_id IN \n" +
+					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
+					"(SELECT school_id FROM school_details WHERE educational_institute_id = ?2))",
+			nativeQuery = true)
+	Page<Student> findStudentsByVerifiedByTeacherAndInstituteId(Boolean fieldQuery,Integer instituteId,Pageable paging);
+
+	@Query(
+			value = "SELECT * FROM student WHERE verified_by_principal = ?1 AND class_detail_class_id IN \n" +
+					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
+					"(SELECT school_id FROM school_details WHERE educational_institute_id = ?2))",
+			nativeQuery = true)
+	Page<Student> findStudentsByVerifiedByPrincipalAndInstituteId(Boolean fieldQuery,Integer instituteId,Pageable paging);
+
+	@Query(
+			value = "SELECT * FROM student WHERE category = ?1 AND class_detail_class_id IN \n" +
+					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
+					"(SELECT school_id FROM school_details WHERE educational_institute_id = ?2))",
+			nativeQuery = true)
+	Page<Student> findStudentsByCategoryAndInstituteId(String fieldQuery,Integer instituteId,Pageable paging);
+
+	@Query(
+			value = "SELECT * FROM student WHERE minority = ?1 AND class_detail_class_id IN \n" +
+					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
+					"(SELECT school_id FROM school_details WHERE educational_institute_id = ?2))",
+			nativeQuery = true)
+	Page<Student> findStudentsByMinorityAndInstituteId(String fieldQuery,Integer instituteId,Pageable paging);
+
+	@Query(
+			value = "SELECT * FROM student WHERE father_name = ?1 AND class_detail_class_id IN \n" +
+					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
+					"(SELECT school_id FROM school_details WHERE educational_institute_id = ?2))",
+			nativeQuery = true)
+	Page<Student> findStudentsByFatherNameAndInstituteId(String fieldQuery,Integer instituteId,Pageable paging);
+
+	@Query(
+			value = "SELECT * FROM student WHERE mother_name = ?1 AND class_detail_class_id IN \n" +
+					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
+					"(SELECT school_id FROM school_details WHERE educational_institute_id = ?2))",
+			nativeQuery = true)
+	Page<Student> findStudentsByMotherNameAndInstituteId(String fieldQuery,Integer instituteId,Pageable paging);
+
+	@Query(
+			value = "SELECT * FROM student WHERE gender = ?1 AND class_detail_class_id IN \n" +
+					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
+					"(SELECT school_id FROM school_details WHERE educational_institute_id = ?2))",
+			nativeQuery = true)
+	Page<Student> findStudentsByGenderAndInstituteId(String fieldQuery,Integer instituteId,Pageable paging);
+
+	@Query(
+			value = "SELECT * FROM student WHERE is_activate = ?1 AND class_detail_class_id IN \n" +
+					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
+					"(SELECT school_id FROM school_details WHERE educational_institute_id = ?2))",
+			nativeQuery = true)
+	Page<Student> findStudentsByIsActivateAndInstituteId(Boolean fieldQuery,Integer instituteId,Pageable paging);
+
+	@Query(
+			value = "SELECT * FROM student WHERE current_status = ?1 AND class_detail_class_id IN \n" +
+					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
+					"(SELECT school_id FROM school_details WHERE educational_institute_id = ?2))",
+			nativeQuery = true)
+	Page<Student> findStudentsByCurrentStatusAndInstituteId(String fieldQuery,Integer instituteId,Pageable paging);
+
+	@Query(
+			value = "SELECT * FROM student WHERE date_of_birth = ?1 AND class_detail_class_id IN \n" +
+					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
+					"(SELECT school_id FROM school_details WHERE educational_institute_id = ?2))",
+			nativeQuery = true)
+	Page<Student> findStudentsByDOBAndInstituteId(Date fieldQuery, Integer instituteId, Pageable paging);
+
+	@Query(
+			value = "SELECT * FROM student WHERE joining_date = ?1 AND class_detail_class_id IN \n" +
+					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
+					"(SELECT school_id FROM school_details WHERE educational_institute_id = ?2))",
+			nativeQuery = true)
+	Page<Student> findStudentsByDOJAndInstituteId(Date fieldQuery, Integer instituteId, Pageable paging);
+
 }
