@@ -452,3 +452,597 @@ feign.FeignException$BadRequest: [400] during [POST] to [http://USER-SERVICE/val
 
 2023-01-31 18:54:45.318  INFO 8204 --- [http-nio-8082-exec-5] c.u.m.error.RestControllerAdvice         : Exception occured in feign client response
 2023-01-31 18:55:12.752  INFO 8204 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2023-02-01 11:38:16.071  INFO 22328 --- [restartedMain] c.u.m.MasterServiceApplication           : Starting MasterServiceApplication using Java 1.8.0_351 on DESKTOP-0CGDLBC with PID 22328 (C:\Users\Dell\Desktop\nef\MasterMicrosService\target\classes started by user in C:\Users\Dell\Desktop\nef\MasterMicrosService)
+2023-02-01 11:38:16.075  INFO 22328 --- [restartedMain] c.u.m.MasterServiceApplication           : The following 1 profile is active: "default"
+2023-02-01 11:38:16.184  INFO 22328 --- [restartedMain] o.s.c.c.c.ConfigServerConfigDataLoader   : Fetching config from server at : http://localhost:8888
+2023-02-01 11:38:16.185  INFO 22328 --- [restartedMain] o.s.c.c.c.ConfigServerConfigDataLoader   : Located environment: name=MASTER-SERVICE, profiles=[default], label=null, version=34ad26327bf9ca4f7322d51e0a77da2344a7f614, state=null
+2023-02-01 11:38:16.189  INFO 22328 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-02-01 11:38:16.190  INFO 22328 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-02-01 11:38:18.888  INFO 22328 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-02-01 11:38:19.395  INFO 22328 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 490 ms. Found 6 JPA repository interfaces.
+2023-02-01 11:38:20.019  INFO 22328 --- [restartedMain] o.s.cloud.context.scope.GenericScope     : BeanFactory id=4f33b4da-a31b-3897-b1d6-3cbba9c2ac44
+2023-02-01 11:38:21.907  INFO 22328 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8082 (http)
+2023-02-01 11:38:21.925  INFO 22328 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-02-01 11:38:21.926  INFO 22328 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.69]
+2023-02-01 11:38:22.165  INFO 22328 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-02-01 11:38:22.166  INFO 22328 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 5975 ms
+2023-02-01 11:38:22.460  WARN 22328 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-02-01 11:38:22.786  INFO 22328 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-02-01 11:38:22.934  INFO 22328 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.14.Final
+2023-02-01 11:38:23.454  INFO 22328 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-02-01 11:38:23.705  INFO 22328 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-02-01 11:38:24.312  INFO 22328 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-02-01 11:38:24.390  INFO 22328 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
+2023-02-01 11:38:26.614  INFO 22328 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-02-01 11:38:26.629  INFO 22328 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-02-01 11:38:27.002  INFO 22328 --- [restartedMain] o.s.c.openfeign.FeignClientFactoryBean   : For 'USER-SERVICE' URL not provided. Will try picking an instance via load-balancing.
+2023-02-01 11:38:27.327  WARN 22328 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : Unable to start LiveReload server
+2023-02-01 11:38:29.608  INFO 22328 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@5f9a589, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@696621ac, org.springframework.security.web.context.SecurityContextPersistenceFilter@2e921bca, org.springframework.security.web.header.HeaderWriterFilter@108a2601, org.springframework.security.web.authentication.logout.LogoutFilter@63b2acb3, com.ubi.masterservice.config.FilterChainExceptionHandler@5046dd07, com.ubi.masterservice.config.JwtAuthenticationFilter@5dcf6355, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@246d6130, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@126a4902, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@264f1a13, org.springframework.security.web.session.SessionManagementFilter@b942ecc, org.springframework.security.web.access.ExceptionTranslationFilter@4e95c8d7, org.springframework.security.web.access.intercept.AuthorizationFilter@49a0d8d3]
+2023-02-01 11:38:31.785  INFO 22328 --- [restartedMain] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestTemplate.
+2023-02-01 11:38:32.463  WARN 22328 --- [restartedMain] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2023-02-01 11:38:32.534  INFO 22328 --- [restartedMain] o.a.k.clients.admin.AdminClientConfig    : AdminClientConfig values: 
+	bootstrap.servers = [localhost:9092]
+	client.dns.lookup = use_all_dns_ips
+	client.id = 
+	connections.max.idle.ms = 300000
+	default.api.timeout.ms = 60000
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retries = 2147483647
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.2
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+
+2023-02-01 11:38:32.849  INFO 22328 --- [restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.1.2
+2023-02-01 11:38:32.850  INFO 22328 --- [restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: f8c67dc3ae0a3265
+2023-02-01 11:38:32.850  INFO 22328 --- [restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1675231712846
+2023-02-01 11:38:33.841  INFO 22328 --- [kafka-admin-client-thread | adminclient-1] o.a.kafka.common.utils.AppInfoParser     : App info kafka.admin.client for adminclient-1 unregistered
+2023-02-01 11:38:33.848  INFO 22328 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.common.metrics.Metrics  : Metrics scheduler closed
+2023-02-01 11:38:33.850  INFO 22328 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.common.metrics.Metrics  : Closing reporter org.apache.kafka.common.metrics.JmxReporter
+2023-02-01 11:38:33.850  INFO 22328 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.common.metrics.Metrics  : Metrics reporters closed
+2023-02-01 11:38:33.887  INFO 22328 --- [restartedMain] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
+2023-02-01 11:38:33.994  INFO 22328 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
+2023-02-01 11:38:34.007  INFO 22328 --- [restartedMain] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2023-02-01 11:38:34.093  INFO 22328 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
+2023-02-01 11:38:34.093  INFO 22328 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
+2023-02-01 11:38:34.093  INFO 22328 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
+2023-02-01 11:38:34.093  INFO 22328 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Application is null : false
+2023-02-01 11:38:34.094  INFO 22328 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
+2023-02-01 11:38:34.097  INFO 22328 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Application version is -1: true
+2023-02-01 11:38:34.097  INFO 22328 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
+2023-02-01 11:38:34.639  INFO 22328 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : The response status is 200
+2023-02-01 11:38:34.642  INFO 22328 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Starting heartbeat executor: renew interval is: 30
+2023-02-01 11:38:34.646  INFO 22328 --- [restartedMain] c.n.discovery.InstanceInfoReplicator     : InstanceInfoReplicator onDemand update allowed rate per min is 4
+2023-02-01 11:38:34.655  INFO 22328 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1675231714653 with initial instances count: 2
+2023-02-01 11:38:34.661  INFO 22328 --- [restartedMain] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application MASTER-SERVICE with eureka with status UP
+2023-02-01 11:38:34.663  INFO 22328 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1675231714662, current=UP, previous=STARTING]
+2023-02-01 11:38:34.666  INFO 22328 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-0CGDLBC.mshome.net:MASTER-SERVICE:8082: registering service...
+2023-02-01 11:38:34.704  INFO 22328 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8082 (http) with context path ''
+2023-02-01 11:38:34.705  INFO 22328 --- [restartedMain] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8082
+2023-02-01 11:38:34.933  INFO 22328 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-0CGDLBC.mshome.net:MASTER-SERVICE:8082 - registration status: 204
+2023-02-01 11:38:35.211  INFO 22328 --- [restartedMain] c.u.m.MasterServiceApplication           : Started MasterServiceApplication in 23.253 seconds (JVM running for 24.825)
+2023-02-01 11:41:12.576  INFO 22328 --- [http-nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-02-01 11:41:12.614  INFO 22328 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2023-02-01 11:41:12.949  INFO 22328 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 333 ms
+2023-02-01 11:41:17.236  INFO 22328 --- [http-nio-8082-exec-8] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 2644 ms
+2023-02-01 11:42:20.562  INFO 22328 --- [http-nio-8082-exec-5] c.u.m.error.RestControllerAdvice         : Custom exception OccuredNo School Found
+2023-02-01 11:42:58.855  WARN 22328 --- [http-nio-8082-exec-1] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.bind.MissingPathVariableException: Required URI template variable 'regionId' for method parameter type Integer is not present]
+2023-02-01 11:43:16.121  INFO 22328 --- [SpringApplicationShutdownHook] o.s.c.n.e.s.EurekaServiceRegistry        : Unregistering application MASTER-SERVICE with eureka with status DOWN
+2023-02-01 11:43:16.122  INFO 22328 --- [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1675231996122, current=DOWN, previous=UP]
+2023-02-01 11:43:16.123  INFO 22328 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-0CGDLBC.mshome.net:MASTER-SERVICE:8082: registering service...
+2023-02-01 11:43:16.270  INFO 22328 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-0CGDLBC.mshome.net:MASTER-SERVICE:8082 - registration status: 204
+2023-02-01 11:43:16.892  INFO 22328 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-02-01 11:43:16.909  INFO 22328 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-02-01 11:43:16.937  INFO 22328 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2023-02-01 11:43:16.940  INFO 22328 --- [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Shutting down DiscoveryClient ...
+2023-02-01 11:43:19.955  INFO 22328 --- [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Unregistering ...
+2023-02-01 11:43:19.986  INFO 22328 --- [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-0CGDLBC.mshome.net:MASTER-SERVICE:8082 - deregister  status: 200
+2023-02-01 11:43:19.995  INFO 22328 --- [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Completed shut down of DiscoveryClient
+2023-02-01 11:43:34.974  INFO 19440 --- [restartedMain] c.u.m.MasterServiceApplication           : Starting MasterServiceApplication using Java 1.8.0_351 on DESKTOP-0CGDLBC with PID 19440 (C:\Users\Dell\Desktop\nef\MasterMicrosService\target\classes started by user in C:\Users\Dell\Desktop\nef\MasterMicrosService)
+2023-02-01 11:43:34.978  INFO 19440 --- [restartedMain] c.u.m.MasterServiceApplication           : The following 1 profile is active: "default"
+2023-02-01 11:43:35.152  INFO 19440 --- [restartedMain] o.s.c.c.c.ConfigServerConfigDataLoader   : Fetching config from server at : http://localhost:8888
+2023-02-01 11:43:35.152  INFO 19440 --- [restartedMain] o.s.c.c.c.ConfigServerConfigDataLoader   : Located environment: name=MASTER-SERVICE, profiles=[default], label=null, version=34ad26327bf9ca4f7322d51e0a77da2344a7f614, state=null
+2023-02-01 11:43:35.157  INFO 19440 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-02-01 11:43:35.157  INFO 19440 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-02-01 11:43:37.521  INFO 19440 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-02-01 11:43:37.833  INFO 19440 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 299 ms. Found 6 JPA repository interfaces.
+2023-02-01 11:43:38.423  INFO 19440 --- [restartedMain] o.s.cloud.context.scope.GenericScope     : BeanFactory id=4f33b4da-a31b-3897-b1d6-3cbba9c2ac44
+2023-02-01 11:43:40.405  INFO 19440 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8082 (http)
+2023-02-01 11:43:40.424  INFO 19440 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-02-01 11:43:40.425  INFO 19440 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.69]
+2023-02-01 11:43:40.661  INFO 19440 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-02-01 11:43:40.662  INFO 19440 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 5504 ms
+2023-02-01 11:43:40.924  WARN 19440 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-02-01 11:43:41.388  INFO 19440 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-02-01 11:43:41.602  INFO 19440 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.14.Final
+2023-02-01 11:43:42.117  INFO 19440 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-02-01 11:43:42.365  INFO 19440 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-02-01 11:43:43.006  INFO 19440 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-02-01 11:43:43.093  INFO 19440 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
+2023-02-01 11:43:45.420  INFO 19440 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-02-01 11:43:45.433  INFO 19440 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-02-01 11:43:45.907  INFO 19440 --- [restartedMain] o.s.c.openfeign.FeignClientFactoryBean   : For 'USER-SERVICE' URL not provided. Will try picking an instance via load-balancing.
+2023-02-01 11:43:46.208  WARN 19440 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : Unable to start LiveReload server
+2023-02-01 11:43:49.035  INFO 19440 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@b5e0f4b, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3ef433a5, org.springframework.security.web.context.SecurityContextPersistenceFilter@70b47be1, org.springframework.security.web.header.HeaderWriterFilter@63caad23, org.springframework.security.web.authentication.logout.LogoutFilter@43dfd336, com.ubi.masterservice.config.FilterChainExceptionHandler@59369564, com.ubi.masterservice.config.JwtAuthenticationFilter@5bdb640f, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7839c508, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@61c8fc58, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@38ee46c3, org.springframework.security.web.session.SessionManagementFilter@e2c7890, org.springframework.security.web.access.ExceptionTranslationFilter@474e68b9, org.springframework.security.web.access.intercept.AuthorizationFilter@50eaded6]
+2023-02-01 11:43:51.188  INFO 19440 --- [restartedMain] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestTemplate.
+2023-02-01 11:43:51.829  WARN 19440 --- [restartedMain] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2023-02-01 11:43:51.897  INFO 19440 --- [restartedMain] o.a.k.clients.admin.AdminClientConfig    : AdminClientConfig values: 
+	bootstrap.servers = [localhost:9092]
+	client.dns.lookup = use_all_dns_ips
+	client.id = 
+	connections.max.idle.ms = 300000
+	default.api.timeout.ms = 60000
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retries = 2147483647
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.2
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+
+2023-02-01 11:43:52.558  INFO 19440 --- [restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.1.2
+2023-02-01 11:43:52.559  INFO 19440 --- [restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: f8c67dc3ae0a3265
+2023-02-01 11:43:52.559  INFO 19440 --- [restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1675232032555
+2023-02-01 11:43:53.365  INFO 19440 --- [kafka-admin-client-thread | adminclient-1] o.a.kafka.common.utils.AppInfoParser     : App info kafka.admin.client for adminclient-1 unregistered
+2023-02-01 11:43:53.374  INFO 19440 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.common.metrics.Metrics  : Metrics scheduler closed
+2023-02-01 11:43:53.374  INFO 19440 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.common.metrics.Metrics  : Closing reporter org.apache.kafka.common.metrics.JmxReporter
+2023-02-01 11:43:53.375  INFO 19440 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.common.metrics.Metrics  : Metrics reporters closed
+2023-02-01 11:43:53.409  INFO 19440 --- [restartedMain] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
+2023-02-01 11:43:53.512  INFO 19440 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
+2023-02-01 11:43:53.522  INFO 19440 --- [restartedMain] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2023-02-01 11:43:53.580  INFO 19440 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
+2023-02-01 11:43:53.587  INFO 19440 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
+2023-02-01 11:43:53.587  INFO 19440 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
+2023-02-01 11:43:53.588  INFO 19440 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Application is null : false
+2023-02-01 11:43:53.589  INFO 19440 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
+2023-02-01 11:43:53.590  INFO 19440 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Application version is -1: true
+2023-02-01 11:43:53.591  INFO 19440 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
+2023-02-01 11:43:54.093  INFO 19440 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : The response status is 200
+2023-02-01 11:43:54.100  INFO 19440 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Starting heartbeat executor: renew interval is: 30
+2023-02-01 11:43:54.118  INFO 19440 --- [restartedMain] c.n.discovery.InstanceInfoReplicator     : InstanceInfoReplicator onDemand update allowed rate per min is 4
+2023-02-01 11:43:54.128  INFO 19440 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1675232034126 with initial instances count: 2
+2023-02-01 11:43:54.136  INFO 19440 --- [restartedMain] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application MASTER-SERVICE with eureka with status UP
+2023-02-01 11:43:54.137  INFO 19440 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1675232034137, current=UP, previous=STARTING]
+2023-02-01 11:43:54.140  INFO 19440 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-0CGDLBC.mshome.net:MASTER-SERVICE:8082: registering service...
+2023-02-01 11:43:54.186  INFO 19440 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8082 (http) with context path ''
+2023-02-01 11:43:54.193  INFO 19440 --- [restartedMain] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8082
+2023-02-01 11:43:54.328  INFO 19440 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-0CGDLBC.mshome.net:MASTER-SERVICE:8082 - registration status: 204
+2023-02-01 11:43:54.803  INFO 19440 --- [restartedMain] c.u.m.MasterServiceApplication           : Started MasterServiceApplication in 24.058 seconds (JVM running for 25.5)
+2023-02-01 11:47:41.129  INFO 19440 --- [http-nio-8082-exec-9] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-02-01 11:47:41.130  INFO 19440 --- [http-nio-8082-exec-9] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2023-02-01 11:47:41.135  INFO 19440 --- [http-nio-8082-exec-9] o.s.web.servlet.DispatcherServlet        : Completed initialization in 5 ms
+2023-02-01 11:47:44.765  INFO 19440 --- [http-nio-8082-exec-6] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 1628 ms
+2023-02-01 11:48:08.780  WARN 19440 --- [http-nio-8082-exec-5] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 0, SQLState: 42601
+2023-02-01 11:48:08.780 ERROR 19440 --- [http-nio-8082-exec-5] o.h.engine.jdbc.spi.SqlExceptionHelper   : ERROR: syntax error at or near ")"
+  Position: 109
+2023-02-01 11:48:08.809 ERROR 19440 --- [http-nio-8082-exec-5] c.u.m.c.FilterChainExceptionHandler      : Spring Security Filter Chain Exception:
+
+org.springframework.web.util.NestedServletException: Request processing failed; nested exception is org.springframework.dao.InvalidDataAccessResourceUsageException: could not extract ResultSet; SQL [n/a]; nested exception is org.hibernate.exception.SQLGrammarException: could not extract ResultSet
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-5.3.24.jar:5.3.24]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898) ~[spring-webmvc-5.3.24.jar:5.3.24]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:670) ~[tomcat-embed-core-9.0.69.jar:4.0.FR]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883) ~[spring-webmvc-5.3.24.jar:5.3.24]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:779) ~[tomcat-embed-core-9.0.69.jar:4.0.FR]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227) [tomcat-embed-core-9.0.69.jar:9.0.69]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) [tomcat-embed-core-9.0.69.jar:9.0.69]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-9.0.69.jar:9.0.69]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) [tomcat-embed-core-9.0.69.jar:9.0.69]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) [tomcat-embed-core-9.0.69.jar:9.0.69]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:111) [spring-web-5.3.24.jar:5.3.24]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) [tomcat-embed-core-9.0.69.jar:9.0.69]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) [tomcat-embed-core-9.0.69.jar:9.0.69]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:111) [spring-web-5.3.24.jar:5.3.24]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) [tomcat-embed-core-9.0.69.jar:9.0.69]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) [tomcat-embed-core-9.0.69.jar:9.0.69]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:337) [spring-security-web-5.7.5.jar:5.7.5]
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:96) ~[spring-security-web-5.7.5.jar:5.7.5]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:122) ~[spring-security-web-5.7.5.jar:5.7.5]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:116) ~[spring-security-web-5.7.5.jar:5.7.5]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:126) ~[spring-security-web-5.7.5.jar:5.7.5]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:81) ~[spring-security-web-5.7.5.jar:5.7.5]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:109) ~[spring-security-web-5.7.5.jar:5.7.5]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:149) ~[spring-security-web-5.7.5.jar:5.7.5]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-5.7.5.jar:5.7.5]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
+	at com.ubi.masterservice.config.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:85) ~[classes/:na]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) [spring-web-5.3.24.jar:5.3.24]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
+	at com.ubi.masterservice.config.FilterChainExceptionHandler.doFilterInternal(FilterChainExceptionHandler.java:29) ~[classes/:na]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) [spring-web-5.3.24.jar:5.3.24]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:103) [spring-security-web-5.7.5.jar:5.7.5]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:89) [spring-security-web-5.7.5.jar:5.7.5]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) [spring-security-web-5.7.5.jar:5.7.5]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) [spring-security-web-5.7.5.jar:5.7.5]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) [spring-web-5.3.24.jar:5.3.24]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:112) [spring-security-web-5.7.5.jar:5.7.5]
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:82) [spring-security-web-5.7.5.jar:5.7.5]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:55) [spring-security-web-5.7.5.jar:5.7.5]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) [spring-web-5.3.24.jar:5.3.24]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) [spring-security-web-5.7.5.jar:5.7.5]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) [spring-web-5.3.24.jar:5.3.24]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:221) [spring-security-web-5.7.5.jar:5.7.5]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:186) [spring-security-web-5.7.5.jar:5.7.5]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:354) [spring-web-5.3.24.jar:5.3.24]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:267) [spring-web-5.3.24.jar:5.3.24]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) [tomcat-embed-core-9.0.69.jar:9.0.69]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) [tomcat-embed-core-9.0.69.jar:9.0.69]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) [spring-web-5.3.24.jar:5.3.24]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) [spring-web-5.3.24.jar:5.3.24]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) [tomcat-embed-core-9.0.69.jar:9.0.69]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) [tomcat-embed-core-9.0.69.jar:9.0.69]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:177) [tomcat-embed-core-9.0.69.jar:9.0.69]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97) [tomcat-embed-core-9.0.69.jar:9.0.69]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541) [tomcat-embed-core-9.0.69.jar:9.0.69]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135) [tomcat-embed-core-9.0.69.jar:9.0.69]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92) [tomcat-embed-core-9.0.69.jar:9.0.69]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78) [tomcat-embed-core-9.0.69.jar:9.0.69]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:360) [tomcat-embed-core-9.0.69.jar:9.0.69]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399) [tomcat-embed-core-9.0.69.jar:9.0.69]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65) [tomcat-embed-core-9.0.69.jar:9.0.69]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:891) [tomcat-embed-core-9.0.69.jar:9.0.69]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1784) [tomcat-embed-core-9.0.69.jar:9.0.69]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49) [tomcat-embed-core-9.0.69.jar:9.0.69]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) [tomcat-embed-core-9.0.69.jar:9.0.69]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) [tomcat-embed-core-9.0.69.jar:9.0.69]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) [tomcat-embed-core-9.0.69.jar:9.0.69]
+	at java.lang.Thread.run(Thread.java:750) [na:1.8.0_351]
+Caused by: org.springframework.dao.InvalidDataAccessResourceUsageException: could not extract ResultSet; SQL [n/a]; nested exception is org.hibernate.exception.SQLGrammarException: could not extract ResultSet
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:259) ~[spring-orm-5.3.24.jar:5.3.24]
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.translateExceptionIfPossible(HibernateJpaDialect.java:233) ~[spring-orm-5.3.24.jar:5.3.24]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.translateExceptionIfPossible(AbstractEntityManagerFactoryBean.java:551) ~[spring-orm-5.3.24.jar:5.3.24]
+	at org.springframework.dao.support.ChainedPersistenceExceptionTranslator.translateExceptionIfPossible(ChainedPersistenceExceptionTranslator.java:61) ~[spring-tx-5.3.24.jar:5.3.24]
+	at org.springframework.dao.support.DataAccessUtils.translateIfNecessary(DataAccessUtils.java:242) ~[spring-tx-5.3.24.jar:5.3.24]
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:152) ~[spring-tx-5.3.24.jar:5.3.24]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.3.24.jar:5.3.24]
+	at org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:145) ~[spring-data-jpa-2.7.6.jar:2.7.6]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.3.24.jar:5.3.24]
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97) ~[spring-aop-5.3.24.jar:5.3.24]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.3.24.jar:5.3.24]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:215) ~[spring-aop-5.3.24.jar:5.3.24]
+	at com.sun.proxy.$Proxy185.findStudentsBySchoolId(Unknown Source) ~[na:na]
+	at com.ubi.masterservice.service.SchoolServiceImpl.getStudentsBySchoolId(SchoolServiceImpl.java:821) ~[classes/:na]
+	at com.ubi.masterservice.controller.SchoolController.getStudents(SchoolController.java:164) ~[classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_351]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_351]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_351]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_351]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205) ~[spring-web-5.3.24.jar:5.3.24]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150) ~[spring-web-5.3.24.jar:5.3.24]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117) ~[spring-webmvc-5.3.24.jar:5.3.24]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895) ~[spring-webmvc-5.3.24.jar:5.3.24]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808) ~[spring-webmvc-5.3.24.jar:5.3.24]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-5.3.24.jar:5.3.24]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1071) ~[spring-webmvc-5.3.24.jar:5.3.24]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:964) ~[spring-webmvc-5.3.24.jar:5.3.24]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006) ~[spring-webmvc-5.3.24.jar:5.3.24]
+	... 78 common frames omitted
+Caused by: org.hibernate.exception.SQLGrammarException: could not extract ResultSet
+	at org.hibernate.exception.internal.SQLStateConversionDelegate.convert(SQLStateConversionDelegate.java:103) ~[hibernate-core-5.6.14.Final.jar:5.6.14.Final]
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:37) ~[hibernate-core-5.6.14.Final.jar:5.6.14.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:113) ~[hibernate-core-5.6.14.Final.jar:5.6.14.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:99) ~[hibernate-core-5.6.14.Final.jar:5.6.14.Final]
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.extract(ResultSetReturnImpl.java:67) ~[hibernate-core-5.6.14.Final.jar:5.6.14.Final]
+	at org.hibernate.loader.Loader.getResultSet(Loader.java:2322) ~[hibernate-core-5.6.14.Final.jar:5.6.14.Final]
+	at org.hibernate.loader.Loader.executeQueryStatement(Loader.java:2075) ~[hibernate-core-5.6.14.Final.jar:5.6.14.Final]
+	at org.hibernate.loader.Loader.executeQueryStatement(Loader.java:2037) ~[hibernate-core-5.6.14.Final.jar:5.6.14.Final]
+	at org.hibernate.loader.Loader.doQuery(Loader.java:956) ~[hibernate-core-5.6.14.Final.jar:5.6.14.Final]
+	at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:357) ~[hibernate-core-5.6.14.Final.jar:5.6.14.Final]
+	at org.hibernate.loader.Loader.doList(Loader.java:2868) ~[hibernate-core-5.6.14.Final.jar:5.6.14.Final]
+	at org.hibernate.loader.Loader.doList(Loader.java:2850) ~[hibernate-core-5.6.14.Final.jar:5.6.14.Final]
+	at org.hibernate.loader.Loader.listIgnoreQueryCache(Loader.java:2682) ~[hibernate-core-5.6.14.Final.jar:5.6.14.Final]
+	at org.hibernate.loader.Loader.list(Loader.java:2677) ~[hibernate-core-5.6.14.Final.jar:5.6.14.Final]
+	at org.hibernate.loader.custom.CustomLoader.list(CustomLoader.java:338) ~[hibernate-core-5.6.14.Final.jar:5.6.14.Final]
+	at org.hibernate.internal.SessionImpl.listCustomQuery(SessionImpl.java:2186) ~[hibernate-core-5.6.14.Final.jar:5.6.14.Final]
+	at org.hibernate.internal.AbstractSharedSessionContract.list(AbstractSharedSessionContract.java:1204) ~[hibernate-core-5.6.14.Final.jar:5.6.14.Final]
+	at org.hibernate.query.internal.NativeQueryImpl.doList(NativeQueryImpl.java:177) ~[hibernate-core-5.6.14.Final.jar:5.6.14.Final]
+	at org.hibernate.query.internal.AbstractProducedQuery.list(AbstractProducedQuery.java:1617) ~[hibernate-core-5.6.14.Final.jar:5.6.14.Final]
+	at org.hibernate.query.Query.getResultList(Query.java:165) ~[hibernate-core-5.6.14.Final.jar:5.6.14.Final]
+	at org.springframework.data.jpa.repository.query.JpaQueryExecution$PagedExecution.doExecute(JpaQueryExecution.java:179) ~[spring-data-jpa-2.7.6.jar:2.7.6]
+	at org.springframework.data.jpa.repository.query.JpaQueryExecution.execute(JpaQueryExecution.java:90) ~[spring-data-jpa-2.7.6.jar:2.7.6]
+	at org.springframework.data.jpa.repository.query.AbstractJpaQuery.doExecute(AbstractJpaQuery.java:156) ~[spring-data-jpa-2.7.6.jar:2.7.6]
+	at org.springframework.data.jpa.repository.query.AbstractJpaQuery.execute(AbstractJpaQuery.java:144) ~[spring-data-jpa-2.7.6.jar:2.7.6]
+	at org.springframework.data.repository.core.support.RepositoryMethodInvoker.doInvoke(RepositoryMethodInvoker.java:137) ~[spring-data-commons-2.7.6.jar:2.7.6]
+	at org.springframework.data.repository.core.support.RepositoryMethodInvoker.invoke(RepositoryMethodInvoker.java:121) ~[spring-data-commons-2.7.6.jar:2.7.6]
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.doInvoke(QueryExecutorMethodInterceptor.java:160) ~[spring-data-commons-2.7.6.jar:2.7.6]
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.invoke(QueryExecutorMethodInterceptor.java:139) ~[spring-data-commons-2.7.6.jar:2.7.6]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.3.24.jar:5.3.24]
+	at org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.invoke(DefaultMethodInvokingMethodInterceptor.java:81) ~[spring-data-commons-2.7.6.jar:2.7.6]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.3.24.jar:5.3.24]
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123) ~[spring-tx-5.3.24.jar:5.3.24]
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:388) ~[spring-tx-5.3.24.jar:5.3.24]
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119) ~[spring-tx-5.3.24.jar:5.3.24]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.3.24.jar:5.3.24]
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137) ~[spring-tx-5.3.24.jar:5.3.24]
+	... 100 common frames omitted
+Caused by: org.postgresql.util.PSQLException: ERROR: syntax error at or near ")"
+  Position: 109
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2675) ~[postgresql-42.3.8.jar:42.3.8]
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2365) ~[postgresql-42.3.8.jar:42.3.8]
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:355) ~[postgresql-42.3.8.jar:42.3.8]
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:490) ~[postgresql-42.3.8.jar:42.3.8]
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:408) ~[postgresql-42.3.8.jar:42.3.8]
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:167) ~[postgresql-42.3.8.jar:42.3.8]
+	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:119) ~[postgresql-42.3.8.jar:42.3.8]
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52) ~[HikariCP-4.0.3.jar:na]
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeQuery(HikariProxyPreparedStatement.java) ~[HikariCP-4.0.3.jar:na]
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.extract(ResultSetReturnImpl.java:57) ~[hibernate-core-5.6.14.Final.jar:5.6.14.Final]
+	... 131 common frames omitted
+
+2023-02-01 11:48:53.608  INFO 19440 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2023-02-01 11:50:12.838  INFO 19440 --- [SpringApplicationShutdownHook] o.s.c.n.e.s.EurekaServiceRegistry        : Unregistering application MASTER-SERVICE with eureka with status DOWN
+2023-02-01 11:50:12.840  INFO 19440 --- [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1675232412839, current=DOWN, previous=UP]
+2023-02-01 11:50:12.841  INFO 19440 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-0CGDLBC.mshome.net:MASTER-SERVICE:8082: registering service...
+2023-02-01 11:50:12.866  INFO 19440 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-0CGDLBC.mshome.net:MASTER-SERVICE:8082 - registration status: 204
+2023-02-01 11:50:13.300  INFO 19440 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-02-01 11:50:13.328  INFO 19440 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-02-01 11:50:13.345  INFO 19440 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2023-02-01 11:50:13.348  INFO 19440 --- [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Shutting down DiscoveryClient ...
+2023-02-01 11:50:16.356  INFO 19440 --- [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Unregistering ...
+2023-02-01 11:50:16.372  INFO 19440 --- [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-0CGDLBC.mshome.net:MASTER-SERVICE:8082 - deregister  status: 200
+2023-02-01 11:50:16.382  INFO 19440 --- [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Completed shut down of DiscoveryClient
+2023-02-01 11:50:37.259  INFO 12164 --- [restartedMain] c.u.m.MasterServiceApplication           : Starting MasterServiceApplication using Java 1.8.0_351 on DESKTOP-0CGDLBC with PID 12164 (C:\Users\Dell\Desktop\nef\MasterMicrosService\target\classes started by user in C:\Users\Dell\Desktop\nef\MasterMicrosService)
+2023-02-01 11:50:37.261  INFO 12164 --- [restartedMain] c.u.m.MasterServiceApplication           : The following 1 profile is active: "default"
+2023-02-01 11:50:37.341  INFO 12164 --- [restartedMain] o.s.c.c.c.ConfigServerConfigDataLoader   : Fetching config from server at : http://localhost:8888
+2023-02-01 11:50:37.342  INFO 12164 --- [restartedMain] o.s.c.c.c.ConfigServerConfigDataLoader   : Located environment: name=MASTER-SERVICE, profiles=[default], label=null, version=34ad26327bf9ca4f7322d51e0a77da2344a7f614, state=null
+2023-02-01 11:50:37.345  INFO 12164 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-02-01 11:50:37.346  INFO 12164 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-02-01 11:50:39.419  INFO 12164 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-02-01 11:50:39.870  INFO 12164 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 438 ms. Found 6 JPA repository interfaces.
+2023-02-01 11:50:40.490  INFO 12164 --- [restartedMain] o.s.cloud.context.scope.GenericScope     : BeanFactory id=4f33b4da-a31b-3897-b1d6-3cbba9c2ac44
+2023-02-01 11:50:42.305  INFO 12164 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8082 (http)
+2023-02-01 11:50:42.320  INFO 12164 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-02-01 11:50:42.322  INFO 12164 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.69]
+2023-02-01 11:50:42.595  INFO 12164 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-02-01 11:50:42.596  INFO 12164 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 5249 ms
+2023-02-01 11:50:43.035  WARN 12164 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-02-01 11:50:43.375  INFO 12164 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-02-01 11:50:43.526  INFO 12164 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.14.Final
+2023-02-01 11:50:44.291  INFO 12164 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-02-01 11:50:44.615  INFO 12164 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-02-01 11:50:45.204  INFO 12164 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-02-01 11:50:45.273  INFO 12164 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
+2023-02-01 11:50:47.382  INFO 12164 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-02-01 11:50:47.395  INFO 12164 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-02-01 11:50:47.912  INFO 12164 --- [restartedMain] o.s.c.openfeign.FeignClientFactoryBean   : For 'USER-SERVICE' URL not provided. Will try picking an instance via load-balancing.
+2023-02-01 11:50:48.218  WARN 12164 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : Unable to start LiveReload server
+2023-02-01 11:50:51.232  INFO 12164 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@68c0d964, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@577e42a4, org.springframework.security.web.context.SecurityContextPersistenceFilter@10ea2380, org.springframework.security.web.header.HeaderWriterFilter@4b4e09e8, org.springframework.security.web.authentication.logout.LogoutFilter@6411b3f1, com.ubi.masterservice.config.FilterChainExceptionHandler@191a069d, com.ubi.masterservice.config.JwtAuthenticationFilter@31e2e1e6, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4d6f2143, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3702c86e, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2c856fdf, org.springframework.security.web.session.SessionManagementFilter@c505f5e, org.springframework.security.web.access.ExceptionTranslationFilter@58ea0af7, org.springframework.security.web.access.intercept.AuthorizationFilter@32793f33]
+2023-02-01 11:50:53.504  INFO 12164 --- [restartedMain] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestTemplate.
+2023-02-01 11:50:54.293  WARN 12164 --- [restartedMain] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2023-02-01 11:50:54.410  INFO 12164 --- [restartedMain] o.a.k.clients.admin.AdminClientConfig    : AdminClientConfig values: 
+	bootstrap.servers = [localhost:9092]
+	client.dns.lookup = use_all_dns_ips
+	client.id = 
+	connections.max.idle.ms = 300000
+	default.api.timeout.ms = 60000
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retries = 2147483647
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.2
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+
+2023-02-01 11:50:55.186  INFO 12164 --- [restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.1.2
+2023-02-01 11:50:55.188  INFO 12164 --- [restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: f8c67dc3ae0a3265
+2023-02-01 11:50:55.189  INFO 12164 --- [restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1675232455160
+2023-02-01 11:50:55.885  INFO 12164 --- [kafka-admin-client-thread | adminclient-1] o.a.kafka.common.utils.AppInfoParser     : App info kafka.admin.client for adminclient-1 unregistered
+2023-02-01 11:50:55.892  INFO 12164 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.common.metrics.Metrics  : Metrics scheduler closed
+2023-02-01 11:50:55.892  INFO 12164 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.common.metrics.Metrics  : Closing reporter org.apache.kafka.common.metrics.JmxReporter
+2023-02-01 11:50:55.893  INFO 12164 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.common.metrics.Metrics  : Metrics reporters closed
+2023-02-01 11:50:55.927  INFO 12164 --- [restartedMain] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
+2023-02-01 11:50:56.029  INFO 12164 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
+2023-02-01 11:50:56.041  INFO 12164 --- [restartedMain] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2023-02-01 11:50:56.121  INFO 12164 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
+2023-02-01 11:50:56.121  INFO 12164 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
+2023-02-01 11:50:56.121  INFO 12164 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
+2023-02-01 11:50:56.122  INFO 12164 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Application is null : false
+2023-02-01 11:50:56.122  INFO 12164 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
+2023-02-01 11:50:56.122  INFO 12164 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Application version is -1: true
+2023-02-01 11:50:56.122  INFO 12164 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
+2023-02-01 11:50:56.576  INFO 12164 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : The response status is 200
+2023-02-01 11:50:56.583  INFO 12164 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Starting heartbeat executor: renew interval is: 30
+2023-02-01 11:50:56.590  INFO 12164 --- [restartedMain] c.n.discovery.InstanceInfoReplicator     : InstanceInfoReplicator onDemand update allowed rate per min is 4
+2023-02-01 11:50:56.599  INFO 12164 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1675232456597 with initial instances count: 2
+2023-02-01 11:50:56.606  INFO 12164 --- [restartedMain] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application MASTER-SERVICE with eureka with status UP
+2023-02-01 11:50:56.607  INFO 12164 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1675232456607, current=UP, previous=STARTING]
+2023-02-01 11:50:56.611  INFO 12164 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-0CGDLBC.mshome.net:MASTER-SERVICE:8082: registering service...
+2023-02-01 11:50:56.647  INFO 12164 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8082 (http) with context path ''
+2023-02-01 11:50:56.648  INFO 12164 --- [restartedMain] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8082
+2023-02-01 11:50:56.749  INFO 12164 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-0CGDLBC.mshome.net:MASTER-SERVICE:8082 - registration status: 204
+2023-02-01 11:50:57.119  INFO 12164 --- [restartedMain] c.u.m.MasterServiceApplication           : Started MasterServiceApplication in 29.123 seconds (JVM running for 30.668)
+2023-02-01 11:54:03.358  INFO 12164 --- [http-nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-02-01 11:54:03.358  INFO 12164 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2023-02-01 11:54:03.361  INFO 12164 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2023-02-01 11:55:56.129  INFO 12164 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2023-02-01 12:00:56.142  INFO 12164 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2023-02-01 12:01:12.039  INFO 12164 --- [SpringApplicationShutdownHook] o.s.c.n.e.s.EurekaServiceRegistry        : Unregistering application MASTER-SERVICE with eureka with status DOWN
+2023-02-01 12:01:12.041  INFO 12164 --- [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1675233072041, current=DOWN, previous=UP]
+2023-02-01 12:01:12.043  INFO 12164 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-0CGDLBC.mshome.net:MASTER-SERVICE:8082: registering service...
+2023-02-01 12:01:12.097  INFO 12164 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-0CGDLBC.mshome.net:MASTER-SERVICE:8082 - registration status: 204
+2023-02-01 12:01:12.944  INFO 12164 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-02-01 12:01:13.131  INFO 12164 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-02-01 12:01:13.246  INFO 12164 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2023-02-01 12:01:13.304  INFO 12164 --- [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Shutting down DiscoveryClient ...
+2023-02-01 12:01:16.324  INFO 12164 --- [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Unregistering ...
+2023-02-01 12:01:16.353  INFO 12164 --- [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-0CGDLBC.mshome.net:MASTER-SERVICE:8082 - deregister  status: 200
+2023-02-01 12:01:16.379  INFO 12164 --- [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Completed shut down of DiscoveryClient
