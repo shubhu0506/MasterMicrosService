@@ -507,7 +507,7 @@ public class RegionServiceImpl implements RegionService {
 			if(searchByField.matches(strDateRegEx)) {
 				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 				Date localDate = formatter.parse(searchByField);
-				if(fieldName.equalsIgnoreCase("dateOfBirth")) students = studentRepository.findStudentsByDOBAndInstituteId(localDate,regionId,paging);
+				if(fieldName.equalsIgnoreCase("dateOfBirth")) students = studentRepository.findStudentsByDOBAndRegionId(localDate,regionId,paging);
 				else students = studentRepository.findStudentsByDOJAndRegionId(localDate,regionId,paging);
 			} else {
 				if(fieldName.equalsIgnoreCase("studentFirstName")) {

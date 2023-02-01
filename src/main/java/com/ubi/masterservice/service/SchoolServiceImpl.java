@@ -1,16 +1,18 @@
 package com.ubi.masterservice.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.ubi.masterservice.dto.regionDto.RegionDetailsDto;
 import com.ubi.masterservice.dto.regionDto.RegionDto;
 import com.ubi.masterservice.dto.schoolDto.GetSchoolDetails;
+import com.ubi.masterservice.dto.studentDto.StudentDetailsDto;
+import com.ubi.masterservice.entity.*;
+import com.ubi.masterservice.mapper.*;
+import com.ubi.masterservice.repository.*;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,22 +38,10 @@ import com.ubi.masterservice.dto.schoolDto.SchoolDto;
 import com.ubi.masterservice.dto.schoolDto.SchoolRegionDto;
 import com.ubi.masterservice.dto.studentDto.StudentDto;
 import com.ubi.masterservice.dto.user.UserDto;
-import com.ubi.masterservice.entity.ClassDetail;
-import com.ubi.masterservice.entity.EducationalInstitution;
-import com.ubi.masterservice.entity.Region;
-import com.ubi.masterservice.entity.School;
 import com.ubi.masterservice.error.CustomException;
 import com.ubi.masterservice.error.HttpStatusCode;
 import com.ubi.masterservice.error.Result;
 import com.ubi.masterservice.externalServices.UserFeignService;
-import com.ubi.masterservice.mapper.ClassMapper;
-import com.ubi.masterservice.mapper.EducationalInstitutionMapper;
-import com.ubi.masterservice.mapper.RegionMapper;
-import com.ubi.masterservice.mapper.SchoolMapper;
-import com.ubi.masterservice.repository.ClassRepository;
-import com.ubi.masterservice.repository.EducationalInstitutionRepository;
-import com.ubi.masterservice.repository.RegionRepository;
-import com.ubi.masterservice.repository.SchoolRepository;
 import com.ubi.masterservice.util.PermissionUtil;
 
 @Service
@@ -64,6 +54,12 @@ public class SchoolServiceImpl implements SchoolService {
 
 	@Autowired
 	private PermissionUtil permissionUtil;
+
+	@Autowired
+	private StudentRepository studentRepository;
+
+	@Autowired
+	private StudentMapper studentMapper;
 
 	@Autowired
 	UserFeignService userFeignService;
@@ -763,5 +759,88 @@ public class SchoolServiceImpl implements SchoolService {
 		Response<Set<TeacherDto>> response = new Response<>(new Result<>(teachers));
 		return response;
 	}
+
+	public Response<PaginationResponse<List<StudentDetailsDto>>> getStudentsBySchoolId(Integer schoolId, String fieldName, String searchByField, Integer PageNumber, Integer PageSize) throws ParseException {
+
+		Optional<School> schoolOptional = schoolRepository.findById(schoolId);
+		if(!schoolOptional.isPresent()) {
+			throw new CustomException(HttpStatusCode.BAD_REQUEST_EXCEPTION.getCode(),
+					HttpStatusCode.BAD_REQUEST_EXCEPTION,
+					"School Not Exists With Given School Id", new Result<>(null));
+		}
+
+		Pageable paging = PageRequest.of(PageNumber, PageSize);
+		Page<Student> students = null;
+
+		String strDateRegEx ="^((?:19|20)[0-9][0-9])-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$";
+		if(!fieldName.equals("*") && !searchByField.equals("*"))
+		{
+			if(searchByField.matches(strDateRegEx)) {
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+				Date localDate = formatter.parse(searchByField);
+				if(fieldName.equalsIgnoreCase("dateOfBirth")) students = studentRepository.findStudentsByDOBAndSchoolId(localDate,schoolId,paging);
+				else students = studentRepository.findStudentsByDOJAndSchoolId(localDate,schoolId,paging);
+			} else {
+				if(fieldName.equalsIgnoreCase("studentFirstName")) {
+					students = studentRepository.findStudentsByFirstNameAndSchoolId(searchByField,schoolId, paging);
+				}
+				if(fieldName.equalsIgnoreCase("studentLastName")) {
+					students = studentRepository.findStudentsByLastNameAndSchoolId(searchByField,schoolId, paging);
+				}
+				if(fieldName.equalsIgnoreCase("fullName")) {
+					students = studentRepository.findStudentsByFullNameAndSchoolId(searchByField,schoolId, paging);
+				}
+				if(fieldName.equalsIgnoreCase("category")) {
+					students = studentRepository.findStudentsByCategoryAndSchoolId(searchByField,schoolId, paging);
+				}
+				if(fieldName.equalsIgnoreCase("minority")) {
+					students = studentRepository.findStudentsByMinorityAndSchoolId(searchByField,schoolId, paging);
+				}
+				if(fieldName.equalsIgnoreCase("fatherName")) {
+					students = studentRepository.findStudentsByFatherNameAndSchoolId(searchByField,schoolId, paging);
+				}
+				if(fieldName.equalsIgnoreCase("motherName")) {
+					students = studentRepository.findStudentsByMotherNameAndSchoolId(searchByField,schoolId, paging);
+				}
+				if(fieldName.equalsIgnoreCase("gender")) {
+					students = studentRepository.findStudentsByGenderAndSchoolId(searchByField,schoolId, paging);
+				}
+				if(fieldName.equalsIgnoreCase("verifiedByTeacher")) {
+					students = studentRepository.findStudentsByVerifiedByTeacherAndSchoolId(Boolean.parseBoolean(searchByField),schoolId,paging);
+				}
+				if(fieldName.equalsIgnoreCase("currentStatus")) {
+					students = studentRepository.findStudentsByCurrentStatusAndSchoolId(searchByField,schoolId,paging);
+				}
+				if(fieldName.equalsIgnoreCase("verifiedByPrincipal")) {
+					students = studentRepository.findStudentsByVerifiedByPrincipalAndSchoolId(Boolean.parseBoolean(searchByField),schoolId,paging);
+				}
+				if(fieldName.equalsIgnoreCase("isActivate")) {
+					students = studentRepository.findStudentsByIsActivateAndSchoolId(Boolean.parseBoolean(searchByField),schoolId,paging);
+				}
+			}
+		} else students = studentRepository.findStudentsBySchoolId(schoolId,paging);
+
+		Response<PaginationResponse<List<StudentDetailsDto>>> response = new Response<>();
+		if (students == null || students.isEmpty()) {
+			response.setStatusCode(HttpStatusCode.NO_CONTENT.getCode());
+			response.setMessage("No Student Found");
+			response.setResult( new Result(null) );
+			return response;
+		}
+
+		List<StudentDetailsDto> studentList = students.toList().stream().filter(Objects::nonNull).map(student -> studentMapper.toStudentDetails(student)).collect(Collectors.toList());
+
+		PaginationResponse<List<StudentDetailsDto>> paginationResponse = new PaginationResponse<>(studentList,students.getTotalPages(),students.getTotalElements());
+
+		Result<PaginationResponse<List<StudentDetailsDto>>> result = new Result<>();
+		result.setData(paginationResponse);
+
+		response.setStatusCode(HttpStatusCode.SUCCESSFUL.getCode());
+		response.setMessage("Students retrived");
+		response.setResult(result);
+
+		return response;
+	}
+
 
 }

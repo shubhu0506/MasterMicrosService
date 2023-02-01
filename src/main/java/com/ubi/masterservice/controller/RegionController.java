@@ -141,7 +141,7 @@ public class RegionController {
 		return ResponseEntity.ok().body(response);
 	}
 
-	@Operation(summary = "Get All Student by Institute Id", security = @SecurityRequirement(name = "bearerAuth"))
+	@Operation(summary = "Get All Student by Region Id", security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping("/students/{regionId}")
 	public ResponseEntity<Response<PaginationResponse<List<StudentDetailsDto>>>> getStudents(
 			@PathVariable Integer regionId,
