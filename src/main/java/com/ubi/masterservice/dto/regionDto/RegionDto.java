@@ -2,6 +2,7 @@ package com.ubi.masterservice.dto.regionDto;
 
 import java.util.Set;
 
+import com.ubi.masterservice.model.Auditable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegionDto {
+public class RegionDto extends Auditable {
 
 	private int id;
 

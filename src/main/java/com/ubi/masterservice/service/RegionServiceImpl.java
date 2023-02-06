@@ -254,6 +254,11 @@ public class RegionServiceImpl implements RegionService {
 					HttpStatusCode.RESOURCE_NOT_FOUND.getMessage(), res);
 		}
 		Region region = regionTemp.get();
+
+		if (region.getIsDeleted() == true) {
+			throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_DELETED.getCode(), HttpStatusCode.RESOURCE_ALREADY_DELETED,
+					"Region with given Id is already deleted", res);
+		}
 		Region region1 = new Region();
 		region1 = region;
 

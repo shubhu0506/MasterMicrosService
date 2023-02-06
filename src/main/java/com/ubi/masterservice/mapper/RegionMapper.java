@@ -42,6 +42,11 @@ public class RegionMapper {
 		regionDto.setCode(region.getCode());
 		regionDto.setName(region.getName());
 		regionDto.setId(region.getId());
+		regionDto.setCreated(region.getCreated());
+		regionDto.setModified(region.getModified());
+		regionDto.setCreatedBy(region.getCreatedBy());
+		regionDto.setModifiedBy(region.getModifiedBy());
+		regionDto.setIsDeleted(region.getIsDeleted());
 		regionDto.setEduInstId(region.getEducationalInstitiute().stream().filter(Objects::nonNull).map(eduInsti->eduInsti.getId()).collect(Collectors.toSet()));
 		return regionDto;
 	}

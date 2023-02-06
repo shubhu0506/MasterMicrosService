@@ -26,7 +26,6 @@ public abstract class Auditable {
     @CreatedDate
     @Column(nullable = false, updatable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
-    @JsonSerialize(using = ToStringSerializer.class)
     @Temporal(TemporalType.DATE)
     private Date created;
 
@@ -37,7 +36,6 @@ public abstract class Auditable {
     @LastModifiedDate
     @Column(nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
-    @JsonSerialize(using = ToStringSerializer.class)
     @Temporal(TemporalType.DATE)
     private Date modified;
 
