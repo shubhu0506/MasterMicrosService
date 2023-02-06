@@ -287,11 +287,6 @@ public class SchoolServiceImpl implements SchoolService {
 				 
 				 schoolData = this.schoolRepository.findByisCollege(false, paging);					
 				}
-			Response<PaginationResponse<List<SchoolRegionDto>>> response = new Response<>();
-			if(schoolData == null){
-				response.setStatusCode(HttpStatusCode.NO_CONTENT.getCode());
-				response.setMessage("No College Available...");
-				response.setResult(new Result<>(null));
 			
 		    //Page<School> listOfSchool = (Page<School>) schoolData.stream().filter(m-> m.equals(true));
 			//Page<School> schoolDataList = (Page<School>) schoolData.filter(m -> m.getIsCollege(false));
@@ -343,7 +338,6 @@ public class SchoolServiceImpl implements SchoolService {
 		getListofSchools.setStatusCode(HttpStatusCode.SCHOOL_RETRIVED_SUCCESSFULLY.getCode());
 		getListofSchools.setMessage(HttpStatusCode.SCHOOL_RETRIVED_SUCCESSFULLY.getMessage());
 		getListofSchools.setResult(allSchoolResult);
-			}
 		return getListofSchools;
 	}
 
