@@ -77,6 +77,12 @@ public class RegionMapper {
 				regionAdminDto = new RegionAdminDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
 			}
 		}
+		regionDetailsDto.setCreated(region.getCreated());
+		regionDetailsDto.setModified(region.getModified());
+		regionDetailsDto.setCreatedBy(region.getCreatedBy());
+		regionDetailsDto.setModifiedBy(region.getModifiedBy());
+		regionDetailsDto.setIsDeleted(region.getIsDeleted());
+
 		regionDetailsDto.setRegionAdminDto(regionAdminDto);
 
 		return regionDetailsDto;
@@ -127,6 +133,4 @@ public class RegionMapper {
 	public Set<RegionGet> entitiesToDtos(Set<Region> region) {
 		return region.stream().filter(Objects::nonNull).map(this::entityToDtos).collect(Collectors.toSet());
 	}
-
-
 }

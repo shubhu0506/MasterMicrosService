@@ -8,6 +8,7 @@ import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import com.ubi.masterservice.model.Auditable;
 import lombok.*;
 
 
@@ -18,7 +19,7 @@ import lombok.*;
 @Builder
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Region {
+public class Region extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

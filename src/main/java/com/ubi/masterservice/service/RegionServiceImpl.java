@@ -195,7 +195,7 @@ public class RegionServiceImpl implements RegionService {
 		Pageable paging = PageRequest.of(PageNumber, PageSize);
 
 		Response<PaginationResponse<List<RegionDetailsDto>>> getListofRegion = new Response<PaginationResponse<List<RegionDetailsDto>>>();
-		Page<Region> list = this.regionRepository.findAll(paging);
+		Page<Region> list = this.regionRepository.getAllAvailaibleRegion(paging);
 		List<RegionDetailsDto> regionDtos;
 		PaginationResponse<List<RegionDetailsDto>> paginationResponse = null;
 		Page<Region> regionData = this.regionRepository.findAll(paging);
@@ -254,6 +254,14 @@ public class RegionServiceImpl implements RegionService {
 					HttpStatusCode.RESOURCE_NOT_FOUND.getMessage(), res);
 		}
 		Region region = regionTemp.get();
+		Region region1 = new Region();
+		region1 = region;
+
+		if(region.getIsDeleted() == true){
+			throw new CustomException(HttpStatusCode.RESOURCE_NOT_FOUND.getCode(), HttpStatusCode.RESOURCE_NOT_FOUND,
+					HttpStatusCode.RESOURCE_NOT_FOUND.getMessage(), res);
+		}
+
 		Set<EducationalInstitution> educationalInstitutionSet = region.getEducationalInstitiute();
 		for (EducationalInstitution eduInsti : educationalInstitutionSet) {
 			eduInsti.getRegion().remove(region);
@@ -268,10 +276,12 @@ public class RegionServiceImpl implements RegionService {
 		}
 
 		region.setEducationalInstitiute(new HashSet<>());
+		region.setAdminId(null);
+		region.setIsDeleted(true);
 		regionRepository.save(region);
-		regionRepository.deleteById(id);
+
 		Response<RegionDto> response = new Response<>();
-		res.setData(regionMapper.entityToDto(region));
+		res.setData(regionMapper.entityToDto(region1));
 		response.setMessage(HttpStatusCode.REGION_DELETED_SUCCESSFULLY.getMessage());
 		response.setStatusCode(HttpStatusCode.REGION_DELETED_SUCCESSFULLY.getCode());
 		response.setResult(res);
