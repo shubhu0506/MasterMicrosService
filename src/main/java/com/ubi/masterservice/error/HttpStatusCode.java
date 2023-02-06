@@ -188,6 +188,8 @@ public enum HttpStatusCode {
 	REGION_NOT_FOUND(108,"No such region found"),
 
 	CLASS_NOT_FOUND(108, "No Class Found"),
+	
+	NO_COLLEGES_FOUND(108, "No College Found"),
 
 	REGION_UPDATED(200,"Region Updated Successfully"),
 
