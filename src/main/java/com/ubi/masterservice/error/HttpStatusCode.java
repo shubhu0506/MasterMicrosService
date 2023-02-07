@@ -26,6 +26,8 @@ public enum HttpStatusCode {
 
 	NO_USER_MATCH_WITH_ID(109,"No User found with given Id "),
 	
+	ROLLNO_ALREADY_EXIST(110, "Roll No Already exist"),
+	
     USER_NOT_EXISTS(110, "User with given roleType not exist"),
 	
 	USER_WITH_ROLE_PRINCIPAL_NOT_EXISTS(110, "User with Principal roleType does not exist"),

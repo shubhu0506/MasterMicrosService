@@ -27,6 +27,8 @@ import com.ubi.masterservice.dto.studentDto.StudentDto;
 import com.ubi.masterservice.dto.studentDto.StudentPromoteDemoteDto;
 import com.ubi.masterservice.dto.studentDto.StudentVerifyDto;
 import com.ubi.masterservice.entity.ClassDetail;
+import com.ubi.masterservice.entity.EducationalInstitution;
+import com.ubi.masterservice.entity.Region;
 import com.ubi.masterservice.entity.Student;
 import com.ubi.masterservice.entity.StudentPromoteDemote;
 import com.ubi.masterservice.error.CustomException;
@@ -87,7 +89,11 @@ public class StudentServiceImpl implements StudentService {
 	public Response<StudentDto> saveStudent(StudentDto studentDto) {
 		Result<StudentDto> res = new Result<>();
 		Response<StudentDto> response = new Response<>();
-
+		
+		 Student std = studentRepository
+				.getStudentByRollNo(
+						studentDto.getRollNo());
+		 
 
 		if (studentDto.getStudentFirstName().length() == 0 || studentDto.getStudentLastName().length() == 0) {
 			throw new CustomException(HttpStatusCode.NO_STUDENT_NAME_FOUND.getCode(),
@@ -98,6 +104,15 @@ public class StudentServiceImpl implements StudentService {
 			throw new CustomException(HttpStatusCode.NO_CLASSID_FOUND.getCode(),
 					HttpStatusCode.NO_CLASSID_FOUND, HttpStatusCode.NO_CLASSID_FOUND.getMessage(), res);
 		}
+		
+		   if (std != null) {
+			throw new CustomException(HttpStatusCode.ROLLNO_ALREADY_EXIST.getCode(),
+					HttpStatusCode.ROLLNO_ALREADY_EXIST,
+					HttpStatusCode.ROLLNO_ALREADY_EXIST.getMessage(), res);
+		}
+		 
+		
+		
 		ClassDetail classDetail = classRepository.getReferenceById(studentDto.getClassId());
 
 		Student student = studentMapper.dtoToEntity(studentDto);
@@ -105,6 +120,7 @@ public class StudentServiceImpl implements StudentService {
 		student.setVerifiedByPrincipal(false);
 		student.setVerifiedByTeacher(false);
 		student.setIsActivate(false);
+		student.setIsPhysicallyHandicapped(false);
 
 		Student savedStudent = studentRepository.save(student);
 		res.setData(studentMapper.entityToDto(savedStudent));
@@ -183,6 +199,12 @@ public class StudentServiceImpl implements StudentService {
 				}
 				if(fieldName.equalsIgnoreCase("studentId")) {
 					studentData = studentRepository.findByStudentId(Long.parseLong(searchByField),paging);
+				}
+				if(fieldName.equalsIgnoreCase("rollNo")) {
+					studentData = studentRepository.findByRollNo(Long.parseLong(searchByField),paging);
+				}
+				if(fieldName.equalsIgnoreCase("isPhysicallyHandicapped")) {
+					studentData = studentRepository.findByIsPhysicallyHandicapped(Boolean.parseBoolean(searchByField),paging);
 				}
 				if(fieldName.equalsIgnoreCase("lastVerifiedByTeacher")) {
 					studentData = studentRepository.findByLastVerifiedByTeacher(Long.parseLong(searchByField),paging);
@@ -302,6 +324,11 @@ public class StudentServiceImpl implements StudentService {
 //		existingStudent.setStatus(studentDto.getStatus());
 		existingStudent.setVerifiedByTeacher(studentDto.getVerifiedByTeacher());
 		existingStudent.setVerifiedByPrincipal(studentDto.getVerifiedByPrincipal());
+		existingStudent.setRollNo(studentDto.getRollNo());
+		existingStudent.setIsPhysicallyHandicapped(studentDto.getIsPhysicallyHandicapped());
+	
+		existingStudent.setVerifiedByPrincipal(studentDto.getVerifiedByPrincipal());
+		
 
 		existingStudent.setClassId(studentDto.getClassId());
 		ClassDetail classDetail = classRepository.getReferenceById(studentDto.getClassId());
