@@ -41,6 +41,8 @@ public class StudentDetailsDto {
 
 	private Boolean isActivate;
 	private String currentStatus;
+	private Long rollNo;
+	private Boolean isPhysicallyHandicapped;
 	
 	private ClassDto classDto;
 

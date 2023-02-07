@@ -59,6 +59,8 @@ public class Student {
 
 	private Boolean isActivate;
 	private String currentStatus;
+	private Long rollNo;
+	private Boolean isPhysicallyHandicapped;
 
 	@ManyToOne(fetch = FetchType.LAZY )
 	private ClassDetail classDetail;
