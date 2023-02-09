@@ -25,16 +25,8 @@ public interface RegionRepository extends JpaRepository<Region,Integer> {
             nativeQuery = true)
     Region findByIdIfNotDeleted(Integer id);
 
-    @Query(
-            value = "SELECT * FROM region " +
-                    "WHERE region.is_deleted = false AND name = ?1",
-            nativeQuery = true)
     Region getRegionByName(String name);
 
-    @Query(
-            value = "SELECT * FROM region " +
-                    "WHERE region.is_deleted = false AND code = ?1",
-            nativeQuery = true)
     Region getRegionByCode(String code);
 
 //    Set<Region> getReferenceByIdIn(Set<Integer> regionId);

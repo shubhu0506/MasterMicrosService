@@ -237,6 +237,10 @@ public class RegionServiceImpl implements RegionService {
 			throw new CustomException(HttpStatusCode.REGION_NOT_FOUND.getCode(), HttpStatusCode.REGION_NOT_FOUND,
 					HttpStatusCode.REGION_NOT_FOUND.getMessage(), regionResult);
 		}
+		if (region.get().getIsDeleted() == true) {
+			throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_DELETED.getCode(), HttpStatusCode.RESOURCE_ALREADY_DELETED,
+					"Region with given Id is deleted", regionResult);
+		}
 		regionResult.setData(regionMapper.toRegionDetails(region.get()));
 		getRegion.setStatusCode(HttpStatusCode.REGION_RETREIVED_SUCCESSFULLY.getCode());
 		getRegion.setMessage(HttpStatusCode.REGION_RETREIVED_SUCCESSFULLY.getMessage());
@@ -336,7 +340,6 @@ public class RegionServiceImpl implements RegionService {
 			}
 		}
 
-		RegionAdminDto regionAdminDto = null;
 		if(regionCreationDto.getAdminId() != null && regionCreationDto.getAdminId() != region.getAdminId()){
 			Region region1 = regionRepository.findByAdminId(regionCreationDto.getAdminId());
 			if(region1 != null){
@@ -348,12 +351,6 @@ public class RegionServiceImpl implements RegionService {
 
 			String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
 			ResponseEntity<Response<UserDto>> regionAdminResponse = userFeignService.getRegionAdminById(currJwtToken,regionCreationDto.getAdminId().toString());
-			System.out.println(regionAdminResponse.getBody().getResult().getData().toString());
-			UserDto userDto = regionAdminResponse.getBody().getResult().getData();
-			System.out.println(userDto.toString());
-			if(userDto != null) {
-				regionAdminDto = new RegionAdminDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
-			}
 		}
 
 		region.setAdminId(regionCreationDto.getAdminId());
@@ -397,20 +394,6 @@ public class RegionServiceImpl implements RegionService {
 		return response;
 	}
 
-//	@Override
-//	public ByteArrayInputStream load() {
-//		List<Region> region = regionRepository.findAll();
-//		ByteArrayInputStream out = RegionEducationalCsvHelper.regionCSV(region);
-//		return out;
-//	}
-
-//	@Override
-//	public ByteArrayInputStream Regionload() {
-//		List<Region> region = regionRepository.findAll();
-//		ByteArrayInputStream out = RegionSchoolCsvHelper.regionSchoolCSV(region);
-//		return out;
-//	}
-
 	@Override
 	public Response<RegionDto> getRegionByName(String name) {
 		Response<RegionDto> getRegion = new Response<RegionDto>();
@@ -419,6 +402,10 @@ public class RegionServiceImpl implements RegionService {
 		if (region == null) {
 			throw new CustomException(HttpStatusCode.REGION_NOT_FOUND.getCode(), HttpStatusCode.REGION_NOT_FOUND,
 					HttpStatusCode.REGION_NOT_FOUND.getMessage(), regionResult);
+		}
+		if (region.getIsDeleted()) {
+			throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_DELETED.getCode(), HttpStatusCode.RESOURCE_ALREADY_DELETED,
+					"Region with given name is deleted", regionResult);
 		}
 
 		regionResult.setData(regionMapper.toDto(region));
