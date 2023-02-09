@@ -10,13 +10,17 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.ubi.masterservice.entity.EducationalInstitution;
+import com.ubi.masterservice.entity.Region;
 import com.ubi.masterservice.entity.Student;
 
 
 
 @Repository
 public interface StudentRepository extends JpaRepository<Student,Long> {
-
+	
+	Student getStudentByRollNo(Long rollNo);
+	
 	List<Student> findByGenderAndCategoryAndMinority(String gender,String category, String minority);
 
 	Page<Student> findByDateOfBirth(Date dateofBirth,Pageable paging);
@@ -36,6 +40,8 @@ public interface StudentRepository extends JpaRepository<Student,Long> {
 
 	Page<Student> findByVerifiedByTeacher(Boolean verifiedByTeacher,Pageable paging);
 	Page<Student> findByStudentId(Long studentId,Pageable paging);
+	Page<Student> findByRollNo(Long rollNo,Pageable paging);
+	Page<Student> findByIsPhysicallyHandicapped(Boolean isPhysicallyHandicapped,Pageable paging);
 	Page<Student> findByVerifiedByTeacher(boolean verifiedByTeacher,Pageable paging);
 	Page<Student> findByVerifiedByPrincipal(boolean verifiedByPrincipal,Pageable paging);
 //	Page<Student> findByStudentStatus(boolean studentStatus,Pageable paging);

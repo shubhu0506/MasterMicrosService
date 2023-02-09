@@ -8,6 +8,7 @@ import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import com.ubi.masterservice.model.Auditable;
 import lombok.*;
 
 
@@ -18,7 +19,7 @@ import lombok.*;
 @Builder
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Region {
+public class Region extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -40,4 +41,10 @@ public class Region {
 	@OneToMany(fetch = FetchType.EAGER,mappedBy="region" , cascade=CascadeType.PERSIST)
 	private Set<School> school = new HashSet<>();
 
+	@Override
+	public int hashCode() {
+		int result = super.hashCode();
+		result = 31 * result + id;
+		return result;
+	}
 }
