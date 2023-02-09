@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import com.ubi.masterservice.dto.educationalInstitutiondto.InstituteDto;
 import com.ubi.masterservice.dto.classDto.TeacherDto;
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
+import com.ubi.masterservice.dto.regionDto.RegionCreationDto;
 import com.ubi.masterservice.dto.regionDto.RegionDetailsDto;
 import com.ubi.masterservice.dto.studentDto.StudentDetailsDto;
 import org.slf4j.Logger;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ubi.masterservice.dto.response.Response;
+import com.ubi.masterservice.dto.schoolDto.SchoolCreationDto;
 import com.ubi.masterservice.dto.schoolDto.SchoolDto;
 import com.ubi.masterservice.dto.schoolDto.SchoolRegionDto;
 import com.ubi.masterservice.service.SchoolService;
@@ -95,12 +97,22 @@ public class SchoolController {
 		return ResponseEntity.ok().body(response);
 	}
 
-	@Operation(summary = "Update School By Id", security = @SecurityRequirement(name = "bearerAuth"))
+	@Operation(summary = "Update school with Id", security = @SecurityRequirement(name = "bearerAuth"))
 	@PutMapping("/{schoolId}")
-	public ResponseEntity<Response<SchoolRegionDto>> updateSchool(@Valid @RequestBody SchoolDto schoolDto) { // NOSONAR
-		Response<SchoolRegionDto> response=schoolService.updateSchool(schoolDto);
+	public ResponseEntity<Response<SchoolRegionDto>> updateSchool(@RequestBody SchoolCreationDto schoolCreationDto,@PathVariable("schoolId") int schoolId) { // NOSONAR
+
+		Response<SchoolRegionDto> response = this.schoolService.updateSchool(schoolCreationDto,schoolId);
+
 		return ResponseEntity.ok().body(response);
+
 	}
+	
+//	@Operation(summary = "Update School By Id", security = @SecurityRequirement(name = "bearerAuth"))
+//	@PutMapping("/{schoolId}")
+//	public ResponseEntity<Response<SchoolRegionDto>> updateSchool(@Valid @RequestBody SchoolDto schoolDto) { // NOSONAR
+//		Response<SchoolRegionDto> response=schoolService.updateSchool(schoolDto);
+//		return ResponseEntity.ok().body(response);
+//	}
 
 	@Operation(summary = "Get School By Name", security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping("/{name}")

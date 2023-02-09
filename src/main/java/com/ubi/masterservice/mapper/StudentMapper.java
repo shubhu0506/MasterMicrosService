@@ -45,6 +45,11 @@ public class StudentMapper {
 		studentDto.setStudentLastName(student.getStudentLastName());
 		studentDto.setVerifiedByPrincipal(student.getVerifiedByPrincipal());
 		studentDto.setVerifiedByTeacher(student.getVerifiedByTeacher());
+		studentDto.setRollNo(student.getRollNo());
+		studentDto.setIsPhysicallyHandicapped(student.getIsPhysicallyHandicapped());
+		
+		studentDto.setVerifiedByTeacher(student.getVerifiedByTeacher());
+		
 		studentDto.setClassId(student.getClassDetail().getClassId());
 		//System.out.println(studentDto.toString());
 		return studentDto;
@@ -126,6 +131,8 @@ public class StudentMapper {
 		studentDetailsDto.setVerifiedByTeacher(student.getVerifiedByTeacher());
 		studentDetailsDto.setIsActivate(student.getIsActivate());
 		studentDetailsDto.setCurrentStatus(student.getCurrentStatus());
+		studentDetailsDto.setRollNo(student.getRollNo());
+		studentDetailsDto.setIsPhysicallyHandicapped(student.getIsPhysicallyHandicapped());
 		
 		if(student.getClassDetail()!=null) {
         studentDetailsDto.setClassDto(classMapper.entityToDto(student.getClassDetail()));

@@ -7,6 +7,7 @@ import java.util.Set;
 import com.ubi.masterservice.dto.classDto.TeacherDto;
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import com.ubi.masterservice.dto.response.Response;
+import com.ubi.masterservice.dto.schoolDto.SchoolCreationDto;
 import com.ubi.masterservice.dto.schoolDto.SchoolDto;
 import com.ubi.masterservice.dto.schoolDto.SchoolRegionDto;
 import com.ubi.masterservice.dto.studentDto.StudentDetailsDto;
@@ -25,7 +26,7 @@ public interface SchoolService {
 
 	public Response<SchoolDto> deleteSchoolById(int schoolId);
 
-	Response<SchoolRegionDto> updateSchool(SchoolDto schoolDto);
+	Response<SchoolRegionDto> updateSchool(SchoolCreationDto schoolCreationDto, int schoolId);
 
 	Response<List<SchoolDto>> getSchoolwithSort(String field);
 

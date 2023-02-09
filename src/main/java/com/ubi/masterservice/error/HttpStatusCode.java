@@ -21,7 +21,6 @@ public enum HttpStatusCode {
 
 	CLASS_RETRIVED_SUCCESSFULLY(200,"class Retrived"),
 
-
 	NO_STUDENT_MATCH_WITH_ID(109,"No such student found with such id"),
 
 	NO_CLASS_MATCH_WITH_ID(109,"No such class found with such id"),
@@ -123,6 +122,8 @@ public enum HttpStatusCode {
 	REGION_NOT_FOUND(108,"No such region found"),
 
 	CLASS_NOT_FOUND(108, "No Class Found"),
+	
+	NO_COLLEGES_FOUND(108, "No College Found"),
 
 	REGION_UPDATED(200,"Region Updated Successfully"),
 
