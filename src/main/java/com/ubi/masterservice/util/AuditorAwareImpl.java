@@ -14,5 +14,4 @@ public class AuditorAwareImpl implements AuditorAware<Long> {
         if(permissionUtil.getCurrentUsersid() != null) return Optional.of(permissionUtil.getCurrentUsersid());
         return Optional.of(0L);
     }
-
 }

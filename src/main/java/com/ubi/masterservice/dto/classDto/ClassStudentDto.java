@@ -5,6 +5,7 @@ import java.util.Set;
 import com.ubi.masterservice.dto.schoolDto.SchoolDto;
 import com.ubi.masterservice.dto.studentDto.StudentDto;
 
+import com.ubi.masterservice.model.Auditable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClassStudentDto {
+public class ClassStudentDto extends Auditable {
 
 	private ClassDto classDto;
 	private SchoolDto schoolDto;

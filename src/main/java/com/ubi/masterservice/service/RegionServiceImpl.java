@@ -140,7 +140,7 @@ public class RegionServiceImpl implements RegionService {
 		}
 		savedRegion = regionRepository.save(savedRegion);
 		for(Integer eduInstiId : regionCreationDto.getEduInstId()) {
-			EducationalInstitution eduInsti = educationalInstitutionRepository.getReferenceById(eduInstiId);
+			EducationalInstitution eduInsti = educationalInstitutionRepository.findByIdIfNotDeleted(eduInstiId);
 			eduInsti.getRegion().add(savedRegion);
 			educationalInstitutionRepository.save(eduInsti);
 			savedRegion.getEducationalInstitiute().add(eduInsti);
