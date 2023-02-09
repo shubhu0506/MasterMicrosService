@@ -41,4 +41,10 @@ public class Region extends Auditable {
 	@OneToMany(fetch = FetchType.EAGER,mappedBy="region" , cascade=CascadeType.PERSIST)
 	private Set<School> school = new HashSet<>();
 
+	@Override
+	public int hashCode() {
+		int result = super.hashCode();
+		result = 31 * result + id;
+		return result;
+	}
 }
