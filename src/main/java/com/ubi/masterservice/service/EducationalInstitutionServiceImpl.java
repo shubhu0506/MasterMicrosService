@@ -140,8 +140,13 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 				.region(new HashSet<>()).build();
 
 		for (Integer regionId : instituteCreationDto.getRegionId()) {
-			Region region = regionRepository.getReferenceById(regionId);
-			if (region != null) educationalInstitution.getRegion().add(region);
+			Region region = regionRepository.findByIdIfNotDeleted(regionId);
+			if (region != null){
+				educationalInstitution.getRegion().add(region);
+				region.getEducationalInstitiute().add(educationalInstitution);
+				regionRepository.save(region);
+				System.out.println("mapped region Id is --- " + region.getId());
+			}
 			else{
 				throw new CustomException(HttpStatusCode.NO_REGION_ADDED.getCode(),
 						HttpStatusCode.NO_REGION_ADDED,
@@ -167,7 +172,6 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 			}
 			educationalInstitution.setAdminId(instituteCreationDto.getAdminId());
 		}
-
 
 		EducationalInstitution savedEducationalInstitution = educationalInstitutionRepository
 				.save(educationalInstitution);
