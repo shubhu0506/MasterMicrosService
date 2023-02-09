@@ -16,7 +16,11 @@ import com.ubi.masterservice.entity.EducationalInstitution;
 @Repository
 public interface EducationalInstitutionRepository extends JpaRepository<EducationalInstitution, Integer>{
 
-
+	@Query(
+			value = "SELECT * FROM educational_institution " +
+					"WHERE educational_institution.is_deleted = false " + "AND id = ?1",
+			nativeQuery = true)
+	EducationalInstitution findByIdIfNotDeleted(Integer id);
 
 	@Query(
 			value = "SELECT * FROM educational_institution " +
@@ -27,20 +31,15 @@ public interface EducationalInstitutionRepository extends JpaRepository<Educatio
 
 	@Query(
 			value = "SELECT * FROM educational_institution " +
-					"WHERE educational_institution.is_deleted = false AND educational_institution_name = ?1",
+					"WHERE educational_institution.is_deleted = false  " +
+					"AND educational_institution_name = ?1",
 			nativeQuery = true)
 	Optional<EducationalInstitution>findByeducationalInstitutionName(String educationalInstitutionName);
 
-	@Query(
-			value = "SELECT * FROM educational_institution " +
-					"WHERE educational_institution.is_deleted = false AND educational_institution_name = ?1",
-			nativeQuery = true)
+
 	EducationalInstitution getEducationalInstitutionByeducationalInstitutionName(String educationalInstitutionName);
 
-	@Query(
-			value = "SELECT * FROM educational_institution " +
-					"WHERE educational_institution.is_deleted = false AND educational_institution_code = ?1",
-			nativeQuery = true)
+
 	EducationalInstitution getEducationalInstitutionByeducationalInstitutionCode(String educationalInstitutionCode);
 
 	@Query(
