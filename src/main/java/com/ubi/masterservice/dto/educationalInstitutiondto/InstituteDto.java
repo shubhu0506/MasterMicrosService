@@ -1,6 +1,7 @@
 package com.ubi.masterservice.dto.educationalInstitutiondto;
 
 import com.ubi.masterservice.dto.regionDto.RegionGet;
+import com.ubi.masterservice.model.Auditable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +13,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class InstituteDto {
+public class InstituteDto extends Auditable {
     private int id;
 
     private String educationalInstitutionCode;

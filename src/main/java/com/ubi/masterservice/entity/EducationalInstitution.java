@@ -3,6 +3,7 @@ package com.ubi.masterservice.entity;
 import java.util.Set;
 import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.ubi.masterservice.model.Auditable;
 import lombok.*;
 
 @Getter
@@ -12,7 +13,7 @@ import lombok.*;
 @Entity
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Builder
-public class EducationalInstitution {
+public class EducationalInstitution extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,14 +24,6 @@ public class EducationalInstitution {
 	private String educationalInstitutionName;
 
 	private String educationalInstitutionType;
-
-//	private Long strength;
-//
-//	private String state;
-//
-//	private String exemptionFlag;
-//
-//	private Long vvnAccount;
 
 	@Column(name="educational_institution_strength")
 	private Long strength;
@@ -45,6 +38,13 @@ public class EducationalInstitution {
 
 	@Column(name = "educational_adminId")
 	private Long adminId;
+
+	@Override
+	public int hashCode() {
+		int result = super.hashCode();
+		result = 31 * result + id;
+		return result;
+	}
 
 	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
 	@JoinTable(name = "EI_REGION_TABLE", joinColumns = {

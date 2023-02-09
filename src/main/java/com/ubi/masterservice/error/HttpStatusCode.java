@@ -92,6 +92,7 @@ public enum HttpStatusCode {
 	RESOURCE_NOT_FOUND(108, "Does not exist"),
 
 	RESOURCE_ALREADY_EXISTS(110, "Already exists"),
+	RESOURCE_ALREADY_DELETED(410, "Does not exist"),
 	ROLE_NOT_EXISTS(110, "Given Role Type Not Exist"),
 	USERNAME_NOT_AVAILAIBLE(110, "Username Not Availaible"),
 	ROLETYPE_NOT_AVAILAIBLE(110, "Role Type Not Availaible"),

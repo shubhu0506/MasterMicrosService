@@ -43,4 +43,6 @@ public interface EducationalInstitutionService {
 	Response<PaginationResponse<Set<SchoolRegionDto>>> getAllSchoolByInstituteId(Integer instituteId,Boolean isCollege,String fieldName,String fieldQuery,Integer pageNumber,Integer pageSize);
 
 	public Response<PaginationResponse<List<StudentDetailsDto>>> getStudentsByInstituteId(Integer instituteId, String fieldName, String searchByField, Integer PageNumber, Integer PageSize) throws ParseException;
+
+
 }

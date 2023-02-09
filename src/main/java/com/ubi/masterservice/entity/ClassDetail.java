@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import com.ubi.masterservice.model.Auditable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,7 @@ import lombok.ToString;
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "class_data ")
-public class ClassDetail
+public class ClassDetail extends Auditable
 {
 
 	@Id

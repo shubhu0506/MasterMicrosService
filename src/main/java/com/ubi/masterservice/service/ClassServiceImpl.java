@@ -284,7 +284,23 @@ public class ClassServiceImpl implements ClassService {
 			throw new CustomException(HttpStatusCode.RESOURCE_NOT_FOUND.getCode(), HttpStatusCode.RESOURCE_NOT_FOUND,
 					HttpStatusCode.RESOURCE_NOT_FOUND.getMessage(), res);
 		}
+//---
+//		ClassDetail classs = classes.get();
+//
+//		if (classs.getIsDeleted() == true) {
+//			throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_DELETED.getCode(), HttpStatusCode.RESOURCE_ALREADY_DELETED,
+//					"Region with given Id is already deleted", res);
+//		}
+//		ClassDetail class1 = new ClassDetail();
+//		class1 = classs;
+//
+//
+//		if(classs.getIsDeleted() == true){
+//			throw new CustomException(HttpStatusCode.RESOURCE_NOT_FOUND.getCode(), HttpStatusCode.RESOURCE_NOT_FOUND,
+//					HttpStatusCode.RESOURCE_NOT_FOUND.getMessage(), res);
+//		}
 
+		//----
 		School school=classes.get().getSchool();
 		school.getClassDetail().remove(classes.get());
 		schoolRepository.save(school);
