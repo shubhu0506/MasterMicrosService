@@ -118,6 +118,25 @@ public class RegionServiceImpl implements RegionService {
 		savedRegion.setEducationalInstitiute(new HashSet<>());
 		savedRegion.setSchool(new HashSet<>());
 
+		//savedRegion = regionRepository.save(savedRegion);
+
+		for(Integer eduInstiId : regionCreationDto.getEduInstId()) {
+			EducationalInstitution eduInsti = educationalInstitutionRepository.findByIdIfNotDeleted(eduInstiId);
+			if (eduInsti != null){
+				savedRegion.getEducationalInstitiute().add(eduInsti);
+//				eduInsti.getRegion().add(savedRegion);
+//				educationalInstitutionRepository.save(eduInsti);
+				System.out.println("mapped institute Id is --- " + eduInsti.getId());
+			}
+			else{
+				throw new CustomException(HttpStatusCode.NO_EDUCATIONAL_INSTITUTE_ADDED.getCode(),
+						HttpStatusCode.NO_EDUCATIONAL_INSTITUTE_ADDED,
+						"Invalid institute is being sent to map with region", res);
+			}
+//			eduInsti.getRegion().add(savedRegion);
+//			educationalInstitutionRepository.save(eduInsti);
+//			savedRegion.getEducationalInstitiute().add(eduInsti);
+		}
 		RegionAdminDto regionAdminDto = null;
 		if(regionCreationDto.getAdminId() != null){
 			Region region = regionRepository.findByAdminId(regionCreationDto.getAdminId());
@@ -127,7 +146,6 @@ public class RegionServiceImpl implements RegionService {
 						"Given region admin id is already mapped with another Region",
 						res);
 			}
-
 			String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
 			ResponseEntity<Response<UserDto>> regionAdminResponse = userFeignService.getRegionAdminById(currJwtToken,regionCreationDto.getAdminId().toString());
 			System.out.println(regionAdminResponse.getBody().getResult().getData().toString());
@@ -138,16 +156,10 @@ public class RegionServiceImpl implements RegionService {
 				savedRegion.setAdminId(regionCreationDto.getAdminId());
 			}
 		}
-//		savedRegion = regionRepository.save(savedRegion);
-		for(Integer eduInstiId : regionCreationDto.getEduInstId()) {
-			EducationalInstitution eduInsti = educationalInstitutionRepository.findByIdIfNotDeleted(eduInstiId);
-//			eduInsti.getRegion().add(savedRegion);
-//			educationalInstitutionRepository.save(eduInsti);
-			savedRegion.getEducationalInstitiute().add(eduInsti);
-		}
 
-		savedRegion = regionRepository.save(savedRegion);
-		RegionDetailsDto regionDetailsDto = regionMapper.toRegionDetails(savedRegion);
+		Region saveRegion = regionRepository.save(savedRegion);
+		RegionDetailsDto regionDetailsDto = regionMapper.toRegionDetails(saveRegion);
+
 
 		res.setData(regionDetailsDto);
 		response.setStatusCode(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getCode());

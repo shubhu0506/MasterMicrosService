@@ -161,6 +161,11 @@ public class EducationalInstitutionMapper {
 		instituteDto.setStrength(educationalInstitution.getStrength());
 		instituteDto.setState(educationalInstitution.getState());
 		instituteDto.setVvnAccount(educationalInstitution.getVvnAccount());
+		instituteDto.setCreated(educationalInstitution.getCreated());
+		instituteDto.setModified(educationalInstitution.getModified());
+		instituteDto.setCreatedBy(educationalInstitution.getCreatedBy());
+		instituteDto.setModifiedBy(educationalInstitution.getModifiedBy());
+		instituteDto.setIsDeleted(educationalInstitution.getIsDeleted());
 		instituteDto.setRegionDto(new HashSet<>());
 
 		for(Region region:educationalInstitution.getRegion()){
@@ -181,12 +186,6 @@ public class EducationalInstitutionMapper {
 				instituteAdminDto = new InstituteAdminDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
 			}
 		}
-
-		instituteDto.setCreated(educationalInstitution.getCreated());
-		instituteDto.setModified(educationalInstitution.getModified());
-		instituteDto.setCreatedBy(educationalInstitution.getCreatedBy());
-		instituteDto.setModifiedBy(educationalInstitution.getModifiedBy());
-		instituteDto.setIsDeleted(educationalInstitution.getIsDeleted());
 
 		instituteDto.setInstituteAdminDto(instituteAdminDto);
 		return instituteDto;

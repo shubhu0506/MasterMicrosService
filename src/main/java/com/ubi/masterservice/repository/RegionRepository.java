@@ -15,7 +15,7 @@ public interface RegionRepository extends JpaRepository<Region,Integer> {
 
     @Query(
             value = "SELECT * FROM region " +
-                    "WHERE region.is_deleted = false",
+                    "WHERE region.is_deleted = false ORDER BY modified DESC",
             nativeQuery = true)
     Page<Region> getAllAvailaibleRegion(Pageable paging);
 
@@ -33,46 +33,46 @@ public interface RegionRepository extends JpaRepository<Region,Integer> {
 
     @Query(
             value = "SELECT * FROM region " +
-                    "WHERE region.is_deleted = false AND name = ?1",
+                    "WHERE region.is_deleted = false AND name = ?1 ORDER BY modified DESC",
             nativeQuery = true)
 	Page<Region> findByName(String searchByField,Pageable paging);
 
     @Query(
             value = "SELECT * FROM region " +
-                    "WHERE region.is_deleted = false AND code = ?1",
+                    "WHERE region.is_deleted = false AND code = ?1 ORDER BY modified DESC",
             nativeQuery = true)
 	Page<Region> findByCode(String searchByField,Pageable paging);
 
     @Query(
             value = "SELECT * FROM region " +
-                    "WHERE region.is_deleted = false AND id = ?1 ",
+                    "WHERE region.is_deleted = false AND id = ?1  ORDER BY modified DESC",
             nativeQuery = true)
 	Page<Region> findAllById(int searchByField,Pageable paging);
 
     @Query(
             value = "SELECT * FROM region " +
-                    "WHERE region.is_deleted = false AND admin_id = ?1",
+                    "WHERE region.is_deleted = false AND admin_id = ?1 ORDER BY modified DESC",
             nativeQuery = true)
     Region findByAdminId(Long adminId);
 
     @Query(
             value = "SELECT * FROM region " +
                     "WHERE region.is_deleted = false AND region.id IN " +
-                    "(SELECT region_id FROM ei_region_table WHERE educational_institution_id = ?1)",
+                    "(SELECT region_id FROM ei_region_table WHERE educational_institution_id = ?1)  ORDER BY modified DESC",
             nativeQuery = true)
     Page<Region> findAllRegionInsideInstitute(Integer instituteId,Pageable page);
 
     @Query(
             value = "SELECT * FROM region " +
                     "WHERE region.is_deleted = false AND name = ?1 AND region.id IN " +
-                    "(SELECT region_id FROM ei_region_table WHERE educational_institution_id = ?2)",
+                    "(SELECT region_id FROM ei_region_table WHERE educational_institution_id = ?2)  ORDER BY modified DESC",
             nativeQuery = true)
     Page<Region> findByNameAndInstituteId(String feildQuery,Integer instituteId,Pageable paging);
 
     @Query(
             value = "SELECT * FROM region " +
                     "WHERE region.is_deleted = false AND code = ?1 AND region.id IN " +
-                    "(SELECT region_id FROM ei_region_table WHERE educational_institution_id = ?2)",
+                    "(SELECT region_id FROM ei_region_table WHERE educational_institution_id = ?2) ORDER BY modified DESC",
             nativeQuery = true)
     Page<Region> findByCodeAndInstituteId(String feildQuery,Integer instituteId,Pageable paging);
 }

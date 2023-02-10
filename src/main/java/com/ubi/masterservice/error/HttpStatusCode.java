@@ -16,6 +16,8 @@ public enum HttpStatusCode {
 
 	NO_REGION_ADDED(108,"Add a region in Educational Institution"),
 
+	NO_EDUCATIONAL_INSTITUTE_ADDED(108,"Invalid institute is being sent to map with region"),
+
 	NO_CONTENT(204,"Content Not Found"),
 
 
