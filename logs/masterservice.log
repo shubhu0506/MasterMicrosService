@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 2023-02-10 09:23:03.481  INFO 8300 --- [kafka-producer-network-thread | producer-1] org.apache.kafka.clients.NetworkClient   : [Producer clientId=producer-1] Node 0 disconnected.
 2023-02-10 09:23:26.359  WARN 8300 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=13h24s236ms822µs500ns).
 2023-02-10 09:24:12.447  WARN 8300 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=47s60ms403µs800ns).
@@ -1848,3 +1849,5 @@ com.netflix.discovery.shared.transport.TransportException: Cannot execute reques
 2023-02-10 10:31:25.803  INFO 14692 --- [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Unregistering ...
 2023-02-10 10:31:25.827  INFO 14692 --- [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-TKUHAAL:MASTER-SERVICE:8082 - deregister  status: 200
 2023-02-10 10:31:25.873  INFO 14692 --- [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Completed shut down of DiscoveryClient
+=======
+>>>>>>> 88e7f48aafc0625e4cc680525fdc9fc06e18ac43

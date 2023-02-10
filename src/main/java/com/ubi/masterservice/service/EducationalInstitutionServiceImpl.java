@@ -11,6 +11,7 @@ import com.ubi.masterservice.dto.classDto.TeacherDto;
 import com.ubi.masterservice.dto.educationalInstitutiondto.*;
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import com.ubi.masterservice.dto.regionDto.RegionDetailsDto;
+import com.ubi.masterservice.dto.regionDto.RegionGet;
 import com.ubi.masterservice.dto.schoolDto.SchoolRegionDto;
 import com.ubi.masterservice.dto.studentDto.StudentDetailsDto;
 import com.ubi.masterservice.dto.user.UserDto;
@@ -140,8 +141,13 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 				.region(new HashSet<>()).build();
 
 		for (Integer regionId : instituteCreationDto.getRegionId()) {
-			Region region = regionRepository.getReferenceById(regionId);
-			if (region != null) educationalInstitution.getRegion().add(region);
+			Region region = regionRepository.findByIdIfNotDeleted(regionId);
+			if (region != null){
+				educationalInstitution.getRegion().add(region);
+				region.getEducationalInstitiute().add(educationalInstitution);
+				regionRepository.save(region);
+				System.out.println("mapped region Id is --- " + region.getId());
+			}
 			else{
 				throw new CustomException(HttpStatusCode.NO_REGION_ADDED.getCode(),
 						HttpStatusCode.NO_REGION_ADDED,
@@ -155,7 +161,7 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 			if(educationalInstitution1 != null){
 				throw new CustomException(HttpStatusCode.BAD_REQUEST_EXCEPTION.getCode(),
 						HttpStatusCode.BAD_REQUEST_EXCEPTION,
-						"Given Education Institute admin id is already mapped with another Insitute",
+						"Given Education Institute admin id is already mapped with another Institute",
 						res);
 			}
 
@@ -167,7 +173,6 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 			}
 			educationalInstitution.setAdminId(instituteCreationDto.getAdminId());
 		}
-
 
 		EducationalInstitution savedEducationalInstitution = educationalInstitutionRepository
 				.save(educationalInstitution);
@@ -232,7 +237,7 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 
 		Response<PaginationResponse<List<InstituteDto>>> response = new Response<>();
 
-		Page<EducationalInstitution> list = this.educationalInstitutionRepository.findAll(paging);
+		Page<EducationalInstitution> list = this.educationalInstitutionRepository.getAllAvailaibleEducationalInstitution(paging);
 
 		PaginationResponse<List<InstituteDto>> paginationResponse = null;
 
@@ -312,7 +317,23 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 		res.setData(null);
 
 		Optional<EducationalInstitution> educationalInst = educationalInstitutionRepository.findById(id);
+
+
 		if (!educationalInst.isPresent()) {
+			throw new CustomException(HttpStatusCode.RESOURCE_NOT_FOUND.getCode(), HttpStatusCode.RESOURCE_NOT_FOUND,
+					HttpStatusCode.RESOURCE_NOT_FOUND.getMessage(), res);
+		}
+
+		EducationalInstitution eduInst=educationalInst.get();
+
+		if (eduInst.getIsDeleted() == true) {
+			throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_DELETED.getCode(), HttpStatusCode.RESOURCE_ALREADY_DELETED,
+					"Educational Institution with given Id is already deleted", res);
+		}
+		EducationalInstitution eduInstitution = new EducationalInstitution();
+		eduInstitution = eduInst;
+
+		if(eduInst.getIsDeleted() == true){
 			throw new CustomException(HttpStatusCode.RESOURCE_NOT_FOUND.getCode(), HttpStatusCode.RESOURCE_NOT_FOUND,
 					HttpStatusCode.RESOURCE_NOT_FOUND.getMessage(), res);
 		}
@@ -322,12 +343,14 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 			regionRepository.save(region);
 		}
 
-		educationalInst.get().setRegion(new HashSet<>());
+		eduInst.setRegion(new HashSet<>());
+		eduInst.setAdminId(null);
+		eduInst.setIsDeleted(true);
 		educationalInstitutionRepository.save(educationalInst.get());
-		educationalInstitutionRepository.deleteById(id);
+		//educationalInstitutionRepository.deleteById(id);
 
-		res.setData(educationalInstitutionMapper.toInstituteDto(educationalInst.get()));
 		Response<InstituteDto> response = new Response<>();
+		res.setData(educationalInstitutionMapper.toInstituteDto(eduInstitution));
 		response.setMessage(HttpStatusCode.EDUCATIONAL_INSTITUTION_DELETED.getMessage());
 		response.setStatusCode(HttpStatusCode.EDUCATIONAL_INSTITUTION_DELETED.getCode());
 		response.setResult(res);
@@ -354,6 +377,7 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 		Result<InstituteDto> res = new Result<>();
 
 		res.setData(null);
+
 		Optional<EducationalInstitution> existingEducationalContainer = educationalInstitutionRepository
 				.findById(Integer.parseInt(instituteId.toString()));
 
@@ -387,23 +411,14 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 					HttpStatusCode.EDUCATIONAL_INSTITUTION_CODE_ALREADY_EXISTS.getMessage(), res);
 		}
 
-		EducationalInstitution educationalInstitution = EducationalInstitution.builder().id(Integer.parseInt(instituteId.toString()))
-				.educationalInstitutionName(instituteCreationDto.getEducationalInstitutionName())
-				.educationalInstitutionCode(instituteCreationDto.getEducationalInstitutionCode())
-				.educationalInstitutionType(instituteCreationDto.getEducationalInstitutionType())
-				.exemptionFlag(instituteCreationDto.getExemptionFlag())
-				.state(instituteCreationDto.getState())
-				.vvnAccount(instituteCreationDto.getVvnAccount())
-				.strength(instituteCreationDto.getStrength())
-				.region(new HashSet<>()).build();
-
 		InstituteAdminDto instituteAdminDto = null;
+
 		if(instituteCreationDto.getAdminId() != null && existingEducationalInstitution.getAdminId() != instituteCreationDto.getAdminId()){
 			EducationalInstitution educationalInstitution1 = educationalInstitutionRepository.findByAdminId(instituteCreationDto.getAdminId());
 			if(educationalInstitution1 != null){
 				throw new CustomException(HttpStatusCode.BAD_REQUEST_EXCEPTION.getCode(),
 						HttpStatusCode.BAD_REQUEST_EXCEPTION,
-						"Given Education Institute admin id is already mapped with another Insitute",
+						"Given Education Institute admin id is already mapped with another Institute",
 						res);
 			}
 
@@ -413,25 +428,36 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 			if(userDto != null) {
 				instituteAdminDto = new InstituteAdminDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
 			}
-			educationalInstitution.setAdminId(instituteCreationDto.getAdminId());
+
 		}
+
+		existingEducationalInstitution.setAdminId(instituteCreationDto.getAdminId());
+		existingEducationalInstitution.setEducationalInstitutionCode(instituteCreationDto.getEducationalInstitutionCode());
+		existingEducationalInstitution.setEducationalInstitutionName(instituteCreationDto.getEducationalInstitutionName());
+		existingEducationalInstitution.setEducationalInstitutionType(instituteCreationDto.getEducationalInstitutionType());
+		existingEducationalInstitution.setExemptionFlag(instituteCreationDto.getExemptionFlag());
+		existingEducationalInstitution.setStrength(instituteCreationDto.getStrength());
+		existingEducationalInstitution.setState(instituteCreationDto.getState());
+		existingEducationalInstitution.setVvnAccount(instituteCreationDto.getVvnAccount());
+		existingEducationalInstitution.setRegion(new HashSet<>());
+
 
 		for (Integer regionId : instituteCreationDto.getRegionId()) {
 			Region region = regionRepository.getReferenceById(regionId);
 			if(region != null) {
-				educationalInstitution.getRegion().add(region);
-				region.getEducationalInstitiute().add(educationalInstitution);
+				region.getEducationalInstitiute().add(existingEducationalInstitution);
+				existingEducationalInstitution.getRegion().add(region);
 				regionRepository.save(region);
 			}
 		}
 
-		if (educationalInstitution.getRegion().isEmpty()) {
+		if (existingEducationalInstitution.getRegion().isEmpty()) {
 			throw new CustomException(HttpStatusCode.NO_REGION_ADDED.getCode(), HttpStatusCode.NO_REGION_ADDED,
 					HttpStatusCode.NO_REGION_ADDED.getMessage(), res);
 		}
 
 
-		EducationalInstitution updateEducationalInst = educationalInstitutionRepository.save(educationalInstitution);
+		EducationalInstitution updateEducationalInst = educationalInstitutionRepository.save(existingEducationalInstitution);
 		InstituteDto instituteDto = educationalInstitutionMapper.toInstituteDto(updateEducationalInst);
 
 		Response<InstituteDto> response = new Response<>();

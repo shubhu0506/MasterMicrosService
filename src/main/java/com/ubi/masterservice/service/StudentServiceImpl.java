@@ -105,14 +105,12 @@ public class StudentServiceImpl implements StudentService {
 					HttpStatusCode.NO_CLASSID_FOUND, HttpStatusCode.NO_CLASSID_FOUND.getMessage(), res);
 		}
 		
-		   if (std != null) {
-			throw new CustomException(HttpStatusCode.ROLLNO_ALREADY_EXIST.getCode(),
-					HttpStatusCode.ROLLNO_ALREADY_EXIST,
-					HttpStatusCode.ROLLNO_ALREADY_EXIST.getMessage(), res);
+		if (std != null) {
+			throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_EXISTS.getCode(),
+					HttpStatusCode.RESOURCE_ALREADY_EXISTS,
+					"Given Role Number Already Exists", res);
 		}
-		 
-		
-		
+
 		ClassDetail classDetail = classRepository.getReferenceById(studentDto.getClassId());
 
 		Student student = studentMapper.dtoToEntity(studentDto);

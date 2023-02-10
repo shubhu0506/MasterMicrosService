@@ -34,6 +34,26 @@ public class EducationalInstitutionMapper {
 
 	public EducationalInstitutionDto entityToDto(EducationalInstitution educationalInstitution) {
 		EducationalInstitutionDto educationalInstitutionDto = modelMapper.map(educationalInstitution, EducationalInstitutionDto.class);
+
+//		EducationalInstitutionDto educationalInstitutionDto=new EducationalInstitutionDto();
+//
+//		educationalInstitutionDto.setId(educationalInstitution.getId());
+//		educationalInstitutionDto.setEducationalInstitutionCode(educationalInstitution.getEducationalInstitutionCode());
+//		educationalInstitutionDto.setEducationalInstitutionName(educationalInstitution.getEducationalInstitutionName());
+//		educationalInstitutionDto.setEducationalInstitutionType(educationalInstitution.getEducationalInstitutionType());
+//		educationalInstitutionDto.setStrength(educationalInstitution.getStrength());
+//		educationalInstitutionDto.setState(educationalInstitution.getState());
+//		educationalInstitutionDto.setExemptionFlag(educationalInstitution.getExemptionFlag());
+//		educationalInstitutionDto.setVvnAccount(educationalInstitution.getVvnAccount());
+//		educationalInstitutionDto.setCreated(educationalInstitution.getCreated());
+//		educationalInstitutionDto.setModified(educationalInstitution.getModified());
+//		educationalInstitutionDto.setCreatedBy(educationalInstitution.getCreatedBy());
+//		educationalInstitutionDto.setModifiedBy(educationalInstitution.getModifiedBy());
+//		educationalInstitutionDto.setIsDeleted(educationalInstitution.getIsDeleted());
+
+//---------------------
+
+
 		Set<Integer> regionId = educationalInstitution.getRegion().stream().filter(Objects::nonNull).map(region -> region.getId()).collect(Collectors.toSet());
 		educationalInstitutionDto.setRegionId(regionId);
 		return educationalInstitutionDto;
@@ -131,16 +151,17 @@ public class EducationalInstitutionMapper {
 	}
 
 	public InstituteDto toInstituteDto(EducationalInstitution educationalInstitution){
-		InstituteDto instituteDto = InstituteDto.builder().educationalInstitutionName(educationalInstitution.getEducationalInstitutionName())
-				.educationalInstitutionCode(educationalInstitution.getEducationalInstitutionCode())
-				.educationalInstitutionType(educationalInstitution.getEducationalInstitutionType())
-				.exemptionFlag(educationalInstitution.getExemptionFlag())
-				.state(educationalInstitution.getState())
-				.vvnAccount(educationalInstitution.getVvnAccount())
-				.strength(educationalInstitution.getStrength())
-				.id(educationalInstitution.getId())
-				.regionDto(new HashSet<>())
-				.state(educationalInstitution.getState()).build();
+		InstituteDto instituteDto=new InstituteDto();
+
+		instituteDto.setId(educationalInstitution.getId());
+		instituteDto.setEducationalInstitutionCode(educationalInstitution.getEducationalInstitutionCode());
+		instituteDto.setEducationalInstitutionName(educationalInstitution.getEducationalInstitutionName());
+		instituteDto.setEducationalInstitutionType(educationalInstitution.getEducationalInstitutionType());
+		instituteDto.setExemptionFlag(educationalInstitution.getExemptionFlag());
+		instituteDto.setStrength(educationalInstitution.getStrength());
+		instituteDto.setState(educationalInstitution.getState());
+		instituteDto.setVvnAccount(educationalInstitution.getVvnAccount());
+		instituteDto.setRegionDto(new HashSet<>());
 
 		for(Region region:educationalInstitution.getRegion()){
 			RegionGet regionGet = new RegionGet();
@@ -160,6 +181,13 @@ public class EducationalInstitutionMapper {
 				instituteAdminDto = new InstituteAdminDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
 			}
 		}
+
+		instituteDto.setCreated(educationalInstitution.getCreated());
+		instituteDto.setModified(educationalInstitution.getModified());
+		instituteDto.setCreatedBy(educationalInstitution.getCreatedBy());
+		instituteDto.setModifiedBy(educationalInstitution.getModifiedBy());
+		instituteDto.setIsDeleted(educationalInstitution.getIsDeleted());
+
 		instituteDto.setInstituteAdminDto(instituteAdminDto);
 		return instituteDto;
 	}

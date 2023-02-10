@@ -140,7 +140,7 @@ public class RegionServiceImpl implements RegionService {
 		}
 		savedRegion = regionRepository.save(savedRegion);
 		for(Integer eduInstiId : regionCreationDto.getEduInstId()) {
-			EducationalInstitution eduInsti = educationalInstitutionRepository.getReferenceById(eduInstiId);
+			EducationalInstitution eduInsti = educationalInstitutionRepository.findByIdIfNotDeleted(eduInstiId);
 			eduInsti.getRegion().add(savedRegion);
 			educationalInstitutionRepository.save(eduInsti);
 			savedRegion.getEducationalInstitiute().add(eduInsti);
@@ -195,7 +195,7 @@ public class RegionServiceImpl implements RegionService {
 		Pageable paging = PageRequest.of(PageNumber, PageSize);
 
 		Response<PaginationResponse<List<RegionDetailsDto>>> getListofRegion = new Response<PaginationResponse<List<RegionDetailsDto>>>();
-		Page<Region> list = this.regionRepository.findAll(paging);
+		Page<Region> list = this.regionRepository.getAllAvailaibleRegion(paging);
 		List<RegionDetailsDto> regionDtos;
 		PaginationResponse<List<RegionDetailsDto>> paginationResponse = null;
 		Page<Region> regionData = this.regionRepository.findAll(paging);
@@ -237,6 +237,10 @@ public class RegionServiceImpl implements RegionService {
 			throw new CustomException(HttpStatusCode.REGION_NOT_FOUND.getCode(), HttpStatusCode.REGION_NOT_FOUND,
 					HttpStatusCode.REGION_NOT_FOUND.getMessage(), regionResult);
 		}
+		if (region.get().getIsDeleted() == true) {
+			throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_DELETED.getCode(), HttpStatusCode.RESOURCE_ALREADY_DELETED,
+					"Region with given Id is deleted", regionResult);
+		}
 		regionResult.setData(regionMapper.toRegionDetails(region.get()));
 		getRegion.setStatusCode(HttpStatusCode.REGION_RETREIVED_SUCCESSFULLY.getCode());
 		getRegion.setMessage(HttpStatusCode.REGION_RETREIVED_SUCCESSFULLY.getMessage());
@@ -254,6 +258,19 @@ public class RegionServiceImpl implements RegionService {
 					HttpStatusCode.RESOURCE_NOT_FOUND.getMessage(), res);
 		}
 		Region region = regionTemp.get();
+
+		if (region.getIsDeleted() == true) {
+			throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_DELETED.getCode(), HttpStatusCode.RESOURCE_ALREADY_DELETED,
+					"Region with given Id is already deleted", res);
+		}
+		Region region1 = new Region();
+		region1 = region;
+
+		if(region.getIsDeleted() == true){
+			throw new CustomException(HttpStatusCode.RESOURCE_NOT_FOUND.getCode(), HttpStatusCode.RESOURCE_NOT_FOUND,
+					HttpStatusCode.RESOURCE_NOT_FOUND.getMessage(), res);
+		}
+
 		Set<EducationalInstitution> educationalInstitutionSet = region.getEducationalInstitiute();
 		for (EducationalInstitution eduInsti : educationalInstitutionSet) {
 			eduInsti.getRegion().remove(region);
@@ -268,10 +285,12 @@ public class RegionServiceImpl implements RegionService {
 		}
 
 		region.setEducationalInstitiute(new HashSet<>());
+		region.setAdminId(null);
+		region.setIsDeleted(true);
 		regionRepository.save(region);
-		regionRepository.deleteById(id);
+
 		Response<RegionDto> response = new Response<>();
-		res.setData(regionMapper.entityToDto(region));
+		res.setData(regionMapper.entityToDto(region1));
 		response.setMessage(HttpStatusCode.REGION_DELETED_SUCCESSFULLY.getMessage());
 		response.setStatusCode(HttpStatusCode.REGION_DELETED_SUCCESSFULLY.getCode());
 		response.setResult(res);
@@ -321,7 +340,6 @@ public class RegionServiceImpl implements RegionService {
 			}
 		}
 
-		RegionAdminDto regionAdminDto = null;
 		if(regionCreationDto.getAdminId() != null && regionCreationDto.getAdminId() != region.getAdminId()){
 			Region region1 = regionRepository.findByAdminId(regionCreationDto.getAdminId());
 			if(region1 != null){
@@ -333,12 +351,6 @@ public class RegionServiceImpl implements RegionService {
 
 			String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
 			ResponseEntity<Response<UserDto>> regionAdminResponse = userFeignService.getRegionAdminById(currJwtToken,regionCreationDto.getAdminId().toString());
-			System.out.println(regionAdminResponse.getBody().getResult().getData().toString());
-			UserDto userDto = regionAdminResponse.getBody().getResult().getData();
-			System.out.println(userDto.toString());
-			if(userDto != null) {
-				regionAdminDto = new RegionAdminDto(userDto.getId(),userDto.getContactInfoDto().getFirstName(),userDto.getContactInfoDto().getLastName());
-			}
 		}
 
 		region.setAdminId(regionCreationDto.getAdminId());
@@ -382,20 +394,6 @@ public class RegionServiceImpl implements RegionService {
 		return response;
 	}
 
-//	@Override
-//	public ByteArrayInputStream load() {
-//		List<Region> region = regionRepository.findAll();
-//		ByteArrayInputStream out = RegionEducationalCsvHelper.regionCSV(region);
-//		return out;
-//	}
-
-//	@Override
-//	public ByteArrayInputStream Regionload() {
-//		List<Region> region = regionRepository.findAll();
-//		ByteArrayInputStream out = RegionSchoolCsvHelper.regionSchoolCSV(region);
-//		return out;
-//	}
-
 	@Override
 	public Response<RegionDto> getRegionByName(String name) {
 		Response<RegionDto> getRegion = new Response<RegionDto>();
@@ -404,6 +402,10 @@ public class RegionServiceImpl implements RegionService {
 		if (region == null) {
 			throw new CustomException(HttpStatusCode.REGION_NOT_FOUND.getCode(), HttpStatusCode.REGION_NOT_FOUND,
 					HttpStatusCode.REGION_NOT_FOUND.getMessage(), regionResult);
+		}
+		if (region.getIsDeleted()) {
+			throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_DELETED.getCode(), HttpStatusCode.RESOURCE_ALREADY_DELETED,
+					"Region with given name is deleted", regionResult);
 		}
 
 		regionResult.setData(regionMapper.toDto(region));

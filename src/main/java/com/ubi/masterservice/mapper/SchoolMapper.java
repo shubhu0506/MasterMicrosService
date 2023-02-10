@@ -165,7 +165,7 @@ public class SchoolMapper {
 			edDto.setStrength(edu.getStrength());
 			edDto.setState(edu.getState());
 			edDto.setExemptionFlag(edu.getExemptionFlag());
-			edDto.setAdminId(edDto.getAdminId());
+			if(edu.getAdminId() != null ) edDto.setAdminId(edu.getAdminId());
 			edDto.setVvnAccount(edu.getVvnAccount());
 			edDto.setRegionId(edu.getRegion().stream().filter(Objects::nonNull).map(tempRegion -> tempRegion.getId()).collect(Collectors.toSet()));
 		}
