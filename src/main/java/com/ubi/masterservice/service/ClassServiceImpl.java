@@ -289,7 +289,7 @@ public class ClassServiceImpl implements ClassService {
 //
 //		if (classs.getIsDeleted() == true) {
 //			throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_DELETED.getCode(), HttpStatusCode.RESOURCE_ALREADY_DELETED,
-//					"Region with given Id is already deleted", res);
+//					"Class with given Id is already deleted", res);
 //		}
 //		ClassDetail class1 = new ClassDetail();
 //		class1 = classs;

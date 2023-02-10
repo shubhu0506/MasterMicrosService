@@ -15,6 +15,7 @@ spring:
 =======
     url: jdbc:postgresql://localhost:5432/ubi_master
 >>>>>>> 88e7f48aafc0625e4cc680525fdc9fc06e18ac43
+
     username: postgres
     password: 12345
     

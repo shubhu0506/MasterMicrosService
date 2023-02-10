@@ -13,7 +13,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClassStudentDto extends Auditable {
+public class ClassStudentDto //extends Auditable
+{
 
 	private ClassDto classDto;
 	private SchoolDto schoolDto;
