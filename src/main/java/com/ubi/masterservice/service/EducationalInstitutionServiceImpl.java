@@ -140,6 +140,8 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 				.strength(instituteCreationDto.getStrength())
 				.region(new HashSet<>()).build();
 
+		educationalInstitution = educationalInstitutionRepository.save(educationalInstitution);
+
 		for (Integer regionId : instituteCreationDto.getRegionId()) {
 			Region region = regionRepository.findByIdIfNotDeleted(regionId);
 			if (region != null){
@@ -156,6 +158,7 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 		}
 
 		InstituteAdminDto instituteAdminDto = null;
+
 		if(instituteCreationDto.getAdminId() != null){
 			EducationalInstitution educationalInstitution1 = educationalInstitutionRepository.findByAdminId(instituteCreationDto.getAdminId());
 			if(educationalInstitution1 != null){

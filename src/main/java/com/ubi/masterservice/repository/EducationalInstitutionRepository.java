@@ -24,7 +24,7 @@ public interface EducationalInstitutionRepository extends JpaRepository<Educatio
 
 	@Query(
 			value = "SELECT * FROM educational_institution " +
-					"WHERE educational_institution.is_deleted = false",
+					"WHERE educational_institution.is_deleted = false ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<EducationalInstitution> getAllAvailaibleEducationalInstitution(Pageable paging);
 
@@ -44,63 +44,63 @@ public interface EducationalInstitutionRepository extends JpaRepository<Educatio
 
 	@Query(
 			value = "SELECT * FROM educational_institution " +
-					"WHERE educational_institution.is_deleted = false AND educational_institution_code = ?1",
+					"WHERE educational_institution.is_deleted = false AND educational_institution_code = ?1 ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<EducationalInstitution> findByEducationalInstitutionCode(String educationalInstitutionCode, Pageable paging);
 
 	@Query(
 			value = "SELECT * FROM educational_institution " +
-					"WHERE educational_institution.is_deleted = false AND educational_institution_name = ?1",
+					"WHERE educational_institution.is_deleted = false AND educational_institution_name = ?1 ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<EducationalInstitution> findByEducationalInstitutionName(String educationalInstitutionName,Pageable paging);
 
 	@Query(
 			value = "SELECT * FROM educational_institution " +
-					"WHERE educational_institution.is_deleted = false AND educational_institution_type = ?1",
+					"WHERE educational_institution.is_deleted = false AND educational_institution_type = ?1 ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<EducationalInstitution> findByEducationalInstitutionType(String educationalInstitutionType,Pageable paging);
 
 
 	@Query(
 			value = "SELECT * FROM educational_institution " +
-					"WHERE educational_institution.is_deleted = false AND educational_institution_strength = ?1",
+					"WHERE educational_institution.is_deleted = false AND educational_institution_strength = ?1 ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<EducationalInstitution> findByStrength(Long strength,Pageable paging);
 
 
 	@Query(
 			value = "SELECT * FROM educational_institution " +
-					"WHERE educational_institution.is_deleted = false AND state = ?1",
+					"WHERE educational_institution.is_deleted = false AND state = ?1 ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<EducationalInstitution> findByState(String state,Pageable paging);
 
 	@Query(
 			value = "SELECT * FROM educational_institution " +
-					"WHERE educational_institution.is_deleted = false AND educational_institution_exemption_flag = ?1",
+					"WHERE educational_institution.is_deleted = false AND educational_institution_exemption_flag = ?1 ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<EducationalInstitution> findByExemptionFlag(String exemptionFlag,Pageable paging);
 
 	@Query(
 			value = "SELECT * FROM educational_institution " +
-					"WHERE educational_institution.is_deleted = false AND educational_institution_vvn_account = ?1",
+					"WHERE educational_institution.is_deleted = false AND educational_institution_vvn_account = ?1 ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<EducationalInstitution> findByVvnAccount(Long vvnAccount,Pageable paging);
 
 	@Query(
 			value = "SELECT * FROM educational_institution " +
-					"WHERE educational_institution.is_deleted = false AND id = ?1",
+					"WHERE educational_institution.is_deleted = false AND id = ?1 ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<EducationalInstitution> findAllById(int id,Pageable paging);
 
 	@Query(
 			value = "SELECT * FROM educational_institution " +
-					"WHERE educational_institution.is_deleted = false AND educational_admin_id = ?1",
+					"WHERE educational_institution.is_deleted = false AND educational_admin_id = ?1 ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<EducationalInstitution> findAllByAdminId(Long adminId, Pageable paging);
 
 	@Query(
 			value = "SELECT * FROM educational_institution " +
-					"WHERE educational_institution.is_deleted = false AND educational_admin_id = ?1",
+					"WHERE educational_institution.is_deleted = false AND educational_admin_id = ?1 ORDER BY modified DESC",
 			nativeQuery = true)
 	EducationalInstitution findByAdminId(Long adminId);
 
