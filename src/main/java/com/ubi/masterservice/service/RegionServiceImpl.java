@@ -156,8 +156,10 @@ public class RegionServiceImpl implements RegionService {
 				savedRegion.setAdminId(regionCreationDto.getAdminId());
 			}
 		}
+
 		Region saveRegion = regionRepository.save(savedRegion);
 		RegionDetailsDto regionDetailsDto = regionMapper.toRegionDetails(saveRegion);
+
 
 		res.setData(regionDetailsDto);
 		response.setStatusCode(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getCode());

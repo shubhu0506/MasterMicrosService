@@ -140,14 +140,16 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 				.strength(instituteCreationDto.getStrength())
 				.region(new HashSet<>()).build();
 
+
 		educationalInstitution = educationalInstitutionRepository.save(educationalInstitution);
+
 
 		for (Integer regionId : instituteCreationDto.getRegionId()) {
 			Region region = regionRepository.findByIdIfNotDeleted(regionId);
 			if (region != null){
 				educationalInstitution.getRegion().add(region);
-				region.getEducationalInstitiute().add(educationalInstitution);
-				regionRepository.save(region);
+//				region.getEducationalInstitiute().add(educationalInstitution);
+//				regionRepository.save(region);
 				System.out.println("mapped region Id is --- " + region.getId());
 			}
 			else{
