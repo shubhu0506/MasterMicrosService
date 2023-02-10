@@ -271,10 +271,6 @@ public class StudentServiceImpl implements StudentService {
 		Response<StudentDetailsDto> getStudent = new Response<StudentDetailsDto>();
 		Student std = this.studentRepository.getStudentByRollNo(rollNo);
 		Result<StudentDetailsDto> studentResult = new Result<>();
-//		if (!std.isPresent()) {
-//			throw new CustomException(HttpStatusCode.NO_STUDENT_MATCH_WITH_ID.getCode(),
-//					HttpStatusCode.NO_STUDENT_MATCH_WITH_ID, HttpStatusCode.NO_STUDENT_MATCH_WITH_ID.getMessage(), res);
-//		}
 		StudentDetailsDto student = studentMapper.toStudentDetails(std);
 		studentResult.setData(student);
 		getStudent.setStatusCode(200);

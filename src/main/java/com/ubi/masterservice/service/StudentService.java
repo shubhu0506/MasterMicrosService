@@ -19,6 +19,8 @@ public interface StudentService {
 
 	Response<StudentDetailsDto> getStudentById(Long id);
 
+	Response<StudentDetailsDto> getStudentByRollNo(Long rollNo);
+
 	public Response<StudentDto> deleteById(Long id);
 
 	Response<StudentDto> updateStudent(StudentDto studentDto);
