@@ -10,7 +10,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClassDto extends Auditable {
+public class ClassDto //extends Auditable
+{
 	
 	private Long classId;
 	private String classCode;
