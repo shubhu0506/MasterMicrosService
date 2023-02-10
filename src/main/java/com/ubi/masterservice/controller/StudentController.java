@@ -65,6 +65,14 @@ public class StudentController {
 
 	}
 
+	@GetMapping("/tc/{rollNo}")
+	@Operation(summary = "Get Student By Roll No", security = @SecurityRequirement(name = "bearerAuth"))
+	public ResponseEntity<Response<StudentDetailsDto>> getStudentByRollNo(@PathVariable Long rollNo) {
+		Response<StudentDetailsDto> response = service.getStudentByRollNo(rollNo);
+		return ResponseEntity.ok().body(response);
+
+	}
+
 	@GetMapping("{id}")
 	@Operation(summary = "Get Student By Id", security = @SecurityRequirement(name = "bearerAuth"))
 	public ResponseEntity<Response<StudentDetailsDto>> getStudentById(@PathVariable("id") Long id) {

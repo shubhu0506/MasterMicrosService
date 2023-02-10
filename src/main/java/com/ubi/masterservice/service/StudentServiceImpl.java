@@ -265,6 +265,24 @@ public class StudentServiceImpl implements StudentService {
 		return getStudent;
 	}
 
+	public Response<StudentDetailsDto> getStudentByRollNo(Long rollNo)
+	{
+		Result<StudentDetailsDto> res = new Result<>();
+		Response<StudentDetailsDto> getStudent = new Response<StudentDetailsDto>();
+		Student std = this.studentRepository.getStudentByRollNo(rollNo);
+		Result<StudentDetailsDto> studentResult = new Result<>();
+//		if (!std.isPresent()) {
+//			throw new CustomException(HttpStatusCode.NO_STUDENT_MATCH_WITH_ID.getCode(),
+//					HttpStatusCode.NO_STUDENT_MATCH_WITH_ID, HttpStatusCode.NO_STUDENT_MATCH_WITH_ID.getMessage(), res);
+//		}
+		StudentDetailsDto student = studentMapper.toStudentDetails(std);
+		studentResult.setData(student);
+		getStudent.setStatusCode(200);
+		getStudent.setResult(studentResult);
+		return getStudent;
+
+	}
+
 	@Override
 	public Response<StudentDto> deleteById(Long id) {
 		Result<StudentDto> res = new Result<>();
