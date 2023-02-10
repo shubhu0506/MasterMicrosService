@@ -138,11 +138,11 @@ public class RegionServiceImpl implements RegionService {
 				savedRegion.setAdminId(regionCreationDto.getAdminId());
 			}
 		}
-		savedRegion = regionRepository.save(savedRegion);
+//		savedRegion = regionRepository.save(savedRegion);
 		for(Integer eduInstiId : regionCreationDto.getEduInstId()) {
 			EducationalInstitution eduInsti = educationalInstitutionRepository.findByIdIfNotDeleted(eduInstiId);
-			eduInsti.getRegion().add(savedRegion);
-			educationalInstitutionRepository.save(eduInsti);
+//			eduInsti.getRegion().add(savedRegion);
+//			educationalInstitutionRepository.save(eduInsti);
 			savedRegion.getEducationalInstitiute().add(eduInsti);
 		}
 
