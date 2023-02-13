@@ -111,6 +111,15 @@ public class StudentServiceImpl implements StudentService {
 					"Given Role Number Already Exists", res);
 		}
 
+		Long aadharNumber=studentDto.getAadhaarNo();
+		int noofDigits= (int)Math.floor(Math.log10(aadharNumber) + 1);
+		if(!(noofDigits==12))
+		{
+			throw new CustomException(HttpStatusCode.ENTER_PROPER_AADHAAR_NO.getCode(),
+					HttpStatusCode.ENTER_PROPER_AADHAAR_NO,
+					"Enter proper 12 digit aadhaar number", res);
+		}
+
 		ClassDetail classDetail = classRepository.getReferenceById(studentDto.getClassId());
 
 		Student student = studentMapper.dtoToEntity(studentDto);
@@ -179,6 +188,12 @@ public class StudentServiceImpl implements StudentService {
 				}
 				if(fieldName.equalsIgnoreCase("category")) {
 					studentData = studentRepository.findByCategoryIgnoreCase(searchByField, paging);
+				}
+				if(fieldName.equalsIgnoreCase("bloodGroup")) {
+					studentData = studentRepository.findBybloodGroup(searchByField, paging);
+				}
+				if(fieldName.equalsIgnoreCase("aadhaarNo")) {
+					studentData = studentRepository.findByaadhaarNo(Long.parseLong(searchByField), paging);
 				}
 				if(fieldName.equalsIgnoreCase("minority")) {
 					studentData = studentRepository.findByMinorityIgnoreCase(searchByField, paging);
@@ -333,6 +348,8 @@ public class StudentServiceImpl implements StudentService {
 		existingStudent.setMotherOccupation(studentDto.getMotherOccupation());
 		existingStudent.setGender(studentDto.getGender());
 		existingStudent.setJoiningDate(studentDto.getJoiningDate());
+		existingStudent.setBloodGroup(studentDto.getBloodGroup());
+		existingStudent.setAadhaarNo(studentDto.getAadhaarNo());
 //		existingStudent.setStatus(studentDto.getStatus());
 		existingStudent.setVerifiedByTeacher(studentDto.getVerifiedByTeacher());
 		existingStudent.setVerifiedByPrincipal(studentDto.getVerifiedByPrincipal());
@@ -340,7 +357,15 @@ public class StudentServiceImpl implements StudentService {
 		existingStudent.setIsPhysicallyHandicapped(studentDto.getIsPhysicallyHandicapped());
 	
 		existingStudent.setVerifiedByPrincipal(studentDto.getVerifiedByPrincipal());
-		
+
+		Long aadharNumber=studentDto.getAadhaarNo();
+		int noofDigits= (int)Math.floor(Math.log10(aadharNumber) + 1);
+		if(!(noofDigits==12))
+		{
+			throw new CustomException(HttpStatusCode.ENTER_PROPER_AADHAAR_NO.getCode(),
+					HttpStatusCode.ENTER_PROPER_AADHAAR_NO,
+					"Enter proper 12 digit aadhaar number", res);
+		}
 
 		existingStudent.setClassId(studentDto.getClassId());
 		ClassDetail classDetail = classRepository.getReferenceById(studentDto.getClassId());

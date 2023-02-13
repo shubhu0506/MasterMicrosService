@@ -32,7 +32,8 @@ public class StudentDto {
 	private String motherName;
 	private String motherOccupation;
 	private String gender;
-
+	private String bloodGroup;
+	private Long aadhaarNo;
 	@JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
 	private Date joiningDate;
 
