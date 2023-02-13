@@ -14,6 +14,8 @@ public enum HttpStatusCode {
 
 	NO_REGION_FOUND(108,"No Region Found"),
 
+	ENTER_PROPER_AADHAAR_NO(109,"Enter 12 digit aadhar no"),
+
 	NO_REGION_ADDED(108,"Add a region in Educational Institution"),
 
 	NO_EDUCATIONAL_INSTITUTE_ADDED(108,"Invalid institute is being sent to map with region"),

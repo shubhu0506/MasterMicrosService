@@ -41,6 +41,10 @@ public interface StudentRepository extends JpaRepository<Student,Long> {
 	Page<Student> findByVerifiedByTeacher(Boolean verifiedByTeacher,Pageable paging);
 	Page<Student> findByStudentId(Long studentId,Pageable paging);
 	Page<Student> findByRollNo(Long rollNo,Pageable paging);
+
+	Page<Student> findBybloodGroup(String bloodGroup, Pageable paging);
+
+	Page <Student> findByaadhaarNo(Long aadhaarNo, Pageable paging);
 	Page<Student> findByIsPhysicallyHandicapped(Boolean isPhysicallyHandicapped,Pageable paging);
 	Page<Student> findByVerifiedByTeacher(boolean verifiedByTeacher,Pageable paging);
 	Page<Student> findByVerifiedByPrincipal(boolean verifiedByPrincipal,Pageable paging);

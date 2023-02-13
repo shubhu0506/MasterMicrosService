@@ -37,6 +37,8 @@ public class StudentMapper {
 		studentDto.setJoiningDate(student.getJoiningDate());
 		studentDto.setMinority(student.getMinority());
 		studentDto.setMotherName(student.getMotherName());
+		studentDto.setAadhaarNo(student.getAadhaarNo());
+		studentDto.setBloodGroup(student.getBloodGroup());
 		studentDto.setMotherOccupation(student.getMotherOccupation());
 //		studentDto.setStatus(student.getStatus());
 //		studentDto.setStudentName(student.getStudentName());
@@ -125,6 +127,8 @@ public class StudentMapper {
 		studentDetailsDto.setMotherName(student.getMotherName());
 		studentDetailsDto.setMotherOccupation(student.getMotherOccupation());
 		studentDetailsDto.setGender(student.getGender());
+		studentDetailsDto.setAadhaarNo(student.getAadhaarNo());
+		studentDetailsDto.setBloodGroup(student.getBloodGroup());
 		studentDetailsDto.setJoiningDate(student.getJoiningDate());
 //		studentDetailsDto.setStatus(student.getStatus());
 		studentDetailsDto.setVerifiedByPrincipal(student.getVerifiedByPrincipal());
