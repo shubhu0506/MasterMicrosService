@@ -54,7 +54,7 @@ public class SchoolController {
 
 	@Operation(summary = "Create New School", security = @SecurityRequirement(name = "bearerAuth"))
 	@PostMapping
-	public ResponseEntity<Response<SchoolRegionDto>> addSchool(@Valid @RequestBody SchoolDto schoolDto) {
+	public ResponseEntity<Response<SchoolRegionDto>> addSchool(@Valid @RequestBody SchoolCreationDto schoolDto) {
 		Response<SchoolRegionDto> schoolResponse = schoolService.addSchool(schoolDto);
 		return ResponseEntity.ok().body(schoolResponse);
 
@@ -106,36 +106,7 @@ public class SchoolController {
 		return ResponseEntity.ok().body(response);
 
 	}
-	
-//	@Operation(summary = "Update School By Id", security = @SecurityRequirement(name = "bearerAuth"))
-//	@PutMapping("/{schoolId}")
-//	public ResponseEntity<Response<SchoolRegionDto>> updateSchool(@Valid @RequestBody SchoolDto schoolDto) { // NOSONAR
-//		Response<SchoolRegionDto> response=schoolService.updateSchool(schoolDto);
-//		return ResponseEntity.ok().body(response);
-//	}
 
-	@Operation(summary = "Get School By Name", security = @SecurityRequirement(name = "bearerAuth"))
-	@GetMapping("/{name}")
-	public ResponseEntity<Response<SchoolRegionDto>> getSchoolByName(@PathVariable("name") String schoolName) {
-		Response<SchoolRegionDto> response=schoolService.getSchoolByName(schoolName);
-		return ResponseEntity.ok().body(response);
-	}
-	//
-//	@Operation(summary = "Map School and  Class", security = @SecurityRequirement(name = "bearerAuth"))
-//	@PostMapping("/addClass")
-//	public ResponseEntity<Response<SchoolClassDto>> addClass(@RequestBody SchholClassMappingDto schoolClassDto) {
-//		Response<SchoolClassDto> response = schoolService.addClass(schoolClassDto);
-//		return ResponseEntity.ok().body(response);
-//	}
-//
-//	@Operation(summary = "Get Classes In Schools", security = @SecurityRequirement(name = "bearerAuth"))
-//	@GetMapping("/getsch/{id}")
-//	@IsPrincipal
-//	public ResponseEntity<Response<SchoolClassDto>> getClassInSchool(@PathVariable int id) {
-//		Response<SchoolClassDto> response = schoolService.getSchoolwithClass(id);
-//		return ResponseEntity.ok().body(response);
-//	}
-//
 	@Operation(summary = "Get School With Sorting", security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping("/sort/{field}")
 	public ResponseEntity<Response<List<SchoolDto>>> getSchoolBySorting(@PathVariable String field) {

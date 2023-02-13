@@ -5,6 +5,7 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import com.ubi.masterservice.model.Auditable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,7 +21,7 @@ import lombok.ToString;
 @Entity
 @Table(name = "School_Details")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class School {
+public class School extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -74,5 +75,12 @@ public class School {
 	@ManyToOne
 	@JoinColumn(name = "educationalInstitute_id", referencedColumnName = "id",nullable = true)
 	private EducationalInstitution educationalInstitution;
+
+	@Override
+	public int hashCode() {
+		int result = super.hashCode();
+		result = 31 * result + schoolId;
+		return result;
+	}
 
 }
