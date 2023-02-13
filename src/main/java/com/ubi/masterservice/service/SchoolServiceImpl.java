@@ -150,10 +150,11 @@ public class SchoolServiceImpl implements SchoolService {
 		PrincipalDto principalDto = null;
 		if (school.getPrincipalId() != null) {
 			School school1 = schoolRepository.findByPrincipalId(schoolDto.getPrincipalId());
-			if(school1 != null){
+			School school2 = schoolRepository.findCollegeByPrincipalId(schoolDto.getPrincipalId());
+			if(school1 != null || school2 != null){
 				throw new CustomException(HttpStatusCode.BAD_REQUEST_EXCEPTION.getCode(),
 						HttpStatusCode.BAD_REQUEST_EXCEPTION,
-						"Given Principal Id is already mapped with another School",
+						"Given Principal Id is already mapped with another School/college",
 						res);
 			}
 
@@ -584,14 +585,20 @@ public class SchoolServiceImpl implements SchoolService {
 	@Override
 	public Response<SchoolRegionDto> getSchoolByPrincipalId(Long principalId) {
 		School school = schoolRepository.findByPrincipalId(principalId);
+		School school1 = schoolRepository.findCollegeByPrincipalId(principalId);
 		Response<SchoolRegionDto> response = new Response<>();
-		if(school == null){
+		if(school == null && school1 == null){
 			response.setStatusCode(HttpStatusCode.NO_CONTENT.getCode());
-			response.setMessage("No School Found With Given Principal Id");
+			response.setMessage("No School/college Found With Given Principal Id");
 			response.setResult(new Result<>(null));
 			return response;
 		}
-		SchoolRegionDto schoolRegionDto = schoolMapper.toSchoolClassDto(school);
+		SchoolRegionDto schoolRegionDto = new SchoolRegionDto();
+		if(school != null) {
+			schoolRegionDto = schoolMapper.toSchoolClassDto(school);
+		}
+		else schoolRegionDto = schoolMapper.toSchoolClassDto(school1);
+
 		response.setStatusCode(HttpStatusCode.SUCCESSFUL.getCode());
 		response.setMessage(HttpStatusCode.SUCCESSFUL.getMessage());
 		response.setResult(new Result<>(schoolRegionDto));
@@ -772,10 +779,11 @@ public class SchoolServiceImpl implements SchoolService {
 			PrincipalDto principalDto = null;
 			if (schoolCreationDto.getPrincipalId() != null && existingSchool.get().getPrincipalId() != schoolCreationDto.getPrincipalId()) {
 				School school1 = schoolRepository.findByPrincipalId(schoolCreationDto.getPrincipalId());
-				if(school1 != null){
+				School school2 = schoolRepository.findCollegeByPrincipalId(schoolCreationDto.getPrincipalId());
+				if(school1 != null || school2 != null){
 					throw new CustomException(HttpStatusCode.BAD_REQUEST_EXCEPTION.getCode(),
 							HttpStatusCode.BAD_REQUEST_EXCEPTION,
-							"Given Principal Id is already mapped with another School",
+							"Given Principal Id is already mapped with another School/college",
 							res);
 				}
 
