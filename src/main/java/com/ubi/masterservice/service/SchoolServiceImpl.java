@@ -105,7 +105,7 @@ public class SchoolServiceImpl implements SchoolService {
 	}
 
 	@Override
-	public Response<SchoolRegionDto> addSchool(SchoolDto schoolDto) {
+	public Response<SchoolRegionDto> addSchool(SchoolCreationDto schoolDto) {
 
 		Result<SchoolRegionDto> res = new Result<>();
 
@@ -477,6 +477,10 @@ public class SchoolServiceImpl implements SchoolService {
 					HttpStatusCode.NO_SCHOOL_MATCH_WITH_ID, HttpStatusCode.NO_SCHOOL_MATCH_WITH_ID.getMessage(),
 					schoolResult);
 		}
+		if(sch.get().getIsDeleted()){
+			throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_DELETED.getCode(), HttpStatusCode.RESOURCE_ALREADY_DELETED,
+					"Given School/College is deleted", new Result<>(null));
+		}
 
 		SchoolRegionDto schoolRegionDto = new SchoolRegionDto();
 		schoolRegionDto.setSchoolDto(schoolMapper.entityToDto(sch.get()));
@@ -508,45 +512,6 @@ public class SchoolServiceImpl implements SchoolService {
 	}
 
 	@Override
-	public Response<SchoolRegionDto> getSchoolByName(String name) {
-
-		Result<SchoolRegionDto> res = new Result<>();
-		Response<SchoolRegionDto> getSchoolName = new Response<>();
-		Optional<School> sch = this.schoolRepository.findByname(name);
-		Result<SchoolRegionDto> schoolResult = new Result<>();
-		if (!sch.isPresent()) {
-			throw new CustomException(HttpStatusCode.NO_SCHOOL_NAME_FOUND.getCode(),
-					HttpStatusCode.NO_SCHOOL_NAME_FOUND, HttpStatusCode.NO_SCHOOL_NAME_FOUND.getMessage(), res);
-		}
-		SchoolRegionDto schoolRegionDto = new SchoolRegionDto();
-		schoolRegionDto.setSchoolDto(schoolMapper.entityToDto(sch.get()));
-
-		String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
-
-		PrincipalDto principalDto = null;
-
-		if (sch.get().getPrincipalId() != null) {
-			ResponseEntity<Response<UserDto>> principalResponse = userFeignService.getPrincipalById(currJwtToken,
-					sch.get().getPrincipalId().toString());
-			UserDto userDto = principalResponse.getBody().getResult().getData();
-			if (userDto != null) {
-				principalDto = new PrincipalDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
-						userDto.getContactInfoDto().getLastName(),sch.get().getSchoolId());
-			}
-		}
-
-		schoolRegionDto.setRegionDto(regionMapper.toDto(sch.get().getRegion()));
-		schoolRegionDto.setClassDto(classMapper.entitiesToDto(sch.get().getClassDetail()));
-		schoolRegionDto.setEducationalInstitutionDto(educationalMapper.toDto(sch.get().getEducationalInstitution()));
-		schoolRegionDto.setPrincipalDto(principalDto);
-		schoolResult.setData(schoolRegionDto);
-		getSchoolName.setStatusCode(HttpStatusCode.SCHOOL_RETRIVED_SUCCESSFULLY.getCode());
-		getSchoolName.setMessage(HttpStatusCode.SCHOOL_RETRIVED_SUCCESSFULLY.getMessage());
-		getSchoolName.setResult(schoolResult);
-		return getSchoolName;
-	}
-
-	@Override
 	public Response<SchoolDto> deleteSchoolById(int schoolId) {
 		System.out.println(" here ----- *");
 		Result<SchoolDto> res = new Result<>();
@@ -556,6 +521,11 @@ public class SchoolServiceImpl implements SchoolService {
 			throw new CustomException(HttpStatusCode.RESOURCE_NOT_FOUND.getCode(), HttpStatusCode.RESOURCE_NOT_FOUND,
 					HttpStatusCode.RESOURCE_NOT_FOUND.getMessage(), res);
 		}
+		if(school.get().getIsDeleted()){
+			throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_DELETED.getCode(), HttpStatusCode.RESOURCE_ALREADY_DELETED,
+					"Given School/College is deleted", new Result<>(null));
+		}
+
 		Region region = school.get().getRegion();
 		region.getSchool().remove(school.get());
 		regionRepository.save(region);
@@ -568,8 +538,10 @@ public class SchoolServiceImpl implements SchoolService {
 		educationalInstitution.getSchool().remove(school.get());
 		educationalRepository.save(educationalInstitution);
 
-		schoolRepository.deleteById(schoolId);
-		System.out.println();
+		school.get().setIsDeleted(true);
+		school.get().setPrincipalId(null);
+		schoolRepository.save(school.get());
+
 		Response<SchoolDto> response = new Response<>();
 		res.setData(schoolMapper.entityToDto(school.get()));
 		response.setMessage(HttpStatusCode.SCHOOL_DELETED_SUCCESSFULLY.getMessage());
@@ -651,6 +623,11 @@ public class SchoolServiceImpl implements SchoolService {
 					HttpStatusCode.BAD_REQUEST_EXCEPTION,
 					"School Not Exists With Given School Id", new Result<>(null));
 		}
+		if(schoolOptional.get().getIsDeleted()){
+			throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_DELETED.getCode(), HttpStatusCode.RESOURCE_ALREADY_DELETED,
+					"Given School/College is deleted", new Result<>(null));
+		}
+
 		School school = schoolOptional.get();
 		Set<TeacherDto> teachers = new HashSet<>();
 		Set<ClassDetail> classes = new HashSet<>();
@@ -680,6 +657,10 @@ public class SchoolServiceImpl implements SchoolService {
 			throw new CustomException(HttpStatusCode.BAD_REQUEST_EXCEPTION.getCode(),
 					HttpStatusCode.BAD_REQUEST_EXCEPTION,
 					"School Not Exists With Given School Id", new Result<>(null));
+		}
+		if(schoolOptional.get().getIsDeleted()){
+			throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_DELETED.getCode(), HttpStatusCode.RESOURCE_ALREADY_DELETED,
+					"Given School/College is deleted", new Result<>(null));
 		}
 
 		Pageable paging = PageRequest.of(PageNumber, PageSize);
@@ -766,6 +747,10 @@ public class SchoolServiceImpl implements SchoolService {
 				throw new CustomException(HttpStatusCode.NO_SCHOOL_FOUND.getCode(), HttpStatusCode.NO_SCHOOL_FOUND,
 						HttpStatusCode.NO_SCHOOL_FOUND.getMessage(), res);
 			}
+			if(existingSchool.get().getIsDeleted()){
+				throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_DELETED.getCode(), HttpStatusCode.RESOURCE_ALREADY_DELETED,
+						"Given School/College is deleted", res);
+			}
 			School school = existingSchool.get();
 
 			SchoolDto existingSchools = schoolMapper.entityToDto(existingSchool.get());
@@ -826,7 +811,6 @@ public class SchoolServiceImpl implements SchoolService {
 			School updatedSchool = schoolRepository.save(school);
 
 			SchoolRegionDto schoolRegionDto = schoolMapper.toSchoolClassDto(updatedSchool);
-			schoolRegionDto.setPrincipalDto(principalDto);
 			res.setData(schoolRegionDto);
 			Response<SchoolRegionDto> response = new Response<>();
 			response.setMessage(HttpStatusCode.SCHOOL_UPDATED.getMessage());

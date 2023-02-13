@@ -59,20 +59,14 @@ public class SchoolMapper {
 		schoolDto.setVvnAccount(school.getVvnAccount());
 		schoolDto.setVvnFund(school.getVvnFund());
 		schoolDto.setIsCollege(school.getIsCollege());
+		schoolDto.setCreated(school.getCreated());
+		schoolDto.setCreatedBy(school.getCreatedBy());
+		schoolDto.setModified(school.getModified());
+		schoolDto.setModifiedBy(school.getModifiedBy());
+		schoolDto.setIsDeleted(school.getIsDeleted());
+
 		if(school.getPrincipalId() != null)schoolDto.setPrincipalId(school.getPrincipalId());
-		
-		
-		
-//		if(school.getPrincipalId()!=null)
-//		{
-//			schoolDto.getPrincipalId();
-//		}
-
-		if(school.getRegion() != null)
-		{
-			schoolDto.setRegionId(school.getRegion().getId());
-		}
-
+		if(school.getRegion() != null) schoolDto.setRegionId(school.getRegion().getId());
 
 		if(school.getClassDetail() != null)
 		{
@@ -104,7 +98,7 @@ public class SchoolMapper {
 	}
 
 	public SchoolDto entityToDtos(School school) {
-		SchoolDto schoolDto = modelMapper.map(school, SchoolDto.class);
+		SchoolDto schoolDto = this.entityToDto(school);
 		if (school.getRegion() != null) {
 			schoolDto.setRegionId(school.getRegion().getId());
 		}
@@ -123,14 +117,6 @@ public class SchoolMapper {
 		return classDetail.stream().filter(Objects::nonNull).map(this::entityToDto).collect(Collectors.toList());
 	}
 
-	// DTO to entity Mapping
-	public School dtoToEntity(SchoolDto schoolDto) {
-		return modelMapper.map(schoolDto, School.class);
-	}
-
-	public List<School> dtosToEntities(List<SchoolDto> schoolDTOs) {
-		return schoolDTOs.stream().filter(Objects::nonNull).map(this::dtoToEntity).collect(Collectors.toList());
-	}
 
 	public SchoolRegionDto toSchoolClassDto(School school) {
 		SchoolDto schoolDto = this.entityToDto(school);
@@ -180,6 +166,5 @@ public class SchoolMapper {
 		}
 
 		return new SchoolRegionDto(schoolDto,principalDto, regionDto, classDtoSet, edDto);
-
 	}
 }

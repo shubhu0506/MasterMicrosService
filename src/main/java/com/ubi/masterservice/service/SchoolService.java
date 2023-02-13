@@ -14,7 +14,7 @@ import com.ubi.masterservice.dto.studentDto.StudentDetailsDto;
 
 public interface SchoolService {
 
-	Response<SchoolRegionDto> addSchool(SchoolDto schoolDto);
+	Response<SchoolRegionDto> addSchool(SchoolCreationDto schoolDto);
 	
 	Response<PaginationResponse<List<SchoolRegionDto>>> getAllSchools(String fieldName, String searchByField,Integer PageNumber, Integer PageSize);
 
@@ -22,7 +22,6 @@ public interface SchoolService {
 	
 	Response<SchoolRegionDto> getSchoolById(int schoolId);
 
-	Response<SchoolRegionDto> getSchoolByName(String name);
 
 	public Response<SchoolDto> deleteSchoolById(int schoolId);
 
