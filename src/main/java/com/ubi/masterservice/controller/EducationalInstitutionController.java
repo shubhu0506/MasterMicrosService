@@ -23,15 +23,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ubi.masterservice.dto.response.Response;
 import com.ubi.masterservice.service.EducationalInstitutionService;
@@ -106,9 +98,19 @@ public class EducationalInstitutionController {
 
 	}
 
+	@Operation(summary = "remove Educational Institution admin with Id", security = @SecurityRequirement(name = "bearerAuth"))
+	@PutMapping("/removeAdmin/{instituteId}")
+	public ResponseEntity<Response<InstituteDto>> removeInstituteAdmin(
+			@PathVariable("instituteId") String instituteId) { // NOSONAR
+
+		Response<InstituteDto> updateEducationalInst = this.educationalInstitutionService
+				.removeEducationalInstitutionAdmin(instituteId);
+		return ResponseEntity.ok().body(updateEducationalInst);
+	}
+
 	@Operation(summary = "Get Region In EducationalInstitute", security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping("/getEduInst/{id}")
-	public ResponseEntity<Response<InstituteDto>> getRegionInEduIst(@PathVariable int id) {
+	public ResponseEntity<Response<InstituteDto>> getRegionInEduIst(@PathVariable("id") int id) {
 		Response<InstituteDto> response = educationalInstitutionService.getEduInstwithRegion(id);
 		return ResponseEntity.ok().body(response);
 	}

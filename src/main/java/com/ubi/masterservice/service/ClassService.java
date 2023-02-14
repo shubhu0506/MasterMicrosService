@@ -21,6 +21,8 @@ public interface ClassService {
 
 	Response<ClassStudentDto> updateClassDetails(ClassDto classDto);
 
+	Response<ClassStudentDto> removeClassTeacher(String classId);
+
 	Response<ClassStudentDto> getClassByName(String className);
 
 
