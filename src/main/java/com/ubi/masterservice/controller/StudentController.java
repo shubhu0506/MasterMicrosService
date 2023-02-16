@@ -101,7 +101,7 @@ public class StudentController {
 	}
 
 	@Operation(summary = "Change Active Status To deactivate", security = @SecurityRequirement(name = "bearerAuth"))
-	@PatchMapping("/deactivate/{id}")
+	@PutMapping("/deactivate/{id}")
 	public ResponseEntity<Response<StudentDto>> deactivateStudentById(@PathVariable Long id) {
 		Response<StudentDto> response = service.changeActiveStatusToFalse(id);
 		return ResponseEntity.ok().body(response);
