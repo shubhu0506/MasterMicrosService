@@ -367,7 +367,7 @@ public class ClassServiceImpl implements ClassService {
 			UserDto userDto = teacherResponse.getBody().getResult().getData();
 			if (userDto != null) {
 				teacherDto = new TeacherDto(userDto.getId(), userDto.getContactInfoDto().getFirstName(),
-						userDto.getContactInfoDto().getLastName(),classDetail1.getClassId(), classDetail1.getSchool().getSchoolId());
+						userDto.getContactInfoDto().getLastName(),existingClassDetail.getClassId(), existingClassDetail.getSchoolId());
 			}
 		}
 		existingClassDetail.setTeacherId(classDetailDto.getTeacherId());
@@ -377,6 +377,40 @@ public class ClassServiceImpl implements ClassService {
 		ClassStudentDto classStudentDto=classMapper.toStudentDto(updatedClassDetail);
 		classStudentDto.setTeacherDto(teacherDto);
 		res.setData(classStudentDto);
+		response.setMessage(HttpStatusCode.CLASS_UPDATED.getMessage());
+		response.setStatusCode(HttpStatusCode.CLASS_UPDATED.getCode());
+		response.setResult(res);
+
+		ObjectMapper obj = new ObjectMapper();
+		String jsonStr = null;
+		try {
+			jsonStr = obj.writeValueAsString(res.getData());
+			LOGGER.info(jsonStr);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		kafkaTemplate.send(topicUpdateName,0, "Key2",jsonStr);
+		LOGGER.info(String.format("Order Event => %s", jsonStr.toString()));
+		return response;
+	}
+
+	public Response<ClassStudentDto> removeClassTeacher(String classId) {
+		Result<ClassStudentDto> res = new Result<>();
+		Response<ClassStudentDto> response = new Response<>();
+		Optional<ClassDetail> existingClassContainer = classRepository.findById(Long.parseLong(classId));
+		if (!existingClassContainer.isPresent()) {
+			throw new CustomException(HttpStatusCode.NO_CLASS_FOUND.getCode(), HttpStatusCode.NO_CLASS_FOUND,
+					HttpStatusCode.NO_CLASS_FOUND.getMessage(), res);
+		}
+		ClassDetail classDetail = existingClassContainer.get();
+		classDetail.setTeacherId(null);
+		ClassDetail updatedClassDetail=classRepository.save(classDetail);
+		ClassStudentDto classStudentDto=classMapper.toStudentDto(updatedClassDetail);
+		classStudentDto.setTeacherDto(null);
+
+		res.setData(classStudentDto);
+
 		response.setMessage(HttpStatusCode.CLASS_UPDATED.getMessage());
 		response.setStatusCode(HttpStatusCode.CLASS_UPDATED.getCode());
 		response.setResult(res);

@@ -29,6 +29,8 @@ public interface EducationalInstitutionService {
 
 	Response<InstituteDto> updateEducationalInstitution(InstituteCreationDto instituteCreationDto,Long instituteId);
 
+	Response<InstituteDto> removeEducationalInstitutionAdmin(String instituteId);
+
 	Response<InstituteDto> getEduInstwithRegion(int id);
 
 	Response<List<InstituteDto>> getEduInstwithSort(String field);
