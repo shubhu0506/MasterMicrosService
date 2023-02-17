@@ -5,13 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import com.ubi.masterservice.dto.regionDto.RegionAdminDto;
-import com.ubi.masterservice.dto.regionDto.RegionCreationDto;
-import com.ubi.masterservice.dto.regionDto.RegionDetailsDto;
-import com.ubi.masterservice.dto.regionDto.RegionDto;
-import com.ubi.masterservice.dto.schoolDto.GetSchoolDetails;
 import com.ubi.masterservice.dto.studentDto.StudentDetailsDto;
 import com.ubi.masterservice.entity.*;
 import com.ubi.masterservice.mapper.*;
@@ -30,17 +24,13 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubi.masterservice.dto.classDto.ClassDto;
-import com.ubi.masterservice.dto.classDto.ClassStudentDto;
 import com.ubi.masterservice.dto.classDto.TeacherDto;
-import com.ubi.masterservice.dto.educationalInstitutiondto.EducationalInstitutionDto;
-import com.ubi.masterservice.dto.educationalInstitutiondto.InstituteDto;
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import com.ubi.masterservice.dto.response.Response;
 import com.ubi.masterservice.dto.schoolDto.PrincipalDto;
 import com.ubi.masterservice.dto.schoolDto.SchoolCreationDto;
 import com.ubi.masterservice.dto.schoolDto.SchoolDto;
 import com.ubi.masterservice.dto.schoolDto.SchoolRegionDto;
-import com.ubi.masterservice.dto.studentDto.StudentDto;
 import com.ubi.masterservice.dto.user.UserDto;
 import com.ubi.masterservice.error.CustomException;
 import com.ubi.masterservice.error.HttpStatusCode;
@@ -145,6 +135,7 @@ public class SchoolServiceImpl implements SchoolService {
 		school.setExemptionFlag(schoolDto.isExemptionFlag());
 		school.setVvnAccount(schoolDto.getVvnAccount());
 		school.setVvnFund(schoolDto.getVvnFund());
+		school.setFeesType(schoolDto.getFeesType());
 		school.setPrincipalId(schoolDto.getPrincipalId());
 
 		PrincipalDto principalDto = null;
@@ -276,6 +267,10 @@ public class SchoolServiceImpl implements SchoolService {
 			else if (fieldName.equalsIgnoreCase("vvnFund")) {
 				schoolData = schoolRepository.findByVvnFund(Integer.parseInt(searchByField), paging);
 			}
+
+			else if (fieldName.equalsIgnoreCase("feesType")) {
+				schoolData = schoolRepository.findByfeesType(searchByField, paging);
+			}
 			
 			else if (fieldName.equalsIgnoreCase("principalId")) {
 				schoolData = schoolRepository.findByPrincipalId(Long.parseLong(searchByField), paging);
@@ -406,7 +401,12 @@ public class SchoolServiceImpl implements SchoolService {
 			else if (fieldName.equalsIgnoreCase("vvnFund")) {
 				schoolData = schoolRepository.findByVvnFund(Integer.parseInt(searchByField), paging);
 			}
-			
+
+			else if (fieldName.equalsIgnoreCase("feesType")) {
+				schoolData = schoolRepository.findByfeesType(searchByField, paging);
+			}
+
+
 			else if (fieldName.equalsIgnoreCase("principalId")) {
 				schoolData = schoolRepository.findByPrincipalId(Long.parseLong(searchByField), paging);
 			}
@@ -773,6 +773,7 @@ public class SchoolServiceImpl implements SchoolService {
 			school.setExemptionFlag(schoolCreationDto.isExemptionFlag());
 			school.setVvnAccount(schoolCreationDto.getVvnAccount());
 			school.setVvnFund(schoolCreationDto.getVvnFund());
+			school.setFeesType(schoolCreationDto.getFeesType());
 			school.setPrincipalId(schoolCreationDto.getPrincipalId());
 
 			

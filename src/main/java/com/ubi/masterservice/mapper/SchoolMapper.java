@@ -58,6 +58,7 @@ public class SchoolMapper {
 		schoolDto.setExemptionFlag(school.isExemptionFlag());
 		schoolDto.setVvnAccount(school.getVvnAccount());
 		schoolDto.setVvnFund(school.getVvnFund());
+		schoolDto.setFeesType(school.getFeesType());
 		schoolDto.setIsCollege(school.getIsCollege());
 		schoolDto.setCreated(school.getCreated());
 		schoolDto.setCreatedBy(school.getCreatedBy());

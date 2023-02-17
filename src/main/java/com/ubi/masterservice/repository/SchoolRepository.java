@@ -53,6 +53,11 @@ public interface SchoolRepository extends JpaRepository<School, Integer> {
 	Page<School> findByContact(Long schoolContact,Pageable paging);
 
 	@Query(
+			value = "SELECT * FROM School_Details sch WHERE fees_type = ?1 AND is_deleted = false ORDER BY modified DESC",
+			nativeQuery = true)
+	Page<School> findByfeesType(String feesType, Pageable paging);
+
+	@Query(
 			value = "SELECT * FROM School_Details sch WHERE school_email = ?1 AND is_deleted = false ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<School> findByEmail(String schoolEmail, Pageable paging);
