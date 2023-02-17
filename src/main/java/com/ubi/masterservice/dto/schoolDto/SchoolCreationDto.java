@@ -34,6 +34,8 @@ public class SchoolCreationDto {
 	private int vvnAccount;
 
 	private int vvnFund;
+
+	private String feesType;
 	
 	private Long principalId;
 
