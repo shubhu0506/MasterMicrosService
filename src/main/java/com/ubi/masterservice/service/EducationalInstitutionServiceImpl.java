@@ -397,9 +397,14 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 
 
 		if (!existingEducationalContainer.isPresent()) {
-			throw new CustomException(HttpStatusCode.NO_EDUCATIONAL_INSTITUTION_FOUND.getCode(),
-					HttpStatusCode.NO_EDUCATIONAL_INSTITUTION_FOUND,
-					HttpStatusCode.NO_EDUCATIONAL_INSTITUTION_FOUND.getMessage(), res);
+			throw new CustomException(HttpStatusCode.RESOURCE_NOT_FOUND.getCode(),
+					HttpStatusCode.RESOURCE_NOT_FOUND,
+					"Education Institution Not Found", res);
+		}
+		if(existingEducationalContainer.get().getIsDeleted()){
+			throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_DELETED.getCode(),
+					HttpStatusCode.RESOURCE_ALREADY_DELETED,
+					"Education Institution is Deleted", res);
 		}
 
 		EducationalInstitution existingEducationalInstitution = existingEducationalContainer.get();
@@ -472,6 +477,52 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 		response.setResult(res);
 		ObjectMapper obj = new ObjectMapper();
 
+		String jsonStr = null;
+		try {
+			jsonStr = obj.writeValueAsString(res.getData());
+			LOGGER.info(jsonStr);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		kafkaTemplate.send(topicUpdateName,1, "Key2",jsonStr);
+		LOGGER.info(String.format("Order Event => %s", jsonStr.toString()));
+
+		return response;
+	}
+
+	@Override
+	public Response<InstituteDto> removeEducationalInstitutionAdmin(String instituteId) {
+		Result<InstituteDto> res = new Result<>();
+		res.setData(null);
+		Optional<EducationalInstitution> existingEducationalContainer = educationalInstitutionRepository
+				.findById(Integer.parseInt(instituteId));
+
+		if (!existingEducationalContainer.isPresent()) {
+			throw new CustomException(HttpStatusCode.RESOURCE_NOT_FOUND.getCode(),
+					HttpStatusCode.RESOURCE_NOT_FOUND,
+					"Education Institution Not Found", res);
+		}
+		if(existingEducationalContainer.get().getIsDeleted()){
+			throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_DELETED.getCode(),
+					HttpStatusCode.RESOURCE_ALREADY_DELETED,
+					"Education Institution is Deleted", res);
+		}
+		EducationalInstitution existingEducationalInstitution = existingEducationalContainer.get();
+
+		existingEducationalInstitution.setAdminId(null);
+
+		EducationalInstitution updateEducationalInst = educationalInstitutionRepository.save(existingEducationalInstitution);
+		InstituteDto instituteDto = educationalInstitutionMapper.toInstituteDto(updateEducationalInst);
+
+		Response<InstituteDto> response = new Response<>();
+		res.setData(instituteDto);
+
+		response.setMessage(HttpStatusCode.EDUCATIONAL_INSTITUTION_UPDATED.getMessage());
+		response.setStatusCode(HttpStatusCode.EDUCATIONAL_INSTITUTION_UPDATED.getCode());
+		response.setResult(res);
+
+		ObjectMapper obj = new ObjectMapper();
 		String jsonStr = null;
 		try {
 			jsonStr = obj.writeValueAsString(res.getData());

@@ -29,6 +29,8 @@ public interface RegionService {
 
 	Response<RegionDetailsDto> updateRegionDetails(RegionCreationDto regionCreationDto,Long regionId);
 
+	Response<RegionDetailsDto> removeRegionAdmin(String regionId);
+
 //	ByteArrayInputStream load();
 
 //	ByteArrayInputStream Regionload();

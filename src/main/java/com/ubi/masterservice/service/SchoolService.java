@@ -27,6 +27,8 @@ public interface SchoolService {
 
 	Response<SchoolRegionDto> updateSchool(SchoolCreationDto schoolCreationDto, int schoolId);
 
+	Response<SchoolRegionDto> removeSchoolPrincipal(String schoolId);
+
 	Response<List<SchoolDto>> getSchoolwithSort(String field);
 
 	Response<SchoolRegionDto> getSchoolByPrincipalId(Long principalId);

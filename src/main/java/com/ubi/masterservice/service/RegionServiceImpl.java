@@ -205,7 +205,7 @@ public class RegionServiceImpl implements RegionService {
 		Page<Region> list = this.regionRepository.getAllAvailaibleRegion(paging);
 		List<RegionDetailsDto> regionDtos;
 		PaginationResponse<List<RegionDetailsDto>> paginationResponse = null;
-		Page<Region> regionData = this.regionRepository.findAll(paging);
+		Page<Region> regionData = this.regionRepository.getAllAvailaibleRegion(paging);
 		
 		if(!fieldName.equals("*") && !searchByField.equals("*")) {
 				if(fieldName.equalsIgnoreCase("code")) {
@@ -325,8 +325,13 @@ public class RegionServiceImpl implements RegionService {
 		res.setData(null);
 		Optional<Region> existingRegionContainer = regionRepository.findById(Integer.parseInt(regionId.toString()));
 		if (!existingRegionContainer.isPresent()) {
-			throw new CustomException(HttpStatusCode.REGION_NOT_FOUND.getCode(), HttpStatusCode.REGION_NOT_FOUND,
-					HttpStatusCode.REGION_NOT_FOUND.getMessage(), res);
+			throw new CustomException(HttpStatusCode.RESOURCE_NOT_FOUND.getCode(),
+					HttpStatusCode.RESOURCE_NOT_FOUND,
+					"Region Not Found", res);
+		}
+		if(existingRegionContainer.get().getIsDeleted()){
+			throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_DELETED.getCode(), HttpStatusCode.RESOURCE_ALREADY_DELETED,
+					"Region is Deleted", res);
 		}
 		Region region = existingRegionContainer.get();
 
@@ -380,6 +385,46 @@ public class RegionServiceImpl implements RegionService {
 		}
 
 		updateRegion = regionRepository.save(region);
+		res.setData(regionMapper.toRegionDetails(updateRegion));
+		Response<RegionDetailsDto> response = new Response<>();
+		response.setMessage(HttpStatusCode.REGION_UPDATED.getMessage());
+		response.setStatusCode(HttpStatusCode.REGION_UPDATED.getCode());
+		response.setResult(res);
+
+		ObjectMapper obj = new ObjectMapper();
+
+		String jsonStr = null;
+		try {
+			jsonStr = obj.writeValueAsString(res.getData());
+			System.out.println(jsonStr);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		kafkaTemplate.send(topicUpdateName,2, "Key2",jsonStr);
+		LOGGER.info(String.format("Order Event => %s", jsonStr.toString()));
+		return response;
+	}
+
+	@Override
+	public Response<RegionDetailsDto> removeRegionAdmin(String regionId) {
+		Result<RegionDetailsDto> res = new Result<>();
+
+		res.setData(null);
+		Optional<Region> existingRegionContainer = regionRepository.findById(Integer.parseInt(regionId.toString()));
+		if (!existingRegionContainer.isPresent()) {
+			throw new CustomException(HttpStatusCode.RESOURCE_NOT_FOUND.getCode(),
+					HttpStatusCode.RESOURCE_NOT_FOUND,
+					"Region Not Found", res);
+		}
+		if(existingRegionContainer.get().getIsDeleted()){
+			throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_DELETED.getCode(), HttpStatusCode.RESOURCE_ALREADY_DELETED,
+					"Region is Deleted", res);
+		}
+		Region region = existingRegionContainer.get();
+		region.setAdminId(null);
+
+		Region updateRegion = regionRepository.save(region);
 		res.setData(regionMapper.toRegionDetails(updateRegion));
 		Response<RegionDetailsDto> response = new Response<>();
 		response.setMessage(HttpStatusCode.REGION_UPDATED.getMessage());

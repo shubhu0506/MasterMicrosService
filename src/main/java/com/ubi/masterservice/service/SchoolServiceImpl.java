@@ -840,5 +840,44 @@ public class SchoolServiceImpl implements SchoolService {
 		
 	}
 
+	@Override
+	public Response<SchoolRegionDto> removeSchoolPrincipal(String schoolId) {
+		Result<SchoolRegionDto> res = new Result<>();
+
+		res.setData(null);
+		Optional<School> existingSchool = schoolRepository.findById(Integer.parseInt(schoolId));
+		if (!existingSchool.isPresent()) {
+			throw new CustomException(HttpStatusCode.NO_SCHOOL_FOUND.getCode(), HttpStatusCode.NO_SCHOOL_FOUND,
+					HttpStatusCode.NO_SCHOOL_FOUND.getMessage(), res);
+		}
+		if(existingSchool.get().getIsDeleted()){
+			throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_DELETED.getCode(), HttpStatusCode.RESOURCE_ALREADY_DELETED,
+					"Given School/College is deleted", res);
+		}
+		School school = existingSchool.get();
+		school.setPrincipalId(null);
+		School updatedSchool = schoolRepository.save(school);
+
+		SchoolRegionDto schoolRegionDto = schoolMapper.toSchoolClassDto(updatedSchool);
+		res.setData(schoolRegionDto);
+		Response<SchoolRegionDto> response = new Response<>();
+		response.setMessage(HttpStatusCode.SCHOOL_UPDATED.getMessage());
+		response.setStatusCode(HttpStatusCode.SCHOOL_UPDATED.getCode());
+		response.setResult(res);
+
+		ObjectMapper obj = new ObjectMapper();
+
+		String jsonStr = null;
+		try {
+			jsonStr = obj.writeValueAsString(res.getData());
+			System.out.println(jsonStr);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		kafkaTemplate.send(topicUpdateName, 3, "Key2", jsonStr);
+		LOGGER.info(String.format("Order Event => %s", jsonStr.toString()));
+		return response;
+	}
+
 
 }
