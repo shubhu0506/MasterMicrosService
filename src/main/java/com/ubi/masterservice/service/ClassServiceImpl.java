@@ -94,7 +94,9 @@ public class ClassServiceImpl implements ClassService {
 		ClassDetail className = classRepository.getClassByclassName(classDto.getClassName());
 		ClassDetail classCode = classRepository.getClassByclassCode(classDto.getClassCode());
 
-		School school  = schoolRepository.getReferenceById(classDto.getSchoolId());
+		School school  = schoolRepository.findByIdIfNotDeleted(classDto.getSchoolId());
+
+		//School school  = schoolRepository.getReferenceById(classDto.getSchoolId());
 
 		if(school != null && school.getClassDetail()!=null) {
 			for(ClassDetail classDetail:school.getClassDetail()) {
@@ -104,6 +106,13 @@ public class ClassServiceImpl implements ClassService {
 				}
 			}
 		}
+
+		else {
+			throw new CustomException(HttpStatusCode.NO_SCHOOL_ADDED.getCode(),
+					HttpStatusCode.NO_SCHOOL_ADDED,
+					"Invalid School is being sent to map with Class", res);
+		}
+
 
 		ClassDetail classDetail=new ClassDetail();
 		//classDetail.setClassId(classDto.getClassId());
@@ -169,7 +178,7 @@ public class ClassServiceImpl implements ClassService {
 		ClassStudentDto classStudentDto = null;
 		Set<StudentDto> studentDto = null;
 		TeacherDto teacherDto = null;
-		Page<ClassDetail> classList = this.classRepository.findAll(pageing);
+		Page<ClassDetail> classList = this.classRepository.getAllAvailaibleClassDetails(pageing);
 		
 		List<ClassStudentDto> classDto =new ArrayList();
 		PaginationResponse paginationResponse;
@@ -284,35 +293,36 @@ public class ClassServiceImpl implements ClassService {
 			throw new CustomException(HttpStatusCode.RESOURCE_NOT_FOUND.getCode(), HttpStatusCode.RESOURCE_NOT_FOUND,
 					HttpStatusCode.RESOURCE_NOT_FOUND.getMessage(), res);
 		}
-//---
-//		ClassDetail classs = classes.get();
-//
-//		if (classs.getIsDeleted() == true) {
-//			throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_DELETED.getCode(), HttpStatusCode.RESOURCE_ALREADY_DELETED,
-//					"Class with given Id is already deleted", res);
-//		}
-//		ClassDetail class1 = new ClassDetail();
-//		class1 = classs;
-//
-//
-//		if(classs.getIsDeleted() == true){
-//			throw new CustomException(HttpStatusCode.RESOURCE_NOT_FOUND.getCode(), HttpStatusCode.RESOURCE_NOT_FOUND,
-//					HttpStatusCode.RESOURCE_NOT_FOUND.getMessage(), res);
-//		}
 
-		//----
-		School school=classes.get().getSchool();
-		school.getClassDetail().remove(classes.get());
+		ClassDetail classs = classes.get();
+
+		if (classs.getIsDeleted() == true) {
+			throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_DELETED.getCode(), HttpStatusCode.RESOURCE_ALREADY_DELETED,
+					"Class with given Id is already deleted", res);
+		}
+		ClassDetail class1 = new ClassDetail();
+		class1 = classs;
+
+
+		if(classs.getIsDeleted() == true){
+			throw new CustomException(HttpStatusCode.RESOURCE_NOT_FOUND.getCode(), HttpStatusCode.RESOURCE_NOT_FOUND,
+					HttpStatusCode.RESOURCE_NOT_FOUND.getMessage(), res);
+		}
+
+
+		School school=classs.getSchool();
+		school.getClassDetail().remove(classs);
 		schoolRepository.save(school);
 
-		for(Student studentId: classes.get().getStudents())
+		for(Student studentId: classs.getStudents())
 		{
 			studentId.setClassDetail(null);
 			studentRepository.save(studentId);
 		}
-
-		classRepository.deleteById(id);
-		res.setData(classMapper.entityToDto(classes.get()));
+		classs.setIsDeleted(true);
+          classRepository.save(classs);
+		//classRepository.deleteById(id);
+		res.setData(classMapper.entityToDto(classs));
 		response.setMessage(HttpStatusCode.CLASS_DELETED_SUCCESSFULLY.getMessage());
 		response.setStatusCode(HttpStatusCode.CLASS_DELETED_SUCCESSFULLY.getCode());
 		response.setResult(res);

@@ -124,8 +124,6 @@ public class RegionServiceImpl implements RegionService {
 			EducationalInstitution eduInsti = educationalInstitutionRepository.findByIdIfNotDeleted(eduInstiId);
 			if (eduInsti != null){
 				savedRegion.getEducationalInstitiute().add(eduInsti);
-//				eduInsti.getRegion().add(savedRegion);
-//				educationalInstitutionRepository.save(eduInsti);
 				System.out.println("mapped institute Id is --- " + eduInsti.getId());
 			}
 			else{
@@ -133,9 +131,6 @@ public class RegionServiceImpl implements RegionService {
 						HttpStatusCode.NO_EDUCATIONAL_INSTITUTE_ADDED,
 						"Invalid institute is being sent to map with region", res);
 			}
-//			eduInsti.getRegion().add(savedRegion);
-//			educationalInstitutionRepository.save(eduInsti);
-//			savedRegion.getEducationalInstitiute().add(eduInsti);
 		}
 		RegionAdminDto regionAdminDto = null;
 		if(regionCreationDto.getAdminId() != null){

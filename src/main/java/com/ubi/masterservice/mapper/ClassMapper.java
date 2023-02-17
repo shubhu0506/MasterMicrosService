@@ -30,11 +30,11 @@ public class ClassMapper {
 			classDto.setClassId(classDetail.getClassId());
 			classDto.setClassName(classDetail.getClassName());
 			classDto.setClassCode(classDetail.getClassCode());
-//			classDto.setCreated(classDetail.getCreated());
-//			classDto.setModified(classDetail.getModified());
-//			classDto.setCreatedBy(classDetail.getCreatedBy());
-//			classDto.setModifiedBy(classDetail.getModifiedBy());
-//			classDto.setIsDeleted(classDetail.getIsDeleted());
+			classDto.setCreated(classDetail.getCreated());
+			classDto.setModified(classDetail.getModified());
+			classDto.setCreatedBy(classDetail.getCreatedBy());
+			classDto.setModifiedBy(classDetail.getModifiedBy());
+			classDto.setIsDeleted(classDetail.getIsDeleted());
 			classDto.setSchoolId(classDetail.getSchool().getSchoolId());
 			if(classDetail.getTeacherId() != null)classDto.setTeacherId(classDetail.getTeacherId());
 		}
@@ -97,11 +97,11 @@ public class ClassMapper {
 		classDto.setClassCode(classDetail.getClassCode());
 		classDto.setClassId(classDetail.getClassId());
 		classDto.setClassName(classDetail.getClassName());
-//		classDto.setCreated(classDetail.getCreated());
-//		classDto.setModified(classDetail.getModified());
-//		classDto.setCreatedBy(classDetail.getCreatedBy());
-//		classDto.setModifiedBy(classDetail.getModifiedBy());
-//		classDto.setIsDeleted(classDetail.getIsDeleted());
+		classDto.setCreated(classDetail.getCreated());
+		classDto.setModified(classDetail.getModified());
+		classDto.setCreatedBy(classDetail.getCreatedBy());
+		classDto.setModifiedBy(classDetail.getModifiedBy());
+		classDto.setIsDeleted(classDetail.getIsDeleted());
 		schoolDto.setSchoolId(school.getSchoolId());
 		schoolDto.setCode(school.getCode());
 		schoolDto.setName(school.getName());

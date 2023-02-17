@@ -120,14 +120,27 @@ public class StudentServiceImpl implements StudentService {
 					"Enter proper 12 digit aadhaar number", res);
 		}
 
-		ClassDetail classDetail = classRepository.getReferenceById(studentDto.getClassId());
+//		ClassDetail classDetail = classRepository.getReferenceById(studentDto.getClassId());
 
 		Student student = studentMapper.dtoToEntity(studentDto);
-		student.setClassDetail(classDetail);
+
+			ClassDetail classDetail = classRepository.findByIdIfNotDeleted(studentDto.getClassId());
+
+			if (classDetail != null) {
+				student.setClassDetail(classDetail);
+			} else {
+				throw new CustomException(HttpStatusCode.NO_CLASS_ADDED.getCode(),
+						HttpStatusCode.NO_CLASS_ADDED,
+						"Invalid Class is being sent to map with Student", res);
+			}
+
+
+	//	student.setClassDetail(classDetail);
 		student.setVerifiedByPrincipal(false);
 		student.setVerifiedByTeacher(false);
 		student.setIsActivate(false);
 		student.setIsPhysicallyHandicapped(false);
+		student.setIsDeleted(false);
 
 		Student savedStudent = studentRepository.save(student);
 		res.setData(studentMapper.entityToDto(savedStudent));
@@ -156,7 +169,7 @@ public class StudentServiceImpl implements StudentService {
 		Result<PaginationResponse<List<StudentDetailsDto>>> res = new Result<>();
 		Pageable paging = PageRequest.of(PageNumber, PageSize);
 		Response<PaginationResponse<List<StudentDetailsDto>>> getListofStudent = new Response<>();
-		Page<Student> list = this.studentRepository.findAll(paging);
+		Page<Student> list = this.studentRepository.getAllAvailaibleStudent(paging);
 		List<StudentDetailsDto> studentDtos;
 		PaginationResponse<List<StudentDetailsDto>> paginationResponse = null;
 		Page<Student> studentData = null;
@@ -304,14 +317,27 @@ public class StudentServiceImpl implements StudentService {
 					HttpStatusCode.RESOURCE_NOT_FOUND.getMessage(), res);
 		}
 
+		Student student1=student.get();
+
+		if(student1.getIsDeleted()==true){
+			throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_DELETED.getCode(), HttpStatusCode.RESOURCE_ALREADY_DELETED,
+					"Student with given Id is already deleted", new Result<>(null));
+		}
+
+		if(student1.getIsDeleted()== true){
+			throw new CustomException(HttpStatusCode.RESOURCE_NOT_FOUND.getCode(), HttpStatusCode.RESOURCE_NOT_FOUND,
+					HttpStatusCode.RESOURCE_NOT_FOUND.getMessage(), new Result<>(null));
+		}
+
 		ClassDetail classDetail=student.get().getClassDetail();
 		if(classDetail!=null)
 		{
 			classDetail.getStudents().remove(student.get());
 		}
-		studentRepository.deleteById(id);
+		student1.setIsDeleted(true);
+		studentRepository.save(student1);
 		Response<StudentDto> response = new Response<>();
-		res.setData(studentMapper.entityToDto(student.get()));
+		res.setData(studentMapper.entityToDto(student1));
 		response.setMessage(HttpStatusCode.STUDENT_DELETED.getMessage());
 		response.setStatusCode(HttpStatusCode.STUDENT_DELETED.getCode());
 		response.setResult(res);
@@ -350,13 +376,17 @@ public class StudentServiceImpl implements StudentService {
 		existingStudent.setJoiningDate(studentDto.getJoiningDate());
 		existingStudent.setBloodGroup(studentDto.getBloodGroup());
 		existingStudent.setAadhaarNo(studentDto.getAadhaarNo());
-//		existingStudent.setStatus(studentDto.getStatus());
-		existingStudent.setVerifiedByTeacher(studentDto.getVerifiedByTeacher());
-		existingStudent.setVerifiedByPrincipal(studentDto.getVerifiedByPrincipal());
+//		existingStudent.setVerifiedByTeacher(studentDto.getVerifiedByTeacher());
+//		existingStudent.setVerifiedByPrincipal(studentDto.getVerifiedByPrincipal());
 		existingStudent.setRollNo(studentDto.getRollNo());
 		existingStudent.setIsPhysicallyHandicapped(studentDto.getIsPhysicallyHandicapped());
+		//existingStudent.setCreated(studentDto.getCreated());
+		//existingStudent.setCreatedBy(studentDto.getCreatedBy());
+//		existingStudent.setModified(studentDto.getModified());
+//		existingStudent.setModifiedBy(studentDto.getModifiedBy());
+		existingStudent.setIsDeleted(false);
 	
-		existingStudent.setVerifiedByPrincipal(studentDto.getVerifiedByPrincipal());
+		//existingStudent.setVerifiedByPrincipal(studentDto.getVerifiedByPrincipal());
 
 		Long aadharNumber=studentDto.getAadhaarNo();
 		int noofDigits= (int)Math.floor(Math.log10(aadharNumber) + 1);
