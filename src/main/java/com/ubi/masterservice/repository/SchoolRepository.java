@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import com.ubi.masterservice.entity.Region;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,6 +15,12 @@ import com.ubi.masterservice.entity.School;
 
 public interface SchoolRepository extends JpaRepository<School, Integer> {
 
+
+	@Query(
+			value = "SELECT * FROM School_Details sch " +
+					"WHERE is_deleted = false AND school_id = ?1",
+			nativeQuery = true)
+	School findByIdIfNotDeleted(Integer id);
 	Optional<School> findById(int id);
 
 	School getSchoolByName(String name);

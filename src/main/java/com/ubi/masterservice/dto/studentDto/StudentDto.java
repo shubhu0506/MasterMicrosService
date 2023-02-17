@@ -2,11 +2,11 @@ package com.ubi.masterservice.dto.studentDto;
 
 import java.util.Date;
 
-
 import javax.persistence.Id;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import com.ubi.masterservice.model.Auditable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,8 +15,8 @@ import lombok.experimental.SuperBuilder;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder
-public class StudentDto {
+//@SuperBuilder
+public class StudentDto extends Auditable {
 	@Id
 	private Long studentId;
 	private String studentFirstName;

@@ -5,6 +5,7 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ubi.masterservice.dto.classDto.ClassDto;
 
+import com.ubi.masterservice.model.Auditable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,8 +13,8 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-public class StudentDetailsDto {
+//@ToString
+public class StudentDetailsDto extends Auditable {
 
 	private Long studentId;
 	private String studentFirstName;

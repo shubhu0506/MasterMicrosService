@@ -11,9 +11,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
+import com.ubi.masterservice.model.Auditable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,7 +28,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Student {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Student extends Auditable {
 
 	@Id
 	@GeneratedValue
@@ -66,5 +69,6 @@ public class Student {
 
 	@ManyToOne(fetch = FetchType.LAZY )
 	private ClassDetail classDetail;
+
 
 }

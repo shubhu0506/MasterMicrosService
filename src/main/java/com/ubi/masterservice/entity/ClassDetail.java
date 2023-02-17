@@ -20,7 +20,7 @@ import lombok.ToString;
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "class_data ")
-public class ClassDetail //extends Auditable
+public class ClassDetail extends Auditable
 {
 
 	@Id
