@@ -1,11 +1,11 @@
 package com.ubi.masterservice.repository;
 
-import com.ubi.masterservice.entity.EducationalInstitution;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
 import com.ubi.masterservice.entity.ClassDetail;
 
 @Repository
@@ -46,7 +46,16 @@ public interface ClassRepository extends JpaRepository<ClassDetail, Long> {
     Page<ClassDetail> findByClassCode(String code,Pageable paging);
     @Query(
             value = "SELECT * FROM class_data " +
-                    "WHERE class_data.is_deleted = false AND class_id = ?1 ORDER BY modified DESC",
+                    "WHERE class_data.is_deleted = false AND stream = ?1 ORDER BY modified DESC",
             nativeQuery = true)
+    
+    Page<ClassDetail> findByStream(String cstream,Pageable paging);
+   @Query(
+            value = "SELECT * FROM class_data " +
+                    "WHERE class_data.is_deleted = false AND section = ?1 ORDER BY modified DESC",
+            nativeQuery = true)
+    
+    Page<ClassDetail> findBySection(String csection, Pageable paging);
+    
     Page<ClassDetail> findByClassId(Long id,Pageable paging);
 }

@@ -134,6 +134,8 @@ public class SchoolMapper {
 					ClassDto classDto = new ClassDto();
 					classDto.setClassCode(classDetail.getClassCode());
 					classDto.setClassName(classDetail.getClassName());
+					classDto.setSection(classDetail.getStream());
+					classDto.setStream(classDetail.getSection());
 					classDto.setClassId(classDetail.getClassId());
 					classDto.setSchoolId(school.getSchoolId());
 					classDto.setTeacherId(classDetail.getTeacherId());
