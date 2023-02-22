@@ -96,8 +96,6 @@ public class ClassServiceImpl implements ClassService {
 
 		School school  = schoolRepository.findByIdIfNotDeleted(classDto.getSchoolId());
 
-		//School school  = schoolRepository.getReferenceById(classDto.getSchoolId());
-
 		if(school != null && school.getClassDetail()!=null) {
 			for(ClassDetail classDetail:school.getClassDetail()) {
 				if(classDetail.getClassName().equals(classDto.getClassName())){
@@ -115,9 +113,10 @@ public class ClassServiceImpl implements ClassService {
 
 
 		ClassDetail classDetail=new ClassDetail();
-		//classDetail.setClassId(classDto.getClassId());
 		classDetail.setClassName(classDto.getClassName());
 		classDetail.setClassCode(classDto.getClassCode());
+		classDetail.setSection(classDto.getSection());
+		classDetail.setStream(classDto.getStream());
 		classDetail.setSchool(school);
 		classDetail.setTeacherId(classDto.getTeacherId());
 		classDetail.setStudents(new HashSet<>());
@@ -143,8 +142,6 @@ public class ClassServiceImpl implements ClassService {
 						userDto.getContactInfoDto().getLastName(),classDetail.getClassId(), school.getSchoolId());
 			}
 		}
-		//classDetail.setTeacherId(classDto.getTeacherId());
-		
 		
 		ClassDetail savedClass=classRepository.save(classDetail);
 		ClassStudentDto classStudentDto=classMapper.toStudentDto(savedClass);
@@ -190,9 +187,16 @@ public class ClassServiceImpl implements ClassService {
 			if(fieldName.equalsIgnoreCase("className")) {
 				classList = classRepository.findByClassNameIgnoreCase(searchByField, pageing);
 			}
+			if(fieldName.equalsIgnoreCase("section")) {
+				classList = classRepository.findBySection(searchByField, pageing);
+			}
+			if(fieldName.equalsIgnoreCase("stream")) {
+				classList = classRepository.findByStream(searchByField, pageing);
+			}
 			if(fieldName.equalsIgnoreCase("classId")) {
 				classList = classRepository.findByClassId((Long.parseLong(searchByField)),pageing);
 			}
+			
 			if(classList.getNumberOfElements() == 0) {
 				getListofClasses.setStatusCode(HttpStatusCode.NO_CONTENT.getCode());
 				getListofClasses.setMessage("No class Found with given field");
@@ -355,6 +359,8 @@ public class ClassServiceImpl implements ClassService {
 		ClassDto existingClassDetail=classMapper.entityToDto(existingClassContainer.get());
 		existingClassDetail.setClassName(classDetailDto.getClassName());
 		existingClassDetail.setClassCode(classDetailDto.getClassCode());
+		existingClassDetail.setSection(classDetailDto.getSection());
+		existingClassDetail.setStream(classDetailDto.getStream());
 		existingClassDetail.setSchoolId(classDetailDto.getSchoolId());
 		existingClassDetail.setTeacherId(classDetailDto.getTeacherId());
 

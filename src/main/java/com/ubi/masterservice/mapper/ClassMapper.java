@@ -30,6 +30,8 @@ public class ClassMapper {
 			classDto.setClassId(classDetail.getClassId());
 			classDto.setClassName(classDetail.getClassName());
 			classDto.setClassCode(classDetail.getClassCode());
+			classDto.setSection(classDetail.getSection());
+			classDto.setStream(classDetail.getStream());
 			classDto.setCreated(classDetail.getCreated());
 			classDto.setModified(classDetail.getModified());
 			classDto.setCreatedBy(classDetail.getCreatedBy());
@@ -97,6 +99,8 @@ public class ClassMapper {
 		classDto.setClassCode(classDetail.getClassCode());
 		classDto.setClassId(classDetail.getClassId());
 		classDto.setClassName(classDetail.getClassName());
+		classDto.setSection(classDetail.getSection());
+		classDto.setStream(classDetail.getStream());
 		classDto.setCreated(classDetail.getCreated());
 		classDto.setModified(classDetail.getModified());
 		classDto.setCreatedBy(classDetail.getCreatedBy());
