@@ -118,6 +118,8 @@ public class ClassMapper {
 		schoolDto.setExemptionFlag(school.isExemptionFlag());
 		schoolDto.setVvnAccount(school.getVvnAccount());
 		schoolDto.setVvnFund(school.getVvnFund());
+		schoolDto.setFeesCollectionType(school.getFeesCollectionType());
+		schoolDto.setFeesCollectionPeriod(school.getFeesCollectionPeriod());
 		schoolDto.setRegionId(school.getRegion().getId());
 		
 		Set<Long> setClassId = new HashSet<Long>();

@@ -35,7 +35,9 @@ public class SchoolCreationDto {
 
 	private int vvnFund;
 
-	private String feesType;
+	private String feesCollectionType;
+	
+	private int feesCollectionPeriod;
 	
 	private Long principalId;
 

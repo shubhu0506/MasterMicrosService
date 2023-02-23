@@ -30,17 +30,19 @@ public class SchoolPaginationDto {
 	private String shift;
 
 	private Boolean isCollege;
-	
+
 	private boolean exemptionFlag;
 
 	private int vvnAccount;
 
 	private int vvnFund;
 
-	private String feesType;
-	
+	private String feesCollectionType;
+
+	private int feesCollectionPeriod;
+
 	private Long principalId;
 
 	private int regionId;
-		
+
 }

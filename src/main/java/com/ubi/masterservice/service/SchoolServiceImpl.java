@@ -135,7 +135,8 @@ public class SchoolServiceImpl implements SchoolService {
 		school.setExemptionFlag(schoolDto.isExemptionFlag());
 		school.setVvnAccount(schoolDto.getVvnAccount());
 		school.setVvnFund(schoolDto.getVvnFund());
-		school.setFeesType(schoolDto.getFeesType());
+		school.setFeesCollectionType(schoolDto.getFeesCollectionType());
+		school.setFeesCollectionPeriod(schoolDto.getFeesCollectionPeriod());
 		school.setPrincipalId(schoolDto.getPrincipalId());
 
 		PrincipalDto principalDto = null;
@@ -268,8 +269,12 @@ public class SchoolServiceImpl implements SchoolService {
 				schoolData = schoolRepository.findByVvnFund(Integer.parseInt(searchByField), paging);
 			}
 
-			else if (fieldName.equalsIgnoreCase("feesType")) {
-				schoolData = schoolRepository.findByfeesType(searchByField, paging);
+			else if (fieldName.equalsIgnoreCase("feesCollectionType")) {
+				schoolData = schoolRepository.findByFeesCollectionType(searchByField, paging);
+			}
+			
+			else if (fieldName.equalsIgnoreCase("feesCollectionPeriod")) {
+				schoolData = schoolRepository.findByFeesCollectionPeriod(Integer.parseInt(searchByField), paging);
 			}
 			
 			else if (fieldName.equalsIgnoreCase("principalId")) {
@@ -402,11 +407,13 @@ public class SchoolServiceImpl implements SchoolService {
 				schoolData = schoolRepository.findByVvnFund(Integer.parseInt(searchByField), paging);
 			}
 
-			else if (fieldName.equalsIgnoreCase("feesType")) {
-				schoolData = schoolRepository.findByfeesType(searchByField, paging);
+			else if (fieldName.equalsIgnoreCase("feesCollectionType")) {
+				schoolData = schoolRepository.findByFeesCollectionType(searchByField, paging);
 			}
-
-
+			else if (fieldName.equalsIgnoreCase("feesCollectionPeriod")) {
+				schoolData = schoolRepository.findByFeesCollectionPeriod(Integer.parseInt(searchByField), paging);
+			}
+			
 			else if (fieldName.equalsIgnoreCase("principalId")) {
 				schoolData = schoolRepository.findByPrincipalId(Long.parseLong(searchByField), paging);
 			}
@@ -773,7 +780,8 @@ public class SchoolServiceImpl implements SchoolService {
 			school.setExemptionFlag(schoolCreationDto.isExemptionFlag());
 			school.setVvnAccount(schoolCreationDto.getVvnAccount());
 			school.setVvnFund(schoolCreationDto.getVvnFund());
-			school.setFeesType(schoolCreationDto.getFeesType());
+			school.setFeesCollectionType(schoolCreationDto.getFeesCollectionType());
+			school.setFeesCollectionPeriod(schoolCreationDto.getFeesCollectionPeriod());
 			school.setPrincipalId(schoolCreationDto.getPrincipalId());
 
 			
