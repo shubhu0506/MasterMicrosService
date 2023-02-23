@@ -53,9 +53,9 @@ public interface SchoolRepository extends JpaRepository<School, Integer> {
 	Page<School> findByContact(Long schoolContact,Pageable paging);
 
 	@Query(
-			value = "SELECT * FROM School_Details sch WHERE fees_type = ?1 AND is_deleted = false ORDER BY modified DESC",
+			value = "SELECT * FROM School_Details sch WHERE fees_collection_type = ?1 AND is_deleted = false ORDER BY modified DESC",
 			nativeQuery = true)
-	Page<School> findByfeesType(String feesType, Pageable paging);
+	Page<School> findByFeesCollectionType(String feesCollectionType, Pageable paging);
 
 	@Query(
 			value = "SELECT * FROM School_Details sch WHERE school_email = ?1 AND is_deleted = false ORDER BY modified DESC",
@@ -86,6 +86,11 @@ public interface SchoolRepository extends JpaRepository<School, Integer> {
 			value = "SELECT * FROM School_Details sch WHERE vvn_fund = ?1 AND is_deleted = false ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<School> findByVvnFund(Integer vvnFund, Pageable paging);
+	
+	@Query(
+			value = "SELECT * FROM School_Details sch WHERE fees_collection_period = ?1 AND is_deleted = false ORDER BY modified DESC",
+			nativeQuery = true)
+	Page<School> findByFeesCollectionPeriod(Integer vvnFund, Pageable paging);
 
 	@Query(
 			value = "SELECT * FROM School_Details sch WHERE exemption_flag = ?1 AND is_deleted = false ORDER BY modified DESC",

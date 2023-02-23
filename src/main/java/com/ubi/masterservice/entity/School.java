@@ -62,8 +62,10 @@ public class School extends Auditable {
 	@Column(name = "vvnFund")
 	private int vvnFund;
 
-	@Column(name="fees_type")
-	private String feesType;
+	
+	private String feesCollectionType;
+	
+	private int feesCollectionPeriod;
 
 	@Column
 	private Long principalId;
