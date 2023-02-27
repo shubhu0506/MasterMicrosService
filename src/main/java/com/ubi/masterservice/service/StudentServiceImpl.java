@@ -391,7 +391,6 @@ public class StudentServiceImpl implements StudentService {
 		StudentDto existingStudent = studentMapper.entityToDto(existingStudentContainer.get());
 		existingStudent.setStudentFirstName(studentDto.getStudentFirstName());
 		existingStudent.setStudentLastName(studentDto.getStudentLastName());
-//		existingStudent.setStudentStatus(studentDto.isStudentStatus());
 		existingStudent.setCategory(studentDto.getCategory());
 		existingStudent.setFatherName(studentDto.getFatherName());
 		existingStudent.setFatherOccupation(studentDto.getFatherOccupation());
@@ -401,17 +400,9 @@ public class StudentServiceImpl implements StudentService {
 		existingStudent.setJoiningDate(studentDto.getJoiningDate());
 		existingStudent.setBloodGroup(studentDto.getBloodGroup());
 		existingStudent.setAadhaarNo(studentDto.getAadhaarNo());
-//		existingStudent.setVerifiedByTeacher(studentDto.getVerifiedByTeacher());
-//		existingStudent.setVerifiedByPrincipal(studentDto.getVerifiedByPrincipal());
 		existingStudent.setRollNo(studentDto.getRollNo());
 		existingStudent.setIsPhysicallyHandicapped(studentDto.getIsPhysicallyHandicapped());
-		//existingStudent.setCreated(studentDto.getCreated());
-		//existingStudent.setCreatedBy(studentDto.getCreatedBy());
-//		existingStudent.setModified(studentDto.getModified());
-//		existingStudent.setModifiedBy(studentDto.getModifiedBy());
 		existingStudent.setIsDeleted(false);
-	
-		//existingStudent.setVerifiedByPrincipal(studentDto.getVerifiedByPrincipal());
 
 		Long aadharNumber=studentDto.getAadhaarNo();
 		int noofDigits= (int)Math.floor(Math.log10(aadharNumber) + 1);
