@@ -10,7 +10,7 @@ spring:
   profiles:
     active: default
   datasource:
-    url: jdbc:postgresql://localhost:5432/ms
+    url: jdbc:postgresql://localhost:5432/master
     username: postgres
     password: root
     

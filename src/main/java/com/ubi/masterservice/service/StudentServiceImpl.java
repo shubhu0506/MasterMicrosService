@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.apache.kafka.clients.admin.NewTopic;
@@ -134,8 +135,6 @@ public class StudentServiceImpl implements StudentService {
 						"Invalid Class is being sent to map with Student", res);
 			}
 
-
-	//	student.setClassDetail(classDetail);
 		student.setVerifiedByPrincipal(false);
 		student.setVerifiedByTeacher(false);
 		student.setIsActivate(false);
@@ -143,8 +142,27 @@ public class StudentServiceImpl implements StudentService {
 		student.setIsDeleted(false);
 
 		Student savedStudent = studentRepository.save(student);
+		Integer studentId = String.valueOf(savedStudent.getStudentId()).length();
+		
+		Random rnd = new Random();
+		int digCount = 15-studentId;
+	    StringBuilder sb= new  StringBuilder(digCount);
+	    for (int i=0;i<digCount;i++) {
+	    	sb.append((char)('0'+rnd.nextInt(10)));
+	    }
+	    String uniqueId= savedStudent.getStudentId().toString().concat(sb.toString());
+	    savedStudent.setUniqueId(uniqueId);
+	    
+	    int digCount1 = 10-studentId;
+	    StringBuilder sb1= new  StringBuilder(digCount1);
+	    for (int i=0;i<digCount1;i++) {
+	    	sb1.append((char)('0'+rnd.nextInt(10)));
+	    }
+	    String admissionId= savedStudent.getStudentId().toString().concat(sb1.toString());
+	    savedStudent.setAdmissionNo(admissionId);
+	    savedStudent = studentRepository.save(savedStudent);
+	    
 		res.setData(studentMapper.entityToDto(savedStudent));
-		//LOGGER.info("i am working -> " ,studentMapper.entityToDto(savedStudent).toString());
 		response.setStatusCode(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getCode());
 		response.setMessage(HttpStatusCode.RESOURCE_CREATED_SUCCESSFULLY.getMessage());
 		response.setResult(res);
@@ -183,6 +201,7 @@ public class StudentServiceImpl implements StudentService {
 					studentData = studentRepository.findByDateOfBirth(localDate,paging);
 				} else {
 					studentData = studentRepository.findByJoiningDate(localDate,paging);
+				
 				}
 				if(studentData.getNumberOfElements() == 0) {
 					getListofStudent.setStatusCode(HttpStatusCode.NO_CONTENT.getCode());
@@ -243,6 +262,12 @@ public class StudentServiceImpl implements StudentService {
 				}
 				if(fieldName.equalsIgnoreCase("currentStatus")) {
 					studentData = studentRepository.findByCurrentStatus(searchByField,paging);
+				}
+				if(fieldName.equalsIgnoreCase("uniqueId")) {
+					studentData = studentRepository.findByUniqueId(searchByField, paging);
+				}
+				if(fieldName.equalsIgnoreCase("admissionNo")) {
+					studentData = studentRepository.findByAdmissionNo(searchByField, paging);
 				}
 				if(fieldName.equalsIgnoreCase("verifiedByPrincipal")) {
 					studentData = studentRepository.findByVerifiedByPrincipal(Boolean.parseBoolean(searchByField),paging);

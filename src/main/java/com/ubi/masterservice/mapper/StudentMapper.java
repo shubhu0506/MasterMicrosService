@@ -49,6 +49,8 @@ public class StudentMapper {
 		studentDto.setVerifiedByTeacher(student.getVerifiedByTeacher());
 		studentDto.setRollNo(student.getRollNo());
 		studentDto.setIsPhysicallyHandicapped(student.getIsPhysicallyHandicapped());
+		studentDto.setUniqueId(student.getUniqueId());
+		studentDto.setAdmissionNo(student.getAdmissionNo());
 		studentDto.setCreated(student.getCreated());
 		studentDto.setCreatedBy(student.getCreatedBy());
 		studentDto.setModified(student.getModified());
@@ -124,7 +126,6 @@ public class StudentMapper {
 		studentDetailsDto.setStudentFirstName(student.getStudentFirstName());
 		studentDetailsDto.setStudentLastName(student.getStudentLastName());
 		studentDetailsDto.setDateOfBirth(student.getDateOfBirth());
-//		studentDetailsDto.setStudentStatus(student.isStudentStatus());
 		studentDetailsDto.setCategory(student.getCategory());
 		studentDetailsDto.setMinority(student.getMinority());
 		studentDetailsDto.setFatherName(student.getFatherName());
@@ -135,13 +136,14 @@ public class StudentMapper {
 		studentDetailsDto.setAadhaarNo(student.getAadhaarNo());
 		studentDetailsDto.setBloodGroup(student.getBloodGroup());
 		studentDetailsDto.setJoiningDate(student.getJoiningDate());
-//		studentDetailsDto.setStatus(student.getStatus());
 		studentDetailsDto.setVerifiedByPrincipal(student.getVerifiedByPrincipal());
 		studentDetailsDto.setVerifiedByTeacher(student.getVerifiedByTeacher());
 		studentDetailsDto.setIsActivate(student.getIsActivate());
 		studentDetailsDto.setCurrentStatus(student.getCurrentStatus());
 		studentDetailsDto.setRollNo(student.getRollNo());
 		studentDetailsDto.setIsPhysicallyHandicapped(student.getIsPhysicallyHandicapped());
+		studentDetailsDto.setUniqueId(student.getUniqueId());
+		studentDetailsDto.setAdmissionNo(student.getAdmissionNo());
 		studentDetailsDto.setCreated(student.getCreated());
 		studentDetailsDto.setCreatedBy(student.getCreatedBy());
 		studentDetailsDto.setModified(student.getModified());
