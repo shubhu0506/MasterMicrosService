@@ -90,7 +90,10 @@ public class ClassServiceImpl implements ClassService {
 
 		Result<ClassStudentDto> res = new Result<>();
 		Response<ClassStudentDto> response = new Response<>();
-
+        if(classDto.getStream()==null || classDto.getStream().isEmpty()) 
+        {
+        	classDto.setStream("NA");
+        }
 		ClassDetail className = classRepository.getClassByclassName(classDto.getClassName());
 		ClassDetail classCode = classRepository.getClassByclassCode(classDto.getClassCode());
 
@@ -352,6 +355,11 @@ public class ClassServiceImpl implements ClassService {
 		Result<ClassStudentDto> res = new Result<>();
 		Response<ClassStudentDto> response = new Response<>();
 		Optional<ClassDetail> existingClassContainer = classRepository.findById(classDetailDto.getClassId());
+		 if(classDetailDto.getStream()==null ||  classDetailDto.getStream().isEmpty()) 
+	        {
+			 classDetailDto.setStream("NA");
+	        }
+		
 		if (!existingClassContainer.isPresent()) {
 			throw new CustomException(HttpStatusCode.NO_CLASS_FOUND.getCode(), HttpStatusCode.NO_CLASS_FOUND,
 					HttpStatusCode.NO_CLASS_FOUND.getMessage(), res);
