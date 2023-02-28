@@ -66,6 +66,8 @@ public class Student extends Auditable {
 	private String currentStatus;
 	private Long rollNo;
 	private Boolean isPhysicallyHandicapped;
+	private String uniqueId;
+	private String admissionNo;
 
 	@ManyToOne(fetch = FetchType.LAZY )
 	private ClassDetail classDetail;
