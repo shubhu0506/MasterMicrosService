@@ -69,6 +69,11 @@ public interface StudentRepository extends JpaRepository<Student,Long> {
 	Page<Student> findByGenderIgnoreCase(String gender,Pageable paging);
 	
 	@Query(
+			value = "SELECT * FROM student sch WHERE nationality = ?1 AND is_deleted = false ORDER BY modified DESC",
+			nativeQuery = true)
+	Page<Student> findByNationalityIgnoreCase(String nationality,Pageable paging);
+	
+	@Query(
 			value = "SELECT * FROM student sch WHERE category = ?1 AND is_deleted = false ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<Student> findByCategoryIgnoreCase (String category,Pageable paging);
