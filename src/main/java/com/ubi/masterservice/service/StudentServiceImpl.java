@@ -109,7 +109,7 @@ public class StudentServiceImpl implements StudentService {
 		if (std != null) {
 			throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_EXISTS.getCode(),
 					HttpStatusCode.RESOURCE_ALREADY_EXISTS,
-					"Given Role Number Already Exists", res);
+					"Given Roll Number Already Exists", res);
 		}
 
 		Long aadharNumber=studentDto.getAadhaarNo();
@@ -241,6 +241,9 @@ public class StudentServiceImpl implements StudentService {
 				}
 				if(fieldName.equalsIgnoreCase("gender")) {
 					studentData = studentRepository.findByGenderIgnoreCase(searchByField,paging);
+				}
+				if(fieldName.equalsIgnoreCase("nationality")) {
+					studentData = studentRepository.findByNationalityIgnoreCase(searchByField,paging);
 				}
 				if(fieldName.equalsIgnoreCase("studentId")) {
 					studentData = studentRepository.findByStudentId(Long.parseLong(searchByField),paging);
@@ -402,6 +405,7 @@ public class StudentServiceImpl implements StudentService {
 		existingStudent.setAadhaarNo(studentDto.getAadhaarNo());
 		existingStudent.setRollNo(studentDto.getRollNo());
 		existingStudent.setIsPhysicallyHandicapped(studentDto.getIsPhysicallyHandicapped());
+		existingStudent.setNationality(studentDto.getNationality());
 		existingStudent.setIsDeleted(false);
 
 		Long aadharNumber=studentDto.getAadhaarNo();

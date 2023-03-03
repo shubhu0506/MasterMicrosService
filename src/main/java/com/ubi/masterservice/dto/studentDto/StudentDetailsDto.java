@@ -47,6 +47,7 @@ public class StudentDetailsDto extends Auditable {
 	private Boolean isPhysicallyHandicapped;
 	private String uniqueId;
 	private String admissionNo;
+	private String nationality;
 	
 	private ClassDto classDto;
 
