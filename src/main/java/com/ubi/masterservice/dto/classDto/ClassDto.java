@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ClassDto extends Auditable
 {
-	
 	private Long classId;
 	private String classCode;
 	private String className;
