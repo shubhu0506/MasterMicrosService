@@ -3,7 +3,7 @@ package com.ubi.masterservice.repository;
 import java.util.List;
 import java.util.Optional;
 
-import com.sun.prism.shader.Solid_LinearGradient_REFLECT_AlphaTest_Loader;
+//import com.sun.prism.shader.Solid_LinearGradient_REFLECT_AlphaTest_Loader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

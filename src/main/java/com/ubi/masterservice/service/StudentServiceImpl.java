@@ -138,7 +138,7 @@ public class StudentServiceImpl implements StudentService {
 		student.setVerifiedByPrincipal(false);
 		student.setVerifiedByTeacher(false);
 		student.setIsActivate(false);
-		student.setIsPhysicallyHandicapped(false);
+		//student.setIsPhysicallyHandicapped(false);
 		student.setIsDeleted(false);
 
 		Student savedStudent = studentRepository.save(student);
