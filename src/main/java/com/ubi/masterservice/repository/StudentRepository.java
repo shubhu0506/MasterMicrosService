@@ -445,4 +445,10 @@ public interface StudentRepository extends JpaRepository<Student,Long> {
 			nativeQuery = true)
 	Page<Student> findStudentsByDOJAndSchoolId(Date fieldQuery, Integer schoolId, Pageable paging);
 
+
+	@Query(
+			value = "SELECT * FROM student " +
+					"WHERE student.unique_id = ?1",
+			nativeQuery = true)
+	Student getByUniqueId(String uniqueId);
 }

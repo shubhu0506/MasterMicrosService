@@ -1,7 +1,10 @@
 package com.ubi.masterservice.controller;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
 import com.ubi.masterservice.dto.studentDto.StudentPromoteDemoteDto;
@@ -9,6 +12,7 @@ import com.ubi.masterservice.dto.studentDto.StudentVerifyDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -49,10 +53,10 @@ public class StudentController {
 	@Operation(summary = "Get All Student", security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping
 	public ResponseEntity<Response<PaginationResponse<List<StudentDetailsDto>>>> getStudents(
-			@RequestParam (defaultValue = "*") String fieldName,@RequestParam (defaultValue = "*") String searchByField,
+			@RequestParam(defaultValue = "*") String fieldName, @RequestParam(defaultValue = "*") String searchByField,
 			@RequestParam(value = "PageNumber", defaultValue = "0", required = false) Integer pageNumber,
 			@RequestParam(value = "PageSize", defaultValue = "10000000", required = false) Integer pageSize) throws ParseException {
-		Response<PaginationResponse<List<StudentDetailsDto>>> response = service.getStudents(fieldName,searchByField,pageNumber, pageSize);
+		Response<PaginationResponse<List<StudentDetailsDto>>> response = service.getStudents(fieldName, searchByField, pageNumber, pageSize);
 		return ResponseEntity.ok().body(response);
 
 	}
@@ -123,8 +127,8 @@ public class StudentController {
 
 	@Operation(summary = "Get By field", security = @SecurityRequirement(name = "bearerAuth"))
 	@GetMapping("/field")
-	public ResponseEntity<Response<List<StudentDto>>> searchRecordsViaQueryField(@RequestParam  (defaultValue = "*")String gender,
-																				 @RequestParam (defaultValue = "*")String category, @RequestParam(defaultValue = "*") String minority) {
+	public ResponseEntity<Response<List<StudentDto>>> searchRecordsViaQueryField(@RequestParam(defaultValue = "*") String gender,
+																				 @RequestParam(defaultValue = "*") String category, @RequestParam(defaultValue = "*") String minority) {
 
 		Response<List<StudentDto>> students = service.findByGenderAndCategoryAndMinority(gender, category, minority);
 		return ResponseEntity.ok().body(students);
@@ -133,33 +137,38 @@ public class StudentController {
 	@Operation(summary = "Verified by Teacher", security = @SecurityRequirement(name = "bearerAuth"))
 	@PatchMapping("/verifiedByTeacher/{userId}")
 	public ResponseEntity<Response<List<StudentVerifyDto>>> verifyStudentById(@PathVariable String userId, @RequestBody StudentVerifyDto id) {
-		Response<List<StudentVerifyDto>> response = service.verifiedByTeacher(userId,id);
+		Response<List<StudentVerifyDto>> response = service.verifiedByTeacher(userId, id);
 		return ResponseEntity.ok().body(response);
 	}
 
 	@Operation(summary = "Verified by Principal", security = @SecurityRequirement(name = "bearerAuth"))
 	@PatchMapping("/verifiedByPrincipal/{userId}")
-	public ResponseEntity<Response<List<StudentVerifyDto>>> principalverifyStudentById(@PathVariable String userId,@RequestBody StudentVerifyDto id) {
-		Response<List<StudentVerifyDto>> response = service.verifiedByPrincipal(userId,id);
+	public ResponseEntity<Response<List<StudentVerifyDto>>> principalverifyStudentById(@PathVariable String userId, @RequestBody StudentVerifyDto id) {
+		Response<List<StudentVerifyDto>> response = service.verifiedByPrincipal(userId, id);
 		return ResponseEntity.ok().body(response);
 	}
 
 	@Operation(summary = "Student Promoted User By Id", security = @SecurityRequirement(name = "bearerAuth"))
-	@PatchMapping ("/promote/{userId}")
-	public ResponseEntity<Response<StudentPromoteDemoteDto>>promoteStudent(@PathVariable String userId, @RequestBody StudentPromoteDemoteDto studentPromoteDemoteCreationDto) {
+	@PatchMapping("/promote/{userId}")
+	public ResponseEntity<Response<StudentPromoteDemoteDto>> promoteStudent(@PathVariable String userId, @RequestBody StudentPromoteDemoteDto studentPromoteDemoteCreationDto) {
 		Response<StudentPromoteDemoteDto> response = service.studentPromoted(userId, studentPromoteDemoteCreationDto);
 		return ResponseEntity.ok().body(response);
 	}
 
 
-
-
 	@Operation(summary = "Student Demoted User By Id", security = @SecurityRequirement(name = "bearerAuth"))
-	@PatchMapping ("/demote/{userId}")
+	@PatchMapping("/demote/{userId}")
 	public ResponseEntity<Response<StudentPromoteDemoteDto>> demoteStudent(@PathVariable String userId, @RequestBody StudentPromoteDemoteDto studentPromoteDemoteCreationDto) {
 		Response<StudentPromoteDemoteDto> response = service.studentDemoted(userId, studentPromoteDemoteCreationDto);
 		return ResponseEntity.ok().body(response);
 	}
 
+	@GetMapping("/{uniqueId}/{dateOfBirth}")
+	@Operation(summary = "Get Student By Uniquer Id", security = @SecurityRequirement(name = "bearerAuth"))
+	public ResponseEntity<Response<StudentDetailsDto>> getStudentByUniqueIdAndDob(@PathVariable String uniqueId, @PathVariable String dateOfBirth) throws ParseException {
+		Date thedate = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH).parse(dateOfBirth);
+		Response<StudentDetailsDto> response = service.getStudentByUniqueIdAndBirthDate(uniqueId, thedate);
+		return ResponseEntity.ok().body(response);
+	}
 
 }
