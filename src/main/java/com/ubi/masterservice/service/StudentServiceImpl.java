@@ -791,4 +791,26 @@ public class StudentServiceImpl implements StudentService {
 		return response;
 
 	}
+
+	@Override
+	public Response<StudentDetailsDto> getStudentByUniqueIdAndBirthDate(String studentUniqueId, Date dob) {
+		Student student = studentRepository.getByUniqueId(studentUniqueId);
+
+		if(student == null){
+			throw new CustomException(HttpStatusCode.RESOURCE_NOT_FOUND.getCode(), HttpStatusCode.RESOURCE_NOT_FOUND,
+					"No Student Found With Given Unique Id", new Result<>(null));
+		}
+		if(student.getDateOfBirth().compareTo(dob) == -1){
+			throw new CustomException(HttpStatusCode.RESOURCE_NOT_FOUND.getCode(), HttpStatusCode.RESOURCE_NOT_FOUND,
+					"Date Of Birth Mismatched", new Result<>(null));
+		}
+
+		StudentDetailsDto studentDetailsDto = studentMapper.toStudentDetails(student);
+		Response<StudentDetailsDto> response = new Response<>();
+
+		response.setStatusCode(HttpStatusCode.SUCCESSFUL.getCode());
+		response.setMessage(HttpStatusCode.SUCCESSFUL.getMessage());
+		response.setResult(new Result<>(studentDetailsDto));
+		return response;
+	}
 }

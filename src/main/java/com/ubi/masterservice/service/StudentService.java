@@ -1,6 +1,7 @@
 package com.ubi.masterservice.service;
 
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 import com.ubi.masterservice.dto.pagination.PaginationResponse;
@@ -43,4 +44,5 @@ public interface StudentService {
 
 	Response<StudentPromoteDemoteDto> studentDemoted(String userId,StudentPromoteDemoteDto studentPromoteDemoteCreationDto);
 
+	Response<StudentDetailsDto> getStudentByUniqueIdAndBirthDate(String studentUniqueId, Date dob);
 }
