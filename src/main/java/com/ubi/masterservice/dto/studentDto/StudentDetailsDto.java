@@ -48,7 +48,14 @@ public class StudentDetailsDto extends Auditable {
 	private String uniqueId;
 	private String admissionNo;
 	private String nationality;
-	
+	private Boolean isCurrentPaymentCycleFeesPaid;
 	private ClassDto classDto;
+
+	@Override
+	public int hashCode() {
+		int result = super.hashCode();
+		result = 31 * result + Math.toIntExact(studentId);
+		return result;
+	}
 
 }

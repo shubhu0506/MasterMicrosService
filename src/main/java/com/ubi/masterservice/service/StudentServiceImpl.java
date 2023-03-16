@@ -10,6 +10,9 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import com.ubi.masterservice.dto.studentFees.StudentFeesDto;
+import com.ubi.masterservice.externalServices.FeesFeignService;
+import com.ubi.masterservice.util.PermissionUtil;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -49,6 +53,12 @@ public class StudentServiceImpl implements StudentService {
 
 	@Autowired
 	ClassRepository classRepository;
+
+	@Autowired
+	PermissionUtil permissionUtil;
+
+	@Autowired
+	FeesFeignService feesFeignService;
 
 	@Autowired
 	private StudentRepository studentRepository;
@@ -138,8 +148,8 @@ public class StudentServiceImpl implements StudentService {
 		student.setVerifiedByPrincipal(false);
 		student.setVerifiedByTeacher(false);
 		student.setIsActivate(false);
-		//student.setIsPhysicallyHandicapped(false);
 		student.setIsDeleted(false);
+		student.setIsCurrentPaymentCycleFeesPaid(false);
 
 		Student savedStudent = studentRepository.save(student);
 		Integer studentId = String.valueOf(savedStudent.getStudentId()).length();
@@ -407,6 +417,14 @@ public class StudentServiceImpl implements StudentService {
 		existingStudent.setIsPhysicallyHandicapped(studentDto.getIsPhysicallyHandicapped());
 		existingStudent.setNationality(studentDto.getNationality());
 		existingStudent.setIsDeleted(false);
+		existingStudent.setIsCurrentPaymentCycleFeesPaid(false);
+		String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
+		ResponseEntity<Response<StudentFeesDto>> currentFeesResponse = feesFeignService.getStudentFeesForCurrentPaymentCycle(currJwtToken, studentDto.getStudentId());
+
+		if(currentFeesResponse.getBody().getResult().getData() != null){
+			StudentFeesDto studentFeesDto = currentFeesResponse.getBody().getResult().getData();
+			if(studentFeesDto.getIsPaid()) existingStudent.setIsCurrentPaymentCycleFeesPaid(true);
+		}
 
 		Long aadharNumber=studentDto.getAadhaarNo();
 		int noofDigits= (int)Math.floor(Math.log10(aadharNumber) + 1);
@@ -740,7 +758,6 @@ public class StudentServiceImpl implements StudentService {
 
 		Result<StudentPromoteDemoteDto> res = new Result<>();
 		ClassDetail classDetails=classRepository.getReferenceById(studentPromoteDemoteCreationDto.getClassId());
-
 
 		for(Long category: studentPromoteDemoteCreationDto.getStudentId()){
 
