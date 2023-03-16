@@ -54,6 +54,7 @@ public class StudentMapper {
 		studentDto.setModified(student.getModified());
 		studentDto.setModifiedBy(student.getModifiedBy());
 		studentDto.setIsDeleted(student.getIsDeleted());
+		studentDto.setIsCurrentPaymentCycleFeesPaid(student.getIsCurrentPaymentCycleFeesPaid());
 		
 		studentDto.setVerifiedByTeacher(student.getVerifiedByTeacher());
 		
@@ -148,9 +149,9 @@ public class StudentMapper {
 		studentDetailsDto.setModified(student.getModified());
 		studentDetailsDto.setModifiedBy(student.getModifiedBy());
 		studentDetailsDto.setIsDeleted(student.getIsDeleted());
-		
+		studentDetailsDto.setIsCurrentPaymentCycleFeesPaid(student.getIsCurrentPaymentCycleFeesPaid());
 		if(student.getClassDetail()!=null) {
-        studentDetailsDto.setClassDto(classMapper.entityToDto(student.getClassDetail()));
+        	studentDetailsDto.setClassDto(classMapper.entityToDto(student.getClassDetail()));
 		}	
 		
 		return studentDetailsDto;

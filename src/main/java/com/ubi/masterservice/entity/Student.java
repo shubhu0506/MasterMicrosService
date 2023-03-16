@@ -69,6 +69,7 @@ public class Student extends Auditable {
 	private String uniqueId;
 	private String admissionNo;
 	private String nationality;
+	private Boolean isCurrentPaymentCycleFeesPaid;
 
 	@ManyToOne(fetch = FetchType.LAZY )
 	private ClassDetail classDetail;
