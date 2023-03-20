@@ -46,10 +46,10 @@ public interface ClassRepository extends JpaRepository<ClassDetail, Long> {
     Page<ClassDetail> findByClassCode(String code,Pageable paging);
     @Query(
             value = "SELECT * FROM class_data " +
-                    "WHERE class_data.is_deleted = false AND stream = ?1 ORDER BY modified DESC",
+                    "WHERE class_data.is_deleted = false AND stream ~* ?1 ORDER BY modified DESC",
             nativeQuery = true)
     
-    Page<ClassDetail> findByStream(String cstream,Pageable paging);
+    Page<ClassDetail> findByStream(String stream,Pageable paging);
    @Query(
             value = "SELECT * FROM class_data " +
                     "WHERE class_data.is_deleted = false AND section = ?1 ORDER BY modified DESC",

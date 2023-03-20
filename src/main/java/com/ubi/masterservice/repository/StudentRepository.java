@@ -20,8 +20,8 @@ import com.ubi.masterservice.entity.Student;
 public interface StudentRepository extends JpaRepository<Student,Long> {
 
 	@Query(
-			value = "SELECT * FROM student " +
-					"WHERE student.is_deleted = false ORDER BY modified DESC",
+			value = "SELECT * FROM student sch " +
+					"WHERE is_deleted = false ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<Student> getAllAvailaibleStudent(Pageable paging);
 	
@@ -35,21 +35,20 @@ public interface StudentRepository extends JpaRepository<Student,Long> {
 	@Query(
 			value = "SELECT * FROM student sch WHERE date_of_birth = ?1 AND is_deleted = false ORDER BY modified DESC",
 			nativeQuery = true)
-	
 	Page<Student> findByDateOfBirth(Date dateofBirth,Pageable paging);
 
 	@Query(
 			value = "SELECT * FROM student sch WHERE joining_date = ?1 AND is_deleted = false ORDER BY modified DESC",
 			nativeQuery = true)
-	
 	Page<Student> findByJoiningDate(Date joiningDate,Pageable paging);
+
 	@Query(
-			value = "SELECT * FROM student sch WHERE student_first_name = ?1 AND is_deleted = false ORDER BY modified DESC",
+			value = "SELECT * FROM student sch WHERE student_first_name ~* ?1 AND is_deleted = false ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<Student> findByStudentFirstNameIgnoreCase(String studentFirstName, Pageable paging);
 
 	@Query(
-			value = "SELECT * FROM student sch WHERE student_last_name = ?1 AND is_deleted = false ORDER BY modified DESC",
+			value = "SELECT * FROM student sch WHERE student_last_name ~* ?1 AND is_deleted = false ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<Student> findByStudentLastNameIgnoreCase(String studentLastName, Pageable paging);
 	
@@ -64,31 +63,31 @@ public interface StudentRepository extends JpaRepository<Student,Long> {
 	Page<Student> findByAdmissionNo(String admissionNo, Pageable paging);
 	
 	@Query(
-			value = "SELECT * FROM student sch WHERE gender = ?1 AND is_deleted = false ORDER BY modified DESC",
+			value = "SELECT * FROM student sch WHERE gender ~* ?1 AND is_deleted = false ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<Student> findByGenderIgnoreCase(String gender,Pageable paging);
 	
 	@Query(
-			value = "SELECT * FROM student sch WHERE nationality = ?1 AND is_deleted = false ORDER BY modified DESC",
+			value = "SELECT * FROM student sch WHERE nationality ~* ?1 AND is_deleted = false ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<Student> findByNationalityIgnoreCase(String nationality,Pageable paging);
 	
 	@Query(
-			value = "SELECT * FROM student sch WHERE category = ?1 AND is_deleted = false ORDER BY modified DESC",
+			value = "SELECT * FROM student sch WHERE category ~* ?1 AND is_deleted = false ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<Student> findByCategoryIgnoreCase (String category,Pageable paging);
 	
 	@Query(
-			value = "SELECT * FROM student sch WHERE minority = ?1 AND is_deleted = false ORDER BY modified DESC",
+			value = "SELECT * FROM student sch WHERE minority ~* ?1 AND is_deleted = false ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<Student> findByMinorityIgnoreCase (String minority,Pageable paging);
 
 	@Query(
-			value = "SELECT * FROM student sch WHERE father_name = ?1 AND is_deleted = false ORDER BY modified DESC",
+			value = "SELECT * FROM student sch WHERE father_name ~* ?1 AND is_deleted = false ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<Student> findByFatherNameIgnoreCase (String fatherName,Pageable paging);
 	@Query(
-			value = "SELECT * FROM student sch WHERE father_occupation = ?1 AND is_deleted = false ORDER BY modified DESC",
+			value = "SELECT * FROM student sch WHERE father_occupation ~* ?1 AND is_deleted = false ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<Student> findByFatherOccupationIgnoreCase (String fatherOccupatatus,Pageable paging);
 	@Query(
@@ -100,12 +99,12 @@ public interface StudentRepository extends JpaRepository<Student,Long> {
 			nativeQuery = true)
 	Page<Student> findByLastVerifiedByPrincipal(Long lastVerifiedByPrincipal,Pageable paging);
 	@Query(
-			value = "SELECT * FROM student sch WHERE mother_name = ?1 AND is_deleted = false ORDER BY modified DESC",
+			value = "SELECT * FROM student sch WHERE mother_name ~* ?1 AND is_deleted = false ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<Student> findByMotherNameIgnoreCase (String motherName,Pageable paging);
 	@Query(
-			value = "SELECT * FROM student " +
-					"WHERE student.is_deleted = false ORDER BY modified DESC",
+			value = "SELECT * FROM student sch " +
+					"WHERE current_status ~* ?1 AND is_deleted = false ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<Student> findByCurrentStatus (String currentStastVerifiedByPrincipal,Pageable paging);
 
@@ -114,25 +113,29 @@ public interface StudentRepository extends JpaRepository<Student,Long> {
 	Page<Student> findByRollNo(Long rollNo,Pageable paging);
 
 	@Query(
-			value = "SELECT * FROM student " +
-					"WHERE student.is_deleted = false ORDER BY modified DESC",
+			value = "SELECT * FROM student sch " +
+					"WHERE blood_group = ?1 AND is_deleted = false ORDER BY modified DESC",
 			nativeQuery = true)
-	Page<Student> findBybloodGroup(String bloodGroup, Pageable paging);
+	Page<Student> findByBloodGroup(String bloodGroup, Pageable paging);
 
+	@Query(
+			value = "SELECT * FROM student sch " +
+					"WHERE aadhaar_no = ?1 AND is_deleted = false ORDER BY modified DESC",
+			nativeQuery = true)
 	Page <Student> findByaadhaarNo(Long aadhaarNo, Pageable paging);
 	@Query(
-			value = "SELECT * FROM student " +
-					"WHERE student.is_deleted = false ORDER BY modified DESC",
+			value = "SELECT * FROM student sch " +
+					"WHERE is_physically_handicapped =?1 AND is_deleted = false ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<Student> findByIsPhysicallyHandicapped(Boolean isPhysicallyHandicapped,Pageable paging);
 	@Query(
-			value = "SELECT * FROM student " +
-					"WHERE student.is_deleted = false ORDER BY modified DESC",
+			value = "SELECT * FROM student sch " +
+					"WHERE verified_by_teacher =?1 AND is_deleted = false ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<Student> findByVerifiedByTeacher(boolean verifiedByTeacher,Pageable paging);
 	@Query(
-			value = "SELECT * FROM student " +
-					"WHERE student.is_deleted = false ORDER BY modified DESC",
+			value = "SELECT * FROM student sch " +
+					"WHERE verified_by_principal AND is_deleted = false ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<Student> findByVerifiedByPrincipal(boolean verifiedByPrincipal,Pageable paging);
 //	Page<Student> findByStudentStatus(boolean studentStatus,Pageable paging);
@@ -146,7 +149,7 @@ public interface StudentRepository extends JpaRepository<Student,Long> {
 	Page<Student> findStudentsByInstituteId(Integer instituteId,Pageable paging);
 
 	@Query(
-			value = "SELECT * FROM student WHERE student_first_name = ?1 AND class_detail_class_id IN" +
+			value = "SELECT * FROM student WHERE student_first_name ~* ?1 AND class_detail_class_id IN" +
 					"(SELECT class_id FROM class_data WHERE school_id IN" +
 					"(SELECT school_id FROM school_details WHERE educational_institute_id = ?2)) ORDER BY modified DESC",
 			nativeQuery = true)
@@ -154,7 +157,7 @@ public interface StudentRepository extends JpaRepository<Student,Long> {
 
 
 	@Query(
-			value = "SELECT * FROM student WHERE student_last_name = ?1 AND class_detail_class_id IN \n" +
+			value = "SELECT * FROM student WHERE student_last_name ~* ?1 AND class_detail_class_id IN \n" +
 					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
 					"(SELECT school_id FROM school_details WHERE educational_institute_id = ?2)) ORDER BY modified DESC",
 			nativeQuery = true)
@@ -183,35 +186,35 @@ public interface StudentRepository extends JpaRepository<Student,Long> {
 	Page<Student> findStudentsByVerifiedByPrincipalAndInstituteId(Boolean fieldQuery,Integer instituteId,Pageable paging);
 
 	@Query(
-			value = "SELECT * FROM student WHERE category = ?1 AND class_detail_class_id IN \n" +
+			value = "SELECT * FROM student WHERE category ~* ?1 AND class_detail_class_id IN \n" +
 					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
 					"(SELECT school_id FROM school_details WHERE educational_institute_id = ?2)) ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<Student> findStudentsByCategoryAndInstituteId(String fieldQuery,Integer instituteId,Pageable paging);
 
 	@Query(
-			value = "SELECT * FROM student WHERE minority = ?1 AND class_detail_class_id IN \n" +
+			value = "SELECT * FROM student WHERE minority ~* ?1 AND class_detail_class_id IN \n" +
 					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
 					"(SELECT school_id FROM school_details WHERE educational_institute_id = ?2)) ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<Student> findStudentsByMinorityAndInstituteId(String fieldQuery,Integer instituteId,Pageable paging);
 
 	@Query(
-			value = "SELECT * FROM student WHERE father_name = ?1 AND class_detail_class_id IN \n" +
+			value = "SELECT * FROM student WHERE father_name ~* ?1 AND class_detail_class_id IN \n" +
 					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
 					"(SELECT school_id FROM school_details WHERE educational_institute_id = ?2)) ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<Student> findStudentsByFatherNameAndInstituteId(String fieldQuery,Integer instituteId,Pageable paging);
 
 	@Query(
-			value = "SELECT * FROM student WHERE mother_name = ?1 AND class_detail_class_id IN \n" +
+			value = "SELECT * FROM student WHERE mother_name ~* ?1 AND class_detail_class_id IN \n" +
 					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
 					"(SELECT school_id FROM school_details WHERE educational_institute_id = ?2)) ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<Student> findStudentsByMotherNameAndInstituteId(String fieldQuery,Integer instituteId,Pageable paging);
 
 	@Query(
-			value = "SELECT * FROM student WHERE gender = ?1 AND class_detail_class_id IN \n" +
+			value = "SELECT * FROM student WHERE gender ~* ?1 AND class_detail_class_id IN \n" +
 					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
 					"(SELECT school_id FROM school_details WHERE educational_institute_id = ?2)) ORDER BY modified DESC",
 			nativeQuery = true)
@@ -253,7 +256,7 @@ public interface StudentRepository extends JpaRepository<Student,Long> {
 	Page<Student> findStudentsByRegionId(Integer regionId,Pageable paging);
 
 	@Query(
-			value = "SELECT * FROM student WHERE student_first_name = ?1 AND class_detail_class_id IN" +
+			value = "SELECT * FROM student WHERE student_first_name ~* ?1 AND class_detail_class_id IN" +
 					"(SELECT class_id FROM class_data WHERE school_id IN" +
 					"(SELECT school_id FROM school_details WHERE region_id = ?2)) ORDER BY modified DESC",
 			nativeQuery = true)
@@ -261,7 +264,7 @@ public interface StudentRepository extends JpaRepository<Student,Long> {
 
 
 	@Query(
-			value = "SELECT * FROM student WHERE student_last_name = ?1 AND class_detail_class_id IN \n" +
+			value = "SELECT * FROM student WHERE student_last_name ~* ?1 AND class_detail_class_id IN \n" +
 					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
 					"(SELECT school_id FROM school_details WHERE region_id = ?2)) ORDER BY modified DESC",
 			nativeQuery = true)
@@ -290,28 +293,28 @@ public interface StudentRepository extends JpaRepository<Student,Long> {
 	Page<Student> findStudentsByVerifiedByPrincipalAndRegionId(Boolean fieldQuery,Integer regionId,Pageable paging);
 
 	@Query(
-			value = "SELECT * FROM student WHERE category = ?1 AND class_detail_class_id IN \n" +
+			value = "SELECT * FROM student WHERE category ~* ?1 AND class_detail_class_id IN \n" +
 					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
 					"(SELECT school_id FROM school_details WHERE region_id = ?2)) ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<Student> findStudentsByCategoryAndRegionId(String fieldQuery,Integer regionId,Pageable paging);
 
 	@Query(
-			value = "SELECT * FROM student WHERE minority = ?1 AND class_detail_class_id IN \n" +
+			value = "SELECT * FROM student WHERE minority ~* ?1 AND class_detail_class_id IN \n" +
 					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
 					"(SELECT school_id FROM school_details WHERE region_id = ?2)) ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<Student> findStudentsByMinorityAndRegionId(String fieldQuery,Integer regionId,Pageable paging);
 
 	@Query(
-			value = "SELECT * FROM student WHERE father_name = ?1 AND class_detail_class_id IN \n" +
+			value = "SELECT * FROM student WHERE father_name ~* ?1 AND class_detail_class_id IN \n" +
 					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
 					"(SELECT school_id FROM school_details WHERE region_id = ?2)) ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<Student> findStudentsByFatherNameAndRegionId(String fieldQuery,Integer regionId,Pageable paging);
 
 	@Query(
-			value = "SELECT * FROM student WHERE mother_name = ?1 AND class_detail_class_id IN \n" +
+			value = "SELECT * FROM student WHERE mother_name ~* ?1 AND class_detail_class_id IN \n" +
 					"(SELECT class_id FROM class_data WHERE school_id IN\n" +
 					"(SELECT school_id FROM school_details WHERE region_id = ?2)) ORDER BY modified DESC",
 			nativeQuery = true)

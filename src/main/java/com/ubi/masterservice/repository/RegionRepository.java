@@ -33,7 +33,7 @@ public interface RegionRepository extends JpaRepository<Region,Integer> {
 
     @Query(
             value = "SELECT * FROM region " +
-                    "WHERE region.is_deleted = false AND name = ?1 ORDER BY modified DESC",
+                    "WHERE region.is_deleted = false AND name ~* ?1 ORDER BY modified DESC",
             nativeQuery = true)
 	Page<Region> findByName(String searchByField,Pageable paging);
 
@@ -64,7 +64,7 @@ public interface RegionRepository extends JpaRepository<Region,Integer> {
 
     @Query(
             value = "SELECT * FROM region " +
-                    "WHERE region.is_deleted = false AND name = ?1 AND region.id IN " +
+                    "WHERE region.is_deleted = false AND name ~* ?1 AND region.id IN " +
                     "(SELECT region_id FROM ei_region_table WHERE educational_institution_id = ?2)  ORDER BY modified DESC",
             nativeQuery = true)
     Page<Region> findByNameAndInstituteId(String feildQuery,Integer instituteId,Pageable paging);

@@ -38,12 +38,12 @@ public interface SchoolRepository extends JpaRepository<School, Integer> {
 	Page<School> findByCode(Integer schoolCode, Pageable paging);
 
 	@Query(
-			value = "SELECT * FROM School_Details sch WHERE school_name = ?1 AND is_deleted = false ORDER BY modified DESC",
+			value = "SELECT * FROM School_Details sch WHERE school_name ~* ?1 AND is_deleted = false ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<School> findByName(String schoolName,Pageable paging);
 
 	@Query(
-			value = "SELECT * FROM School_Details sch WHERE school_address = ?1 AND is_deleted = false ORDER BY modified DESC",
+			value = "SELECT * FROM School_Details sch WHERE school_address ~* ?1 AND is_deleted = false ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<School> findByAddress(String schoolAddress,Pageable paging);
 
@@ -53,7 +53,7 @@ public interface SchoolRepository extends JpaRepository<School, Integer> {
 	Page<School> findByContact(Long schoolContact,Pageable paging);
 
 	@Query(
-			value = "SELECT * FROM School_Details sch WHERE fees_collection_type = ?1 AND is_deleted = false ORDER BY modified DESC",
+			value = "SELECT * FROM School_Details sch WHERE fees_collection_type ~* ?1 AND is_deleted = false ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<School> findByFeesCollectionType(String feesCollectionType, Pageable paging);
 
@@ -63,7 +63,7 @@ public interface SchoolRepository extends JpaRepository<School, Integer> {
 	Page<School> findByEmail(String schoolEmail, Pageable paging);
 
 	@Query(
-			value = "SELECT * FROM School_Details sch WHERE school_type = ?1 AND is_deleted = false ORDER BY modified DESC",
+			value = "SELECT * FROM School_Details sch WHERE school_type ~* ?1 AND is_deleted = false ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<School> findByType(String schoolType, Pageable paging);
 
@@ -73,7 +73,7 @@ public interface SchoolRepository extends JpaRepository<School, Integer> {
 	Page<School> findByStrength(Integer strength, Pageable paging);
 
 	@Query(
-			value = "SELECT * FROM School_Details sch WHERE school_shift = ?1 AND is_deleted = false ORDER BY modified DESC",
+			value = "SELECT * FROM School_Details sch WHERE school_shift ~* ?1 AND is_deleted = false ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<School> findByShift(String schoolShift, Pageable paging);
 
@@ -139,7 +139,7 @@ public interface SchoolRepository extends JpaRepository<School, Integer> {
 	Page<School> getAllSchoolByInstituteId(Integer instituteId,Boolean isCollege,Pageable page);
 
 	@Query(
-			value = "SELECT * FROM School_Details sch WHERE is_deleted = false AND school_name = ?1 AND educational_institute_id = ?2 AND is_college = ?3 ORDER BY modified DESC",
+			value = "SELECT * FROM School_Details sch WHERE is_deleted = false AND school_name ~* ?1 AND educational_institute_id = ?2 AND is_college = ?3 ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<School> getAllSchoolByNameAndInstituteId(String fieldQuery,Integer instituteId,Boolean isCollege,Pageable page);
 
