@@ -287,7 +287,7 @@ public class RegionServiceImpl implements RegionService {
 		Set<School> schoolSet = region.getSchool();
 		for(School school:schoolSet){
 			region.getSchool().remove(school);
-			school.setRegion(null);
+			school.setIsDeleted(true);
 			schoolRepository.save(school);
 		}
 
