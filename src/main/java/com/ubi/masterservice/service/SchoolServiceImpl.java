@@ -118,7 +118,7 @@ public class SchoolServiceImpl implements SchoolService {
 
 		if (schoolDto.getRegionId() == null || schoolDto.getRegionId() == 0) {
 			throw new CustomException(HttpStatusCode.REGION_NOT_FOUND.getCode(),
-					HttpStatusCode.REGION_NOT_FOUND, HttpStatusCode.REGION_NOT_FOUND.getMessage(),
+					HttpStatusCode.REGION_NOT_FOUND, "Add Region for this school",
 					res);
 		}
 
@@ -137,7 +137,6 @@ public class SchoolServiceImpl implements SchoolService {
 		school.setVvnFund(schoolDto.getVvnFund());
 		school.setFeesCollectionType(schoolDto.getFeesCollectionType());
 		school.setFeesCollectionPeriod(schoolDto.getFeesCollectionPeriod());
-		school.setPrincipalId(schoolDto.getPrincipalId());
 
 		PrincipalDto principalDto = null;
 		if (school.getPrincipalId() != null) {
@@ -160,6 +159,7 @@ public class SchoolServiceImpl implements SchoolService {
 						userDto.getContactInfoDto().getLastName(),school.getSchoolId());
 			}
 		}
+		school.setPrincipalId(schoolDto.getPrincipalId());
 		school.setRegion(regionRepository.getReferenceById(schoolDto.getRegionId()));
 
 		school.setClassDetail(new HashSet<>());
