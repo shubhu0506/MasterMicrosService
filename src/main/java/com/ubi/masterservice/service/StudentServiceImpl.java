@@ -222,7 +222,7 @@ public class StudentServiceImpl implements StudentService {
 					studentData = studentRepository.findByCategoryIgnoreCase(searchByField, paging);
 				}
 				if(fieldName.equalsIgnoreCase("bloodGroup")) {
-					studentData = studentRepository.findBybloodGroup(searchByField, paging);
+					studentData = studentRepository.findByBloodGroup(searchByField, paging);
 				}
 				if(fieldName.equalsIgnoreCase("aadhaarNo")) {
 					studentData = studentRepository.findByaadhaarNo(Long.parseLong(searchByField), paging);

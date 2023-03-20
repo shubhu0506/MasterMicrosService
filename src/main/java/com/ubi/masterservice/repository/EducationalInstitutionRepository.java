@@ -18,7 +18,7 @@ public interface EducationalInstitutionRepository extends JpaRepository<Educatio
 
 	@Query(
 			value = "SELECT * FROM educational_institution " +
-					"WHERE educational_institution.is_deleted = false " + "AND id = ?1",
+					"WHERE educational_institution.is_deleted = false AND id = ?1",
 			nativeQuery = true)
 	EducationalInstitution findByIdIfNotDeleted(Integer id);
 
@@ -31,8 +31,7 @@ public interface EducationalInstitutionRepository extends JpaRepository<Educatio
 
 	@Query(
 			value = "SELECT * FROM educational_institution " +
-					"WHERE educational_institution.is_deleted = false  " +
-					"AND educational_institution_name = ?1",
+					"WHERE educational_institution.is_deleted = false AND educational_institution_name ~* ?1 ORDER BY modified DESC",
 			nativeQuery = true)
 	Optional<EducationalInstitution>findByeducationalInstitutionName(String educationalInstitutionName);
 
@@ -49,14 +48,13 @@ public interface EducationalInstitutionRepository extends JpaRepository<Educatio
 	Page<EducationalInstitution> findByEducationalInstitutionCode(String educationalInstitutionCode, Pageable paging);
 
 	@Query(
-			value = "SELECT * FROM educational_institution " +
-					"WHERE educational_institution.is_deleted = false AND educational_institution_name = ?1 ORDER BY modified DESC",
+			value = "SELECT * FROM educational_institution WHERE educational_institution.is_deleted = false AND educational_institution_name ~* ?1 ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<EducationalInstitution> findByEducationalInstitutionName(String educationalInstitutionName,Pageable paging);
 
 	@Query(
 			value = "SELECT * FROM educational_institution " +
-					"WHERE educational_institution.is_deleted = false AND educational_institution_type = ?1 ORDER BY modified DESC",
+					"WHERE educational_institution.is_deleted = false AND educational_institution_type ~* ?1 ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<EducationalInstitution> findByEducationalInstitutionType(String educationalInstitutionType,Pageable paging);
 
@@ -70,13 +68,13 @@ public interface EducationalInstitutionRepository extends JpaRepository<Educatio
 
 	@Query(
 			value = "SELECT * FROM educational_institution " +
-					"WHERE educational_institution.is_deleted = false AND state = ?1 ORDER BY modified DESC",
+					"WHERE educational_institution.is_deleted = false AND state ~* ?1 ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<EducationalInstitution> findByState(String state,Pageable paging);
 
 	@Query(
 			value = "SELECT * FROM educational_institution " +
-					"WHERE educational_institution.is_deleted = false AND educational_institution_exemption_flag = ?1 ORDER BY modified DESC",
+					"WHERE educational_institution.is_deleted = false AND educational_institution_exemption_flag ~* ?1 ORDER BY modified DESC",
 			nativeQuery = true)
 	Page<EducationalInstitution> findByExemptionFlag(String exemptionFlag,Pageable paging);
 
