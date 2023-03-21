@@ -78,6 +78,9 @@ public class SchoolServiceImpl implements SchoolService {
 	@Autowired
 	private RegionMapper regionMapper;
 
+	@Autowired
+	private ClassService classService;
+
 	private String topicName = "master_topic_add";
 
 	private String topicDelete = "master_delete";
@@ -521,7 +524,8 @@ public class SchoolServiceImpl implements SchoolService {
 
 	@Override
 	public Response<SchoolDto> deleteSchoolById(int schoolId) {
-		System.out.println(" here ----- *");
+		System.out.println("----- deleting school ---" + schoolId);
+
 		Result<SchoolDto> res = new Result<>();
 		res.setData(null);
 		Optional<School> school = schoolRepository.findById(schoolId);
@@ -537,14 +541,17 @@ public class SchoolServiceImpl implements SchoolService {
 		Region region = school.get().getRegion();
 		region.getSchool().remove(school.get());
 		regionRepository.save(region);
-		for (ClassDetail classDetail : school.get().getClassDetail()) {
-			classDetail.setSchool(null);
-			classRepository.save(classDetail);
+		Set<ClassDetail> setOfClassDetails = school.get().getClassDetail();
+		Set<ClassDetail> newSetOfClassDetails = new HashSet<>(setOfClassDetails);
+		for (ClassDetail classDetail : newSetOfClassDetails) {
+			classService.deleteClassById(classDetail.getClassId());
 		}
 
 		EducationalInstitution educationalInstitution = school.get().getEducationalInstitution();
-		educationalInstitution.getSchool().remove(school.get());
-		educationalRepository.save(educationalInstitution);
+		if(educationalInstitution != null){
+			educationalInstitution.getSchool().remove(school.get());
+			educationalRepository.save(educationalInstitution);
+		}
 
 		school.get().setIsDeleted(true);
 		school.get().setPrincipalId(null);
