@@ -286,6 +286,7 @@ public class ClassServiceImpl implements ClassService {
     }
 
     public Response<ClassDto> deleteClassById(Long id) {
+        System.out.println("----- deleting class ---" + id);
         Result<ClassDto> res = new Result<>();
         Response<ClassDto> response = new Response<>();
         Optional<ClassDetail> classes = classRepository.findById(id);
@@ -320,7 +321,6 @@ public class ClassServiceImpl implements ClassService {
         }
         classs.setIsDeleted(true);
         classRepository.save(classs);
-        //classRepository.deleteById(id);
         res.setData(classMapper.entityToDto(classs));
         response.setMessage(HttpStatusCode.CLASS_DELETED_SUCCESSFULLY.getMessage());
         response.setStatusCode(HttpStatusCode.CLASS_DELETED_SUCCESSFULLY.getCode());
@@ -337,8 +337,6 @@ public class ClassServiceImpl implements ClassService {
         }
         kafkaTemplate.send(topicDelete, 0, "Key3", jsonStr);
         LOGGER.info(String.format("Order Event => %s", jsonStr.toString()));
-
-
         return response;
     }
 

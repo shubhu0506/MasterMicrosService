@@ -83,6 +83,9 @@ public class RegionServiceImpl implements RegionService {
 	@Autowired
 	private UserFeignService userFeignService;
 
+	@Autowired
+	private SchoolService schoolService;
+
 	private NewTopic topic;
 
 	@Autowired
@@ -257,6 +260,7 @@ public class RegionServiceImpl implements RegionService {
 
 	@Override
 	public Response<RegionDto> deleteRegionById(int id) {
+		System.out.println("----- deleting region ---" + id);
 		Result<RegionDto> res = new Result<>();
 		res.setData(null);
 		Optional<Region> regionTemp = regionRepository.findById(id);
@@ -285,13 +289,13 @@ public class RegionServiceImpl implements RegionService {
 		}
 
 		Set<School> schoolSet = region.getSchool();
-		for(School school:schoolSet){
-			region.getSchool().remove(school);
-			school.setIsDeleted(true);
-			schoolRepository.save(school);
+		Set<School> newSchoolSet = new HashSet<>(schoolSet);
+		for(School school:newSchoolSet){
+			schoolService.deleteSchoolById(school.getSchoolId());
 		}
 
 		region.setEducationalInstitiute(new HashSet<>());
+		region.setSchool(new HashSet<>());
 		region.setAdminId(null);
 		region.setIsDeleted(true);
 		regionRepository.save(region);
