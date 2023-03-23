@@ -106,13 +106,13 @@ public class RegionServiceImpl implements RegionService {
 		Region regionCode = regionRepository.getRegionByCode(regionCreationDto.getCode());
 
 
-		if (regionName != null) {
-			throw new CustomException(HttpStatusCode.REGION_NAME_DUPLICATE.getCode(),
-					HttpStatusCode.REGION_NAME_DUPLICATE, HttpStatusCode.REGION_NAME_DUPLICATE.getMessage(), res);
+		if (regionName != null && !regionName.getIsDeleted()) {
+			throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_EXISTS.getCode(),
+					HttpStatusCode.RESOURCE_ALREADY_EXISTS, "Region with given name already exists", res);
 		}
-		if (regionCode != null) {
-			throw new CustomException(HttpStatusCode.REGION_CODE_DUPLICATE.getCode(),
-					HttpStatusCode.REGION_CODE_DUPLICATE, HttpStatusCode.REGION_CODE_DUPLICATE.getMessage(), res);
+		if (regionCode != null && !regionCode.getIsDeleted()) {
+			throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_EXISTS.getCode(),
+					HttpStatusCode.RESOURCE_ALREADY_EXISTS, "Region with given code already exists", res);
 		}
 
 		Region savedRegion = new Region();
@@ -339,20 +339,20 @@ public class RegionServiceImpl implements RegionService {
 		}
 		Region region = existingRegionContainer.get();
 
-		if(!region.getCode().equals(regionCreationDto.getCode())){
+		if(!region.getCode().equalsIgnoreCase(regionCreationDto.getCode())){
 			System.out.println(region.getCode() + " --- " + regionCreationDto.getCode());
 			Region regionWithSameCode = regionRepository.getRegionByCode(regionCreationDto.getCode());
-			if(regionWithSameCode != null) {
+			if(regionWithSameCode != null && !regionWithSameCode.getIsDeleted()) {
 				throw new CustomException(HttpStatusCode.REGION_CODE_DUPLICATE.getCode(), HttpStatusCode.REGION_CODE_DUPLICATE,
-						HttpStatusCode.REGION_CODE_DUPLICATE.getMessage(), res);
+						"Region with given code already exists", res);
 			}
 		}
 
-		if(!region.getName().equals(regionCreationDto.getName())){
+		if(!region.getName().equalsIgnoreCase(regionCreationDto.getName())){
 			Region regionWithSameName = regionRepository.getRegionByName(regionCreationDto.getName());
-			if(regionWithSameName != null) {
+			if(regionWithSameName != null && !regionWithSameName.getIsDeleted()) {
 				throw new CustomException(HttpStatusCode.REGION_NAME_DUPLICATE.getCode(), HttpStatusCode.REGION_NAME_DUPLICATE,
-						HttpStatusCode.REGION_NAME_DUPLICATE.getMessage(), res);
+						"Region with given name already exists", res);
 			}
 		}
 
