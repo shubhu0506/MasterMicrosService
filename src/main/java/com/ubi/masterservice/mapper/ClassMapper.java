@@ -148,6 +148,9 @@ public class ClassMapper {
 				studentDto.setJoiningDate(student.getJoiningDate());
 				studentDto.setMinority(student.getMinority());
 				studentDto.setMotherName(student.getMotherName());
+				studentDto.setMobileNo(student.getMobileNo());
+				studentDto.setEmail(student.getEmail());
+				
 				studentDto.setMotherOccupation(student.getMotherOccupation());
 //				studentDto.setStatus(student.getStatus());
 //				studentDto.setStudentStatus(student.isStudentStatus());

@@ -15,6 +15,10 @@ public enum HttpStatusCode {
 	NO_REGION_FOUND(108,"No Region Found"),
 
 	ENTER_PROPER_AADHAAR_NO(109,"Enter 12 digit aadhar no"),
+	
+	ENTER_PROPER_MOBILE_NO(109,"Enter 10 digit mobile no"),
+	
+	ENTER_PROPER_EMAIL_ID(109,"Enter proper email id"),
 
 	NO_REGION_ADDED(108,"Add a region in Educational Institution"),
 

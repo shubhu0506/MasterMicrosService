@@ -8,11 +8,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import com.ubi.masterservice.dto.studentFees.StudentFeesDto;
-import com.ubi.masterservice.externalServices.FeesFeignService;
-import com.ubi.masterservice.util.PermissionUtil;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,18 +30,19 @@ import com.ubi.masterservice.dto.studentDto.StudentDetailsDto;
 import com.ubi.masterservice.dto.studentDto.StudentDto;
 import com.ubi.masterservice.dto.studentDto.StudentPromoteDemoteDto;
 import com.ubi.masterservice.dto.studentDto.StudentVerifyDto;
+import com.ubi.masterservice.dto.studentFees.StudentFeesDto;
 import com.ubi.masterservice.entity.ClassDetail;
-import com.ubi.masterservice.entity.EducationalInstitution;
-import com.ubi.masterservice.entity.Region;
 import com.ubi.masterservice.entity.Student;
 import com.ubi.masterservice.entity.StudentPromoteDemote;
 import com.ubi.masterservice.error.CustomException;
 import com.ubi.masterservice.error.HttpStatusCode;
 import com.ubi.masterservice.error.Result;
+import com.ubi.masterservice.externalServices.FeesFeignService;
 import com.ubi.masterservice.mapper.StudentMapper;
 import com.ubi.masterservice.repository.ClassRepository;
 import com.ubi.masterservice.repository.StudentPromoteDemoteRepository;
 import com.ubi.masterservice.repository.StudentRepository;
+import com.ubi.masterservice.util.PermissionUtil;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -130,7 +130,27 @@ public class StudentServiceImpl implements StudentService {
 					HttpStatusCode.ENTER_PROPER_AADHAAR_NO,
 					"Enter proper 12 digit aadhaar number", res);
 		}
-
+		
+		Long mobileNo=studentDto.getMobileNo();
+		int totalDegits= (int)Math.floor(Math.log10(mobileNo) + 1);
+		if(!(totalDegits==10))
+		{
+			throw new CustomException(HttpStatusCode.ENTER_PROPER_MOBILE_NO.getCode(),
+					HttpStatusCode.ENTER_PROPER_MOBILE_NO,
+					"Enter proper 10 digit mobile number", res);
+		}
+		
+		String email=studentDto.getEmail();
+		String regex = "^[A-Za-z0-9+_.-]+@(.+)$";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(email);
+		if(matcher.matches() == false)
+		{
+			throw new CustomException(HttpStatusCode.ENTER_PROPER_EMAIL_ID.getCode(),
+					HttpStatusCode.ENTER_PROPER_EMAIL_ID,
+					"Enter proper email id", res);
+		}
+		
 //		ClassDetail classDetail = classRepository.getReferenceById(studentDto.getClassId());
 
 		Student student = studentMapper.dtoToEntity(studentDto);
@@ -254,6 +274,12 @@ public class StudentServiceImpl implements StudentService {
 				}
 				if(fieldName.equalsIgnoreCase("nationality")) {
 					studentData = studentRepository.findByNationalityIgnoreCase(searchByField,paging);
+				}
+				if(fieldName.equalsIgnoreCase("mobileNo")) {
+					studentData = studentRepository.findByMobileNo(Long.parseLong(searchByField), paging);
+				}
+				if(fieldName.equalsIgnoreCase("email")) {
+					studentData = studentRepository.findByEmail(searchByField,paging);
 				}
 				if(fieldName.equalsIgnoreCase("studentId")) {
 					studentData = studentRepository.findByStudentId(Long.parseLong(searchByField),paging);
@@ -417,6 +443,8 @@ public class StudentServiceImpl implements StudentService {
 		existingStudent.setIsPhysicallyHandicapped(studentDto.getIsPhysicallyHandicapped());
 		existingStudent.setNationality(studentDto.getNationality());
 		existingStudent.setIsDeleted(false);
+		existingStudent.setMobileNo(studentDto.getMobileNo());
+		existingStudent.setEmail(studentDto.getEmail());
 		existingStudent.setIsCurrentPaymentCycleFeesPaid(false);
 		String currJwtToken = "Bearer " + permissionUtil.getCurrentUsersToken();
 		ResponseEntity<Response<StudentFeesDto>> currentFeesResponse = feesFeignService.getStudentFeesForCurrentPaymentCycle(currJwtToken, studentDto.getStudentId());

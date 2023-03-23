@@ -3,6 +3,7 @@ package com.ubi.masterservice.dto.studentDto;
 import java.util.Date;
 
 import javax.persistence.Id;
+import javax.validation.constraints.Email;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -51,6 +52,9 @@ public class StudentDto extends Auditable {
 	private String nationality;
 	private Long classId;
 	private Boolean isCurrentPaymentCycleFeesPaid;
+	private Long mobileNo;
+	@Email
+	private String email;
 
 	@Override
 	public int hashCode() {

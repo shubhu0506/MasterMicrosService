@@ -29,6 +29,17 @@ public interface StudentRepository extends JpaRepository<Student,Long> {
 			value = "SELECT * FROM student sch WHERE roll_no = ?1 AND is_deleted = false ORDER BY modified DESC",
 			nativeQuery = true)
 	Student getStudentByRollNo(Long rollNo);
+	
+	@Query(
+			value = "SELECT * FROM student sch WHERE mobile_no = ?1 AND is_deleted = false ORDER BY modified DESC",
+			nativeQuery = true)
+	Page<Student> findByMobileNo (Long mobileNo,Pageable paging);
+	
+	@Query(
+			value = "SELECT * FROM student sch WHERE email = ?1 AND is_deleted = false ORDER BY modified DESC",
+			nativeQuery = true)
+	Page<Student> findByEmail (String email,Pageable paging);
+	
 
 	List<Student> findByGenderAndCategoryAndMinority(String gender,String category, String minority);
 
