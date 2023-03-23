@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Email;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -44,7 +45,7 @@ public class Student extends Auditable {
 	@Temporal(TemporalType.DATE)
 	private Date dateOfBirth;
 
-//	private boolean studentStatus;
+	//	private boolean studentStatus;
 	private String category;
 	private String minority;
 	private String fatherName;
@@ -57,7 +58,7 @@ public class Student extends Auditable {
 	@JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
 	private Date joiningDate;
-//	private String status;
+	//	private String status;
 
 	private Boolean verifiedByTeacher;
 	private Boolean verifiedByPrincipal;
@@ -70,6 +71,9 @@ public class Student extends Auditable {
 	private String admissionNo;
 	private String nationality;
 	private Boolean isCurrentPaymentCycleFeesPaid;
+	private Long mobileNo;
+	@Email
+	private String email;
 
 	@ManyToOne(fetch = FetchType.LAZY )
 	private ClassDetail classDetail;

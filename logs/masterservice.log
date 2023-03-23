@@ -1,54 +1,33 @@
-2023-03-20 09:35:27.162  INFO 3748 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 09:40:27.241  INFO 3748 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 09:45:27.276  INFO 3748 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 09:50:34.444  INFO 3748 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 09:55:34.525  INFO 3748 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 10:00:34.538  INFO 3748 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 10:05:34.550  INFO 3748 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 10:13:22.990  INFO 3748 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 10:13:43.012  WARN 3748 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=3m18s442ms2µs700ns).
-2023-03-20 10:54:50.232  WARN 3748 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=39m37s202ms82µs199ns).
-2023-03-20 10:57:30.219  INFO 3748 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 10:59:43.702  INFO 3748 --- [SpringApplicationShutdownHook] o.s.c.n.e.s.EurekaServiceRegistry        : Unregistering application MASTER-SERVICE with eureka with status DOWN
-2023-03-20 10:59:43.703  INFO 3748 --- [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1679290183703, current=DOWN, previous=UP]
-2023-03-20 10:59:43.708  INFO 3748 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-73AVE0Q:MASTER-SERVICE:8082: registering service...
-2023-03-20 10:59:43.792  INFO 3748 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-73AVE0Q:MASTER-SERVICE:8082 - registration status: 204
-2023-03-20 10:59:44.125  INFO 3748 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2023-03-20 10:59:44.173  INFO 3748 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2023-03-20 10:59:44.191  INFO 3748 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2023-03-20 10:59:44.194  INFO 3748 --- [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Shutting down DiscoveryClient ...
-2023-03-20 10:59:47.204  INFO 3748 --- [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Unregistering ...
-2023-03-20 10:59:47.220  INFO 3748 --- [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-73AVE0Q:MASTER-SERVICE:8082 - deregister  status: 200
-2023-03-20 10:59:47.252  INFO 3748 --- [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Completed shut down of DiscoveryClient
-2023-03-20 11:00:23.987  INFO 17256 --- [restartedMain] c.u.m.MasterServiceApplication           : Starting MasterServiceApplication using Java 1.8.0_291 on DESKTOP-73AVE0Q with PID 17256 (C:\Users\Neosoft\Desktop\UBI_Application\MasterMicrosService\target\classes started by Neosoft in C:\Users\Neosoft\Desktop\UBI_Application\MasterMicrosService)
-2023-03-20 11:00:23.992  INFO 17256 --- [restartedMain] c.u.m.MasterServiceApplication           : The following 1 profile is active: "default"
-2023-03-20 11:00:24.228  INFO 17256 --- [restartedMain] o.s.c.c.c.ConfigServerConfigDataLoader   : Fetching config from server at : http://localhost:8888
-2023-03-20 11:00:24.228  INFO 17256 --- [restartedMain] o.s.c.c.c.ConfigServerConfigDataLoader   : Located environment: name=MASTER-SERVICE, profiles=[default], label=null, version=34ad26327bf9ca4f7322d51e0a77da2344a7f614, state=null
-2023-03-20 11:00:24.232  INFO 17256 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2023-03-20 11:00:24.233  INFO 17256 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2023-03-20 11:00:26.968  INFO 17256 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-03-20 11:00:27.479  INFO 17256 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 490 ms. Found 6 JPA repository interfaces.
-2023-03-20 11:00:28.234  INFO 17256 --- [restartedMain] o.s.cloud.context.scope.GenericScope     : BeanFactory id=69ccab9c-cd1d-38f0-99fc-4db1c76df551
-2023-03-20 11:00:30.263  INFO 17256 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8082 (http)
-2023-03-20 11:00:30.281  INFO 17256 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2023-03-20 11:00:30.281  INFO 17256 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.69]
-2023-03-20 11:00:30.521  INFO 17256 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2023-03-20 11:00:30.521  INFO 17256 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 6287 ms
-2023-03-20 11:00:30.917  WARN 17256 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023-03-20 11:00:31.349  INFO 17256 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2023-03-20 11:00:31.511  INFO 17256 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.14.Final
-2023-03-20 11:00:31.992  INFO 17256 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2023-03-20 11:00:32.219  INFO 17256 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2023-03-20 11:00:32.769  INFO 17256 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2023-03-20 11:00:32.846  INFO 17256 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
-2023-03-20 11:00:35.572  INFO 17256 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-03-20 11:00:35.585  INFO 17256 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023-03-20 11:00:36.061  INFO 17256 --- [restartedMain] o.s.c.openfeign.FeignClientFactoryBean   : For 'USER-SERVICE' URL not provided. Will try picking an instance via load-balancing.
-2023-03-20 11:00:36.397  WARN 17256 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : Unable to start LiveReload server
-2023-03-20 11:00:40.131  INFO 17256 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@10b3dc0e, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@66a3fc3d, org.springframework.security.web.context.SecurityContextPersistenceFilter@7508e242, org.springframework.security.web.header.HeaderWriterFilter@73c4ed8d, org.springframework.security.web.authentication.logout.LogoutFilter@578f3a89, com.ubi.masterservice.config.FilterChainExceptionHandler@5edd179a, com.ubi.masterservice.config.JwtAuthenticationFilter@6393ba69, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4fbb5280, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1f5baa03, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@349c9a29, org.springframework.security.web.session.SessionManagementFilter@69d95397, org.springframework.security.web.access.ExceptionTranslationFilter@1a853f95, org.springframework.security.web.access.intercept.AuthorizationFilter@6f17bf47]
-2023-03-20 11:00:43.041  INFO 17256 --- [restartedMain] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestTemplate.
-2023-03-20 11:00:43.504  WARN 17256 --- [restartedMain] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
-2023-03-20 11:00:43.572  INFO 17256 --- [restartedMain] o.a.k.clients.admin.AdminClientConfig    : AdminClientConfig values: 
+2023-03-23 10:03:50.463  INFO 7564 --- [restartedMain] c.u.m.MasterServiceApplication           : Starting MasterServiceApplication using Java 1.8.0_341 on DESKTOP-RCRC9S0 with PID 7564 (C:\Users\user\NewGit\MasterMicrosService\target\classes started by user in C:\Users\user\NewGit\MasterMicrosService)
+2023-03-23 10:03:50.474  INFO 7564 --- [restartedMain] c.u.m.MasterServiceApplication           : The following 1 profile is active: "default"
+2023-03-23 10:03:50.623  INFO 7564 --- [restartedMain] o.s.c.c.c.ConfigServerConfigDataLoader   : Fetching config from server at : http://localhost:8888
+2023-03-23 10:03:50.626  INFO 7564 --- [restartedMain] o.s.c.c.c.ConfigServerConfigDataLoader   : Located environment: name=MASTER-SERVICE, profiles=[default], label=null, version=34ad26327bf9ca4f7322d51e0a77da2344a7f614, state=null
+2023-03-23 10:03:50.630  INFO 7564 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-03-23 10:03:50.631  INFO 7564 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-03-23 10:03:52.085  INFO 7564 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-03-23 10:03:52.357  INFO 7564 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 261 ms. Found 6 JPA repository interfaces.
+2023-03-23 10:03:52.818  INFO 7564 --- [restartedMain] o.s.cloud.context.scope.GenericScope     : BeanFactory id=9fec33f2-4038-3c86-9ad0-07b518bda9a7
+2023-03-23 10:03:53.895  INFO 7564 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8082 (http)
+2023-03-23 10:03:53.914  INFO 7564 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-03-23 10:03:53.914  INFO 7564 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.69]
+2023-03-23 10:03:54.131  INFO 7564 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-03-23 10:03:54.132  INFO 7564 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3499 ms
+2023-03-23 10:03:54.327  WARN 7564 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-03-23 10:03:54.530  INFO 7564 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-03-23 10:03:54.610  INFO 7564 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.14.Final
+2023-03-23 10:03:54.836  INFO 7564 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-03-23 10:03:54.992  INFO 7564 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-03-23 10:03:55.497  INFO 7564 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-03-23 10:03:55.587  INFO 7564 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
+2023-03-23 10:03:57.205  INFO 7564 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-03-23 10:03:57.218  INFO 7564 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-03-23 10:03:57.450  INFO 7564 --- [restartedMain] o.s.c.openfeign.FeignClientFactoryBean   : For 'USER-SERVICE' URL not provided. Will try picking an instance via load-balancing.
+2023-03-23 10:03:57.690  WARN 7564 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : Unable to start LiveReload server
+2023-03-23 10:03:58.744  INFO 7564 --- [restartedMain] o.s.c.openfeign.FeignClientFactoryBean   : For 'FEES-SERVICE' URL not provided. Will try picking an instance via load-balancing.
+2023-03-23 10:03:59.053  INFO 7564 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6905e5ea, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@41ec89ed, org.springframework.security.web.context.SecurityContextPersistenceFilter@52486c7b, org.springframework.security.web.header.HeaderWriterFilter@4cd5002f, org.springframework.security.web.authentication.logout.LogoutFilter@119f69fe, com.ubi.masterservice.config.FilterChainExceptionHandler@55d7e85f, com.ubi.masterservice.config.JwtAuthenticationFilter@2e9df11b, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7092b5d2, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1f70cfcd, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5491167b, org.springframework.security.web.session.SessionManagementFilter@bee3a35, org.springframework.security.web.access.ExceptionTranslationFilter@8889451, org.springframework.security.web.access.intercept.AuthorizationFilter@7925f54]
+2023-03-23 10:04:00.797  INFO 7564 --- [restartedMain] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestTemplate.
+2023-03-23 10:04:01.206  WARN 7564 --- [restartedMain] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2023-03-23 10:04:01.322  INFO 7564 --- [restartedMain] o.a.k.clients.admin.AdminClientConfig    : AdminClientConfig values: 
 	bootstrap.servers = [localhost:9092]
 	client.dns.lookup = use_all_dns_ips
 	client.id = 
@@ -118,170 +97,156 @@
 	ssl.truststore.password = null
 	ssl.truststore.type = JKS
 
-2023-03-20 11:00:43.892  INFO 17256 --- [restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.1.2
-2023-03-20 11:00:43.893  INFO 17256 --- [restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: f8c67dc3ae0a3265
-2023-03-20 11:00:43.893  INFO 17256 --- [restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1679290243889
-2023-03-20 11:00:44.964  INFO 17256 --- [kafka-admin-client-thread | adminclient-1] o.a.kafka.common.utils.AppInfoParser     : App info kafka.admin.client for adminclient-1 unregistered
-2023-03-20 11:00:44.972  INFO 17256 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.common.metrics.Metrics  : Metrics scheduler closed
-2023-03-20 11:00:44.973  INFO 17256 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.common.metrics.Metrics  : Closing reporter org.apache.kafka.common.metrics.JmxReporter
-2023-03-20 11:00:44.973  INFO 17256 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.common.metrics.Metrics  : Metrics reporters closed
-2023-03-20 11:00:45.021  INFO 17256 --- [restartedMain] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
-2023-03-20 11:00:45.127  INFO 17256 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
-2023-03-20 11:00:45.138  INFO 17256 --- [restartedMain] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 11:00:45.237  INFO 17256 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
-2023-03-20 11:00:45.238  INFO 17256 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
-2023-03-20 11:00:45.238  INFO 17256 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
-2023-03-20 11:00:45.238  INFO 17256 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Application is null : false
-2023-03-20 11:00:45.238  INFO 17256 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
-2023-03-20 11:00:45.239  INFO 17256 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Application version is -1: true
-2023-03-20 11:00:45.239  INFO 17256 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
-2023-03-20 11:00:45.905  INFO 17256 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : The response status is 200
-2023-03-20 11:00:45.913  INFO 17256 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Starting heartbeat executor: renew interval is: 30
-2023-03-20 11:00:45.918  INFO 17256 --- [restartedMain] c.n.discovery.InstanceInfoReplicator     : InstanceInfoReplicator onDemand update allowed rate per min is 4
-2023-03-20 11:00:45.928  INFO 17256 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1679290245926 with initial instances count: 2
-2023-03-20 11:00:45.939  INFO 17256 --- [restartedMain] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application MASTER-SERVICE with eureka with status UP
-2023-03-20 11:00:45.940  INFO 17256 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1679290245940, current=UP, previous=STARTING]
-2023-03-20 11:00:45.945  INFO 17256 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-73AVE0Q:MASTER-SERVICE:8082: registering service...
-2023-03-20 11:00:45.984  INFO 17256 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8082 (http) with context path ''
-2023-03-20 11:00:45.989  INFO 17256 --- [restartedMain] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8082
-2023-03-20 11:00:46.087  INFO 17256 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-73AVE0Q:MASTER-SERVICE:8082 - registration status: 204
-2023-03-20 11:00:46.389  INFO 17256 --- [restartedMain] c.u.m.MasterServiceApplication           : Started MasterServiceApplication in 26.402 seconds (JVM running for 28.139)
-2023-03-20 11:02:02.618  INFO 17256 --- [http-nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2023-03-20 11:02:02.642  INFO 17256 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2023-03-20 11:02:02.687  INFO 17256 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 15 ms
-2023-03-20 11:02:10.693  INFO 17256 --- [http-nio-8082-exec-7] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 4579 ms
-2023-03-20 11:05:45.245  INFO 17256 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 11:10:45.248  INFO 17256 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 11:15:45.250  INFO 17256 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 11:20:45.260  INFO 17256 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 11:25:45.275  INFO 17256 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 11:29:24.896 ERROR 17256 --- [http-nio-8082-exec-5] c.u.m.c.FilterChainExceptionHandler      : Spring Security Filter Chain Exception:
+2023-03-23 10:04:01.485  INFO 7564 --- [restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.1.2
+2023-03-23 10:04:01.486  INFO 7564 --- [restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: f8c67dc3ae0a3265
+2023-03-23 10:04:01.487  INFO 7564 --- [restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1679546041483
+2023-03-23 10:04:03.511  INFO 7564 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Node -1 disconnected.
+2023-03-23 10:04:03.516  WARN 7564 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2023-03-23 10:04:05.661  INFO 7564 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Node -1 disconnected.
+2023-03-23 10:04:05.662  WARN 7564 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2023-03-23 10:04:07.827  INFO 7564 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Node -1 disconnected.
+2023-03-23 10:04:07.829  WARN 7564 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2023-03-23 10:04:08.259  INFO 7564 --- [RMI TCP Connection(2)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2023-03-23 10:04:10.089  INFO 7564 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Node -1 disconnected.
+2023-03-23 10:04:10.090  WARN 7564 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2023-03-23 10:04:12.554  INFO 7564 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Node -1 disconnected.
+2023-03-23 10:04:12.555  WARN 7564 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2023-03-23 10:04:15.367  INFO 7564 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Node -1 disconnected.
+2023-03-23 10:04:15.369  WARN 7564 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2023-03-23 10:04:18.490  INFO 7564 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Node -1 disconnected.
+2023-03-23 10:04:18.491  WARN 7564 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2023-03-23 10:04:21.730  INFO 7564 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Node -1 disconnected.
+2023-03-23 10:04:21.731  WARN 7564 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2023-03-23 10:04:24.879  INFO 7564 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Node -1 disconnected.
+2023-03-23 10:04:24.881  WARN 7564 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2023-03-23 10:04:27.784  INFO 7564 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Node -1 disconnected.
+2023-03-23 10:04:27.785  WARN 7564 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2023-03-23 10:04:30.812  INFO 7564 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Node -1 disconnected.
+2023-03-23 10:04:30.813  WARN 7564 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2023-03-23 10:04:31.514  INFO 7564 --- [kafka-admin-client-thread | adminclient-1] o.a.k.c.a.i.AdminMetadataManager         : [AdminClient clientId=adminclient-1] Metadata update failed
 
-feign.RetryableException: connect timed out executing POST http://USER-SERVICE/validate
-	at feign.FeignException.errorExecuting(FeignException.java:268) ~[feign-core-11.10.jar:na]
-	at feign.SynchronousMethodHandler.executeAndDecode(SynchronousMethodHandler.java:131) ~[feign-core-11.10.jar:na]
-	at feign.SynchronousMethodHandler.invoke(SynchronousMethodHandler.java:91) ~[feign-core-11.10.jar:na]
-	at feign.ReflectiveFeign$FeignInvocationHandler.invoke(ReflectiveFeign.java:100) ~[feign-core-11.10.jar:na]
-	at com.sun.proxy.$Proxy186.validateTokenAndGetUser(Unknown Source) ~[na:na]
-	at com.ubi.masterservice.config.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:64) ~[classes/:na]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) [spring-web-5.3.24.jar:5.3.24]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
-	at com.ubi.masterservice.config.FilterChainExceptionHandler.doFilterInternal(FilterChainExceptionHandler.java:29) ~[classes/:na]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) [spring-web-5.3.24.jar:5.3.24]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:103) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:89) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) [spring-web-5.3.24.jar:5.3.24]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:112) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:82) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:55) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) [spring-web-5.3.24.jar:5.3.24]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) [spring-web-5.3.24.jar:5.3.24]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:221) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:186) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:354) [spring-web-5.3.24.jar:5.3.24]
-	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:267) [spring-web-5.3.24.jar:5.3.24]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) [spring-web-5.3.24.jar:5.3.24]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) [spring-web-5.3.24.jar:5.3.24]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:177) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:360) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:891) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1784) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at java.lang.Thread.run(Thread.java:748) [na:1.8.0_291]
-Caused by: java.net.SocketTimeoutException: connect timed out
-	at java.net.DualStackPlainSocketImpl.waitForConnect(Native Method) ~[na:1.8.0_291]
-	at java.net.DualStackPlainSocketImpl.socketConnect(DualStackPlainSocketImpl.java:81) ~[na:1.8.0_291]
-	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:476) ~[na:1.8.0_291]
-	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:218) ~[na:1.8.0_291]
-	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:200) ~[na:1.8.0_291]
-	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:162) ~[na:1.8.0_291]
-	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:394) ~[na:1.8.0_291]
-	at java.net.Socket.connect(Socket.java:606) ~[na:1.8.0_291]
-	at sun.net.NetworkClient.doConnect(NetworkClient.java:175) ~[na:1.8.0_291]
-	at sun.net.www.http.HttpClient.openServer(HttpClient.java:463) ~[na:1.8.0_291]
-	at sun.net.www.http.HttpClient.openServer(HttpClient.java:558) ~[na:1.8.0_291]
-	at sun.net.www.http.HttpClient.<init>(HttpClient.java:242) ~[na:1.8.0_291]
-	at sun.net.www.http.HttpClient.New(HttpClient.java:339) ~[na:1.8.0_291]
-	at sun.net.www.http.HttpClient.New(HttpClient.java:357) ~[na:1.8.0_291]
-	at sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1226) ~[na:1.8.0_291]
-	at sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:1162) ~[na:1.8.0_291]
-	at sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:1056) ~[na:1.8.0_291]
-	at sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:990) ~[na:1.8.0_291]
-	at sun.net.www.protocol.http.HttpURLConnection.getOutputStream0(HttpURLConnection.java:1340) ~[na:1.8.0_291]
-	at sun.net.www.protocol.http.HttpURLConnection.getOutputStream(HttpURLConnection.java:1315) ~[na:1.8.0_291]
-	at feign.Client$Default.convertAndSend(Client.java:208) ~[feign-core-11.10.jar:na]
-	at feign.Client$Default.execute(Client.java:105) ~[feign-core-11.10.jar:na]
-	at org.springframework.cloud.openfeign.loadbalancer.LoadBalancerUtils.executeWithLoadBalancerLifecycleProcessing(LoadBalancerUtils.java:57) ~[spring-cloud-openfeign-core-3.1.5.jar:3.1.5]
-	at org.springframework.cloud.openfeign.loadbalancer.RetryableFeignBlockingLoadBalancerClient.lambda$execute$2(RetryableFeignBlockingLoadBalancerClient.java:168) ~[spring-cloud-openfeign-core-3.1.5.jar:3.1.5]
-	at org.springframework.retry.support.RetryTemplate.doExecute(RetryTemplate.java:329) ~[spring-retry-1.3.4.jar:na]
-	at org.springframework.retry.support.RetryTemplate.execute(RetryTemplate.java:225) ~[spring-retry-1.3.4.jar:na]
-	at org.springframework.cloud.openfeign.loadbalancer.RetryableFeignBlockingLoadBalancerClient.execute(RetryableFeignBlockingLoadBalancerClient.java:114) ~[spring-cloud-openfeign-core-3.1.5.jar:3.1.5]
-	at feign.SynchronousMethodHandler.executeAndDecode(SynchronousMethodHandler.java:121) ~[feign-core-11.10.jar:na]
-	... 51 common frames omitted
+org.apache.kafka.common.errors.TimeoutException: Timed out waiting for a node assignment. Call: fetchMetadata
 
-2023-03-20 11:30:04.555  INFO 17256 --- [SpringApplicationShutdownHook] o.s.c.n.e.s.EurekaServiceRegistry        : Unregistering application MASTER-SERVICE with eureka with status DOWN
-2023-03-20 11:30:04.556  INFO 17256 --- [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1679292004556, current=DOWN, previous=UP]
-2023-03-20 11:30:04.560  INFO 17256 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-73AVE0Q:MASTER-SERVICE:8082: registering service...
-2023-03-20 11:30:04.681  INFO 17256 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-73AVE0Q:MASTER-SERVICE:8082 - registration status: 204
-2023-03-20 11:30:05.202  INFO 17256 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2023-03-20 11:30:05.215  INFO 17256 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2023-03-20 11:30:05.228  INFO 17256 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2023-03-20 11:30:05.230  INFO 17256 --- [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Shutting down DiscoveryClient ...
-2023-03-20 11:30:08.236  INFO 17256 --- [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Unregistering ...
-2023-03-20 11:30:08.255  INFO 17256 --- [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-73AVE0Q:MASTER-SERVICE:8082 - deregister  status: 200
-2023-03-20 11:30:08.262  INFO 17256 --- [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Completed shut down of DiscoveryClient
-2023-03-20 11:34:54.838  INFO 20432 --- [restartedMain] c.u.m.MasterServiceApplication           : Starting MasterServiceApplication using Java 1.8.0_291 on DESKTOP-73AVE0Q with PID 20432 (C:\Users\Neosoft\Desktop\UBI_Application\MasterMicrosService\target\classes started by Neosoft in C:\Users\Neosoft\Desktop\UBI_Application\MasterMicrosService)
-2023-03-20 11:34:54.841  INFO 20432 --- [restartedMain] c.u.m.MasterServiceApplication           : The following 1 profile is active: "default"
-2023-03-20 11:34:54.975  INFO 20432 --- [restartedMain] o.s.c.c.c.ConfigServerConfigDataLoader   : Fetching config from server at : http://localhost:8888
-2023-03-20 11:34:54.975  INFO 20432 --- [restartedMain] o.s.c.c.c.ConfigServerConfigDataLoader   : Located environment: name=MASTER-SERVICE, profiles=[default], label=null, version=34ad26327bf9ca4f7322d51e0a77da2344a7f614, state=null
-2023-03-20 11:34:54.978  INFO 20432 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2023-03-20 11:34:54.978  INFO 20432 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2023-03-20 11:34:57.549  INFO 20432 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-03-20 11:34:58.045  INFO 20432 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 474 ms. Found 6 JPA repository interfaces.
-2023-03-20 11:34:58.971  INFO 20432 --- [restartedMain] o.s.cloud.context.scope.GenericScope     : BeanFactory id=69ccab9c-cd1d-38f0-99fc-4db1c76df551
-2023-03-20 11:35:01.139  INFO 20432 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8082 (http)
-2023-03-20 11:35:01.163  INFO 20432 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2023-03-20 11:35:01.164  INFO 20432 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.69]
-2023-03-20 11:35:01.463  INFO 20432 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2023-03-20 11:35:01.463  INFO 20432 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 6484 ms
-2023-03-20 11:35:02.075  WARN 20432 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023-03-20 11:35:02.720  INFO 20432 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2023-03-20 11:35:02.898  INFO 20432 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.14.Final
-2023-03-20 11:35:03.326  INFO 20432 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2023-03-20 11:35:03.591  INFO 20432 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2023-03-20 11:35:04.143  INFO 20432 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2023-03-20 11:35:04.222  INFO 20432 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
-2023-03-20 11:35:06.866  INFO 20432 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-03-20 11:35:06.884  INFO 20432 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023-03-20 11:35:07.511  INFO 20432 --- [restartedMain] o.s.c.openfeign.FeignClientFactoryBean   : For 'USER-SERVICE' URL not provided. Will try picking an instance via load-balancing.
-2023-03-20 11:35:08.007  WARN 20432 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : Unable to start LiveReload server
-2023-03-20 11:35:11.290  INFO 20432 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2ccd371, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5de91366, org.springframework.security.web.context.SecurityContextPersistenceFilter@2ca7e6e0, org.springframework.security.web.header.HeaderWriterFilter@3b724a7f, org.springframework.security.web.authentication.logout.LogoutFilter@4f36bbfa, com.ubi.masterservice.config.FilterChainExceptionHandler@15a1d5, com.ubi.masterservice.config.JwtAuthenticationFilter@573d8589, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@65305610, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@40e7617e, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@138642c7, org.springframework.security.web.session.SessionManagementFilter@55e9e2f3, org.springframework.security.web.access.ExceptionTranslationFilter@693f9151, org.springframework.security.web.access.intercept.AuthorizationFilter@38bec3e7]
-2023-03-20 11:35:15.839  INFO 20432 --- [restartedMain] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestTemplate.
-2023-03-20 11:35:16.763  WARN 20432 --- [restartedMain] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
-2023-03-20 11:35:16.967  INFO 20432 --- [restartedMain] o.a.k.clients.admin.AdminClientConfig    : AdminClientConfig values: 
+2023-03-23 10:04:31.516 ERROR 7564 --- [restartedMain] o.springframework.kafka.core.KafkaAdmin  : Could not configure topics
+
+org.springframework.kafka.KafkaException: Timed out waiting to get existing topics; nested exception is java.util.concurrent.TimeoutException
+	at org.springframework.kafka.core.KafkaAdmin.lambda$checkPartitions$10(KafkaAdmin.java:423) [spring-kafka-2.8.11.jar:2.8.11]
+	at java.util.HashMap.forEach(HashMap.java:1290) ~[na:1.8.0_341]
+	at org.springframework.kafka.core.KafkaAdmin.checkPartitions(KafkaAdmin.java:402) [spring-kafka-2.8.11.jar:2.8.11]
+	at org.springframework.kafka.core.KafkaAdmin.addOrModifyTopicsIfNeeded(KafkaAdmin.java:298) [spring-kafka-2.8.11.jar:2.8.11]
+	at org.springframework.kafka.core.KafkaAdmin.initialize(KafkaAdmin.java:201) [spring-kafka-2.8.11.jar:2.8.11]
+	at org.springframework.kafka.core.KafkaAdmin.afterSingletonsInstantiated(KafkaAdmin.java:171) [spring-kafka-2.8.11.jar:2.8.11]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:974) [spring-beans-5.3.24.jar:5.3.24]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:918) [spring-context-5.3.24.jar:5.3.24]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:583) [spring-context-5.3.24.jar:5.3.24]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:147) [spring-boot-2.7.6.jar:2.7.6]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:731) [spring-boot-2.7.6.jar:2.7.6]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:408) [spring-boot-2.7.6.jar:2.7.6]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:307) [spring-boot-2.7.6.jar:2.7.6]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1303) [spring-boot-2.7.6.jar:2.7.6]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1292) [spring-boot-2.7.6.jar:2.7.6]
+	at com.ubi.masterservice.MasterServiceApplication.main(MasterServiceApplication.java:16) [classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_341]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_341]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_341]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_341]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49) [spring-boot-devtools-2.7.6.jar:2.7.6]
+Caused by: java.util.concurrent.TimeoutException: null
+	at java.util.concurrent.CompletableFuture.timedGet(CompletableFuture.java:1784) ~[na:1.8.0_341]
+	at java.util.concurrent.CompletableFuture.get(CompletableFuture.java:1928) ~[na:1.8.0_341]
+	at org.apache.kafka.common.internals.KafkaFutureImpl.get(KafkaFutureImpl.java:180) ~[kafka-clients-3.1.2.jar:na]
+	at org.springframework.kafka.core.KafkaAdmin.lambda$checkPartitions$10(KafkaAdmin.java:405) [spring-kafka-2.8.11.jar:2.8.11]
+	... 20 common frames omitted
+
+2023-03-23 10:04:33.769  INFO 7564 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Node -1 disconnected.
+2023-03-23 10:04:33.771  WARN 7564 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2023-03-23 10:04:36.682  INFO 7564 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Node -1 disconnected.
+2023-03-23 10:04:36.683  WARN 7564 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2023-03-23 10:04:39.801  INFO 7564 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Node -1 disconnected.
+2023-03-23 10:04:39.801  WARN 7564 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2023-03-23 10:04:41.532  INFO 7564 --- [kafka-admin-client-thread | adminclient-1] o.a.k.clients.admin.KafkaAdminClient     : [AdminClient clientId=adminclient-1] Forcing a hard I/O thread shutdown. Requests in progress will be aborted.
+2023-03-23 10:04:41.533  INFO 7564 --- [kafka-admin-client-thread | adminclient-1] o.a.kafka.common.utils.AppInfoParser     : App info kafka.admin.client for adminclient-1 unregistered
+2023-03-23 10:04:41.534  INFO 7564 --- [kafka-admin-client-thread | adminclient-1] o.a.k.c.a.i.AdminMetadataManager         : [AdminClient clientId=adminclient-1] Metadata update failed
+
+org.apache.kafka.common.errors.TimeoutException: Timed out waiting to send the call. Call: fetchMetadata
+
+2023-03-23 10:04:41.534  INFO 7564 --- [kafka-admin-client-thread | adminclient-1] o.a.k.clients.admin.KafkaAdminClient     : [AdminClient clientId=adminclient-1] Timed out 2 remaining operation(s) during close.
+2023-03-23 10:04:41.543  INFO 7564 --- [restartedMain] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
+2023-03-23 10:04:41.546  INFO 7564 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.common.metrics.Metrics  : Metrics scheduler closed
+2023-03-23 10:04:41.547  INFO 7564 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.common.metrics.Metrics  : Closing reporter org.apache.kafka.common.metrics.JmxReporter
+2023-03-23 10:04:41.547  INFO 7564 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.common.metrics.Metrics  : Metrics reporters closed
+2023-03-23 10:04:41.631  INFO 7564 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
+2023-03-23 10:04:41.639  INFO 7564 --- [restartedMain] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2023-03-23 10:04:41.690  INFO 7564 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
+2023-03-23 10:04:41.690  INFO 7564 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
+2023-03-23 10:04:41.690  INFO 7564 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
+2023-03-23 10:04:41.690  INFO 7564 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Application is null : false
+2023-03-23 10:04:41.690  INFO 7564 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
+2023-03-23 10:04:41.690  INFO 7564 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Application version is -1: true
+2023-03-23 10:04:41.690  INFO 7564 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
+2023-03-23 10:04:42.172  INFO 7564 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : The response status is 200
+2023-03-23 10:04:42.177  INFO 7564 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Starting heartbeat executor: renew interval is: 30
+2023-03-23 10:04:42.181  INFO 7564 --- [restartedMain] c.n.discovery.InstanceInfoReplicator     : InstanceInfoReplicator onDemand update allowed rate per min is 4
+2023-03-23 10:04:42.190  INFO 7564 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1679546082188 with initial instances count: 2
+2023-03-23 10:04:42.200  INFO 7564 --- [restartedMain] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application MASTER-SERVICE with eureka with status UP
+2023-03-23 10:04:42.201  INFO 7564 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1679546082201, current=UP, previous=STARTING]
+2023-03-23 10:04:42.205  INFO 7564 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-RCRC9S0:MASTER-SERVICE:8082: registering service...
+2023-03-23 10:04:42.226  INFO 7564 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8082 (http) with context path ''
+2023-03-23 10:04:42.227  INFO 7564 --- [restartedMain] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8082
+2023-03-23 10:04:42.295  INFO 7564 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-RCRC9S0:MASTER-SERVICE:8082 - registration status: 204
+2023-03-23 10:04:42.566  INFO 7564 --- [restartedMain] c.u.m.MasterServiceApplication           : Started MasterServiceApplication in 54.434 seconds (JVM running for 55.73)
+2023-03-23 10:04:42.568  INFO 7564 --- [RMI TCP Connection(2)-127.0.0.1] o.s.c.n.e.s.EurekaServiceRegistry        : Unregistering application MASTER-SERVICE with eureka with status DOWN
+2023-03-23 10:04:42.568  INFO 7564 --- [RMI TCP Connection(2)-127.0.0.1] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1679546082568, current=DOWN, previous=UP]
+2023-03-23 10:04:42.568  INFO 7564 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-RCRC9S0:MASTER-SERVICE:8082: registering service...
+2023-03-23 10:04:42.575  INFO 7564 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-RCRC9S0:MASTER-SERVICE:8082 - registration status: 204
+2023-03-23 10:04:42.769  INFO 7564 --- [RMI TCP Connection(2)-127.0.0.1] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2023-03-23 10:04:42.778  WARN 7564 --- [RMI TCP Connection(2)-127.0.0.1] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [HikariPool-1 housekeeper] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ sun.misc.Unsafe.park(Native Method)
+ java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+ java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1093)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+ java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+ java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+ java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+ java.lang.Thread.run(Thread.java:750)
+2023-03-23 10:04:42.800  INFO 7564 --- [RMI TCP Connection(2)-127.0.0.1] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-03-23 10:04:42.804  INFO 7564 --- [RMI TCP Connection(2)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-03-23 10:04:42.814  INFO 7564 --- [RMI TCP Connection(2)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2023-03-23 10:04:42.815  INFO 7564 --- [RMI TCP Connection(2)-127.0.0.1] com.netflix.discovery.DiscoveryClient    : Shutting down DiscoveryClient ...
+2023-03-23 10:04:45.831  INFO 7564 --- [RMI TCP Connection(2)-127.0.0.1] com.netflix.discovery.DiscoveryClient    : Unregistering ...
+2023-03-23 10:04:45.856  INFO 7564 --- [RMI TCP Connection(2)-127.0.0.1] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-RCRC9S0:MASTER-SERVICE:8082 - deregister  status: 200
+2023-03-23 10:04:45.875  INFO 7564 --- [RMI TCP Connection(2)-127.0.0.1] com.netflix.discovery.DiscoveryClient    : Completed shut down of DiscoveryClient
+2023-03-23 10:06:49.401  INFO 5920 --- [restartedMain] c.u.m.MasterServiceApplication           : Starting MasterServiceApplication using Java 1.8.0_341 on DESKTOP-RCRC9S0 with PID 5920 (C:\Users\user\NewGit\MasterMicrosService\target\classes started by user in C:\Users\user\NewGit\MasterMicrosService)
+2023-03-23 10:06:49.403  INFO 5920 --- [restartedMain] c.u.m.MasterServiceApplication           : The following 1 profile is active: "default"
+2023-03-23 10:06:49.479  INFO 5920 --- [restartedMain] o.s.c.c.c.ConfigServerConfigDataLoader   : Fetching config from server at : http://localhost:8888
+2023-03-23 10:06:49.480  INFO 5920 --- [restartedMain] o.s.c.c.c.ConfigServerConfigDataLoader   : Located environment: name=MASTER-SERVICE, profiles=[default], label=null, version=34ad26327bf9ca4f7322d51e0a77da2344a7f614, state=null
+2023-03-23 10:06:49.483  INFO 5920 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-03-23 10:06:49.483  INFO 5920 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-03-23 10:06:50.734  INFO 5920 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-03-23 10:06:51.019  INFO 5920 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 275 ms. Found 6 JPA repository interfaces.
+2023-03-23 10:06:51.451  INFO 5920 --- [restartedMain] o.s.cloud.context.scope.GenericScope     : BeanFactory id=9fec33f2-4038-3c86-9ad0-07b518bda9a7
+2023-03-23 10:06:52.485  INFO 5920 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8082 (http)
+2023-03-23 10:06:52.504  INFO 5920 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-03-23 10:06:52.504  INFO 5920 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.69]
+2023-03-23 10:06:52.664  INFO 5920 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-03-23 10:06:52.664  INFO 5920 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3180 ms
+2023-03-23 10:06:52.848  WARN 5920 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-03-23 10:06:53.057  INFO 5920 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-03-23 10:06:53.162  INFO 5920 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.14.Final
+2023-03-23 10:06:53.445  INFO 5920 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-03-23 10:06:53.631  INFO 5920 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-03-23 10:06:54.135  INFO 5920 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-03-23 10:06:54.241  INFO 5920 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
+2023-03-23 10:06:55.956  INFO 5920 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-03-23 10:06:55.976  INFO 5920 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-03-23 10:06:56.268  INFO 5920 --- [restartedMain] o.s.c.openfeign.FeignClientFactoryBean   : For 'USER-SERVICE' URL not provided. Will try picking an instance via load-balancing.
+2023-03-23 10:06:56.583  WARN 5920 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : Unable to start LiveReload server
+2023-03-23 10:06:57.695  INFO 5920 --- [restartedMain] o.s.c.openfeign.FeignClientFactoryBean   : For 'FEES-SERVICE' URL not provided. Will try picking an instance via load-balancing.
+2023-03-23 10:06:58.060  INFO 5920 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@1bb5bebe, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1048335c, org.springframework.security.web.context.SecurityContextPersistenceFilter@59f2064c, org.springframework.security.web.header.HeaderWriterFilter@56324491, org.springframework.security.web.authentication.logout.LogoutFilter@17867a4c, com.ubi.masterservice.config.FilterChainExceptionHandler@5a97985d, com.ubi.masterservice.config.JwtAuthenticationFilter@73789e37, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6c2cb16e, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3c7ebeb0, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@437c5e7f, org.springframework.security.web.session.SessionManagementFilter@3fb213e8, org.springframework.security.web.access.ExceptionTranslationFilter@7510833b, org.springframework.security.web.access.intercept.AuthorizationFilter@43a208b2]
+2023-03-23 10:07:00.410  INFO 5920 --- [restartedMain] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestTemplate.
+2023-03-23 10:07:00.831  WARN 5920 --- [restartedMain] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2023-03-23 10:07:00.952  INFO 5920 --- [restartedMain] o.a.k.clients.admin.AdminClientConfig    : AdminClientConfig values: 
 	bootstrap.servers = [localhost:9092]
 	client.dns.lookup = use_all_dns_ips
 	client.id = 
@@ -351,102 +316,66 @@ Caused by: java.net.SocketTimeoutException: connect timed out
 	ssl.truststore.password = null
 	ssl.truststore.type = JKS
 
-2023-03-20 11:35:17.365  INFO 20432 --- [restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.1.2
-2023-03-20 11:35:17.366  INFO 20432 --- [restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: f8c67dc3ae0a3265
-2023-03-20 11:35:17.366  INFO 20432 --- [restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1679292317362
-2023-03-20 11:35:18.368  INFO 20432 --- [kafka-admin-client-thread | adminclient-1] o.a.kafka.common.utils.AppInfoParser     : App info kafka.admin.client for adminclient-1 unregistered
-2023-03-20 11:35:18.381  INFO 20432 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.common.metrics.Metrics  : Metrics scheduler closed
-2023-03-20 11:35:18.381  INFO 20432 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.common.metrics.Metrics  : Closing reporter org.apache.kafka.common.metrics.JmxReporter
-2023-03-20 11:35:18.382  INFO 20432 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.common.metrics.Metrics  : Metrics reporters closed
-2023-03-20 11:35:18.426  INFO 20432 --- [restartedMain] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
-2023-03-20 11:35:18.544  INFO 20432 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
-2023-03-20 11:35:18.558  INFO 20432 --- [restartedMain] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 11:35:18.657  INFO 20432 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
-2023-03-20 11:35:18.658  INFO 20432 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
-2023-03-20 11:35:18.658  INFO 20432 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
-2023-03-20 11:35:18.658  INFO 20432 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Application is null : false
-2023-03-20 11:35:18.658  INFO 20432 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
-2023-03-20 11:35:18.658  INFO 20432 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Application version is -1: true
-2023-03-20 11:35:18.659  INFO 20432 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
-2023-03-20 11:35:19.543  INFO 20432 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : The response status is 200
-2023-03-20 11:35:19.549  INFO 20432 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Starting heartbeat executor: renew interval is: 30
-2023-03-20 11:35:19.564  INFO 20432 --- [restartedMain] c.n.discovery.InstanceInfoReplicator     : InstanceInfoReplicator onDemand update allowed rate per min is 4
-2023-03-20 11:35:19.579  INFO 20432 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1679292319576 with initial instances count: 2
-2023-03-20 11:35:19.596  INFO 20432 --- [restartedMain] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application MASTER-SERVICE with eureka with status UP
-2023-03-20 11:35:19.598  INFO 20432 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1679292319598, current=UP, previous=STARTING]
-2023-03-20 11:35:19.602  INFO 20432 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-73AVE0Q:MASTER-SERVICE:8082: registering service...
-2023-03-20 11:35:19.733  INFO 20432 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8082 (http) with context path ''
-2023-03-20 11:35:19.735  INFO 20432 --- [restartedMain] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8082
-2023-03-20 11:35:19.907  INFO 20432 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-73AVE0Q:MASTER-SERVICE:8082 - registration status: 204
-2023-03-20 11:35:20.213  INFO 20432 --- [restartedMain] c.u.m.MasterServiceApplication           : Started MasterServiceApplication in 29.389 seconds (JVM running for 32.022)
-2023-03-20 11:36:20.057  INFO 20432 --- [http-nio-8082-exec-6] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2023-03-20 11:36:20.057  INFO 20432 --- [http-nio-8082-exec-6] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2023-03-20 11:36:20.064  INFO 20432 --- [http-nio-8082-exec-6] o.s.web.servlet.DispatcherServlet        : Completed initialization in 6 ms
-2023-03-20 11:37:50.430  INFO 20432 --- [http-nio-8082-exec-3] c.u.m.error.RestControllerAdvice         : Custom exception OccuredNo School Found
-2023-03-20 11:40:18.668  INFO 20432 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 11:45:18.679  INFO 20432 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 11:46:20.560  INFO 20432 --- [http-nio-8082-exec-6] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 9969 ms
-2023-03-20 11:50:18.695  INFO 20432 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 11:55:18.714  INFO 20432 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 12:00:18.726  INFO 20432 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 12:05:18.733  INFO 20432 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 12:10:18.748  INFO 20432 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 12:15:18.779  INFO 20432 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 12:20:18.801  INFO 20432 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 12:25:18.809  INFO 20432 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 12:30:18.817  INFO 20432 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 12:35:18.885  INFO 20432 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 12:35:45.001  INFO 20432 --- [SpringApplicationShutdownHook] o.s.c.n.e.s.EurekaServiceRegistry        : Unregistering application MASTER-SERVICE with eureka with status DOWN
-2023-03-20 12:35:45.006  INFO 20432 --- [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1679295945005, current=DOWN, previous=UP]
-2023-03-20 12:35:45.009  INFO 20432 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-73AVE0Q:MASTER-SERVICE:8082: registering service...
-2023-03-20 12:35:45.555  INFO 20432 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-73AVE0Q:MASTER-SERVICE:8082 - registration status: 204
-2023-03-20 12:35:46.257  INFO 20432 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2023-03-20 12:35:46.446  INFO 20432 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2023-03-20 12:35:46.478  INFO 20432 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2023-03-20 12:35:46.483  INFO 20432 --- [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Shutting down DiscoveryClient ...
-2023-03-20 12:35:49.508  INFO 20432 --- [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Unregistering ...
-2023-03-20 12:35:49.534  INFO 20432 --- [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-73AVE0Q:MASTER-SERVICE:8082 - deregister  status: 200
-2023-03-20 12:35:49.547  INFO 20432 --- [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Completed shut down of DiscoveryClient
-2023-03-20 12:36:03.918  INFO 7568 --- [restartedMain] c.u.m.MasterServiceApplication           : Starting MasterServiceApplication using Java 1.8.0_291 on DESKTOP-73AVE0Q with PID 7568 (C:\Users\Neosoft\Desktop\UBI_Application\MasterMicrosService\target\classes started by Neosoft in C:\Users\Neosoft\Desktop\UBI_Application\MasterMicrosService)
-2023-03-20 12:36:03.920  INFO 7568 --- [restartedMain] c.u.m.MasterServiceApplication           : The following 1 profile is active: "default"
-2023-03-20 12:36:04.057  INFO 7568 --- [restartedMain] o.s.c.c.c.ConfigServerConfigDataLoader   : Fetching config from server at : http://localhost:8888
-2023-03-20 12:36:04.057  INFO 7568 --- [restartedMain] o.s.c.c.c.ConfigServerConfigDataLoader   : Located environment: name=MASTER-SERVICE, profiles=[default], label=null, version=34ad26327bf9ca4f7322d51e0a77da2344a7f614, state=null
-2023-03-20 12:36:04.060  INFO 7568 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2023-03-20 12:36:04.060  INFO 7568 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2023-03-20 12:36:06.606  INFO 7568 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-03-20 12:36:07.047  INFO 7568 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 417 ms. Found 6 JPA repository interfaces.
-2023-03-20 12:36:07.819  INFO 7568 --- [restartedMain] o.s.cloud.context.scope.GenericScope     : BeanFactory id=69ccab9c-cd1d-38f0-99fc-4db1c76df551
-2023-03-20 12:36:09.732  INFO 7568 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8082 (http)
-2023-03-20 12:36:09.755  INFO 7568 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2023-03-20 12:36:09.756  INFO 7568 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.69]
-2023-03-20 12:36:10.095  INFO 7568 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2023-03-20 12:36:10.096  INFO 7568 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 6034 ms
-2023-03-20 12:36:10.782  WARN 7568 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023-03-20 12:36:11.312  INFO 7568 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2023-03-20 12:36:12.182  INFO 7568 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.14.Final
-2023-03-20 12:36:13.362  INFO 7568 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2023-03-20 12:36:13.981  INFO 7568 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2023-03-20 12:36:14.999  INFO 7568 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2023-03-20 12:36:15.094  INFO 7568 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
-2023-03-20 12:36:20.354  INFO 7568 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-03-20 12:36:20.370  INFO 7568 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023-03-20 12:36:20.847  INFO 7568 --- [restartedMain] o.s.c.openfeign.FeignClientFactoryBean   : For 'USER-SERVICE' URL not provided. Will try picking an instance via load-balancing.
-2023-03-20 12:36:21.172  WARN 7568 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : Unable to start LiveReload server
-2023-03-20 12:36:24.289  INFO 7568 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@5733a7f7, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1c544f19, org.springframework.security.web.context.SecurityContextPersistenceFilter@f64be23, org.springframework.security.web.header.HeaderWriterFilter@79e9c33a, org.springframework.security.web.authentication.logout.LogoutFilter@7889564f, com.ubi.masterservice.config.FilterChainExceptionHandler@4d7f2aa2, com.ubi.masterservice.config.JwtAuthenticationFilter@1a6be59a, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@624946c7, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@508409b1, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5146bdd8, org.springframework.security.web.session.SessionManagementFilter@900f427, org.springframework.security.web.access.ExceptionTranslationFilter@7ea148ab, org.springframework.security.web.access.intercept.AuthorizationFilter@96886e5]
-2023-03-20 12:36:27.878  INFO 7568 --- [restartedMain] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestTemplate.
-2023-03-20 12:36:28.268  WARN 7568 --- [restartedMain] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
-2023-03-20 12:36:28.346  INFO 7568 --- [restartedMain] o.a.k.clients.admin.AdminClientConfig    : AdminClientConfig values: 
+2023-03-23 10:07:01.092  INFO 5920 --- [restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.1.2
+2023-03-23 10:07:01.092  INFO 5920 --- [restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: f8c67dc3ae0a3265
+2023-03-23 10:07:01.093  INFO 5920 --- [restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1679546221089
+2023-03-23 10:07:01.821  INFO 5920 --- [kafka-admin-client-thread | adminclient-1] o.a.kafka.common.utils.AppInfoParser     : App info kafka.admin.client for adminclient-1 unregistered
+2023-03-23 10:07:01.831  INFO 5920 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.common.metrics.Metrics  : Metrics scheduler closed
+2023-03-23 10:07:01.831  INFO 5920 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.common.metrics.Metrics  : Closing reporter org.apache.kafka.common.metrics.JmxReporter
+2023-03-23 10:07:01.832  INFO 5920 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.common.metrics.Metrics  : Metrics reporters closed
+2023-03-23 10:07:01.855  INFO 5920 --- [restartedMain] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
+2023-03-23 10:07:01.937  INFO 5920 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
+2023-03-23 10:07:01.949  INFO 5920 --- [restartedMain] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2023-03-23 10:07:02.003  INFO 5920 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
+2023-03-23 10:07:02.003  INFO 5920 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
+2023-03-23 10:07:02.003  INFO 5920 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
+2023-03-23 10:07:02.003  INFO 5920 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Application is null : false
+2023-03-23 10:07:02.004  INFO 5920 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
+2023-03-23 10:07:02.004  INFO 5920 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Application version is -1: true
+2023-03-23 10:07:02.004  INFO 5920 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
+2023-03-23 10:07:02.486  INFO 5920 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : The response status is 200
+2023-03-23 10:07:02.492  INFO 5920 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Starting heartbeat executor: renew interval is: 30
+2023-03-23 10:07:02.497  INFO 5920 --- [restartedMain] c.n.discovery.InstanceInfoReplicator     : InstanceInfoReplicator onDemand update allowed rate per min is 4
+2023-03-23 10:07:02.504  INFO 5920 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1679546222503 with initial instances count: 2
+2023-03-23 10:07:02.514  INFO 5920 --- [restartedMain] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application MASTER-SERVICE with eureka with status UP
+2023-03-23 10:07:02.515  INFO 5920 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1679546222515, current=UP, previous=STARTING]
+2023-03-23 10:07:02.519  INFO 5920 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-RCRC9S0:MASTER-SERVICE:8082: registering service...
+2023-03-23 10:07:02.545  INFO 5920 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8082 (http) with context path ''
+2023-03-23 10:07:02.546  INFO 5920 --- [restartedMain] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8082
+2023-03-23 10:07:02.625  INFO 5920 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-RCRC9S0:MASTER-SERVICE:8082 - registration status: 204
+2023-03-23 10:07:02.929  INFO 5920 --- [restartedMain] c.u.m.MasterServiceApplication           : Started MasterServiceApplication in 15.792 seconds (JVM running for 16.959)
+2023-03-23 10:12:02.009  INFO 5920 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2023-03-23 10:12:38.770  INFO 5920 --- [http-nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-03-23 10:12:38.770  INFO 5920 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2023-03-23 10:12:38.774  INFO 5920 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2023-03-23 10:12:41.397  INFO 5920 --- [http-nio-8082-exec-4] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 1270 ms
+2023-03-23 10:17:02.020  INFO 5920 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2023-03-23 10:18:53.606  INFO 5920 --- [http-nio-8082-exec-1] c.u.m.error.RestControllerAdvice         : Custom exception OccuredInvalid Class is being sent to map with Student
+2023-03-23 10:19:03.199  INFO 5920 --- [http-nio-8082-exec-2] o.a.k.clients.producer.ProducerConfig    : ProducerConfig values: 
+	acks = -1
+	batch.size = 16384
 	bootstrap.servers = [localhost:9092]
+	buffer.memory = 33554432
 	client.dns.lookup = use_all_dns_ips
-	client.id = 
-	connections.max.idle.ms = 300000
-	default.api.timeout.ms = 60000
+	client.id = producer-1
+	compression.type = none
+	connections.max.idle.ms = 540000
+	delivery.timeout.ms = 120000
+	enable.idempotence = true
+	interceptor.classes = []
+	key.serializer = class org.apache.kafka.common.serialization.StringSerializer
+	linger.ms = 0
+	max.block.ms = 60000
+	max.in.flight.requests.per.connection = 5
+	max.request.size = 1048576
 	metadata.max.age.ms = 300000
+	metadata.max.idle.ms = 300000
 	metric.reporters = []
 	metrics.num.samples = 2
 	metrics.recording.level = INFO
 	metrics.sample.window.ms = 30000
-	receive.buffer.bytes = 65536
+	partitioner.class = class org.apache.kafka.clients.producer.internals.DefaultPartitioner
+	receive.buffer.bytes = 32768
 	reconnect.backoff.max.ms = 1000
 	reconnect.backoff.ms = 50
 	request.timeout.ms = 30000
@@ -504,170 +433,83 @@ Caused by: java.net.SocketTimeoutException: connect timed out
 	ssl.truststore.location = null
 	ssl.truststore.password = null
 	ssl.truststore.type = JKS
+	transaction.timeout.ms = 60000
+	transactional.id = null
+	value.serializer = class org.springframework.kafka.support.serializer.JsonSerializer
 
-2023-03-20 12:36:28.665  INFO 7568 --- [restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.1.2
-2023-03-20 12:36:28.665  INFO 7568 --- [restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: f8c67dc3ae0a3265
-2023-03-20 12:36:28.665  INFO 7568 --- [restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1679295988662
-2023-03-20 12:36:29.541  INFO 7568 --- [kafka-admin-client-thread | adminclient-1] o.a.kafka.common.utils.AppInfoParser     : App info kafka.admin.client for adminclient-1 unregistered
-2023-03-20 12:36:29.549  INFO 7568 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.common.metrics.Metrics  : Metrics scheduler closed
-2023-03-20 12:36:29.550  INFO 7568 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.common.metrics.Metrics  : Closing reporter org.apache.kafka.common.metrics.JmxReporter
-2023-03-20 12:36:29.551  INFO 7568 --- [kafka-admin-client-thread | adminclient-1] org.apache.kafka.common.metrics.Metrics  : Metrics reporters closed
-2023-03-20 12:36:29.583  INFO 7568 --- [restartedMain] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
-2023-03-20 12:36:29.676  INFO 7568 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
-2023-03-20 12:36:29.689  INFO 7568 --- [restartedMain] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 12:36:29.753  INFO 7568 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
-2023-03-20 12:36:29.753  INFO 7568 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
-2023-03-20 12:36:29.753  INFO 7568 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
-2023-03-20 12:36:29.754  INFO 7568 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Application is null : false
-2023-03-20 12:36:29.754  INFO 7568 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
-2023-03-20 12:36:29.756  INFO 7568 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Application version is -1: true
-2023-03-20 12:36:29.756  INFO 7568 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
-2023-03-20 12:36:30.358  INFO 7568 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : The response status is 200
-2023-03-20 12:36:30.366  INFO 7568 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Starting heartbeat executor: renew interval is: 30
-2023-03-20 12:36:30.372  INFO 7568 --- [restartedMain] c.n.discovery.InstanceInfoReplicator     : InstanceInfoReplicator onDemand update allowed rate per min is 4
-2023-03-20 12:36:30.380  INFO 7568 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1679295990378 with initial instances count: 3
-2023-03-20 12:36:30.386  INFO 7568 --- [restartedMain] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application MASTER-SERVICE with eureka with status UP
-2023-03-20 12:36:30.388  INFO 7568 --- [restartedMain] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1679295990388, current=UP, previous=STARTING]
-2023-03-20 12:36:30.391  INFO 7568 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-73AVE0Q:MASTER-SERVICE:8082: registering service...
-2023-03-20 12:36:30.435  INFO 7568 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8082 (http) with context path ''
-2023-03-20 12:36:30.440  INFO 7568 --- [restartedMain] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8082
-2023-03-20 12:36:30.529  INFO 7568 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-73AVE0Q:MASTER-SERVICE:8082 - registration status: 204
-2023-03-20 12:36:30.924  INFO 7568 --- [restartedMain] c.u.m.MasterServiceApplication           : Started MasterServiceApplication in 31.096 seconds (JVM running for 32.628)
-2023-03-20 12:36:37.961  INFO 7568 --- [http-nio-8082-exec-9] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2023-03-20 12:36:37.968  INFO 7568 --- [http-nio-8082-exec-9] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2023-03-20 12:36:37.973  INFO 7568 --- [http-nio-8082-exec-9] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
-2023-03-20 12:36:53.715  INFO 7568 --- [http-nio-8082-exec-9] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 4092 ms
-2023-03-20 12:37:25.808 ERROR 7568 --- [http-nio-8082-exec-10] c.u.m.c.FilterChainExceptionHandler      : Spring Security Filter Chain Exception:
-
-feign.FeignException$BadRequest: [400] during [POST] to [http://USER-SERVICE/validate] [UserFeignService#validateTokenAndGetUser(ValidateJwt)]: [{"statusCode":401,"message":"Token Is Expired","status":"TOKEN_EXPIRED","timestamp":"20-03-2023 12:37:25","result":{"data":null}}]
-	at feign.FeignException.clientErrorStatus(FeignException.java:213) ~[feign-core-11.10.jar:na]
-	at feign.FeignException.errorStatus(FeignException.java:194) ~[feign-core-11.10.jar:na]
-	at feign.FeignException.errorStatus(FeignException.java:185) ~[feign-core-11.10.jar:na]
-	at feign.codec.ErrorDecoder$Default.decode(ErrorDecoder.java:92) ~[feign-core-11.10.jar:na]
-	at feign.AsyncResponseHandler.handleResponse(AsyncResponseHandler.java:98) ~[feign-core-11.10.jar:na]
-	at feign.SynchronousMethodHandler.executeAndDecode(SynchronousMethodHandler.java:141) ~[feign-core-11.10.jar:na]
-	at feign.SynchronousMethodHandler.invoke(SynchronousMethodHandler.java:91) ~[feign-core-11.10.jar:na]
-	at feign.ReflectiveFeign$FeignInvocationHandler.invoke(ReflectiveFeign.java:100) ~[feign-core-11.10.jar:na]
-	at com.sun.proxy.$Proxy186.validateTokenAndGetUser(Unknown Source) ~[na:na]
-	at com.ubi.masterservice.config.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:64) ~[classes/:na]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) [spring-web-5.3.24.jar:5.3.24]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
-	at com.ubi.masterservice.config.FilterChainExceptionHandler.doFilterInternal(FilterChainExceptionHandler.java:29) ~[classes/:na]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) [spring-web-5.3.24.jar:5.3.24]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:103) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:89) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) [spring-web-5.3.24.jar:5.3.24]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:112) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:82) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:55) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) [spring-web-5.3.24.jar:5.3.24]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) [spring-web-5.3.24.jar:5.3.24]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:221) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:186) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:354) [spring-web-5.3.24.jar:5.3.24]
-	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:267) [spring-web-5.3.24.jar:5.3.24]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) [spring-web-5.3.24.jar:5.3.24]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) [spring-web-5.3.24.jar:5.3.24]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:177) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:360) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:891) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1784) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at java.lang.Thread.run(Thread.java:748) [na:1.8.0_291]
-
-2023-03-20 12:37:25.811  INFO 7568 --- [http-nio-8082-exec-10] c.u.m.error.RestControllerAdvice         : Exception occured in feign client response
-2023-03-20 12:37:27.196 ERROR 7568 --- [http-nio-8082-exec-7] c.u.m.c.FilterChainExceptionHandler      : Spring Security Filter Chain Exception:
-
-feign.FeignException$BadRequest: [400] during [POST] to [http://USER-SERVICE/validate] [UserFeignService#validateTokenAndGetUser(ValidateJwt)]: [{"statusCode":401,"message":"Token Is Expired","status":"TOKEN_EXPIRED","timestamp":"20-03-2023 12:37:27","result":{"data":null}}]
-	at feign.FeignException.clientErrorStatus(FeignException.java:213) ~[feign-core-11.10.jar:na]
-	at feign.FeignException.errorStatus(FeignException.java:194) ~[feign-core-11.10.jar:na]
-	at feign.FeignException.errorStatus(FeignException.java:185) ~[feign-core-11.10.jar:na]
-	at feign.codec.ErrorDecoder$Default.decode(ErrorDecoder.java:92) ~[feign-core-11.10.jar:na]
-	at feign.AsyncResponseHandler.handleResponse(AsyncResponseHandler.java:98) ~[feign-core-11.10.jar:na]
-	at feign.SynchronousMethodHandler.executeAndDecode(SynchronousMethodHandler.java:141) ~[feign-core-11.10.jar:na]
-	at feign.SynchronousMethodHandler.invoke(SynchronousMethodHandler.java:91) ~[feign-core-11.10.jar:na]
-	at feign.ReflectiveFeign$FeignInvocationHandler.invoke(ReflectiveFeign.java:100) ~[feign-core-11.10.jar:na]
-	at com.sun.proxy.$Proxy186.validateTokenAndGetUser(Unknown Source) ~[na:na]
-	at com.ubi.masterservice.config.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:64) ~[classes/:na]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) [spring-web-5.3.24.jar:5.3.24]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
-	at com.ubi.masterservice.config.FilterChainExceptionHandler.doFilterInternal(FilterChainExceptionHandler.java:29) ~[classes/:na]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) [spring-web-5.3.24.jar:5.3.24]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:103) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:89) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) [spring-web-5.3.24.jar:5.3.24]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:112) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:82) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:55) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) [spring-web-5.3.24.jar:5.3.24]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) [spring-web-5.3.24.jar:5.3.24]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:221) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:186) [spring-security-web-5.7.5.jar:5.7.5]
-	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:354) [spring-web-5.3.24.jar:5.3.24]
-	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:267) [spring-web-5.3.24.jar:5.3.24]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) [spring-web-5.3.24.jar:5.3.24]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) [spring-web-5.3.24.jar:5.3.24]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:177) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:360) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:891) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1784) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) [tomcat-embed-core-9.0.69.jar:9.0.69]
-	at java.lang.Thread.run(Thread.java:748) [na:1.8.0_291]
-
-2023-03-20 12:37:27.198  INFO 7568 --- [http-nio-8082-exec-7] c.u.m.error.RestControllerAdvice         : Exception occured in feign client response
-2023-03-20 12:41:29.775  INFO 7568 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 12:46:29.796  INFO 7568 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 12:51:29.811  INFO 7568 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 12:56:29.828  INFO 7568 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 13:01:29.835  INFO 7568 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 13:06:29.853  INFO 7568 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 14:14:22.225  WARN 7568 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h5m6s362ms967µs).
-2023-03-20 14:16:06.229  INFO 7568 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 14:21:06.281  INFO 7568 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2023-03-20 14:26:06.302  INFO 7568 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2023-03-23 10:19:03.236  INFO 5920 --- [http-nio-8082-exec-2] o.a.k.clients.producer.KafkaProducer     : [Producer clientId=producer-1] Instantiated an idempotent producer.
+2023-03-23 10:19:03.268  INFO 5920 --- [http-nio-8082-exec-2] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.1.2
+2023-03-23 10:19:03.269  INFO 5920 --- [http-nio-8082-exec-2] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: f8c67dc3ae0a3265
+2023-03-23 10:19:03.269  INFO 5920 --- [http-nio-8082-exec-2] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1679546943268
+2023-03-23 10:19:03.286  INFO 5920 --- [kafka-producer-network-thread | producer-1] org.apache.kafka.clients.Metadata        : [Producer clientId=producer-1] Cluster ID: Z2Vff4YOQTysn6V50BVFJg
+2023-03-23 10:19:03.293  INFO 5920 --- [kafka-producer-network-thread | producer-1] org.apache.kafka.clients.Metadata        : [Producer clientId=producer-1] Resetting the last seen epoch of partition master_topic_add-0 to 0 since the associated topicId changed from null to dPP3IaTqR6WA0XTFcYw_AA
+2023-03-23 10:19:03.294  INFO 5920 --- [kafka-producer-network-thread | producer-1] org.apache.kafka.clients.Metadata        : [Producer clientId=producer-1] Resetting the last seen epoch of partition master_topic_add-4 to 0 since the associated topicId changed from null to dPP3IaTqR6WA0XTFcYw_AA
+2023-03-23 10:19:03.294  INFO 5920 --- [kafka-producer-network-thread | producer-1] org.apache.kafka.clients.Metadata        : [Producer clientId=producer-1] Resetting the last seen epoch of partition master_topic_add-1 to 0 since the associated topicId changed from null to dPP3IaTqR6WA0XTFcYw_AA
+2023-03-23 10:19:03.294  INFO 5920 --- [kafka-producer-network-thread | producer-1] org.apache.kafka.clients.Metadata        : [Producer clientId=producer-1] Resetting the last seen epoch of partition master_topic_add-2 to 0 since the associated topicId changed from null to dPP3IaTqR6WA0XTFcYw_AA
+2023-03-23 10:19:03.294  INFO 5920 --- [kafka-producer-network-thread | producer-1] org.apache.kafka.clients.Metadata        : [Producer clientId=producer-1] Resetting the last seen epoch of partition master_topic_add-3 to 0 since the associated topicId changed from null to dPP3IaTqR6WA0XTFcYw_AA
+2023-03-23 10:19:03.338  INFO 5920 --- [kafka-producer-network-thread | producer-1] o.a.k.c.p.internals.TransactionManager   : [Producer clientId=producer-1] ProducerId set to 53000 with epoch 0
+2023-03-23 10:19:03.360  INFO 5920 --- [http-nio-8082-exec-2] c.u.m.service.SchoolServiceImpl          : Hello-------
+2023-03-23 10:19:03.360  INFO 5920 --- [http-nio-8082-exec-2] c.u.m.service.SchoolServiceImpl          : Order Event => {"createdBy":1,"created":"2023-03-23","modifiedBy":1,"modified":"2023-03-23","isDeleted":false,"studentId":7,"studentFirstName":"neha","studentLastName":"jadhav","dateOfBirth":"2023-03-23","category":"string","minority":"string","fatherName":"string","fatherOccupation":"string","motherName":"string","motherOccupation":"string","gender":"string","bloodGroup":"string","aadhaarNo":123456789089,"joiningDate":"2023-03-23","verifiedByTeacher":false,"verifiedByPrincipal":false,"isActivate":false,"currentStatus":"string","rollNo":10,"isPhysicallyHandicapped":true,"uniqueId":"731512593380923","admissionNo":"7520854434","nationality":"string","classId":4,"isCurrentPaymentCycleFeesPaid":false,"mobileNo":8923456789,"email":"neha@gmail.com"}
+2023-03-23 10:22:02.030  INFO 5920 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2023-03-23 10:22:23.299  INFO 5920 --- [RMI TCP Connection(6)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2023-03-23 10:22:23.304  INFO 5920 --- [RMI TCP Connection(6)-127.0.0.1] o.s.c.n.e.s.EurekaServiceRegistry        : Unregistering application MASTER-SERVICE with eureka with status DOWN
+2023-03-23 10:22:23.304  INFO 5920 --- [RMI TCP Connection(6)-127.0.0.1] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1679547143304, current=DOWN, previous=UP]
+2023-03-23 10:22:23.305  INFO 5920 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-RCRC9S0:MASTER-SERVICE:8082: registering service...
+2023-03-23 10:22:23.321  INFO 5920 --- [DiscoveryClient-InstanceInfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-RCRC9S0:MASTER-SERVICE:8082 - registration status: 204
+2023-03-23 10:22:23.513  INFO 5920 --- [RMI TCP Connection(6)-127.0.0.1] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2023-03-23 10:22:23.517  INFO 5920 --- [RMI TCP Connection(6)-127.0.0.1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Destroying Spring FrameworkServlet 'dispatcherServlet'
+2023-03-23 10:22:23.537  WARN 5920 --- [RMI TCP Connection(6)-127.0.0.1] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [HikariPool-1 housekeeper] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ sun.misc.Unsafe.park(Native Method)
+ java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+ java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1093)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+ java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+ java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+ java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+ java.lang.Thread.run(Thread.java:750)
+2023-03-23 10:22:23.538  WARN 5920 --- [RMI TCP Connection(6)-127.0.0.1] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [boundedElastic-evictor-1] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ sun.misc.Unsafe.park(Native Method)
+ java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+ java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1093)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+ java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+ java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+ java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+ java.lang.Thread.run(Thread.java:750)
+2023-03-23 10:22:23.539  WARN 5920 --- [RMI TCP Connection(6)-127.0.0.1] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [pool-10-thread-1] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ sun.misc.Unsafe.park(Native Method)
+ java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+ java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1081)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+ java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+ java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+ java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+ java.lang.Thread.run(Thread.java:750)
+2023-03-23 10:22:23.539  WARN 5920 --- [RMI TCP Connection(6)-127.0.0.1] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [kafka-producer-network-thread | producer-1] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ sun.nio.ch.WindowsSelectorImpl$SubSelector.poll0(Native Method)
+ sun.nio.ch.WindowsSelectorImpl$SubSelector.poll(WindowsSelectorImpl.java:296)
+ sun.nio.ch.WindowsSelectorImpl$SubSelector.access$400(WindowsSelectorImpl.java:278)
+ sun.nio.ch.WindowsSelectorImpl.doSelect(WindowsSelectorImpl.java:159)
+ sun.nio.ch.SelectorImpl.lockAndDoSelect(SelectorImpl.java:86)
+ sun.nio.ch.SelectorImpl.select(SelectorImpl.java:97)
+ org.apache.kafka.common.network.Selector.select(Selector.java:873)
+ org.apache.kafka.common.network.Selector.poll(Selector.java:465)
+ org.apache.kafka.clients.NetworkClient.poll(NetworkClient.java:560)
+ org.apache.kafka.clients.producer.internals.Sender.runOnce(Sender.java:328)
+ org.apache.kafka.clients.producer.internals.Sender.run(Sender.java:243)
+ java.lang.Thread.run(Thread.java:750)
+2023-03-23 10:22:23.563  INFO 5920 --- [RMI TCP Connection(6)-127.0.0.1] o.a.k.clients.producer.KafkaProducer     : [Producer clientId=producer-1] Closing the Kafka producer with timeoutMillis = 30000 ms.
+2023-03-23 10:22:23.567  INFO 5920 --- [RMI TCP Connection(6)-127.0.0.1] org.apache.kafka.common.metrics.Metrics  : Metrics scheduler closed
+2023-03-23 10:22:23.567  INFO 5920 --- [RMI TCP Connection(6)-127.0.0.1] org.apache.kafka.common.metrics.Metrics  : Closing reporter org.apache.kafka.common.metrics.JmxReporter
+2023-03-23 10:22:23.567  INFO 5920 --- [RMI TCP Connection(6)-127.0.0.1] org.apache.kafka.common.metrics.Metrics  : Metrics reporters closed
+2023-03-23 10:22:23.568  INFO 5920 --- [RMI TCP Connection(6)-127.0.0.1] o.a.kafka.common.utils.AppInfoParser     : App info kafka.producer for producer-1 unregistered
+2023-03-23 10:22:23.582  INFO 5920 --- [RMI TCP Connection(6)-127.0.0.1] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-03-23 10:22:23.619  INFO 5920 --- [RMI TCP Connection(6)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-03-23 10:22:23.636  INFO 5920 --- [RMI TCP Connection(6)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2023-03-23 10:22:23.639  INFO 5920 --- [RMI TCP Connection(6)-127.0.0.1] com.netflix.discovery.DiscoveryClient    : Shutting down DiscoveryClient ...
+2023-03-23 10:22:26.664  INFO 5920 --- [RMI TCP Connection(6)-127.0.0.1] com.netflix.discovery.DiscoveryClient    : Unregistering ...
+2023-03-23 10:22:26.684  INFO 5920 --- [RMI TCP Connection(6)-127.0.0.1] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_MASTER-SERVICE/DESKTOP-RCRC9S0:MASTER-SERVICE:8082 - deregister  status: 200
+2023-03-23 10:22:26.708  INFO 5920 --- [RMI TCP Connection(6)-127.0.0.1] com.netflix.discovery.DiscoveryClient    : Completed shut down of DiscoveryClient

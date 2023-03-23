@@ -49,6 +49,8 @@ public class StudentMapper {
 		studentDto.setUniqueId(student.getUniqueId());
 		studentDto.setAdmissionNo(student.getAdmissionNo());
 		studentDto.setNationality(student.getNationality());
+		studentDto.setMobileNo(student.getMobileNo());
+		studentDto.setEmail(student.getEmail());
 		studentDto.setCreated(student.getCreated());
 		studentDto.setCreatedBy(student.getCreatedBy());
 		studentDto.setModified(student.getModified());
@@ -144,6 +146,8 @@ public class StudentMapper {
 		studentDetailsDto.setUniqueId(student.getUniqueId());
 		studentDetailsDto.setAdmissionNo(student.getAdmissionNo());
 		studentDetailsDto.setNationality(student.getNationality());
+		studentDetailsDto.setMobileNo(student.getMobileNo());
+		studentDetailsDto.setEmail(student.getEmail());
 		studentDetailsDto.setCreated(student.getCreated());
 		studentDetailsDto.setCreatedBy(student.getCreatedBy());
 		studentDetailsDto.setModified(student.getModified());
