@@ -97,11 +97,24 @@ public class ClassServiceImpl implements ClassService {
 
         School school = schoolRepository.findByIdIfNotDeleted(classDto.getSchoolId());
 
-        if (school != null && school.getClassDetail() != null) {
-            for (ClassDetail classDetail : school.getClassDetail()) {
-                if (classDetail.getClassName().equals(classDto.getClassName()) && classDetail.getSection().equals(classDto.getSection()) && classDetail.getStream().equals(classDto.getStream())) {
-                    throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_EXISTS.getCode(),
-                            HttpStatusCode.RESOURCE_ALREADY_EXISTS, "Class with given class name,section & stream already exists in this school", res);
+        if (school != null) {
+            if(school.getClassDetail() != null){
+                for (ClassDetail classDetail : school.getClassDetail()) {
+
+                    if(!classDetail.getIsDeleted()){
+                        System.out.println("-----" + classDetail.getClassName());
+                        System.out.println("-----" + classDetail.getSection());
+                        System.out.println("-----" + classDetail.getStream());
+
+                        System.out.println("--new---" + classDto.getClassName());
+                        System.out.println("--new---" + classDto.getSection());
+                        System.out.println("--new---" + classDto.getStream());
+
+                        if (classDetail.getClassName().equalsIgnoreCase(classDto.getClassName()) && classDetail.getSection().equalsIgnoreCase(classDto.getSection()) && classDetail.getStream().equalsIgnoreCase(classDto.getStream())) {
+                            throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_EXISTS.getCode(),
+                                    HttpStatusCode.RESOURCE_ALREADY_EXISTS, "Class with given class name,section & stream already exists in this school", res);
+                        }
+                    }
                 }
             }
         } else {
