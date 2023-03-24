@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import com.ubi.masterservice.dto.studentDto.StudentDetailsDto;
@@ -124,6 +126,27 @@ public class SchoolServiceImpl implements SchoolService {
 					HttpStatusCode.REGION_NOT_FOUND, "Add Region for this school",
 					res);
 		}
+		
+		Long contact=schoolDto.getContact();
+		int totalDegits= (int)Math.floor(Math.log10(contact) + 1);
+		if(!(totalDegits==10))
+		{
+			throw new CustomException(HttpStatusCode.ENTER_PROPER_MOBILE_NO.getCode(),
+					HttpStatusCode.ENTER_PROPER_MOBILE_NO,
+					"Enter proper 10 digit mobile number", res);
+		}
+		
+		String email=schoolDto.getEmail();
+		String regex = "^[A-Za-z0-9+_.-]+@(.+)$";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(email);
+		if(matcher.matches() == false)
+		{
+			throw new CustomException(HttpStatusCode.ENTER_PROPER_EMAIL_ID.getCode(),
+					HttpStatusCode.ENTER_PROPER_EMAIL_ID,
+					"Enter proper email id", res);
+		}
+		 
 
 		School school = new School();
 		school.setCode(schoolDto.getCode());

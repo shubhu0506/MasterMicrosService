@@ -2,6 +2,7 @@ package com.ubi.masterservice.entity;
 import java.util.Set;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -32,7 +33,8 @@ public class School extends Auditable {
 
 	@Column(name = "schoolName")
 	private String name;
-
+	
+	@Email
 	@Column(name = "schoolEmail")
 	private String email;
 

@@ -2,6 +2,8 @@ package com.ubi.masterservice.dto.schoolDto;
 
 import java.util.Set;
 
+import javax.validation.constraints.Email;
+
 import com.ubi.masterservice.model.Auditable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,7 +19,8 @@ public class SchoolDto extends Auditable {
 	private int code;
 
 	private String name;
-
+	
+	@Email
 	private String email;
 
 	private long contact;
