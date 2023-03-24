@@ -1,5 +1,7 @@
 package com.ubi.masterservice.dto.schoolDto;
 
+import javax.validation.constraints.Email;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,6 +19,7 @@ public class SchoolPaginationDto {
 
 	private String name;
 
+	@Email
 	private String email;
 
 	private long contact;
