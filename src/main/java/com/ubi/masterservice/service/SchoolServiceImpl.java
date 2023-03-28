@@ -524,7 +524,6 @@ public class SchoolServiceImpl implements SchoolService {
 
 	@Override
 	public Response<SchoolDto> deleteSchoolById(int schoolId) {
-		System.out.println("----- deleting school ---" + schoolId);
 
 		Result<SchoolDto> res = new Result<>();
 		res.setData(null);
@@ -533,34 +532,28 @@ public class SchoolServiceImpl implements SchoolService {
 			throw new CustomException(HttpStatusCode.RESOURCE_NOT_FOUND.getCode(), HttpStatusCode.RESOURCE_NOT_FOUND,
 					HttpStatusCode.RESOURCE_NOT_FOUND.getMessage(), res);
 		}
-		if(school.get().getIsDeleted()){
+
+		School school1 = school.get();
+		if(school1.getIsDeleted()){
 			throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_DELETED.getCode(), HttpStatusCode.RESOURCE_ALREADY_DELETED,
-					"Given School/College is deleted", new Result<>(null));
+					"Given School/College is already deleted", new Result<>(null));
 		}
 
-		Region region = school.get().getRegion();
-		region.getSchool().remove(school.get());
-		regionRepository.save(region);
-		Set<ClassDetail> setOfClassDetails = school.get().getClassDetail();
-		Set<ClassDetail> newSetOfClassDetails = new HashSet<>(setOfClassDetails);
-		for (ClassDetail classDetail : newSetOfClassDetails) {
-			classService.deleteClassById(classDetail.getClassId());
+		if(school1.getClassDetail() != null && school1.getClassDetail().size() > 0){
+			throw new CustomException(HttpStatusCode.BAD_REQUEST_EXCEPTION.getCode(), HttpStatusCode.BAD_REQUEST_EXCEPTION,
+					"School is mapped with class, hence it can not be deleted", res);
 		}
 
-		EducationalInstitution educationalInstitution = school.get().getEducationalInstitution();
-		if(educationalInstitution != null){
-			educationalInstitution.getSchool().remove(school.get());
-			educationalRepository.save(educationalInstitution);
-		}
-
-		school.get().setIsDeleted(true);
-		school.get().setPrincipalId(null);
-		schoolRepository.save(school.get());
+		school1.setRegion(null);
+		school1.setEducationalInstitution(null);
+		school1.setPrincipalId(null);
+		school1.setIsDeleted(true);
+		school1 = schoolRepository.save(school1);
 
 		Response<SchoolDto> response = new Response<>();
-		res.setData(schoolMapper.entityToDto(school.get()));
-		response.setMessage(HttpStatusCode.SCHOOL_DELETED_SUCCESSFULLY.getMessage());
-		response.setStatusCode(HttpStatusCode.SCHOOL_DELETED_SUCCESSFULLY.getCode());
+		res.setData(schoolMapper.entityToDto(school1));
+		response.setMessage("School Deleted Successfully");
+		response.setStatusCode(HttpStatusCode.SUCCESSFUL.getCode());
 		response.setResult(res);
 		ObjectMapper obj = new ObjectMapper();
 

@@ -59,11 +59,9 @@ public class StudentMapper {
 		studentDto.setIsCurrentPaymentCycleFeesPaid(student.getIsCurrentPaymentCycleFeesPaid());
 		
 		studentDto.setVerifiedByTeacher(student.getVerifiedByTeacher());
-		
-		studentDto.setClassId(student.getClassDetail().getClassId());
+		if(student.getClassDetail() != null ) studentDto.setClassId(student.getClassDetail().getClassId());
 		//System.out.println(studentDto.toString());
 		return studentDto;
-			
 	}
 	
 	public StudentVerifyDto entityToDtoId(StudentVerifyDto student) {

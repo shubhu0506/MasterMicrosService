@@ -260,13 +260,12 @@ public class RegionServiceImpl implements RegionService {
 
 	@Override
 	public Response<RegionDto> deleteRegionById(int id) {
-		System.out.println("----- deleting region ---" + id);
 		Result<RegionDto> res = new Result<>();
 		res.setData(null);
 		Optional<Region> regionTemp = regionRepository.findById(id);
 		if (!regionTemp.isPresent()) {
 			throw new CustomException(HttpStatusCode.RESOURCE_NOT_FOUND.getCode(), HttpStatusCode.RESOURCE_NOT_FOUND,
-					HttpStatusCode.RESOURCE_NOT_FOUND.getMessage(), res);
+					"Region WIth Given Id Not Found", res);
 		}
 		Region region = regionTemp.get();
 
@@ -274,36 +273,25 @@ public class RegionServiceImpl implements RegionService {
 			throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_DELETED.getCode(), HttpStatusCode.RESOURCE_ALREADY_DELETED,
 					"Region with given Id is already deleted", res);
 		}
-		Region region1 = new Region();
-		region1 = region;
 
-		if(region.getIsDeleted() == true){
-			throw new CustomException(HttpStatusCode.RESOURCE_NOT_FOUND.getCode(), HttpStatusCode.RESOURCE_NOT_FOUND,
-					HttpStatusCode.RESOURCE_NOT_FOUND.getMessage(), res);
+		if(region.getEducationalInstitiute() != null &&  region.getEducationalInstitiute().size() > 0){
+			throw new CustomException(HttpStatusCode.BAD_REQUEST_EXCEPTION.getCode(), HttpStatusCode.BAD_REQUEST_EXCEPTION,
+					"Region is mapped with educatinal institutes hence can not be deleted", res);
 		}
 
-		Set<EducationalInstitution> educationalInstitutionSet = region.getEducationalInstitiute();
-		for (EducationalInstitution eduInsti : educationalInstitutionSet) {
-			eduInsti.getRegion().remove(region);
-			educationalInstitutionRepository.save(eduInsti);
+		if(region.getSchool() != null && region.getSchool().size() > 0){
+			throw new CustomException(HttpStatusCode.BAD_REQUEST_EXCEPTION.getCode(), HttpStatusCode.BAD_REQUEST_EXCEPTION,
+					"Region is mapped with schools hence can not be deleted", res);
 		}
 
-		Set<School> schoolSet = region.getSchool();
-		Set<School> newSchoolSet = new HashSet<>(schoolSet);
-		for(School school:newSchoolSet){
-			schoolService.deleteSchoolById(school.getSchoolId());
-		}
-
-		region.setEducationalInstitiute(new HashSet<>());
-		region.setSchool(new HashSet<>());
 		region.setAdminId(null);
 		region.setIsDeleted(true);
-		regionRepository.save(region);
+		Region deletedRegion = regionRepository.save(region);
 
 		Response<RegionDto> response = new Response<>();
-		res.setData(regionMapper.entityToDto(region1));
-		response.setMessage(HttpStatusCode.REGION_DELETED_SUCCESSFULLY.getMessage());
-		response.setStatusCode(HttpStatusCode.REGION_DELETED_SUCCESSFULLY.getCode());
+		res.setData(regionMapper.entityToDto(deletedRegion));
+		response.setMessage("Region Deleted Successfully");
+		response.setStatusCode(HttpStatusCode.SUCCESSFUL.getCode());
 		response.setResult(res);
 
 		ObjectMapper obj = new ObjectMapper();
