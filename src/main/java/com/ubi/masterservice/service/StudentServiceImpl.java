@@ -3,11 +3,7 @@ package com.ubi.masterservice.service;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -388,18 +384,9 @@ public class StudentServiceImpl implements StudentService {
 					"Student with given Id is already deleted", new Result<>(null));
 		}
 
-		if(student1.getIsDeleted()== true){
-			throw new CustomException(HttpStatusCode.RESOURCE_NOT_FOUND.getCode(), HttpStatusCode.RESOURCE_NOT_FOUND,
-					HttpStatusCode.RESOURCE_NOT_FOUND.getMessage(), new Result<>(null));
-		}
-
-		ClassDetail classDetail=student.get().getClassDetail();
-		if(classDetail!=null)
-		{
-			classDetail.getStudents().remove(student.get());
-		}
+		student1.setClassDetail(null);
 		student1.setIsDeleted(true);
-		studentRepository.save(student1);
+		student1 = studentRepository.save(student1);
 		Response<StudentDto> response = new Response<>();
 		res.setData(studentMapper.entityToDto(student1));
 		response.setMessage(HttpStatusCode.STUDENT_DELETED.getMessage());
@@ -849,7 +836,6 @@ public class StudentServiceImpl implements StudentService {
 			throw new CustomException(HttpStatusCode.RESOURCE_NOT_FOUND.getCode(), HttpStatusCode.RESOURCE_NOT_FOUND,
 					"Date Of Birth Mismatched", new Result<>(null));
 		}
-
 		StudentDetailsDto studentDetailsDto = studentMapper.toStudentDetails(student);
 		Response<StudentDetailsDto> response = new Response<>();
 

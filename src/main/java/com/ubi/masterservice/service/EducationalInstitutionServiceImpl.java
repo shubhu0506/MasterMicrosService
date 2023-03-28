@@ -335,29 +335,22 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 			throw new CustomException(HttpStatusCode.RESOURCE_ALREADY_DELETED.getCode(), HttpStatusCode.RESOURCE_ALREADY_DELETED,
 					"Educational Institution with given Id is already deleted", res);
 		}
-		EducationalInstitution eduInstitution = new EducationalInstitution();
-		eduInstitution = eduInst;
 
-		if(eduInst.getIsDeleted() == true){
-			throw new CustomException(HttpStatusCode.RESOURCE_NOT_FOUND.getCode(), HttpStatusCode.RESOURCE_NOT_FOUND,
-					HttpStatusCode.RESOURCE_NOT_FOUND.getMessage(), res);
-		}
-
-		for (Region region : educationalInst.get().getRegion()) {
-			region.getEducationalInstitiute().remove(educationalInst.get());
-			regionRepository.save(region);
+		if(eduInst.getSchool() != null && eduInst.getSchool().size() > 0){
+			throw new CustomException(HttpStatusCode.BAD_REQUEST_EXCEPTION.getCode(), HttpStatusCode.BAD_REQUEST_EXCEPTION,
+					"Education Institution is mapped with schools hence can not be deleted", res);
 		}
 
 		eduInst.setRegion(new HashSet<>());
 		eduInst.setAdminId(null);
 		eduInst.setIsDeleted(true);
-		educationalInstitutionRepository.save(educationalInst.get());
+		EducationalInstitution eduInstitution = educationalInstitutionRepository.save(eduInst);
 		//educationalInstitutionRepository.deleteById(id);
 
 		Response<InstituteDto> response = new Response<>();
 		res.setData(educationalInstitutionMapper.toInstituteDto(eduInstitution));
-		response.setMessage(HttpStatusCode.EDUCATIONAL_INSTITUTION_DELETED.getMessage());
-		response.setStatusCode(HttpStatusCode.EDUCATIONAL_INSTITUTION_DELETED.getCode());
+		response.setMessage("Educational Institute Deleted Successfully");
+		response.setStatusCode(HttpStatusCode.SUCCESSFUL.getCode());
 		response.setResult(res);
 
 		ObjectMapper obj = new ObjectMapper();
