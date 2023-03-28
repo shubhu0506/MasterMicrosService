@@ -17,6 +17,7 @@ import com.ubi.masterservice.dto.studentDto.StudentDetailsDto;
 import com.ubi.masterservice.dto.user.UserDto;
 import com.ubi.masterservice.entity.School;
 import com.ubi.masterservice.entity.Student;
+import com.ubi.masterservice.error.NoDataException;
 import com.ubi.masterservice.externalServices.UserFeignService;
 import com.ubi.masterservice.mapper.SchoolMapper;
 import com.ubi.masterservice.mapper.StudentMapper;
@@ -232,9 +233,6 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 
 	@Override
 	public Response<PaginationResponse<List<InstituteDto>>> getAllEducationalInstitutions(String fieldName,String searchByField,Integer pageNumber,Integer pageSize) {
-//
-//		Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(fieldName).ascending()
-//				: Sort.by(fieldName).descending();
 
 
 		Result<PaginationResponse<List<InstituteDto>>> allEducationalResult = new Result<>();
@@ -297,16 +295,16 @@ public class EducationalInstitutionServiceImpl implements EducationalInstitution
 			 paginationResponse = new PaginationResponse<List<InstituteDto>>(instituteDtos, list.getTotalPages(), list.getTotalElements());
 		}
 
-//		for (EducationalInstitution eduInsti : list) {
-//			instituteDtos.add(educationalInstitutionMapper.toInstituteDto(eduInsti));
-//		}
-
-	//	PaginationResponse paginationResponse=new PaginationResponse<List<InstituteDto>>(instituteDtos,list.getTotalPages(),list.getTotalElements());
-
 		if (list.isEmpty()) {
-			throw new CustomException(HttpStatusCode.NO_EDUCATIONAL_INSTITUTION_FOUND.getCode(),
-					HttpStatusCode.NO_EDUCATIONAL_INSTITUTION_FOUND,
-					HttpStatusCode.NO_EDUCATIONAL_INSTITUTION_FOUND.getMessage(), allEducationalResult);
+			throw new NoDataException(HttpStatusCode.NO_CONTENT.getCode(),
+					HttpStatusCode.NO_CONTENT,
+					HttpStatusCode.NO_CONTENT.getMessage(), allEducationalResult);
+
+//			response.setStatusCode(HttpStatusCode.NO_CONTENT.getCode());
+//			response.setMessage(HttpStatusCode.NO_CONTENT.getMessage());
+//			//response.setMessage("No Educational Institution Found");
+//			response.setResult(new Result(null));
+//			return response;
 		}
 
 		allEducationalResult.setData(paginationResponse);

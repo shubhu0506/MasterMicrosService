@@ -11,6 +11,7 @@ import com.ubi.masterservice.dto.schoolDto.SchoolRegionDto;
 import com.ubi.masterservice.dto.studentDto.StudentDetailsDto;
 import com.ubi.masterservice.dto.user.UserDto;
 import com.ubi.masterservice.entity.Student;
+import com.ubi.masterservice.error.NoDataException;
 import com.ubi.masterservice.externalServices.UserFeignService;
 import com.ubi.masterservice.mapper.StudentMapper;
 import com.ubi.masterservice.repository.StudentRepository;
@@ -228,8 +229,8 @@ public class RegionServiceImpl implements RegionService {
 			paginationResponse=new PaginationResponse<List<RegionDetailsDto>>(regionDtos,list.getTotalPages(),list.getTotalElements());
 		}
 		if (list.isEmpty()) {
-			throw new CustomException(HttpStatusCode.NO_ENTRY_FOUND.getCode(), HttpStatusCode.NO_ENTRY_FOUND,
-					HttpStatusCode.NO_ENTRY_FOUND.getMessage(), res);
+			throw new NoDataException(HttpStatusCode.NO_CONTENT.getCode(), HttpStatusCode.NO_CONTENT,
+					HttpStatusCode.NO_CONTENT.getMessage(), res);
 		}
 		res.setData(paginationResponse);
 		getListofRegion.setStatusCode(200);

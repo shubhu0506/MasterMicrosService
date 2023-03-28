@@ -331,8 +331,8 @@ public class SchoolServiceImpl implements SchoolService {
 		}
 
 		if (schoolData.isEmpty()) {
-			throw new CustomException(HttpStatusCode.NO_SCHOOL_FOUND.getCode(), HttpStatusCode.NO_SCHOOL_FOUND,
-					HttpStatusCode.NO_SCHOOL_FOUND.getMessage(), allSchoolResult);
+			throw new CustomException(HttpStatusCode.NO_CONTENT.getCode(), HttpStatusCode.NO_CONTENT,
+					HttpStatusCode.NO_CONTENT.getMessage(), allSchoolResult);
 		}
 
 //		PaginationResponse paginationResponse = new PaginationResponse<List<SchoolRegionDto>>(schoolDtos,
@@ -463,8 +463,8 @@ public class SchoolServiceImpl implements SchoolService {
 		}
 
 		if (schoolData.isEmpty()) {
-			throw new CustomException(HttpStatusCode.NO_COLLEGES_FOUND.getCode(), HttpStatusCode.NO_COLLEGES_FOUND,
-					HttpStatusCode.NO_COLLEGES_FOUND.getMessage(), allSchoolResult);
+			throw new CustomException(HttpStatusCode.NO_CONTENT.getCode(), HttpStatusCode.NO_CONTENT,
+					HttpStatusCode.NO_CONTENT.getMessage(), allSchoolResult);
 		}
 
 //		PaginationResponse paginationResponse = new PaginationResponse<List<SchoolRegionDto>>(schoolDtos,
