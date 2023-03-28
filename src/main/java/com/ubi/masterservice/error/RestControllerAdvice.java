@@ -28,6 +28,20 @@ public class RestControllerAdvice {
 				HttpStatus.BAD_REQUEST);
 	}
 
+
+	@ExceptionHandler({NoDataException.class})
+	public ResponseEntity<Object> handleGenericException(NoDataException exception) {
+
+		log.info("Request Success " + exception.getExceptionMessage());
+
+		return new ResponseEntity<>(
+				new RestApiErrorHandling(
+						exception.getExceptionCode(),
+						exception.getStatus(),
+						exception.getExceptionMessage(), exception.getResult()),
+				HttpStatus.OK);
+	}
+
 	@ExceptionHandler({FeignException.BadRequest.class})
 	public ResponseEntity<Object> handleFeignGenericException(FeignException.BadRequest exception) {
 		log.info("Exception occured in feign client response");
@@ -67,4 +81,5 @@ public class RestControllerAdvice {
 				message.toString(),
 				message.toString());
 	}
+
 }

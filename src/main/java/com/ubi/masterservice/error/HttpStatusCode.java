@@ -8,8 +8,6 @@ public enum HttpStatusCode {
 
 	NO_CLASSID_FOUND(206,"please enter class Id"),
 
-	NO_SCHOOL_NAME_FOUND(202, "No School Name Found"),
-
 	NO_STUDENT_FOUND(108,"No Student Found"),
 
 	NO_REGION_FOUND(108,"No Region Found"),
@@ -28,14 +26,11 @@ public enum HttpStatusCode {
 
 	NO_CONTENT(204,"Content Not Found"),
 
-
 	CLASS_RETRIVED_SUCCESSFULLY(200,"class Retrived"),
 
 	NO_STUDENT_MATCH_WITH_ID(109,"No such student found with such id"),
 
 	NO_CLASS_MATCH_WITH_ID(109,"No such class found with such id"),
-
-	NO_EDUCATIONAL_INSTITUTION_FOUND(108,"No Educational Institution Found"),
 
 	NO_EDUCATIONAL_INSTITUTION_MATCH_WITH_ID(109,"No Educational Institution found with given Id "),
 
@@ -58,8 +53,6 @@ public enum HttpStatusCode {
 
 	NO_CLASS_FOUND(108, "No Class Found"),
 
-	NO_SCHOOL_MATCH_WITH_NAME(110, "No School Found With Given NAME"),
-
 	SCHOOL_NAME_ALREADY_EXISTS(110, "School Name Already Exist"),
 
 	SCHOOL_CODE_ALREADY_EXISTS(110, "School Code Already Exist"),
@@ -71,16 +64,12 @@ public enum HttpStatusCode {
 
 	BAD_REQUEST_EXCEPTION(400, "Bad Request Occuured"),
 
-
 	UNAUTHORIZED_EXCEPTION(401, "Unauthorized To Perform Request"),
 
-	USER_DEACTIVATED(401, "User is deactivated"),
 	TOKEN_FORMAT_INVALID(401, "Token Format Invalid"),
 	PERMISSION_DENIED(401, "Permission To Perform This Action Denied"),
 
-
 	SUCCESSFUL(200, "Request Successfull"),
-
 
 	STUDENT_DELETED(200, "Student Deleted Successfully"),
 	STUDENT_PROMOTED_SUCCESSFULLY(200, "Student promoted Successfully"),
@@ -89,35 +78,21 @@ public enum HttpStatusCode {
 
 	STUDENT_UPDATED(200, "Student Updated Successfully"),
 
-	//CLASS_DELETED(200, "class deleted successfully"),
-
 	CLASS_UPDATED(200, "Class updated successfully"),
-
-	PAYMENT_UPDATED(200, "Payment updated successfully"),
-	PAYMENT_DELETED(200,"Payment deleted successfully"),
 
 	EDUCATIONAL_INSTITUTION_DELETED(200,"Educational Institution deleted successfully"),
 	EDUCATIONAL_INSTITUTION_UPDATED(200,"Educational Institution updated successfully"),
-
 
 	SCHOOL_DELETED_SUCCESSFULLY(200,"School Deleted Successfully"),
 	SCHOOL_UPDATED(200,"School Updated Successfully"),
 
 	NO_CLASS_ADDED(200, "No Class Added"),
 
-
 	RESOURCE_CREATED_SUCCESSFULLY(201, "Resource Created Successfully"),
-
-
-	TRANSFER_CERTIFICATE_UPDATED(200, "Transfer Certificate Updated Successfully"),
-
-
-
 
 	REGION_RETRIEVED_SUCCESSFULLY(200,"Region Retrieved Succesfully"),
 
 	CLASS_RETREIVED_SUCCESSFULLY(200, "Class Retrieved Successfully"),
-
 
 	SCHOOL_RETRIVED_SUCCESSFULLY(200,"School Retrieved Successfully"),
 
@@ -127,8 +102,6 @@ public enum HttpStatusCode {
 
 	CLASS_DELETED_SUCCESSFULLY(200, "Class Deleted Successfully"),
 
-	TEACHER_NOT_VERIFIED(200, "Not verified by Teacher"),
-
 	REGION_NOT_FOUND(108,"No such region found"),
 
 	CLASS_NOT_FOUND(108, "No Class Found"),
@@ -137,10 +110,7 @@ public enum HttpStatusCode {
 
 	REGION_UPDATED(200,"Region Updated Successfully"),
 
-	STUDENT_VERIFIED_SUCCESSFULLY(200,"Student verified successfully"),
-
-	MAPPING_ALREADY_EXIST(108,"Mapping Already Exist");
-
+	STUDENT_VERIFIED_SUCCESSFULLY(200,"Student verified successfully");
 
 
 	private int code;
