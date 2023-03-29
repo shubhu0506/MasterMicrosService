@@ -37,7 +37,7 @@ public class ClassMapper {
 			classDto.setCreatedBy(classDetail.getCreatedBy());
 			classDto.setModifiedBy(classDetail.getModifiedBy());
 			classDto.setIsDeleted(classDetail.getIsDeleted());
-			classDto.setSchoolId(classDetail.getSchool().getSchoolId());
+			if(classDetail.getSchool() != null) classDto.setSchoolId(classDetail.getSchool().getSchoolId());
 			if(classDetail.getTeacherId() != null)classDto.setTeacherId(classDetail.getTeacherId());
 		}
 		return classDto;

@@ -47,7 +47,9 @@ public class RegionMapper {
 		regionDto.setCreatedBy(region.getCreatedBy());
 		regionDto.setModifiedBy(region.getModifiedBy());
 		regionDto.setIsDeleted(region.getIsDeleted());
-		regionDto.setEduInstId(region.getEducationalInstitiute().stream().filter(Objects::nonNull).map(eduInsti->eduInsti.getId()).collect(Collectors.toSet()));
+		if(region.getEducationalInstitiute() != null) {
+			regionDto.setEduInstId(region.getEducationalInstitiute().stream().filter(Objects::nonNull).map(eduInsti->eduInsti.getId()).collect(Collectors.toSet()));
+		}
 		return regionDto;
 	}
 
@@ -60,7 +62,9 @@ public class RegionMapper {
 			regionDto.setCode(region.getCode());
 			regionDto.setName(region.getName());
 			regionDto.setId(region.getId());
-			regionDto.setEduInstId(region.getEducationalInstitiute().stream().filter(Objects::nonNull).map(eduInsti->eduInsti.getId()).collect(Collectors.toSet()));
+			if(region.getEducationalInstitiute() != null) {
+				regionDto.setEduInstId(region.getEducationalInstitiute().stream().filter(Objects::nonNull).map(eduInsti->eduInsti.getId()).collect(Collectors.toSet()));
+			}
 		}
 		return regionDto;
 	}
@@ -70,7 +74,9 @@ public class RegionMapper {
 		regionDetailsDto.setCode(region.getCode());
 		regionDetailsDto.setName(region.getName());
 		regionDetailsDto.setId(region.getId());
-		regionDetailsDto.setEduInstiDto(region.getEducationalInstitiute().stream().filter(Objects::nonNull).map(eduInsti->educationalInstitutionMapper.entityToDto(eduInsti)).collect(Collectors.toSet()));
+		if(region.getEducationalInstitiute() != null){
+			regionDetailsDto.setEduInstiDto(region.getEducationalInstitiute().stream().filter(Objects::nonNull).map(eduInsti->educationalInstitutionMapper.entityToDto(eduInsti)).collect(Collectors.toSet()));
+		}
 		//regionDetailsDto.setSchoolDto(region.getSchool().stream().filter(Objects::nonNull).map(school->schoolMapper.entityToDto(school)).collect(Collectors.toSet()));
 
 		RegionAdminDto regionAdminDto = null;
